@@ -72,9 +72,14 @@ certificates' share of the manifest unless a table says otherwise.
 
 A verifier that accepts a credential as \emph{Trusted} has established that
 the content's hash was signed by the holder of a key certified, through the
-carried path, by an anchor on the C2PA trust list, and, when a trusted
-timestamp is present, that this happened before a stated time at which the
-certificate was valid and, if revocation evidence is stapled, unrevoked. Five
+carried path, by an anchor on the C2PA trust list, under the verifier's
+configured policy. A trusted timestamp adds that the signing happened at a
+stated time, at which the certificate was valid. Non-revocation is a separate
+claim, established only when revocation evidence is successfully validated;
+stapling a response does not establish it, and
+Section~\ref{sec:validation} shows the reference implementation accepting a
+credential as \emph{Trusted} while the stapled evidence that says it is
+revoked goes unchecked. Five
 kinds of signature support that statement: the manifest signature, the
 issuer's signature on each carried certificate, the time-stamping authority's
 signature on the token and on its own certificates, the signature on the OCSP
@@ -132,5 +137,5 @@ appears.
 For the validation findings of Section~\ref{sec:findings} the adversary is
 classical: an operator or thief of a time-stamping key, or anyone able to make
 a validator see a malformed timestamp. Removing a credential, watermarks,
-extracting keys from devices, and when a quantum computer arrives are outside
+how keys are extracted from devices, and when a quantum computer arrives are outside
 the paper.

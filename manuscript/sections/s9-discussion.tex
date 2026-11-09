@@ -22,15 +22,19 @@ median root, so the list changes more often. Constraints a root imposes on the C
 applying unless the anchor entry carries them. And a retired issuing CA leaves
 its older manifests verifiable only by a validator that kept it, so generators
 should still be able to emit the full chain. Migrate the time-stamping
-authority with the signer, issue post-quantum intermediates under a
-post-quantum root before relying on them, announce a date after which
-classical anchors leave the list, and sign the list itself with a
-post-quantum key (Section~\ref{sec:mixedchain}).
+authority with the signer; for any chain that relies on the root's signature
+over the intermediate, issue post-quantum intermediates under a post-quantum
+root before relying on them, though a leaf whose issuing CA is itself the
+listed anchor does not depend on that root signature
+(Section~\ref{sec:mixedchain}); announce a date after which classical anchors
+leave the list; and sign the list itself with a post-quantum key.
 
 \emph{Claim generators.} Stop carrying the root, as \NcorpProdRoot{} of the
-\NcorpProdChains{} production chains still do. Carry the leaf alone only when
-its issuer is a listed anchor. The \NcorpProdOneCert{} production chains that
-send only the leaf have no listed issuer and cannot reach \emph{Trusted}.
+\NcorpProdChains{} production chains still do. Carry the leaf alone only where
+its issuer is a configured anchor, subject to the specification interpretation
+and the carriage the target verifiers accept (Section~\ref{sec:carrying}). The
+\NcorpProdOneCert{} production chains that send only the leaf have no listed
+issuer and cannot reach \emph{Trusted}.
 Size the signature reservation for the post-quantum structure, or every
 capture pays a second round trip to the time-stamping authority. Keep the live
 stream's session key at the signer's algorithm.

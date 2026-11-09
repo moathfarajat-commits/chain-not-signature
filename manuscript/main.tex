@@ -8,7 +8,7 @@
 
 \acmJournal{TOPS}
 \setcopyright{none}
-\settopmatter{printacmref=true}
+\settopmatter{printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 
 \usepackage{booktabs}
@@ -38,29 +38,31 @@ Content Credentials}
 
 \begin{abstract}
 Cameras, phones and editing tools now sign media with C2PA content
-credentials, and every signature a credential rests on becomes forgeable once
-a cryptographically relevant quantum computer exists. C2PA admitted ML-DSA in
+credentials, and every signature a credential rests on becomes forgeable once a
+cryptographically relevant quantum computer exists. C2PA admitted ML-DSA in
 October 2026. We ask what a conformant post-quantum credential costs, which
-choices the specification permits recover it without
-weakening what a verifier establishes, and what a migrated credential still
-exposes. Certificates, not signatures, carry the cost: before timestamping, an
+choices the specification permits recover that cost, and what a migrated
+credential still exposes. Certificates, not signatures, carry the cost: before
+timestamping, an
 ML-DSA-65 manifest is \NvsESDSAsixtyfive{} times a matched ES256 one, and
 certificates are \NchainShareManDSAsixtyfive\% of it. Substituting measured
 ML-DSA-65 components into \NcpqFiles{} production-signed files gives an
 estimated median growth of \NcpqAddMedkB\,kB. Because both C2PA trust lists
 anchor issuing CAs, a signer or time-stamping authority under a listed issuer
 can carry its certificate alone, which takes \NtsBothLeafPct\% off a
-timestamped manifest; the reference implementation accepts this form, pending
-confirmation by the specification's editors. Partial migration leaves
-different properties exposed: a classical issuer, or a classical anchor still listed for
+timestamped manifest, a form the reference implementation accepts. Partial
+migration leaves different properties exposed: a classical issuer, or a classical anchor still listed for
 the same subject, permits signer impersonation, while a classical
 time-stamping authority leaves the signing time forgeable. A conformance
 matrix through the reference implementation, patched for ML-DSA, finds two
-implementation defects, present with classical algorithms too: it accepts
+implementation defects, present under classical algorithms as well as ML-DSA:
+it accepts
 time-stamping and OCSP-signing certificates as trusted claim signers under a
 claim-signing-only policy, and it invalidates a credential over a timestamp it
-should ignore. It also ignores revocation stapled in a CA-signed OCSP response,
-a gap between the C2PA profile and RFC~6960. We give guidance for CAs,
+should ignore. The production time-stamping certificates of
+Google's and vivo's C2PA-listed authorities pass its checks as claim signers,
+only the private key absent. It also ignores revocation stapled in
+a CA-signed OCSP response, a gap between the C2PA profile and RFC~6960. We give guidance for CAs,
 generators, validators and the specification editors.
 \end{abstract}
 

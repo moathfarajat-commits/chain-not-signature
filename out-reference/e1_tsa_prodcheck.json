@@ -1,0 +1,687 @@
+{
+  "experiment": "e1_tsa_prodcheck",
+  "notes": [
+    "Production time-stamping certificates extracted from the RFC 3161 tokens of the corpus files (src/extract_tsa_certs.py) and run through c2pa-rs c2pa-v0.91.9's certificate-profile and trust checks against the C2PA claim-signing trust list, with no signature (src/run_tsa_checkcert.py, lineaval checkcert).",
+    "accepts_as_claim_signer = certificate-profile check and trust check both pass; only the private key is absent.",
+    "Certificates are not redistributed; each is present in the public files the inventory lists."
+  ],
+  "files_scanned": 321,
+  "claim_list": "C2PA-TRUST-LIST.pem",
+  "results": [
+    {
+      "fp": "04d6d0509e52f407",
+      "operator": "Google",
+      "files": 86,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "d2f6e46ded7422cc",
+      "operator": "DigiCert",
+      "files": 60,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "3a887a951b5eb92a",
+      "operator": "GlobalSign",
+      "files": 39,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "d323afe25fdd3d16",
+      "operator": "DigiCert",
+      "files": 25,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "bd4fb9b2904c8136",
+      "operator": "OpenAI TSA Leaf",
+      "files": 23,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "82a5ab44008dd56d",
+      "operator": "Google",
+      "files": 19,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "84f59f0e952e939d",
+      "operator": "Google",
+      "files": 16,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "b473fb1647802e82",
+      "operator": "Google",
+      "files": 15,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "76769fa8f2632f1f",
+      "operator": "DigiCert",
+      "files": 13,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "6ca09dc53c2aa51b",
+      "operator": "Google",
+      "files": 11,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "d4238a521f5d88ed",
+      "operator": "Truepic",
+      "files": 11,
+      "leaf_eku": [],
+      "leaf_is_ca": true,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "790881dc3d3398f1",
+      "operator": "Google",
+      "files": 9,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "ef79271a4fbb713f",
+      "operator": "Google",
+      "files": 8,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "82daf194957b3684",
+      "operator": "DigiCert",
+      "files": 3,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "4aa03fa22cd75c84",
+      "operator": "DigiCert",
+      "files": 3,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "4e23b06b3d76c074",
+      "operator": "Microsoft",
+      "files": 2,
+      "leaf_eku": [],
+      "leaf_is_ca": true,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "7805f5a600b0b426",
+      "operator": "Sectigo",
+      "files": 2,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "3ae4bdcf2caeede4",
+      "operator": "vivo C2PA Time Stamping Authority",
+      "files": 2,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": true,
+      "issuer_issued_by_claim_anchor": true,
+      "default": {
+        "chain_certs": 2,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      },
+      "claimsigning_only": {
+        "chain_certs": 2,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": true,
+        "trust_anchor_type": "Manifest",
+        "trust_detail": "urn:line-a:manifest",
+        "accepts_as_claim_signer": true
+      }
+    },
+    {
+      "fp": "9da69015c349c6c1",
+      "operator": "DigiCert",
+      "files": 1,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "0b79a239ae42108d",
+      "operator": "GlobalSign",
+      "files": 1,
+      "leaf_eku": [
+        "1.3.6.1.5.5.7.3.8"
+      ],
+      "leaf_is_ca": false,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 3,
+        "eku_policy": "default",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 3,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": true,
+        "profile_errors": [],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate is not trusted",
+        "accepts_as_claim_signer": false
+      }
+    },
+    {
+      "fp": "91e2f5788d5810eb",
+      "operator": "T-TeleSec GlobalRoot Class 2",
+      "files": 1,
+      "leaf_eku": [],
+      "leaf_is_ca": true,
+      "anchors_to_tsa_list": false,
+      "issuer_issued_by_claim_anchor": false,
+      "default": {
+        "chain_certs": 4,
+        "eku_policy": "default",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      },
+      "claimsigning_only": {
+        "chain_certs": 4,
+        "eku_policy": "claimsigning_only",
+        "profile_ok": false,
+        "profile_errors": [
+          {
+            "status": "signingCredential.invalid",
+            "description": "certificate issuer and subject cannot be the same (self-signed disallowed)"
+          }
+        ],
+        "trust_ok": false,
+        "trust_anchor_type": "",
+        "trust_detail": "the certificate contains an invalid extended key usage (EKU) value",
+        "accepts_as_claim_signer": false
+      }
+    }
+  ]
+}

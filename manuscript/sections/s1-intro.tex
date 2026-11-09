@@ -47,9 +47,10 @@ Size is a security question here, not only a performance one. A credential
 that outgrows the space a generator reserves forces a second timestamp request
 on every capture; a verifier that cannot hold the chain is pushed towards
 thumbprints, which an offline verifier cannot resolve; and a migration that
-moves the leaf but not its issuer or its time-stamping authority produces
-credentials that look post-quantum and remain forgeable. Which of the cheaper
-options stay sound is what the three questions together decide. We measure
+moves the leaf but not its issuer leaves the content forgeable, while one that
+moves the signer but not its time-stamping authority leaves the signing time
+forgeable, each a distinct property (Table~\ref{tab:properties}). Which of the
+cheaper options stay sound is what the three questions together decide. We measure
 application processors, a single-board computer and microcontrollers; the
 secure elements in which phones sign are outside what we could measure, and
 Section~\ref{sec:constrained} discusses them.

@@ -513,15 +513,16 @@ def tab_platforms():
         if os.path.isdir(pi_dir):
             files += [(pi_dir, f) for f in sorted(os.listdir(pi_dir))]
     for d, f in files:
-        # Superseded files (the 2.80 GHz Xeon of the first c2pa-rs run) and
-        # files written on the analysis host carry machines the paper no
-        # longer reports.
+        # Count-only experiments ran on the analysis host (a different Xeon)
+        # and do not time anything; skip them so only timing platforms appear.
         if not f.endswith(".json") or f in ("e1_c2parust.json", "e1_prodchains.json",
                                              "e1_libsize.json", "e1_corpus.json",
                                              "e1_profile.json", "e1_validation.json",
                                              "e1_cache_stale.json", "e1_composite_and.json",
                                              "e1_corpus_pq.json", "e1_trustlist.json",
-                                             "e1_validation_extra.json"):
+                                             "e1_validation_extra.json",
+                                             "e1_corpus_pq_strata.json",
+                                             "e1_tsa_prodcheck.json"):
             continue
         try:
             e = json.load(open(os.path.join(d, f)))["env"]

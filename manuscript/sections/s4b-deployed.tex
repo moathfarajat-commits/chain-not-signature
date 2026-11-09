@@ -46,8 +46,8 @@ each.
 \NcorpProdTstMed{}: about 2\,kB for an ECDSA time-stamping authority with two
 certificates, as on Google's devices, and about 6\,kB for an RSA-4096 one with
 three. Our ES256 and PS256 tokens, \NtokenBytesES{} and \NtokenBytesPS{}
-bytes, sit at the small end of that range. Stapled revocation evidence travels
-with \NcorpProdOcsp{} production signatures, so the OCSP column of
+bytes, sit at the small end of that range. \NcorpProdOcsp{} production
+signatures each staple at least one OCSP response, so the OCSP column of
 Table~\ref{tab:timestamp} describes what a quarter of today's signatures
 already carry, not a hardened variant.
 
@@ -65,10 +65,14 @@ everything it carries, claims, assertions, ingredients, thumbnails and the
 number of certificates each signer and each time-stamping authority sends, and
 replaced every signature, carried certificate and timestamp token with our
 measured ML-DSA-65 counterpart of the same role, so production names and
-extensions give way to our profile. Stapled OCSP responses, whose size the
-files do not expose, were left classical. The result is an estimate, not a
-measurement of re-signed files, and percentages here are of the original file.
-The median file is \NcpqFileMedMB\,MB; the median growth is
+extensions give way to our profile. Three things make this an estimate rather
+than a measurement of re-signed files, all of which widen it: the files are not
+actually re-signed; a production certificate may differ from our profile by a
+few hundred bytes, which enters the per-certificate total directly
+(Section~\ref{sec:limitations}); and stapled OCSP responses, whose size the
+files do not expose, are left classical, with a post-quantum upper bound given
+separately (Table~\ref{tab:corpusstrata}). Percentages here are of the original
+file. The median file is \NcpqFileMedMB\,MB; the median growth is
 \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and the median
 manifest store grows by a factor of \NcpqStoreGrowth. The median hides the
 tail: files with several signatures, such as edited images that keep their

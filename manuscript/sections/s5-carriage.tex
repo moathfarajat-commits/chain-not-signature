@@ -48,17 +48,19 @@ condition holds for production signers today: \NcorpProdListed{} of the
 \NcorpProdChains{} distinct production chains we found end at a trust-list
 anchor, and for \NcorpProdIssuer{} of them the leaf's issuer is the anchor;
 the other listed chains would qualify if their issuing CAs were listed too.
-Two different changes are involved, and they should not be confused. Leaving
-out an issuer that is already a listed anchor changes only what a file
-carries, and generators should do it now, as they should stop carrying the
-root. Listing an intermediate as an anchor so that its leaves can travel alone
-changes the trust policy: the anchor is trusted because it is listed, a
-constraint its root imposed stops applying unless the entry carries it, and
-removing it means republishing the list (Section~\ref{sec:recommendations}).
-For a CA that accepts those terms, as several already do for classical
-signers, the saving is a third of the manifest and one of two path
-signatures, with no new mechanism, provided the specification's editors
-confirm the reading.
+Two different changes are involved, and they should not be confused. Dropping
+the root, which \NcorpProdRoot{} of the \NcorpProdChains{} chains still carry,
+is unconditional and saves bytes with no change to any trust decision. Leaf-only
+carriage is the conditional part: a generator may use it where the leaf's
+issuer is a configured anchor, subject to the specification interpretation we
+have asked the editors to confirm~\cite{c2paspec142} and to the carriage its
+target verifiers accept. Listing an intermediate as an anchor so that its
+leaves can travel alone is a third, heavier step, because it changes the trust
+policy: the anchor is trusted because it is listed, a constraint its root
+imposed stops applying unless the entry carries it, and removing it means
+republishing the list (Section~\ref{sec:recommendations}). For a CA that
+accepts those terms, as several already do for classical signers, the saving is
+a third of the manifest and one of two path signatures, with no new mechanism.
 
 \paragraph{The time-stamping authority's chain} Everything above applies to
 the second chain in a timestamped manifest, where to our knowledge it has not
@@ -133,10 +135,13 @@ checks stay outside this boundary. For a mid-sized Kodak image, the 13th of 24 b
 size, the signer's path falls to \NvPathShareDSAsixtyfive\% of the
 cryptographic work under ML-DSA-65; for a 4\,MiB phone JPEG, hashing the
 content dominates, and ML-DSA-65 takes \NvCompletePhoneDSAsixtyfive\,ms against
-\NvCompletePhonePS\,ms under PS256. The reference implementation, which also
-parses JUMBF and checks every assertion, takes \NvalVerifyLo{} to
-\NvalVerifyHi\,ms per timestamped image (Section~\ref{sec:findings}), so on a
-server the cryptography is a minority of validation.
+\NvCompletePhonePS\,ms under PS256, on the Kodak image whose cryptographic
+total these figures cover. End-to-end, the reference implementation validates a
+timestamped Kodak image, parsing JUMBF and checking every assertion as well as
+the signatures, in \NvalVerifyLo{} to \NvalVerifyHi\,ms
+(Section~\ref{sec:findings}); the cryptographic part of that is a fraction of
+the ML-DSA-65 cost, so the added signatures are not where a server spends its
+validation time.
 
 \subsection{Caching a validated signer}
 \label{sec:cache}

@@ -446,15 +446,94 @@ fn cmd_verify(spec: VerifySpec) -> Result<()> {
     Ok(())
 }
 
+#[derive(Deserialize)]
+struct CheckSpec {
+    /// PEM files, leaf first, then any intermediates carried in the token.
+    chain: Vec<String>,
+    /// Trust-anchor PEM(s): the C2PA claim-signing list.
+    anchors: Vec<String>,
+    /// "default" (the shipped EKU list) or "claimsigning_only".
+    eku_policy: Option<String>,
+}
+
+/// Run a certificate through the library's own certificate-profile and trust
+/// checks against the configured anchors, with no signature and no COSE. This
+/// is the claim-signer admission test the verifier applies, in isolation.
+fn cmd_checkcert(spec: CheckSpec) -> Result<()> {
+    use c2pa::crypto::cose::{
+        check_end_entity_certificate_profile, CertificateTrustPolicy, TrustAnchorType,
+    };
+    use c2pa::status_tracker::{ErrorBehavior, StatusTracker};
+
+    let mut chain: Vec<Vec<u8>> = Vec::new();
+    for p in &spec.chain {
+        chain.extend(pem_to_der_list(&fs::read_to_string(p)?));
+    }
+    if chain.is_empty() {
+        return Err(anyhow!("empty chain"));
+    }
+    let leaf = chain[0].clone();
+
+    let mut ctp = CertificateTrustPolicy::new();
+    for p in &spec.anchors {
+        let pem = fs::read(p)?;
+        ctp.add_trust_anchors(&pem, "urn:line-a:manifest", TrustAnchorType::Manifest, None)
+            .map_err(|e| anyhow!("add_trust_anchors: {e}"))?;
+    }
+    let policy = spec.eku_policy.clone().unwrap_or_else(|| "default".into());
+    match policy.as_str() {
+        "claimsigning_only" => ctp.add_valid_ekus(b"1.3.6.1.4.1.62558.2.1"),
+        _ => ctp.add_default_valid_ekus(),
+    }
+
+    // Certificate-profile and EKU check (no signature).
+    let mut log = StatusTracker::with_error_behavior(ErrorBehavior::ContinueWhenPossible);
+    let profile = check_end_entity_certificate_profile(&leaf, &ctp, &mut log, None);
+    let profile_errors: Vec<_> = log
+        .logged_items()
+        .iter()
+        .filter(|i| i.validation_status.is_some())
+        .map(|i| {
+            serde_json::json!({"status": i.validation_status.as_deref(),
+                               "description": i.description})
+        })
+        .collect();
+    let profile_ok = profile.is_ok() && !log.has_any_error();
+
+    // Trust / path check against the claim-signing anchors (no signature).
+    let rest: Vec<Vec<u8>> = chain[1..].to_vec();
+    let trust = ctp.check_certificate_trust(&rest, &leaf, None);
+    let (trust_ok, trust_anchor, trust_detail) = match &trust {
+        Ok((kind, name)) => (true, format!("{kind:?}"), name.clone()),
+        Err(e) => (false, String::new(), e.to_string()),
+    };
+
+    println!(
+        "{}",
+        serde_json::json!({
+            "chain_certs": chain.len(),
+            "eku_policy": policy,
+            "profile_ok": profile_ok,
+            "profile_errors": profile_errors,
+            "trust_ok": trust_ok,
+            "trust_anchor_type": trust_anchor,
+            "trust_detail": trust_detail,
+            "accepts_as_claim_signer": profile_ok && trust_ok,
+        })
+    );
+    Ok(())
+}
+
 fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 3 {
-        return Err(anyhow!("usage: lineaval sign|verify SPEC.json"));
+        return Err(anyhow!("usage: lineaval sign|verify|checkcert SPEC.json"));
     }
     let spec = fs::read_to_string(&args[2])?;
     match args[1].as_str() {
         "sign" => cmd_sign(serde_json::from_str(&spec)?),
         "verify" => cmd_verify(serde_json::from_str(&spec)?),
+        "checkcert" => cmd_checkcert(serde_json::from_str(&spec)?),
         _ => Err(anyhow!("unknown command")),
     }
 }

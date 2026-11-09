@@ -272,6 +272,25 @@ def corpus_strata():
     emit("corpusstrata.tex", lines)
 
 
+
+def tsa_prodcheck_numbers():
+    """Production TSA certificates run through the library's certificate-profile
+    and trust checks against the claim-signing list (e1_tsa_prodcheck.json)."""
+    d = load("e1_tsa_prodcheck.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
+    if not d:
+        return
+    rows = d["results"]
+    strong = [r for r in rows if r["claimsigning_only"].get("accepts_as_claim_signer")]
+    ca_rej = [r for r in rows if not r["claimsigning_only"]["profile_ok"]]
+    ops = collections.Counter(r["operator"] for r in strong)
+    num("tpcChains", f"{len(rows)}")
+    num("tpcStrong", f"{len(strong)}")
+    num("tpcFiles", f"{sum(r['files'] for r in strong)}")
+    num("tpcScanned", f"{d['files_scanned']}")
+    num("tpcGoogle", f"{ops.get('Google', 0)}")
+    num("tpcCaRej", f"{len(ca_rej)}")
+
+
 def trustlist_numbers():
     d = load("e1_trustlist.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
     if not d:
@@ -797,7 +816,7 @@ VAL_ROWS = [
     ("ML-DSA-65 TSA", ["pqtsa_good"]),
     ("\\quad timestamp over other data", ["pqtsa_wrong_imprint"]),
     ("\\quad expired leaf, timestamp inside validity", ["expired_leaf_with_pqtst"]),
-    ("OCSP, CA-signed, revoked", ["ocsp_revoked"]),
+    ("OCSP, CA-signed, revoked$^\\ddagger$", ["ocsp_revoked"]),
     ("OCSP, delegated responder, revoked", ["ocsp_deleg_revoked"]),
 ]
 
@@ -857,8 +876,11 @@ def tab_validation():
         r"own structure with that certificate). \emph{Expected} follows C2PA~2.5. "
         r"\emph{TST}: the timestamp's status (t trusted, m mismatch, u untrusted); an "
         r"ignored timestamp leaves the signer judged now. The TSA is ES256 except in the "
-        r"indented rows. $^\dagger$Bold: a defect, also present unpatched. The "
-        r"CA-signed \emph{revoked} OCSP row is where C2PA~2.5 and RFC~6960 disagree "
+        r"indented rows. Bold with $^\dagger$: a departure from the specification, "
+        r"reproduced in the unpatched library. $^\ddagger$The expected result for the "
+        r"CA-signed \emph{revoked} OCSP row is interpretation-dependent: C2PA~2.5's "
+        r"OCSP-signing rule implies \emph{not Trusted}, but its instruction to check "
+        r"stapled responses as RFC~6960 does would accept the CA-signed form "
         r"(Section~\ref{sec:validation}).}",
         r"\label{tab:validation}",
         r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
@@ -2096,6 +2118,7 @@ def main():
     tab_pq()
     corpus_pq_numbers()
     corpus_strata()
+    tsa_prodcheck_numbers()
     trustlist_numbers()
     tsa_carriage_numbers()
     tab_carriage()

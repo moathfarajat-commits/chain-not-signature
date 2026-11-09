@@ -63,6 +63,12 @@ microcontroller boards.
   sources do not allow redistribution. `data/corpus/inventory.csv` gives each
   file's source URL, licence and SHA-256, and `out-reference/e1_corpus.json`
   records the chains, algorithms and sizes read from them.
+* The production time-stamping certificates extracted from the corpus tokens
+  by `src/extract_tsa_certs.py`. These are third-party certificates present in
+  the public files the inventory lists; they are not re-hosted here.
+  `src/run_tsa_checkcert.py` and `out-reference/e1_tsa_prodcheck.json` record
+  running each through the library's certificate-profile and trust checks
+  (`lineaval checkcert`), with no signature.
 * The Kodak images, which `fetch_images.sh` downloads.
 * For the first specification departure (a time-stamping certificate accepted
   as a claim signer), the signed file and its leaf certificate. The issue was

@@ -57,3 +57,17 @@ migration completes for the ecosystem only when classical anchors are
 withdrawn from the trust list at a set date, or when validators pin a signer
 to the algorithms it has migrated to, and the trust list itself must then be
 distributed under a post-quantum signature or over a channel that is.
+
+Where the anchor sits changes which signatures are load-bearing, and leaf-only
+carriage uses this. A chain of an ML-DSA leaf under an ML-DSA issuing CA that
+is itself provisioned as the trust anchor is quantum resistant even if that
+issuing CA's certificate still carries a classical root signature, because the
+anchor is trusted for being listed and its own issuer's signature is never on
+the validated path (Table~\ref{tab:carriage}). The root's algorithm matters
+only for a chain that relies on the root's signature over the intermediate,
+which is why Section~\ref{sec:recommendations}'s advice to issue post-quantum
+intermediates under a post-quantum root before relying on them applies to those
+chains, not to a leaf whose issuer is itself the anchor. It does assume the
+anchor was provisioned over a post-quantum-safe channel and that the signer's
+identity policy excludes a classical certificate for the same subject, the
+condition of the previous paragraph.
