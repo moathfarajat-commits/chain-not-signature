@@ -1,0 +1,20 @@
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.47700, "mean_ms": 0.59948, "iqr_ms": 0.45579, "p95_ms": 1.44271, "min_ms": 0.20171}
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 sign deterministic", "n": 1000, "median_ms": 0.38617, "mean_ms": 0.38846, "iqr_ms": 0.00767, "p95_ms": 0.40892, "min_ms": 0.37771}
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.11038, "mean_ms": 0.11356, "iqr_ms": 0.00183, "p95_ms": 0.13296, "min_ms": 0.10729}
+{"impl": "openssl-4.0.2-source-asm", "op": "SHAKE-256 fetch+short squeeze", "n": 1000, "median_ms": 0.00042, "mean_ms": 0.00042, "iqr_ms": 0.00000, "p95_ms": 0.00046, "min_ms": 0.00037}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.56308, "mean_ms": 0.75683, "iqr_ms": 0.57196, "p95_ms": 1.84663, "min_ms": 0.24000}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 sign deterministic", "n": 1000, "median_ms": 1.72702, "mean_ms": 1.74020, "iqr_ms": 0.03142, "p95_ms": 1.84013, "min_ms": 1.68433}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.13292, "mean_ms": 0.13416, "iqr_ms": 0.00167, "p95_ms": 0.14275, "min_ms": 0.12950}
+{"impl": "openssl-4.0.2-source-noasm", "op": "SHAKE-256 fetch+short squeeze", "n": 1000, "median_ms": 0.00046, "mean_ms": 0.00047, "iqr_ms": 0.00004, "p95_ms": 0.00050, "min_ms": 0.00042}
+{"impl": "openssl-homebrew", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.49613, "mean_ms": 0.60284, "iqr_ms": 0.46971, "p95_ms": 1.45471, "min_ms": 0.21183}
+{"impl": "openssl-homebrew", "op": "ML-DSA-65 sign deterministic", "n": 1000, "median_ms": 0.61290, "mean_ms": 0.70370, "iqr_ms": 0.04942, "p95_ms": 0.92871, "min_ms": 0.58713}
+{"impl": "openssl-homebrew", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.11533, "mean_ms": 0.12034, "iqr_ms": 0.00229, "p95_ms": 0.14154, "min_ms": 0.11217}
+{"impl": "openssl-homebrew", "op": "SHAKE-256 fetch+short squeeze", "n": 1000, "median_ms": 0.00046, "mean_ms": 0.00048, "iqr_ms": 0.00004, "p95_ms": 0.00050, "min_ms": 0.00042}
+{"impl": "liboqs-0.16.0-native", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.09746, "mean_ms": 0.11748, "iqr_ms": 0.06917, "p95_ms": 0.24983, "min_ms": 0.05654}
+{"impl": "liboqs-0.16.0-native", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.04721, "mean_ms": 0.04762, "iqr_ms": 0.00042, "p95_ms": 0.04858, "min_ms": 0.04608}
+{"impl": "liboqs-0.16.0-generic", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.18096, "mean_ms": 0.22579, "iqr_ms": 0.16042, "p95_ms": 0.51650, "min_ms": 0.09229}
+{"impl": "liboqs-0.16.0-generic", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.06529, "mean_ms": 0.06549, "iqr_ms": 0.00096, "p95_ms": 0.06679, "min_ms": 0.06379}
+{"impl": "liboqs-installed", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.09567, "mean_ms": 0.11546, "iqr_ms": 0.06287, "p95_ms": 0.24808, "min_ms": 0.05662}
+{"impl": "liboqs-installed", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.04642, "mean_ms": 0.04708, "iqr_ms": 0.00092, "p95_ms": 0.04829, "min_ms": 0.04608}
+{"impl": "pqclean-ml-dsa-65-clean", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.31371, "mean_ms": 0.39847, "iqr_ms": 0.29621, "p95_ms": 0.97142, "min_ms": 0.14883}
+{"impl": "pqclean-ml-dsa-65-clean", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.10246, "mean_ms": 0.10532, "iqr_ms": 0.00442, "p95_ms": 0.11296, "min_ms": 0.10204}

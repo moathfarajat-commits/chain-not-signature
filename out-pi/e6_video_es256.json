@@ -1,0 +1,225 @@
+{
+  "experiment": "e6_video",
+  "env": {
+    "timestamp_utc": "2026-10-23T19:20:34+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    },
+    "pinned_core": 3,
+    "idle": {
+      "samples": 60,
+      "temp_c_mean": 52.47,
+      "temp_c_max": 54.3,
+      "arm_hz_min": 2400017408,
+      "arm_hz_max": 2400033792,
+      "throttled_or": "0x0",
+      "power_w_mean": 2.1911,
+      "power_w_max": 2.2696
+    },
+    "quick": false,
+    "liboqs": true,
+    "liboqs_version": "0.16.0"
+  },
+  "notes": [
+    "frame hash is SHA-256 over raw YUV 4:2:0 pixels",
+    "segment_frames=1 signs every frame; 30 signs once per second at 30 fps",
+    "a paced frame is late if it is not finished before the next is released",
+    "power is the PMIC rail sum, V*I over rails; not wall power",
+    "mJ per frame is rail power above the idle baseline divided by frame rate",
+    "application-processor signer, not a secure element"
+  ],
+  "results": [
+    {
+      "alg": "ES256",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1656,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3974,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 464.21,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 55.56,
+        "temp_c_max": 58.2,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.308,
+        "power_w_max": 3.4613
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.1785,
+        "frame_ms_p99": 2.255,
+        "frame_ms_max": 2.4348
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 52.78,
+        "temp_c_max": 57.6,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5138,
+        "power_w_max": 3.8546
+      },
+      "mj_per_frame_paced": 10.7567,
+      "mj_per_frame_burst": 2.406
+    },
+    {
+      "alg": "ES256",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2647,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0212,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 490.28,
+      "burst_telemetry": {
+        "samples": 10,
+        "temp_c_mean": 55.75,
+        "temp_c_max": 57.1,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4536,
+        "power_w_max": 3.4962
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.0329,
+        "frame_ms_p99": 2.2859,
+        "frame_ms_max": 2.2966
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 52.93,
+        "temp_c_max": 57.1,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.4781,
+        "power_w_max": 3.467
+      },
+      "mj_per_frame_paced": 9.5667,
+      "mj_per_frame_burst": 2.5751
+    },
+    {
+      "alg": "ES256",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1657,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3977,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 120.99,
+      "burst_telemetry": {
+        "samples": 10,
+        "temp_c_mean": 55.64,
+        "temp_c_max": 57.1,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4569,
+        "power_w_max": 3.4927
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.28,
+        "frame_ms_p99": 8.3667,
+        "frame_ms_max": 8.3948
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 54.57,
+        "temp_c_max": 57.6,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.068,
+        "power_w_max": 4.0097
+      },
+      "mj_per_frame_paced": 29.23,
+      "mj_per_frame_burst": 10.462
+    },
+    {
+      "alg": "ES256",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2647,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0212,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 123.1,
+      "burst_telemetry": {
+        "samples": 10,
+        "temp_c_mean": 57.19,
+        "temp_c_max": 58.7,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4651,
+        "power_w_max": 3.5369
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.1154,
+        "frame_ms_p99": 8.3778,
+        "frame_ms_max": 8.3889
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 54.99,
+        "temp_c_max": 58.2,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.0841,
+        "power_w_max": 3.5485
+      },
+      "mj_per_frame_paced": 29.7667,
+      "mj_per_frame_burst": 10.3493
+    }
+  ]
+}

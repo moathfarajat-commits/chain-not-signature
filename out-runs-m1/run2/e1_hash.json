@@ -1,0 +1,226 @@
+{
+  "experiment": "e1_hash",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:56:58+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "signing": {
+      "ML-DSA-44": {
+        "backend": "liboqs",
+        "median_ms": 0.0743,
+        "p99_ms": 0.2309
+      },
+      "PS256": {
+        "backend": "openssl",
+        "median_ms": 0.5375,
+        "p99_ms": 0.82
+      },
+      "Ed25519": {
+        "backend": "openssl",
+        "median_ms": 0.0297,
+        "p99_ms": 0.0405
+      },
+      "ML-DSA-87": {
+        "backend": "liboqs",
+        "median_ms": 0.1622,
+        "p99_ms": 0.427
+      },
+      "ML-DSA-65": {
+        "backend": "liboqs",
+        "median_ms": 0.1129,
+        "p99_ms": 0.3308
+      },
+      "ES256": {
+        "backend": "openssl",
+        "median_ms": 0.022,
+        "p99_ms": 0.0371
+      }
+    },
+    "run": 2
+  },
+  "notes": [
+    "SHA-256 over the image, which the C2PA hard binding requires before any signature is computed",
+    "hash_share is the hash as a percentage of hash plus signature, so it is the fraction of end-to-end signing cost that migration cannot change",
+    "sizes above Kodak are synthesised by length, since SHA-256 cost depends on length alone",
+    "a hardware-accelerated SHA-256 path will change these figures; the platform's crypto_features field records whether one is present"
+  ],
+  "results": [
+    {
+      "case": "thumbnail",
+      "image_bytes": 20000,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 0.0085,
+        "mean_ms": 0.0087,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.009,
+        "p99_ms": 0.0168,
+        "min_ms": 0.0084,
+        "max_ms": 0.0171
+      },
+      "throughput_MBps": 2352.9,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 22.3,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 27.9,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 1.6,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 10.3,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 7.0,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 5.0
+    },
+    {
+      "case": "Kodak q90 (median)",
+      "image_bytes": 107672,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 0.0438,
+        "mean_ms": 0.0447,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0475,
+        "p99_ms": 0.0624,
+        "min_ms": 0.0437,
+        "max_ms": 0.0689
+      },
+      "throughput_MBps": 2458.3,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 59.6,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 66.6,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 7.5,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 37.1,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 28.0,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 21.3
+    },
+    {
+      "case": "social re-encode",
+      "image_bytes": 350000,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 0.1413,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.1498,
+        "p99_ms": 0.1667,
+        "min_ms": 0.1412,
+        "max_ms": 0.1695
+      },
+      "throughput_MBps": 2477.0,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 82.6,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 86.5,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 20.8,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 65.5,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 55.6,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 46.6
+    },
+    {
+      "case": "1080p JPEG",
+      "image_bytes": 900000,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 0.3641,
+        "mean_ms": 0.3678,
+        "iqr_ms": 0.0052,
+        "p95_ms": 0.391,
+        "p99_ms": 0.4314,
+        "min_ms": 0.3621,
+        "max_ms": 0.4762
+      },
+      "throughput_MBps": 2471.8,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 92.5,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 94.3,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 40.4,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 83.1,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 76.3,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 69.2
+    },
+    {
+      "case": "phone original",
+      "image_bytes": 4000000,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 1.6181,
+        "mean_ms": 1.6311,
+        "iqr_ms": 0.0322,
+        "p95_ms": 1.688,
+        "p99_ms": 1.7512,
+        "min_ms": 1.6077,
+        "max_ms": 1.7635
+      },
+      "throughput_MBps": 2472.0,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 98.2,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 98.7,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 75.1,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 95.6,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 93.5,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 90.9
+    },
+    {
+      "case": "high-res / raw-ish",
+      "image_bytes": 12000000,
+      "hash_ms": {
+        "n": 200,
+        "median_ms": 4.8716,
+        "mean_ms": 4.9109,
+        "iqr_ms": 0.0932,
+        "p95_ms": 5.0932,
+        "p99_ms": 5.2511,
+        "min_ms": 4.8339,
+        "max_ms": 5.2893
+      },
+      "throughput_MBps": 2463.3,
+      "sign_Ed25519_ms": 0.0297,
+      "hash_share_Ed25519_pct": 99.4,
+      "sign_ES256_ms": 0.022,
+      "hash_share_ES256_pct": 99.6,
+      "sign_PS256_ms": 0.5375,
+      "hash_share_PS256_pct": 90.1,
+      "sign_ML-DSA-44_ms": 0.0743,
+      "hash_share_ML-DSA-44_pct": 98.5,
+      "sign_ML-DSA-65_ms": 0.1129,
+      "hash_share_ML-DSA-65_pct": 97.7,
+      "sign_ML-DSA-87_ms": 0.1622,
+      "hash_share_ML-DSA-87_pct": 96.8
+    }
+  ]
+}

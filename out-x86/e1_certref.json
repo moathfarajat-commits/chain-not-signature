@@ -1,0 +1,823 @@
+{
+  "experiment": "e1_certref",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:41:23+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.2.0.post2",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 1,
+    "runs": 10,
+    "run_timestamps": [
+      "2026-11-02T20:41:23+00:00",
+      "2026-11-02T21:20:17+00:00",
+      "2026-11-02T20:45:52+00:00",
+      "2026-11-02T20:46:15+00:00",
+      "2026-11-02T20:53:08+00:00",
+      "2026-11-02T20:55:30+00:00",
+      "2026-11-02T21:04:01+00:00",
+      "2026-11-02T21:04:39+00:00",
+      "2026-11-02T21:11:18+00:00",
+      "2026-11-02T21:14:19+00:00"
+    ]
+  },
+  "notes": [
+    "x5t is RFC 9360 header 34, a SHA-256 thumbprint of the leaf certificate",
+    "the verifier resolves the signer through a trust list, not the manifest",
+    "signing cost is unchanged; the saving is entirely in bytes",
+    "trade-off: verification needs trust-list access, so offline verification of an unknown signer is lost",
+    "merged from 10 independent runs (fresh processes and keys, random experiment and configuration order); median_ms is the median of per-run medians, ci95_ms a 95% bootstrap interval over runs"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 686,
+      "cose_embedded_bytes": 767,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 654,
+      "saving_pct": 85.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0449,
+        "mean_ms": 0.0479,
+        "iqr_ms": 0.0063,
+        "p95_ms": 0.0644,
+        "p99_ms": 0.0784,
+        "min_ms": 0.043,
+        "max_ms": 0.1416,
+        "ci95_ms": [
+          0.0433,
+          0.0453
+        ],
+        "run_medians_ms": [
+          0.0453,
+          0.0449,
+          0.0448,
+          0.0423,
+          0.044,
+          0.0419,
+          0.0458,
+          0.045,
+          0.0456,
+          0.0439
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0435,
+        "mean_ms": 0.0474,
+        "iqr_ms": 0.0094,
+        "p95_ms": 0.0747,
+        "p99_ms": 0.0794,
+        "min_ms": 0.0423,
+        "max_ms": 0.4877,
+        "ci95_ms": [
+          0.043,
+          0.045
+        ],
+        "run_medians_ms": [
+          0.0458,
+          0.043,
+          0.0441,
+          0.0435,
+          0.0436,
+          0.0382,
+          0.0435,
+          0.07,
+          0.0443,
+          0.0427
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1387,
+      "cose_embedded_bytes": 1472,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1359,
+      "saving_pct": 92.32,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0476,
+        "mean_ms": 0.052,
+        "iqr_ms": 0.0082,
+        "p95_ms": 0.095,
+        "p99_ms": 0.0855,
+        "min_ms": 0.0468,
+        "max_ms": 0.7768,
+        "ci95_ms": [
+          0.0466,
+          0.0485
+        ],
+        "run_medians_ms": [
+          0.049,
+          0.0466,
+          0.0475,
+          0.047,
+          0.0478,
+          0.0415,
+          0.0485,
+          0.0766,
+          0.0479,
+          0.0466
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0443,
+        "mean_ms": 0.0469,
+        "iqr_ms": 0.0061,
+        "p95_ms": 0.0701,
+        "p99_ms": 0.0746,
+        "min_ms": 0.0423,
+        "max_ms": 0.6714,
+        "ci95_ms": [
+          0.0432,
+          0.0452
+        ],
+        "run_medians_ms": [
+          0.0451,
+          0.0431,
+          0.0449,
+          0.044,
+          0.0655,
+          0.0417,
+          0.0432,
+          0.0456,
+          0.0444,
+          0.0442
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 743,
+      "cose_embedded_bytes": 824,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 711,
+      "saving_pct": 86.29,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0367,
+        "mean_ms": 0.0402,
+        "iqr_ms": 0.0058,
+        "p95_ms": 0.0662,
+        "p99_ms": 0.0753,
+        "min_ms": 0.0362,
+        "max_ms": 1.4304,
+        "ci95_ms": [
+          0.0362,
+          0.0375
+        ],
+        "run_medians_ms": [
+          0.0379,
+          0.0364,
+          0.0511,
+          0.0359,
+          0.0367,
+          0.0352,
+          0.037,
+          0.0365,
+          0.0367,
+          0.0375
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0379,
+        "mean_ms": 0.0417,
+        "iqr_ms": 0.0044,
+        "p95_ms": 0.0596,
+        "p99_ms": 0.0738,
+        "min_ms": 0.0373,
+        "max_ms": 0.1396,
+        "ci95_ms": [
+          0.0367,
+          0.0384
+        ],
+        "run_medians_ms": [
+          0.0383,
+          0.0655,
+          0.0389,
+          0.0367,
+          0.0367,
+          0.0356,
+          0.0374,
+          0.038,
+          0.0379,
+          0.038
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1501,
+      "cose_embedded_bytes": 1586,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1473,
+      "saving_pct": 92.88,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0388,
+        "mean_ms": 0.0427,
+        "iqr_ms": 0.0042,
+        "p95_ms": 0.061,
+        "p99_ms": 0.0779,
+        "min_ms": 0.0382,
+        "max_ms": 0.1213,
+        "ci95_ms": [
+          0.038,
+          0.0462
+        ],
+        "run_medians_ms": [
+          0.0395,
+          0.0546,
+          0.0397,
+          0.0379,
+          0.0383,
+          0.036,
+          0.038,
+          0.0393,
+          0.053,
+          0.0383
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0384,
+        "mean_ms": 0.0423,
+        "iqr_ms": 0.0119,
+        "p95_ms": 0.0724,
+        "p99_ms": 0.0736,
+        "min_ms": 0.0374,
+        "max_ms": 0.2749,
+        "ci95_ms": [
+          0.0369,
+          0.0388
+        ],
+        "run_medians_ms": [
+          0.039,
+          0.0386,
+          0.0388,
+          0.046,
+          0.0362,
+          0.0349,
+          0.0381,
+          0.0386,
+          0.0371,
+          0.0377
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 2,
+      "sig_bytes": 256,
+      "chain_der_bytes": 1138,
+      "cose_embedded_bytes": 1413,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 1106,
+      "saving_pct": 78.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.3859,
+        "mean_ms": 0.4077,
+        "iqr_ms": 0.0277,
+        "p95_ms": 0.5276,
+        "p99_ms": 0.7452,
+        "min_ms": 0.3549,
+        "max_ms": 3.2222,
+        "ci95_ms": [
+          0.3763,
+          0.4006
+        ],
+        "run_medians_ms": [
+          0.3957,
+          0.3881,
+          0.3955,
+          0.3817,
+          0.382,
+          0.3694,
+          0.4056,
+          0.3836,
+          0.4225,
+          0.3706
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.3911,
+        "mean_ms": 0.4136,
+        "iqr_ms": 0.0278,
+        "p95_ms": 0.4908,
+        "p99_ms": 0.7349,
+        "min_ms": 0.3668,
+        "max_ms": 0.8517,
+        "ci95_ms": [
+          0.3831,
+          0.4026
+        ],
+        "run_medians_ms": [
+          0.4026,
+          0.3839,
+          0.3961,
+          0.4048,
+          0.3909,
+          0.3816,
+          0.3845,
+          0.5026,
+          0.3913,
+          0.375
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 3,
+      "sig_bytes": 256,
+      "chain_der_bytes": 2291,
+      "cose_embedded_bytes": 2570,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 2263,
+      "saving_pct": 88.05,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.3876,
+        "mean_ms": 0.4175,
+        "iqr_ms": 0.0367,
+        "p95_ms": 0.7401,
+        "p99_ms": 0.8432,
+        "min_ms": 0.367,
+        "max_ms": 2.6499,
+        "ci95_ms": [
+          0.379,
+          0.4051
+        ],
+        "run_medians_ms": [
+          0.4136,
+          0.3846,
+          0.3966,
+          0.3856,
+          0.3833,
+          0.3686,
+          0.4235,
+          0.4004,
+          0.3897,
+          0.3733
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.3837,
+        "mean_ms": 0.4042,
+        "iqr_ms": 0.1347,
+        "p95_ms": 0.6304,
+        "p99_ms": 0.7631,
+        "min_ms": 0.3703,
+        "max_ms": 2.6375,
+        "ci95_ms": [
+          0.379,
+          0.4007
+        ],
+        "run_medians_ms": [
+          0.457,
+          0.3827,
+          0.3791,
+          0.3882,
+          0.3823,
+          0.3757,
+          0.4166,
+          0.3917,
+          0.3847,
+          0.3753
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 2,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 4354,
+      "cose_embedded_bytes": 6793,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 4322,
+      "saving_pct": 63.62,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.4786,
+        "mean_ms": 0.6234,
+        "iqr_ms": 0.4334,
+        "p95_ms": 1.4778,
+        "p99_ms": 2.1417,
+        "min_ms": 0.237,
+        "max_ms": 3.061,
+        "ci95_ms": [
+          0.471,
+          0.5128
+        ],
+        "run_medians_ms": [
+          0.4801,
+          0.4679,
+          0.4753,
+          0.5583,
+          0.4782,
+          0.471,
+          0.4981,
+          0.5455,
+          0.479,
+          0.4496
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.4839,
+        "mean_ms": 0.619,
+        "iqr_ms": 0.4587,
+        "p95_ms": 1.6603,
+        "p99_ms": 2.2473,
+        "min_ms": 0.2246,
+        "max_ms": 4.2584,
+        "ci95_ms": [
+          0.4643,
+          0.5101
+        ],
+        "run_medians_ms": [
+          0.5085,
+          0.4757,
+          0.4668,
+          0.4627,
+          0.4643,
+          0.4976,
+          0.5625,
+          0.5226,
+          0.492,
+          0.4553
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 3,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 8723,
+      "cose_embedded_bytes": 11166,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 8695,
+      "saving_pct": 77.87,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.4929,
+        "mean_ms": 0.6368,
+        "iqr_ms": 0.4174,
+        "p95_ms": 1.4962,
+        "p99_ms": 2.3445,
+        "min_ms": 0.2495,
+        "max_ms": 4.3615,
+        "ci95_ms": [
+          0.4799,
+          0.561
+        ],
+        "run_medians_ms": [
+          0.4945,
+          0.4849,
+          0.4914,
+          0.4976,
+          0.4887,
+          0.4711,
+          0.7215,
+          0.561,
+          0.5762,
+          0.4669
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.501,
+        "mean_ms": 0.6481,
+        "iqr_ms": 0.5387,
+        "p95_ms": 1.7804,
+        "p99_ms": 2.3757,
+        "min_ms": 0.2311,
+        "max_ms": 5.9475,
+        "ci95_ms": [
+          0.4615,
+          0.551
+        ],
+        "run_medians_ms": [
+          0.551,
+          0.4616,
+          0.4542,
+          0.4551,
+          0.5436,
+          0.4678,
+          0.5338,
+          0.4681,
+          0.5599,
+          0.5532
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 2,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 5883,
+      "cose_embedded_bytes": 9211,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 5851,
+      "saving_pct": 63.52,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.7926,
+        "mean_ms": 1.0137,
+        "iqr_ms": 0.8314,
+        "p95_ms": 2.5464,
+        "p99_ms": 3.8285,
+        "min_ms": 0.3124,
+        "max_ms": 7.271,
+        "ci95_ms": [
+          0.7716,
+          0.8106
+        ],
+        "run_medians_ms": [
+          0.8179,
+          0.8322,
+          0.8033,
+          0.7617,
+          0.7797,
+          0.7816,
+          0.7829,
+          0.7282,
+          0.8023,
+          0.8073
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.7921,
+        "mean_ms": 1.0094,
+        "iqr_ms": 0.8462,
+        "p95_ms": 2.8682,
+        "p99_ms": 3.806,
+        "min_ms": 0.3385,
+        "max_ms": 8.4299,
+        "ci95_ms": [
+          0.7689,
+          0.8111
+        ],
+        "run_medians_ms": [
+          0.8232,
+          0.7524,
+          0.797,
+          0.7134,
+          0.8083,
+          0.7854,
+          0.7989,
+          0.8805,
+          0.7695,
+          0.7872
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 3,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 11781,
+      "cose_embedded_bytes": 15113,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 11753,
+      "saving_pct": 77.77,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.8098,
+        "mean_ms": 1.0126,
+        "iqr_ms": 0.7546,
+        "p95_ms": 2.4854,
+        "p99_ms": 3.592,
+        "min_ms": 0.3285,
+        "max_ms": 6.0829,
+        "ci95_ms": [
+          0.7899,
+          0.8258
+        ],
+        "run_medians_ms": [
+          0.8292,
+          0.7974,
+          0.8048,
+          0.7899,
+          0.7872,
+          0.7808,
+          0.8148,
+          0.8621,
+          0.8224,
+          0.8231
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.7965,
+        "mean_ms": 1.0236,
+        "iqr_ms": 0.8158,
+        "p95_ms": 2.502,
+        "p99_ms": 3.7447,
+        "min_ms": 0.3035,
+        "max_ms": 5.5514,
+        "ci95_ms": [
+          0.787,
+          0.8113
+        ],
+        "run_medians_ms": [
+          0.7878,
+          0.7973,
+          0.824,
+          0.787,
+          0.8045,
+          0.7957,
+          0.7805,
+          0.8091,
+          0.818,
+          0.7794
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 2,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 7841,
+      "cose_embedded_bytes": 12487,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 7809,
+      "saving_pct": 62.54,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.9473,
+        "mean_ms": 1.2039,
+        "iqr_ms": 0.7454,
+        "p95_ms": 2.8503,
+        "p99_ms": 4.3038,
+        "min_ms": 0.482,
+        "max_ms": 5.0119,
+        "ci95_ms": [
+          0.934,
+          0.9894
+        ],
+        "run_medians_ms": [
+          0.9458,
+          0.9919,
+          0.9465,
+          0.934,
+          0.9264,
+          0.8975,
+          0.9481,
+          0.9934,
+          0.9821,
+          0.9894
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.9679,
+        "mean_ms": 1.2698,
+        "iqr_ms": 0.7127,
+        "p95_ms": 2.6435,
+        "p99_ms": 4.1623,
+        "min_ms": 0.4814,
+        "max_ms": 5.2105,
+        "ci95_ms": [
+          0.9244,
+          1.0571
+        ],
+        "run_medians_ms": [
+          0.9437,
+          0.9626,
+          1.0571,
+          0.9052,
+          0.926,
+          0.8594,
+          1.0787,
+          0.9912,
+          0.9732,
+          1.1608
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 3,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 15697,
+      "cose_embedded_bytes": 20347,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 15669,
+      "saving_pct": 77.01,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.9846,
+        "mean_ms": 1.2597,
+        "iqr_ms": 0.8153,
+        "p95_ms": 2.8012,
+        "p99_ms": 4.3427,
+        "min_ms": 0.5275,
+        "max_ms": 5.6713,
+        "ci95_ms": [
+          0.959,
+          1.0127
+        ],
+        "run_medians_ms": [
+          1.0002,
+          0.9851,
+          1.0162,
+          0.9719,
+          0.9225,
+          0.959,
+          0.9562,
+          1.0127,
+          0.984,
+          1.0154
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.9399,
+        "mean_ms": 1.1778,
+        "iqr_ms": 0.7678,
+        "p95_ms": 2.6071,
+        "p99_ms": 3.8244,
+        "min_ms": 0.4811,
+        "max_ms": 7.3283,
+        "ci95_ms": [
+          0.9231,
+          0.9513
+        ],
+        "run_medians_ms": [
+          0.947,
+          0.9154,
+          0.9308,
+          0.9239,
+          0.9096,
+          0.9513,
+          0.9541,
+          0.9679,
+          0.9387,
+          0.9411
+        ],
+        "runs": 10
+      }
+    }
+  ]
+}

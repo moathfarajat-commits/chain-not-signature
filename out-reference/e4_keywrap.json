@@ -1,0 +1,537 @@
+{
+  "experiment": "e4_keywrap",
+  "env": {
+    "timestamp_utc": "2026-09-25T10:56:40+00:00",
+    "hostname": "192.168.1.105",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "KEM rows use RFC 9629's construction: KEM, HKDF-SHA256 to a KEK, AES-256 key wrap (RFC 3394) of the 32-byte data key",
+    "wrapped_bytes for a KEM is the KEM ciphertext plus the 40-byte key-wrap output; for RSA-OAEP it is the modulus size",
+    "timed wrap and unwrap cover every step of each construction",
+    "archive rows: reads are from a warm page cache; every write is followed by fsync (not F_FULLFSYNC on macOS)",
+    "archive rows: each object is verified to decrypt under the new key after the run",
+    "HQC is not measured here; see README"
+  ],
+  "results": [
+    {
+      "scheme": "RSA-2048-OAEP",
+      "library": "OpenSSL",
+      "family": "classical",
+      "wrapped_bytes": 256,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0174,
+        "mean_ms": 0.0175,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0179,
+        "p99_ms": 0.0198,
+        "min_ms": 0.0172,
+        "max_ms": 0.0379
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 0.5269,
+        "mean_ms": 0.5348,
+        "iqr_ms": 0.0005,
+        "p95_ms": 0.5318,
+        "p99_ms": 0.7677,
+        "min_ms": 0.5262,
+        "max_ms": 0.7786
+      },
+      "wrapped_bytes_vs_rsa2048": 1.0,
+      "part": "primitive"
+    },
+    {
+      "scheme": "RSA-3072-OAEP",
+      "library": "OpenSSL",
+      "family": "classical",
+      "wrapped_bytes": 384,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0331,
+        "mean_ms": 0.0332,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0334,
+        "p99_ms": 0.0336,
+        "min_ms": 0.0329,
+        "max_ms": 0.0399
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 1.538,
+        "mean_ms": 1.5551,
+        "iqr_ms": 0.0017,
+        "p95_ms": 1.5693,
+        "p99_ms": 2.0241,
+        "min_ms": 1.5369,
+        "max_ms": 2.0888
+      },
+      "wrapped_bytes_vs_rsa2048": 1.5,
+      "part": "primitive"
+    },
+    {
+      "scheme": "ML-KEM-768",
+      "library": "OpenSSL",
+      "family": "post-quantum",
+      "wrapped_bytes": 1128,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0167,
+        "mean_ms": 0.0167,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0168,
+        "p99_ms": 0.017,
+        "min_ms": 0.0165,
+        "max_ms": 0.0202
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 0.0218,
+        "mean_ms": 0.0218,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.022,
+        "p99_ms": 0.0221,
+        "min_ms": 0.0217,
+        "max_ms": 0.0254
+      },
+      "kem_ciphertext_bytes": 1088,
+      "kdf_and_keywrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0034,
+        "p99_ms": 0.0035,
+        "min_ms": 0.0032,
+        "max_ms": 0.0059
+      },
+      "kdf_and_keyunwrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0034,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0032,
+        "max_ms": 0.0035
+      },
+      "wrapped_bytes_vs_rsa2048": 4.41,
+      "part": "primitive"
+    },
+    {
+      "scheme": "ML-KEM-768",
+      "library": "liboqs",
+      "family": "post-quantum",
+      "wrapped_bytes": 1128,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0188,
+        "mean_ms": 0.0188,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.019,
+        "p99_ms": 0.0191,
+        "min_ms": 0.0186,
+        "max_ms": 0.0228
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 0.0205,
+        "mean_ms": 0.0205,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0206,
+        "p99_ms": 0.0207,
+        "min_ms": 0.0203,
+        "max_ms": 0.0236
+      },
+      "kem_ciphertext_bytes": 1088,
+      "kdf_and_keywrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0033,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0032,
+        "max_ms": 0.0035
+      },
+      "kdf_and_keyunwrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0034,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0032,
+        "max_ms": 0.0248
+      },
+      "wrapped_bytes_vs_rsa2048": 4.41,
+      "part": "primitive"
+    },
+    {
+      "scheme": "ML-KEM-1024",
+      "library": "OpenSSL",
+      "family": "post-quantum",
+      "wrapped_bytes": 1608,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0217,
+        "mean_ms": 0.0217,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0218,
+        "p99_ms": 0.0219,
+        "min_ms": 0.0215,
+        "max_ms": 0.0243
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 0.0285,
+        "mean_ms": 0.0285,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0286,
+        "p99_ms": 0.0287,
+        "min_ms": 0.0282,
+        "max_ms": 0.032
+      },
+      "kem_ciphertext_bytes": 1568,
+      "kdf_and_keywrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0033,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0032,
+        "max_ms": 0.0035
+      },
+      "kdf_and_keyunwrap": {
+        "n": 1000,
+        "median_ms": 0.0033,
+        "mean_ms": 0.0033,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0033,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0032,
+        "max_ms": 0.0057
+      },
+      "wrapped_bytes_vs_rsa2048": 6.28,
+      "part": "primitive"
+    },
+    {
+      "scheme": "ML-KEM-1024",
+      "library": "liboqs",
+      "family": "post-quantum",
+      "wrapped_bytes": 1608,
+      "wrap": {
+        "n": 1000,
+        "median_ms": 0.0255,
+        "mean_ms": 0.0256,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0257,
+        "p99_ms": 0.0264,
+        "min_ms": 0.0253,
+        "max_ms": 0.0444
+      },
+      "unwrap": {
+        "n": 1000,
+        "median_ms": 0.0283,
+        "mean_ms": 0.0283,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0284,
+        "p99_ms": 0.0285,
+        "min_ms": 0.028,
+        "max_ms": 0.0312
+      },
+      "kem_ciphertext_bytes": 1568,
+      "kdf_and_keywrap": {
+        "n": 1000,
+        "median_ms": 0.0032,
+        "mean_ms": 0.0032,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0033,
+        "p99_ms": 0.0034,
+        "min_ms": 0.0031,
+        "max_ms": 0.005
+      },
+      "kdf_and_keyunwrap": {
+        "n": 1000,
+        "median_ms": 0.0032,
+        "mean_ms": 0.0032,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0033,
+        "p99_ms": 0.0033,
+        "min_ms": 0.0031,
+        "max_ms": 0.0034
+      },
+      "wrapped_bytes_vs_rsa2048": 6.28,
+      "part": "primitive"
+    },
+    {
+      "corpus": "kodak",
+      "layout": "sidecar",
+      "objects": 2000,
+      "median_object_bytes": 107688,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.63,
+      "objects_per_s": 1227.3,
+      "per_object": {
+        "median_ms": 0.7801,
+        "mean_ms": 0.8138,
+        "p95_ms": 0.9856,
+        "total_s": 1.628
+      },
+      "read": {
+        "median_ms": 0.03,
+        "mean_ms": 0.0318,
+        "p95_ms": 0.0408,
+        "total_s": 0.064
+      },
+      "unwrap": {
+        "median_ms": 0.5352,
+        "mean_ms": 0.5488,
+        "p95_ms": 0.5828,
+        "total_s": 1.098
+      },
+      "wrap": {
+        "median_ms": 0.0182,
+        "mean_ms": 0.0193,
+        "p95_ms": 0.0252,
+        "total_s": 0.039
+      },
+      "write": {
+        "median_ms": 0.1913,
+        "mean_ms": 0.214,
+        "p95_ms": 0.3338,
+        "total_s": 0.428
+      },
+      "verified": true,
+      "part": "archive"
+    },
+    {
+      "corpus": "kodak",
+      "layout": "embedded",
+      "objects": 2000,
+      "median_object_bytes": 107952,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.983,
+      "objects_per_s": 1008.8,
+      "per_object": {
+        "median_ms": 0.9488,
+        "mean_ms": 0.9891,
+        "p95_ms": 1.2582,
+        "total_s": 1.978
+      },
+      "read": {
+        "median_ms": 0.0503,
+        "mean_ms": 0.0562,
+        "p95_ms": 0.0935,
+        "total_s": 0.112
+      },
+      "unwrap": {
+        "median_ms": 0.5685,
+        "mean_ms": 0.5914,
+        "p95_ms": 0.7483,
+        "total_s": 1.183
+      },
+      "wrap": {
+        "median_ms": 0.023,
+        "mean_ms": 0.0271,
+        "p95_ms": 0.0476,
+        "total_s": 0.054
+      },
+      "write": {
+        "median_ms": 0.2919,
+        "mean_ms": 0.3145,
+        "p95_ms": 0.4587,
+        "total_s": 0.629
+      },
+      "verified": true,
+      "part": "archive"
+    },
+    {
+      "corpus": "kodak",
+      "layout": "reserved",
+      "objects": 2000,
+      "median_object_bytes": 108824,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.506,
+      "objects_per_s": 1328.3,
+      "per_object": {
+        "median_ms": 0.7361,
+        "mean_ms": 0.7508,
+        "p95_ms": 0.8643,
+        "total_s": 1.502
+      },
+      "read": {
+        "median_ms": 0.0384,
+        "mean_ms": 0.043,
+        "p95_ms": 0.0726,
+        "total_s": 0.086
+      },
+      "unwrap": {
+        "median_ms": 0.5704,
+        "mean_ms": 0.5805,
+        "p95_ms": 0.6279,
+        "total_s": 1.161
+      },
+      "wrap": {
+        "median_ms": 0.0224,
+        "mean_ms": 0.0257,
+        "p95_ms": 0.0452,
+        "total_s": 0.051
+      },
+      "write": {
+        "median_ms": 0.0986,
+        "mean_ms": 0.1017,
+        "p95_ms": 0.1404,
+        "total_s": 0.203
+      },
+      "verified": true,
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "sidecar",
+      "objects": 200,
+      "median_object_bytes": 4194320,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 0.2,
+      "objects_per_s": 1000.2,
+      "per_object": {
+        "median_ms": 0.8933,
+        "mean_ms": 0.9972,
+        "p95_ms": 1.7906,
+        "total_s": 0.199
+      },
+      "read": {
+        "median_ms": 0.0386,
+        "mean_ms": 0.0474,
+        "p95_ms": 0.093,
+        "total_s": 0.009
+      },
+      "unwrap": {
+        "median_ms": 0.5627,
+        "mean_ms": 0.6142,
+        "p95_ms": 0.917,
+        "total_s": 0.123
+      },
+      "wrap": {
+        "median_ms": 0.0232,
+        "mean_ms": 0.0308,
+        "p95_ms": 0.054,
+        "total_s": 0.006
+      },
+      "write": {
+        "median_ms": 0.2533,
+        "mean_ms": 0.3048,
+        "p95_ms": 0.5473,
+        "total_s": 0.061
+      },
+      "verified": true,
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "embedded",
+      "objects": 200,
+      "median_object_bytes": 4194584,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 0.57,
+      "objects_per_s": 351.1,
+      "per_object": {
+        "median_ms": 2.7705,
+        "mean_ms": 2.8445,
+        "p95_ms": 3.2562,
+        "total_s": 0.569
+      },
+      "read": {
+        "median_ms": 0.4991,
+        "mean_ms": 0.5187,
+        "p95_ms": 0.7028,
+        "total_s": 0.104
+      },
+      "unwrap": {
+        "median_ms": 0.5688,
+        "mean_ms": 0.5808,
+        "p95_ms": 0.6526,
+        "total_s": 0.116
+      },
+      "wrap": {
+        "median_ms": 0.0349,
+        "mean_ms": 0.0381,
+        "p95_ms": 0.0549,
+        "total_s": 0.008
+      },
+      "write": {
+        "median_ms": 1.6299,
+        "mean_ms": 1.707,
+        "p95_ms": 1.8958,
+        "total_s": 0.341
+      },
+      "verified": true,
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "reserved",
+      "objects": 200,
+      "median_object_bytes": 4195456,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 0.134,
+      "objects_per_s": 1491.8,
+      "per_object": {
+        "median_ms": 0.6562,
+        "mean_ms": 0.6694,
+        "p95_ms": 0.7328,
+        "total_s": 0.134
+      },
+      "read": {
+        "median_ms": 0.0186,
+        "mean_ms": 0.0206,
+        "p95_ms": 0.0291,
+        "total_s": 0.004
+      },
+      "unwrap": {
+        "median_ms": 0.5379,
+        "mean_ms": 0.5495,
+        "p95_ms": 0.5773,
+        "total_s": 0.11
+      },
+      "wrap": {
+        "median_ms": 0.018,
+        "mean_ms": 0.0187,
+        "p95_ms": 0.0211,
+        "total_s": 0.004
+      },
+      "write": {
+        "median_ms": 0.0812,
+        "mean_ms": 0.0807,
+        "p95_ms": 0.098,
+        "total_s": 0.016
+      },
+      "verified": true,
+      "part": "archive"
+    }
+  ]
+}

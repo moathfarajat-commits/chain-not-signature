@@ -1,0 +1,443 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index aec4374..d6ea5c6 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -25,3 +25,6 @@ strip = true  # Automatically strip symbols from the binary.
+ opt-level = 3
+ lto = "thin"  # Link time optimization.
+ 
++
++[patch.crates-io]
++c2pa_raw_crypto = { path = "/path/to/patched/c2pa_raw_crypto" }
+diff --git a/sdk/src/crypto/cose/certificate_profile.rs b/sdk/src/crypto/cose/certificate_profile.rs
+index 24600e3..a9da78b 100644
+--- a/sdk/src/crypto/cose/certificate_profile.rs
++++ b/sdk/src/crypto/cose/certificate_profile.rs
+@@ -200,7 +200,13 @@ pub fn check_certificate_profile(
+         || *cert_alg == ECDSA_WITH_SHA384_OID
+         || *cert_alg == ECDSA_WITH_SHA512_OID
+         || *cert_alg == RSASSA_PSS_OID
+-        || *cert_alg == ED25519_OID)
++        || *cert_alg == ED25519_OID
++        // FIPS 204. This allow-list is a gate independent of SigningAlg: a
++        // certificate signed with ML-DSA is rejected here even when every
++        // other layer accepts it.
++        || *cert_alg == ML_DSA_44_OID
++        || *cert_alg == ML_DSA_65_OID
++        || *cert_alg == ML_DSA_87_OID)
+     {
+         log_item!(
+             "",
+@@ -646,6 +652,12 @@ const ECDSA_WITH_SHA256_OID: Oid<'static> = oid!(1.2.840 .10045 .4 .3 .2);
+ const ECDSA_WITH_SHA384_OID: Oid<'static> = oid!(1.2.840 .10045 .4 .3 .3);
+ const ECDSA_WITH_SHA512_OID: Oid<'static> = oid!(1.2.840 .10045 .4 .3 .4);
+ const SHA256_WITH_RSAENCRYPTION_OID: Oid<'static> = oid!(1.2.840 .113549 .1 .1 .11);
++
++// NIST ML-DSA, FIPS 204. The same OID identifies the subject key algorithm
++// and the certificate signature algorithm.
++const ML_DSA_44_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .17);
++const ML_DSA_65_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .18);
++const ML_DSA_87_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .19);
+ const SHA384_WITH_RSAENCRYPTION_OID: Oid<'static> = oid!(1.2.840 .113549 .1 .1 .12);
+ const SHA512_WITH_RSAENCRYPTION_OID: Oid<'static> = oid!(1.2.840 .113549 .1 .1 .13);
+ const ED25519_OID: Oid<'static> = oid!(1.3.101 .112);
+diff --git a/sdk/src/crypto/cose/sign.rs b/sdk/src/crypto/cose/sign.rs
+index 8819ae5..bdb99f2 100644
+--- a/sdk/src/crypto/cose/sign.rs
++++ b/sdk/src/crypto/cose/sign.rs
+@@ -393,6 +393,11 @@ fn build_protected_header(
+         SigningAlg::Es384 => HeaderBuilder::new().algorithm(iana::Algorithm::ES384),
+         SigningAlg::Es512 => HeaderBuilder::new().algorithm(iana::Algorithm::ES512),
+         SigningAlg::Ed25519 => HeaderBuilder::new().algorithm(iana::Algorithm::EdDSA),
++        // RFC 9964 identifiers. `coset` already carries them; only this
++        // mapping was missing.
++        SigningAlg::MlDsa44 => HeaderBuilder::new().algorithm(iana::Algorithm::ML_DSA_44),
++        SigningAlg::MlDsa65 => HeaderBuilder::new().algorithm(iana::Algorithm::ML_DSA_65),
++        SigningAlg::MlDsa87 => HeaderBuilder::new().algorithm(iana::Algorithm::ML_DSA_87),
+         _ => return Err(CoseError::UnsupportedSigningAlgorithm),
+     };
+ 
+diff --git a/sdk/src/crypto/cose/sign1.rs b/sdk/src/crypto/cose/sign1.rs
+index 50ca33c..90ea453 100644
+--- a/sdk/src/crypto/cose/sign1.rs
++++ b/sdk/src/crypto/cose/sign1.rs
+@@ -73,6 +73,9 @@ pub fn signing_alg_from_sign1(sign1: &coset::CoseSign1) -> Result<SigningAlg, Co
+             -35 => Ok(SigningAlg::Es384),
+             -7 => Ok(SigningAlg::Es256),
+             -8 => Ok(SigningAlg::Ed25519),
++            -48 => Ok(SigningAlg::MlDsa44),
++            -49 => Ok(SigningAlg::MlDsa65),
++            -50 => Ok(SigningAlg::MlDsa87),
+             _ => Err(CoseError::UnsupportedSigningAlgorithm),
+         },
+ 
+@@ -84,6 +87,9 @@ pub fn signing_alg_from_sign1(sign1: &coset::CoseSign1) -> Result<SigningAlg, Co
+             Algorithm::ES384 => Ok(SigningAlg::Es384),
+             Algorithm::ES256 => Ok(SigningAlg::Es256),
+             Algorithm::EdDSA => Ok(SigningAlg::Ed25519),
++            Algorithm::ML_DSA_44 => Ok(SigningAlg::MlDsa44),
++            Algorithm::ML_DSA_65 => Ok(SigningAlg::MlDsa65),
++            Algorithm::ML_DSA_87 => Ok(SigningAlg::MlDsa87),
+             _ => Err(CoseError::UnsupportedSigningAlgorithm),
+         },
+ 
+diff --git a/sdk/src/crypto/cose/verifier.rs b/sdk/src/crypto/cose/verifier.rs
+index 4ff3b39..4a3b90b 100644
+--- a/sdk/src/crypto/cose/verifier.rs
++++ b/sdk/src/crypto/cose/verifier.rs
+@@ -74,6 +74,11 @@ const EC_PUBLICKEY_OID: Oid<'static> = oid!(1.2.840 .10045 .2 .1);
+ const RSA_OID: Oid<'static> = oid!(1.2.840 .113549 .1 .1 .1);
+ const RSASSA_PSS_OID: Oid<'static> = oid!(1.2.840 .113549 .1 .1 .10);
+ const ED25519_OID: Oid<'static> = oid!(1.3.101 .112);
++
++// NIST ML-DSA subject public key algorithm identifiers, FIPS 204.
++const ML_DSA_44_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .17);
++const ML_DSA_65_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .18);
++const ML_DSA_87_OID: Oid<'static> = oid!(2.16.840 .1 .101 .3 .4 .3 .19);
+ const PRIME256V1_OID: Oid<'static> = oid!(1.2.840 .10045 .3 .1 .7);
+ const SECP384R1_OID: Oid<'static> = oid!(1.3.132 .0 .34);
+ const SECP521R1_OID: Oid<'static> = oid!(1.3.132 .0 .35);
+@@ -100,6 +105,9 @@ fn spki_matches_signing_alg(alg: SigningAlg, spki: &AlgorithmIdentifier) -> bool
+             *key_alg == RSA_OID || *key_alg == RSASSA_PSS_OID
+         }
+         SigningAlg::Ed25519 => *key_alg == ED25519_OID,
++        SigningAlg::MlDsa44 => *key_alg == ML_DSA_44_OID,
++        SigningAlg::MlDsa65 => *key_alg == ML_DSA_65_OID,
++        SigningAlg::MlDsa87 => *key_alg == ML_DSA_87_OID,
+         _ => false,
+     }
+ }
+diff -ruN pristine_rc/Cargo.toml c2pa_raw_crypto/Cargo.toml
+--- pristine_rc/Cargo.toml	2026-11-02 23:43:14.695235897 +0300
++++ c2pa_raw_crypto/Cargo.toml	2026-11-02 23:43:20.049465860 +0300
+@@ -33,6 +33,7 @@
+ default = ["rust_native_crypto"]
+ openssl = ["dep:openssl"]
+ rust_native_crypto = [
++    "dep:ml-dsa",
+     "dep:ecdsa",
+     "dep:ed25519-dalek",
+     "dep:getrandom04",
+@@ -100,6 +101,11 @@
+ version = "0.7.5"
+ optional = true
+ 
++[dependencies.ml-dsa]
++version = "0.1"
++features = ["pkcs8"]
++optional = true
++
+ [dependencies.pkcs8]
+ version = "0.10.2"
+ 
+diff -ruN pristine_rc/src/rust_native/signers/mldsa_signer.rs c2pa_raw_crypto/src/rust_native/signers/mldsa_signer.rs
+--- pristine_rc/src/rust_native/signers/mldsa_signer.rs	1970-01-01 02:00:00.000000000 +0200
++++ c2pa_raw_crypto/src/rust_native/signers/mldsa_signer.rs	2026-11-02 23:43:14.711373607 +0300
+@@ -0,0 +1,154 @@
++// Added for the Line A measurement study: an ML-DSA raw signer, so that the
++// C2PA reference implementation can produce a post-quantum manifest.
++//
++// RFC 9964 ("ML-DSA for JOSE and COSE", Standards Track, May 2026) assigns
++// COSE algorithm identifiers -48, -49 and -50 to ML-DSA-44, -65 and -87. The
++// COSE layer beneath this crate already knows them; what was missing was a
++// signer here and a variant in `SigningAlg`.
++//
++// Private keys arrive as PKCS#8 PEM, the same shape every other signer in this
++// module accepts. For ML-DSA the PKCS#8 private key is the 32-byte seed.
++
++use ml_dsa::{
++    MlDsa44, MlDsa65, MlDsa87, SignatureEncoding, Signer as MlDsaSignerTrait, SigningKey,
++    pkcs8::DecodePrivateKey,
++};
++
++use crate::{RawSigner, RawSignerError, SigningAlg};
++
++/// Signs with ML-DSA at one of the three parameter sets.
++///
++/// The three sets are distinct types in `ml-dsa`, so they cannot share one
++/// field; the enum is what that costs.
++pub(crate) enum MlDsaSigner {
++    MlDsa44(Box<SigningKey<MlDsa44>>),
++    MlDsa65(Box<SigningKey<MlDsa65>>),
++    MlDsa87(Box<SigningKey<MlDsa87>>),
++}
++
++// The PKCS#8 impls in `ml-dsa` are bounded on a trait the crate does not
++// re-export publicly, so a generic helper cannot name that bound from here.
++// Three concrete helpers avoid the problem and cost nothing; this macro writes
++// them.
++/// Accepts a PKCS#8 key as PEM or as raw DER.
++///
++/// `from_pkcs8_pem` sits behind the `pem` feature of the `pkcs8` crate, and
++/// turning that on here pulls in a second major version of `pkcs8` alongside
++/// the one `ecdsa` already uses, which breaks the other signers in this
++/// module. Stripping the armour by hand is the smaller change, and it keeps
++/// this signer's interface identical to its neighbours: callers pass PEM, as
++/// they do everywhere else in the crate.
++fn pkcs8_der(private_key: &[u8]) -> Result<Vec<u8>, RawSignerError> {
++    let bad = |m: &str| RawSignerError::InvalidSigningCredentials(m.to_string());
++
++    let text = match std::str::from_utf8(private_key) {
++        Ok(t) if t.contains("-----BEGIN") => t,
++        // Not PEM: assume it is already DER and let the decoder judge it.
++        _ => return Ok(private_key.to_vec()),
++    };
++
++    let body: String = text
++        .lines()
++        .filter(|l| !l.starts_with("-----"))
++        .flat_map(|l| l.chars())
++        .filter(|c| !c.is_whitespace())
++        .collect();
++
++    // Base64, RFC 4648 alphabet, with the padding that PEM always carries.
++    let value = |c: u8| -> Option<u32> {
++        Some(match c {
++            b'A'..=b'Z' => (c - b'A') as u32,
++            b'a'..=b'z' => (c - b'a') as u32 + 26,
++            b'0'..=b'9' => (c - b'0') as u32 + 52,
++            b'+' => 62,
++            b'/' => 63,
++            _ => return None,
++        })
++    };
++
++    let bytes = body.as_bytes();
++    if bytes.len() % 4 != 0 {
++        return Err(bad("private key is not valid base64"));
++    }
++
++    let mut out = Vec::with_capacity(bytes.len() / 4 * 3);
++    for chunk in bytes.chunks(4) {
++        let pad = chunk.iter().filter(|&&c| c == b'=').count();
++        let mut acc = 0u32;
++        for &c in chunk {
++            acc = (acc << 6) | if c == b'=' { 0 } else {
++                value(c).ok_or_else(|| bad("private key is not valid base64"))?
++            };
++        }
++        out.push((acc >> 16) as u8);
++        if pad < 2 {
++            out.push((acc >> 8) as u8);
++        }
++        if pad < 1 {
++            out.push(acc as u8);
++        }
++    }
++    Ok(out)
++}
++
++macro_rules! parse_for {
++    ($name:ident, $param:ty) => {
++        fn $name(private_key: &[u8]) -> Result<SigningKey<$param>, RawSignerError> {
++            let der = pkcs8_der(private_key)?;
++            SigningKey::<$param>::from_pkcs8_der(&der).map_err(|e| {
++                RawSignerError::InvalidSigningCredentials(format!("invalid private key: {e}"))
++            })
++        }
++    };
++}
++
++parse_for!(parse_44, MlDsa44);
++parse_for!(parse_65, MlDsa65);
++parse_for!(parse_87, MlDsa87);
++
++impl MlDsaSigner {
++    pub(crate) fn from_private_key(
++        private_key: &[u8],
++        alg: SigningAlg,
++    ) -> Result<Self, RawSignerError> {
++        match alg {
++            SigningAlg::MlDsa44 => Ok(Self::MlDsa44(Box::new(parse_44(private_key)?))),
++            SigningAlg::MlDsa65 => Ok(Self::MlDsa65(Box::new(parse_65(private_key)?))),
++            SigningAlg::MlDsa87 => Ok(Self::MlDsa87(Box::new(parse_87(private_key)?))),
++            _ => Err(RawSignerError::InternalError(
++                "MlDsaSigner called with a non-ML-DSA algorithm".to_string(),
++            )),
++        }
++    }
++}
++
++impl RawSigner for MlDsaSigner {
++    fn sign(&self, data: &[u8]) -> Result<Vec<u8>, RawSignerError> {
++        Ok(match self {
++            Self::MlDsa44(k) => k.sign(data).to_vec(),
++            Self::MlDsa65(k) => k.sign(data).to_vec(),
++            Self::MlDsa87(k) => k.sign(data).to_vec(),
++        })
++    }
++
++    fn alg(&self) -> SigningAlg {
++        match self {
++            Self::MlDsa44(_) => SigningAlg::MlDsa44,
++            Self::MlDsa65(_) => SigningAlg::MlDsa65,
++            Self::MlDsa87(_) => SigningAlg::MlDsa87,
++        }
++    }
++
++    /// ML-DSA signatures are fixed length: 2420, 3309 and 4627 bytes.
++    ///
++    /// That fixed length matters more here than it looks. C2PA reserves a
++    /// block in the manifest before signing and pads to fill it, so a signer
++    /// that overstates this figure wastes those bytes in every asset it signs.
++    fn max_signature_size(&self) -> usize {
++        match self {
++            Self::MlDsa44(_) => 2420,
++            Self::MlDsa65(_) => 3309,
++            Self::MlDsa87(_) => 4627,
++        }
++    }
++}
+diff -ruN pristine_rc/src/rust_native/signers/mod.rs c2pa_raw_crypto/src/rust_native/signers/mod.rs
+--- pristine_rc/src/rust_native/signers/mod.rs	2026-11-02 23:43:14.697346776 +0300
++++ c2pa_raw_crypto/src/rust_native/signers/mod.rs	2026-11-02 23:43:20.050095017 +0300
+@@ -18,6 +18,7 @@
+ 
+ mod ecdsa_signer;
+ mod ed25519_signer;
++mod mldsa_signer; // Line A
+ mod rsa_signer;
+ 
+ /// Returns a built-in [`RawSigner`] instance using the provided private key.
+@@ -39,6 +40,11 @@
+         SigningAlg::Es256 | SigningAlg::Es384 | SigningAlg::Es512 => Ok(Box::new(
+             ecdsa_signer::EcdsaSigner::from_private_key(private_key, alg)?,
+         )),
++
++        // Line A: ML-DSA, RFC 9964.
++        SigningAlg::MlDsa44 | SigningAlg::MlDsa65 | SigningAlg::MlDsa87 => Ok(Box::new(
++            mldsa_signer::MlDsaSigner::from_private_key(private_key, alg)?,
++        )),
+     }
+ }
+ 
+diff -ruN pristine_rc/src/rust_native/validators/mldsa_validator.rs c2pa_raw_crypto/src/rust_native/validators/mldsa_validator.rs
+--- pristine_rc/src/rust_native/validators/mldsa_validator.rs	1970-01-01 02:00:00.000000000 +0200
++++ c2pa_raw_crypto/src/rust_native/validators/mldsa_validator.rs	2026-11-02 23:43:14.713000509 +0300
+@@ -0,0 +1,63 @@
++// Added for the Line A measurement study: an ML-DSA raw signature validator.
++//
++// The public key arrives as a DER SubjectPublicKeyInfo taken from the signer's
++// certificate, which is how every other validator in this module receives it.
++// The algorithm OID in that SPKI is checked by `ml-dsa` itself when the key is
++// decoded, so a key of the wrong parameter set is rejected rather than
++// silently mis-verified.
++
++use ml_dsa::{
++    MlDsa44, MlDsa65, MlDsa87, Signature, Verifier, VerifyingKey,
++    pkcs8::spki::SubjectPublicKeyInfoRef,
++};
++
++use crate::{RawSignatureValidationError, RawSignatureValidator};
++
++pub(crate) enum MlDsaValidator {
++    MlDsa44,
++    MlDsa65,
++    MlDsa87,
++}
++
++// As in the signer, the bound these impls need is not publicly nameable from
++// outside `ml-dsa`, so the three parameter sets get three concrete functions.
++macro_rules! check_for {
++    ($name:ident, $param:ty) => {
++        fn $name(
++            sig: &[u8],
++            data: &[u8],
++            public_key: &[u8],
++        ) -> Result<(), RawSignatureValidationError> {
++            let spki = SubjectPublicKeyInfoRef::try_from(public_key)
++                .map_err(|_| RawSignatureValidationError::InvalidPublicKey)?;
++
++            let vk = VerifyingKey::<$param>::try_from(spki)
++                .map_err(|_| RawSignatureValidationError::InvalidPublicKey)?;
++
++            let signature = Signature::<$param>::try_from(sig)
++                .map_err(|_| RawSignatureValidationError::InvalidSignature)?;
++
++            vk.verify(data, &signature)
++                .map_err(|_| RawSignatureValidationError::SignatureMismatch)
++        }
++    };
++}
++
++check_for!(check_44, MlDsa44);
++check_for!(check_65, MlDsa65);
++check_for!(check_87, MlDsa87);
++
++impl RawSignatureValidator for MlDsaValidator {
++    fn validate(
++        &self,
++        sig: &[u8],
++        data: &[u8],
++        public_key: &[u8],
++    ) -> Result<(), RawSignatureValidationError> {
++        match self {
++            Self::MlDsa44 => check_44(sig, data, public_key),
++            Self::MlDsa65 => check_65(sig, data, public_key),
++            Self::MlDsa87 => check_87(sig, data, public_key),
++        }
++    }
++}
+diff -ruN pristine_rc/src/rust_native/validators/mod.rs c2pa_raw_crypto/src/rust_native/validators/mod.rs
+--- pristine_rc/src/rust_native/validators/mod.rs	2026-11-02 23:43:14.697509843 +0300
++++ c2pa_raw_crypto/src/rust_native/validators/mod.rs	2026-11-02 23:43:20.050602553 +0300
+@@ -28,6 +28,9 @@
+ mod rsa_validator;
+ pub(crate) use rsa_validator::RsaValidator;
+ 
++mod mldsa_validator; // Line A
++pub(crate) use mldsa_validator::MlDsaValidator;
++
+ /// Returns a validator for the given signing algorithm.
+ pub(crate) fn validator_for_signing_alg(alg: SigningAlg) -> Option<Box<dyn RawSignatureValidator>> {
+     match alg {
+@@ -38,6 +41,10 @@
+         SigningAlg::Es256 => Some(Box::new(EcdsaValidator::Es256)),
+         SigningAlg::Es384 => Some(Box::new(EcdsaValidator::Es384)),
+         SigningAlg::Es512 => Some(Box::new(EcdsaValidator::Es512)),
++        // Line A
++        SigningAlg::MlDsa44 => Some(Box::new(MlDsaValidator::MlDsa44)),
++        SigningAlg::MlDsa65 => Some(Box::new(MlDsaValidator::MlDsa65)),
++        SigningAlg::MlDsa87 => Some(Box::new(MlDsaValidator::MlDsa87)),
+     }
+ }
+ 
+diff -ruN pristine_rc/src/signing_alg.rs c2pa_raw_crypto/src/signing_alg.rs
+--- pristine_rc/src/signing_alg.rs	2026-11-02 23:43:14.696510141 +0300
++++ c2pa_raw_crypto/src/signing_alg.rs	2026-11-02 23:43:14.709309915 +0300
+@@ -47,6 +47,15 @@
+ 
+     /// Edwards-Curve DSA (Ed25519 instance only)
+     Ed25519,
++
++    /// ML-DSA-44, RFC 9964, COSE algorithm -48
++    MlDsa44,
++
++    /// ML-DSA-65, RFC 9964, COSE algorithm -49
++    MlDsa65,
++
++    /// ML-DSA-87, RFC 9964, COSE algorithm -50
++    MlDsa87,
+ }
+ 
+ impl FromStr for SigningAlg {
+@@ -61,6 +70,9 @@
+             "ps384" => Ok(Self::Ps384),
+             "ps512" => Ok(Self::Ps512),
+             "ed25519" => Ok(Self::Ed25519),
++            "mldsa44" | "ml-dsa-44" => Ok(Self::MlDsa44),
++            "mldsa65" | "ml-dsa-65" => Ok(Self::MlDsa65),
++            "mldsa87" | "ml-dsa-87" => Ok(Self::MlDsa87),
+             _ => Err(UnknownAlgorithmError(alg.to_owned())),
+         }
+     }
+@@ -91,6 +103,9 @@
+                 Self::Ps384 => "ps384",
+                 Self::Ps512 => "ps512",
+                 Self::Ed25519 => "ed25519",
++                Self::MlDsa44 => "mldsa44",
++                Self::MlDsa65 => "mldsa65",
++                Self::MlDsa87 => "mldsa87",
+             }
+         )
+     }

@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{Re-wrapping an archive on disk, RSA-2048-OAEP to ML-KEM-768, on Apple M1 Pro (arm64). \emph{Sidecar} keeps the wrapped key in its own file; \emph{embedded} keeps it in the object's header, so the object is rewritten when the key grows; \emph{reserved} was written with room for the larger key and is updated in place. Per-object medians in milliseconds; every write is followed by \texttt{fsync}, and reads come from a warm cache. Every object was checked to decrypt under the new key.}
+\label{tab:rewrap}
+\begin{tabular}{llrrrrrr}
+\toprule
+Object & Layout & Read & Unwrap & Wrap & Write & Objects/s & Count\\
+\midrule
+105\,KiB & sidecar & 0.030 & 0.535 & 0.018 & 0.191 & 1,227 & 2,000\\
+105\,KiB & embedded & 0.050 & 0.569 & 0.023 & 0.292 & 1,009 & 2,000\\
+106\,KiB & reserved & 0.038 & 0.570 & 0.022 & 0.099 & 1,328 & 2,000\\
+\midrule
+4\,MiB & sidecar & 0.039 & 0.563 & 0.023 & 0.253 & 1,000 & 200\\
+4\,MiB & embedded & 0.499 & 0.569 & 0.035 & 1.630 & 351 & 200\\
+4\,MiB & reserved & 0.019 & 0.538 & 0.018 & 0.081 & 1,492 & 200\\
+\bottomrule
+\end{tabular}
+\end{table}

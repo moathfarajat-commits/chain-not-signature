@@ -1,0 +1,64 @@
+%% ---------------------------------------------------------------------------
+\section{Background}
+\label{sec:background}
+
+\subsection{Content credentials}
+
+A C2PA manifest is a record embedded in a media file that states who produced
+it, with what device or software, and what was done to it since~\cite{c2pa25}.
+Its assertions include a hard binding, a cryptographic hash over the content
+that ties the claim to specific bytes. A signature over the claim makes the
+record verifiable, and any change to the content breaks the binding.
+
+The signature is a COSE \texttt{Sign1} structure~\cite{rfc9052} with a
+detached payload. Its protected header carries the algorithm identifier and the
+signer's certificates in the \texttt{x5chain} header of
+RFC~9360~\cite{rfc9360}. C2PA narrows RFC~9360 in two ways that matter here.
+The claim generator ``shall include the signer's certificate and all intermediate certificate authorities'' in \texttt{x5chain}, and ``the trust anchor's certificate (also called the root certificate) should not be included''; from version~2.5 it ``shall use only the integer 33'' as the label, in the protected bucket, while validators still accept the older string label
+\texttt{x5chain} in either bucket~\cite{c2pa25}. A validator trusts a signer
+whose certificate path ends at an anchor on the C2PA trust list, a list of
+certificates that may be roots or issuing CAs~\cite{c2patrustlist}; a separate
+list does the same for time-stamping authorities. In a JPEG the manifest
+travels in APP11 segments, so the cost of a credential is the growth in file
+size.
+
+Version~2.4 of the specification, on which the measurements were planned,
+permitted seven classical algorithms. Version~2.5, published in October 2026,
+added ML-DSA-44, 65 and 87 under the COSE identifiers $-48$, $-49$ and
+$-50$~\cite{c2pa25}. It adds nothing for SLH-DSA or Falcon.
+
+\subsection{Post-quantum signatures}
+
+ML-DSA~\cite{fips204} is the module-lattice signature scheme NIST
+standardised in 2024, at three parameter sets. ML-DSA-44 targets NIST security
+category~2 rather than category~1, so it is not the drop-in counterpart of a
+128-bit classical parameter set that its name suggests. SLH-DSA~\cite{fips205}
+is a hash-based alternative with conservative assumptions and much larger
+signatures. FN-DSA, the standard NIST plans for Falcon as FIPS~206, had not
+appeared even in draft by 23~October 2026; in September 2026 NIST asked for
+comment on a revised plan that specifies fixed-point arithmetic for key
+generation and signing~\cite{nist_fips206_status,nist_fips206_forum,%
+nist_fips206_plan}. Composite signatures pair ML-DSA with a classical scheme: a verifier accepts only if both component signatures verify, so a forger must break both, and the signature stays secure as long as either algorithm does; the IETF specification is close to
+publication~\cite{ounsworth2026composite}, and no COSE identifiers have been
+assigned for them.
+
+Signature and public-key sizes are what matter here, because both enter a
+manifest: the signature once, and the public key and the issuer's signature
+once per certificate. ML-DSA-44, 65 and 87 produce signatures of 2,420, 3,309
+and 4,627 bytes and public keys of 1,312, 1,952 and 2,592, against 64 and 32
+for Ed25519 and 256 and about 270 for RSA-2048. Certificates for ML-DSA and
+SLH-DSA are specified by RFCs~9881 and~9909~\cite{rfc9881,rfc9909}, and CMS
+signatures, which a timestamp token is, by RFCs~9882 and~9814~\cite{rfc9882,%
+rfc9814}. The IANA COSE registry has no entry for FN-DSA or SLH-DSA; the
+working-group draft for FN-DSA requested $-54$ and $-55$, but it expired on
+16~September 2026 with both values unassigned~\cite{iana_cose,coseFalcon}.
+
+\subsection{Carrying certificates, or not}
+
+RFC~9360 gives a COSE structure two ways to identify its
+signer~\cite{rfc9360}: \texttt{x5chain} carries certificates and \texttt{x5t}
+carries a thumbprint, leaving the verifier to find the certificate elsewhere.
+Within \texttt{x5chain} there is a further choice of how many certificates to
+carry. Section~\ref{sec:carrying} measures four forms: leaf, intermediate and
+root; leaf and intermediate, the form C2PA prescribes; the leaf alone; and the
+thumbprint.

@@ -1,0 +1,18 @@
+\begin{table}[t]
+\caption{Verifying a manifest's signature and the signer's path on one core of the Raspberry Pi 5, every signature through OpenSSL; decoding, timestamp, revocation and content hashing are outside the boundary. \emph{Embedded} carries leaf and intermediate in the manifest, with the root as an in-memory anchor. \emph{Referenced} finds them by thumbprint in a trust store of 500 signers on the board's SD card, either already in memory (\emph{warm}) or after the store has been evicted from the page cache (\emph{cold}). Milliseconds, medians.}
+\label{tab:edge}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & Store & & & \multicolumn{3}{c}{Total}\\
+\cmidrule(lr){5-7}
+Algorithm & MB & Chain & Signature & Embedded & Warm & Cold\\
+\midrule
+Ed25519 & 0.7 & 0.328 & 0.150 & 0.482 & 0.513 & 0.710\\
+ES256 & 0.8 & 0.485 & 0.244 & 0.731 & 0.768 & 0.987\\
+PS256 & 1.1 & 0.288 & 0.143 & 0.432 & 0.470 & 0.703\\
+ML-DSA-44 & 4.4 & 0.503 & 0.235 & 0.768 & 0.777 & 1.096\\
+ML-DSA-65 & 5.9 & 0.736 & 0.350 & 1.132 & 1.126 & 1.461\\
+ML-DSA-87 & 7.9 & 1.098 & 0.530 & 1.693 & 1.670 & 2.056\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,8 @@
+liboqs-python faulthandler is disabled
+  ML-DSA-65: signature only 16,282 B, full 35,462 B
+  ES256: signature only 2,755 B, full 5,134 B
+  ML-DSA-44: signature only 12,335 B, full 26,679 B
+  Ed25519: signature only 2,643 B, full 4,921 B
+  ML-DSA-87: signature only 21,516 B, full 47,248 B
+  PS256: signature only 3,739 B, full 7,289 B
+  wrote out-x86-runs/run9/e1_timestamp.json  (6 rows)

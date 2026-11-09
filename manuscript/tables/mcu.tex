@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{Signing and verifying on three microcontrollers, milliseconds, medians. \emph{Verify} is a complete manifest: receive it, decode it, check the leaf and intermediate up to the root anchor in the trust store, and check the manifest signature, with leaf and intermediate carried (\emph{L+I}) or only a thumbprint (\emph{Th.}). Pico: RP2040 Cortex-M0+ at 125\,MHz, portable C (PQClean). NUCLEO: STM32L4R5 Cortex-M4F at 80\,MHz, pqm4 assembly. nRF: nRF52840 Cortex-M4F at 64\,MHz, the same objects; \emph{ES256 (hw)} runs on its CryptoCell-310. Every board rejected a flipped signature bit, a tampered manifest, a tampered intermediate and a missing intermediate for every algorithm.}
+\label{tab:mcu}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Pico} & \multicolumn{3}{c}{NUCLEO, 80\,MHz} & \multicolumn{2}{c}{nRF52840}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-9}
+Algorithm & Sign & L+I & Th. & Sign & L+I & Th. & Sign & L+I\\
+\midrule
+Ed25519 & 57.7 & 354.7 & 350.1 & 21.5 & 107.8 & 104.8 & 21.9 & 101.2\\
+ES256 & 131.6 & 440.4 & 433.8 & 131.0 & 438.0 & 431.6 & 152.0 & 503.7\\
+ES256 (hw) & -- & -- & -- & -- & -- & -- & 30.2 & 66.2\\
+ML-DSA-44 & 154.8 & 160.7 & 143.3 & 96.3 & 130.9 & 112.1 & 90.5 & 121.4\\
+ML-DSA-65 & 222.0 & 255.9 & 232.2 & 154.9 & 214.9 & 189.2 & 144.7 & 200.6\\
+ML-DSA-87 & 329.7 & 412.5 & 381.5 & 190.0 & 360.1 & 325.7 & 199.6 & 333.1\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{Manifest cost of the seven signature algorithms the C2PA specification permits, embedded by \texttt{c2pa-rs} 0.90.19 into JPEG images at quality 90. Medians over the 24 images of the Kodak set. \emph{Reserved} is the fixed block the library sets aside for signature, certificate chain, timestamp and revocation data; \emph{payload} is the manifest less that reservation. Thumbnail generation is disabled.}
+\label{tab:baseline}
+\begin{tabular}{lrrrr}
+\toprule
+Algorithm & Manifest (B) & \% of image & Reserved (B) & Payload (B)\\
+\midrule
+ES256 & 13,053 & 12.16 & 11,981 & 1,072\\
+ES384 & 13,081 & 12.19 & 12,009 & 1,072\\
+ES512 & 13,120 & 12.22 & 12,048 & 1,072\\
+PS256 & 13,256 & 12.35 & 12,184 & 1,072\\
+PS384 & 13,383 & 12.47 & 12,311 & 1,072\\
+PS512 & 13,511 & 12.59 & 12,439 & 1,072\\
+Ed25519 & 13,005 & 12.11 & 11,933 & 1,072\\
+\bottomrule
+\end{tabular}
+\end{table}

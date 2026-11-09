@@ -1,0 +1,173 @@
+<frozen importlib._bootstrap>:488: Warning: OpenSSL 3's legacy provider failed to load. Legacy algorithms will not be available. If you need those algorithms, check your OpenSSL configuration.
+certificates written to ~/line-a-experiments/c2pa-val/work/certs short-lived leaves expire at 2026-11-02T20:47:28.770730+00:00
+<frozen importlib._bootstrap>:488: Warning: OpenSSL 3's legacy provider failed to load. Legacy algorithms will not be available. If you need those algorithms, check your OpenSSL configuration.
+es256 good 315
+es256 revoked 338
+es256 deleg_good 825
+es256 deleg_revoked 848
+ed25519 good 303
+ed25519 revoked 325
+ed25519 deleg_good 753
+ed25519 deleg_revoked 775
+mldsa44 good 2667
+mldsa44 revoked 2689
+mldsa44 deleg_good 6777
+mldsa44 deleg_revoked 6799
+mldsa65 good 3556
+mldsa65 revoked 3578
+mldsa65 deleg_good 9195
+mldsa65 deleg_revoked 9217
+mldsa87 good 4874
+mldsa87 revoked 4896
+mldsa87 deleg_good 12471
+mldsa87 deleg_revoked 12493
+es256 chain_noroot_tsa Trusted True
+es256 chain_noroot Trusted True
+es256 chain_withroot_tsa Trusted True
+es256 leafonly_anchor_int Trusted True
+es256 leafonly_anchor_root Valid True
+es256 unknown_anchor Valid True
+es256 eku_serverauth None True
+es256 eku_serverauth_direct Invalid True
+es256 eku_timestamping Trusted False
+es256 eku_timestamping (claimSigning policy) Trusted False
+es256 ku_no_digitalsignature None True
+es256 ku_no_digitalsignature_direct Invalid True
+es256 chain_noroot_direct Trusted True
+es256 image_modified Invalid True
+es256 sig_bitflip Invalid True
+es256 cose_cbor_corrupt None True
+es256 cose_truncated None True
+es256 tst_wrong_imprint Trusted False
+es256 tsa_no_timestamping_eku Invalid True
+es256 tsa_anchor_absent Trusted False
+es256 ocsp_good Trusted True
+es256 ocsp_revoked Trusted False
+es256 ocsp_deleg_good Trusted True
+es256 ocsp_deleg_revoked Invalid True
+es256 x5t_thumbprint None True
+es256 no_credential None True
+es256 alg_header_mismatch Invalid True
+es256 oversized_chain_50 Valid True
+es256 oversized_cert_1MB Trusted True
+ed25519 chain_noroot_tsa Trusted True
+ed25519 chain_noroot Trusted True
+ed25519 chain_withroot_tsa Trusted True
+ed25519 leafonly_anchor_int Trusted True
+ed25519 leafonly_anchor_root Valid True
+ed25519 unknown_anchor Valid True
+ed25519 eku_serverauth None True
+ed25519 eku_serverauth_direct Invalid True
+ed25519 eku_timestamping Trusted False
+ed25519 eku_timestamping (claimSigning policy) Trusted False
+ed25519 ku_no_digitalsignature None True
+ed25519 ku_no_digitalsignature_direct Invalid True
+ed25519 chain_noroot_direct Trusted True
+ed25519 image_modified Invalid True
+ed25519 sig_bitflip Invalid True
+ed25519 cose_cbor_corrupt None True
+ed25519 cose_truncated None True
+ed25519 tst_wrong_imprint Trusted False
+ed25519 tsa_no_timestamping_eku Invalid True
+ed25519 tsa_anchor_absent Trusted False
+ed25519 ocsp_good Trusted True
+ed25519 ocsp_revoked Trusted False
+ed25519 ocsp_deleg_good Trusted True
+ed25519 ocsp_deleg_revoked Invalid True
+ed25519 x5t_thumbprint None True
+ed25519 no_credential None True
+ed25519 alg_header_mismatch Invalid True
+mldsa44 chain_noroot_tsa Trusted True
+mldsa44 chain_noroot Trusted True
+mldsa44 chain_withroot_tsa Trusted True
+mldsa44 leafonly_anchor_int Trusted True
+mldsa44 leafonly_anchor_root Valid True
+mldsa44 unknown_anchor Valid True
+mldsa44 eku_serverauth None True
+mldsa44 eku_serverauth_direct Invalid True
+mldsa44 eku_timestamping Trusted False
+mldsa44 eku_timestamping (claimSigning policy) Trusted False
+mldsa44 ku_no_digitalsignature None True
+mldsa44 ku_no_digitalsignature_direct Invalid True
+mldsa44 chain_noroot_direct Trusted True
+mldsa44 image_modified Invalid True
+mldsa44 sig_bitflip Invalid True
+mldsa44 cose_cbor_corrupt None True
+mldsa44 cose_truncated None True
+mldsa44 tst_wrong_imprint Trusted False
+mldsa44 tsa_no_timestamping_eku Invalid True
+mldsa44 tsa_anchor_absent Trusted False
+mldsa44 ocsp_good Trusted True
+mldsa44 ocsp_revoked Trusted False
+mldsa44 ocsp_deleg_good Trusted True
+mldsa44 ocsp_deleg_revoked Invalid True
+mldsa44 x5t_thumbprint None True
+mldsa44 no_credential None True
+mldsa44 alg_header_mismatch Invalid True
+mldsa65 chain_noroot_tsa Trusted True
+mldsa65 chain_noroot Trusted True
+mldsa65 chain_withroot_tsa Trusted True
+mldsa65 leafonly_anchor_int Trusted True
+mldsa65 leafonly_anchor_root Valid True
+mldsa65 unknown_anchor Valid True
+mldsa65 eku_serverauth None True
+mldsa65 eku_serverauth_direct Invalid True
+mldsa65 eku_timestamping Trusted False
+mldsa65 eku_timestamping (claimSigning policy) Trusted False
+mldsa65 ku_no_digitalsignature None True
+mldsa65 ku_no_digitalsignature_direct Invalid True
+mldsa65 chain_noroot_direct Trusted True
+mldsa65 image_modified Invalid True
+mldsa65 sig_bitflip Invalid True
+mldsa65 cose_cbor_corrupt None True
+mldsa65 cose_truncated None True
+mldsa65 tst_wrong_imprint Trusted False
+mldsa65 tsa_no_timestamping_eku Invalid True
+mldsa65 tsa_anchor_absent Trusted False
+mldsa65 ocsp_good Trusted True
+mldsa65 ocsp_revoked Trusted False
+mldsa65 ocsp_deleg_good Trusted True
+mldsa65 ocsp_deleg_revoked Invalid True
+mldsa65 x5t_thumbprint None True
+mldsa65 no_credential None True
+mldsa65 oversized_chain_50 Valid True
+mldsa65 oversized_cert_1MB Trusted True
+mldsa87 chain_noroot_tsa Trusted True
+mldsa87 chain_noroot Trusted True
+mldsa87 chain_withroot_tsa Trusted True
+mldsa87 leafonly_anchor_int Trusted True
+mldsa87 leafonly_anchor_root Valid True
+mldsa87 unknown_anchor Valid True
+mldsa87 eku_serverauth None True
+mldsa87 eku_serverauth_direct Invalid True
+mldsa87 eku_timestamping Trusted False
+mldsa87 eku_timestamping (claimSigning policy) Trusted False
+mldsa87 ku_no_digitalsignature None True
+mldsa87 ku_no_digitalsignature_direct Invalid True
+mldsa87 chain_noroot_direct Trusted True
+mldsa87 image_modified Invalid True
+mldsa87 sig_bitflip Invalid True
+mldsa87 cose_cbor_corrupt None True
+mldsa87 cose_truncated None True
+mldsa87 tst_wrong_imprint Trusted False
+mldsa87 tsa_no_timestamping_eku Invalid True
+mldsa87 tsa_anchor_absent Trusted False
+mldsa87 ocsp_good Trusted True
+mldsa87 ocsp_revoked Trusted False
+mldsa87 ocsp_deleg_good Trusted True
+mldsa87 ocsp_deleg_revoked Invalid True
+mldsa87 x5t_thumbprint None True
+mldsa87 no_credential None True
+waiting 304 s for the short-lived leaves to expire
+es256 expired_leaf_with_tst Trusted True
+es256 expired_leaf_no_tst Invalid True
+ed25519 expired_leaf_with_tst Trusted True
+ed25519 expired_leaf_no_tst Invalid True
+mldsa44 expired_leaf_with_tst Trusted True
+mldsa44 expired_leaf_no_tst Invalid True
+mldsa65 expired_leaf_with_tst Trusted True
+mldsa65 expired_leaf_no_tst Invalid True
+mldsa87 expired_leaf_with_tst Trusted True
+mldsa87 expired_leaf_no_tst Invalid True
+MATRIX_DONE 294
+RUNALL_DONE

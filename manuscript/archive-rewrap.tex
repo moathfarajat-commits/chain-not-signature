@@ -1,0 +1,64 @@
+
+Provenance is not the only place public-key cryptography touches media.
+Archives of medical imaging, evidence and surveillance footage encrypt each
+object under its own data key and store that key wrapped under a public key,
+and harvest-now-decrypt-later applies to them without qualification. Migrating
+such an archive means unwrapping every data key under the legacy key and
+wrapping it again. For the post-quantum wrap we used the shape of the
+construction RFC~9629 specifies for CMS~\cite{rfc9629}: ML-KEM gives a shared
+secret, HKDF-SHA256 derives a key-encryption key from it, and AES key
+wrap~\cite{rfc3394} wraps the 32-byte data key into 40 bytes. We did not build
+the full \texttt{KEMRecipientInfo}: the key derivation uses a fixed
+\texttt{info} string rather than the DER-encoded
+\texttt{CMSORIforKEMOtherInfo} the RFC requires, and no recipient structure is
+serialised, so the measurement shows the cost of the cryptography and not
+conformance to the RFC.
+
+Re-wrapping protects the archive from the day it finishes. It does nothing
+for copies of the legacy wrapped keys an adversary has already harvested,
+which a future quantum computer will open whatever the archive does
+afterwards; for data that must stay confidential for decades, the date that
+matters is the one the wrapped keys were first exposed.
+
+Table~\ref{tab:keywrap} gives the cost per key. Storage grows by a factor of
+4.4, from 256 bytes under RSA-2048 to 1,128 under ML-KEM-768, which is the
+1,088-byte KEM ciphertext and the 40-byte wrapped key; a CMS container adds a
+few dozen bytes of its own fields to either. Time runs the
+other way. An RSA-2048 unwrap takes 0.53\,ms and a complete ML-KEM-768 wrap
+0.017\,ms, of which key derivation and key wrap are 0.003\,ms, so the legacy
+unwrap is 97\% of the cryptographic work in a re-wrap. Once an archive has
+migrated, unwrapping is 24 times faster than it was; as Section~\ref{sec:hash} of the paper found for signing, the post-quantum operation is not the expensive part.
+
+
+Cost per key does not give the cost of a migration, because the I/O depends on
+where the wrapped key is kept. Table~\ref{tab:rewrap} re-wraps archives on
+disk in three layouts. When the key sits in a sidecar file, or in a header
+slot that was sized for the post-quantum key when the object was written, the
+migration runs at 1,000 to 1,500 objects per second and the RSA unwrap takes
+between 63\% and 82\% of each object's time, whatever the object's size. When
+the key sits in a header sized for RSA, the larger key cannot be written in
+place and the whole object is rewritten. For photographs of about 100\,KiB
+that adds about 30\% per object against the reserved layout. For 4\,MiB
+objects re-wrapping is 4.2 times slower, and reading and rewriting the object
+take 77\% of the time. The penalty grows with the object, and archives of
+scans and footage hold objects far larger than 4\,MiB. The lesson is the one
+C2PA's reserved signature block already teaches
+(Section~\ref{sec:method-decisions} of the paper): a format that leaves room for a larger
+key migrates in place, and one that does not rewrites its content.
+
+
+Those reads came from a warm cache, since each archive was written just
+before it was re-wrapped, and the writes were forced with \texttt{fsync},
+which on macOS does not flush the drive's own cache. A second run emptied the
+page cache first and forced every write with \texttt{F\_FULLFSYNC}, which does
+(Table~\ref{tab:rewrapcold}). Throughput falls to 101 to 167 objects a
+second, because the flush now takes 4.4 to 7.0\,ms of each object's 5.2 to
+9.1, and the order of the layouts holds: the reserved slot is the fastest at
+both sizes, and rewriting a 4\,MiB object takes 1.7 times as long as updating
+it in place. The RSA unwrap also slows, to 0.6 to 1.9\,ms, which we attribute
+to the processor clocking down while it waits on each flush. One limit
+remains: an in-place update of a reserved slot is not atomic, and a production
+format would write the new key to a second slot and switch to it, which we did
+not measure; the in-place reserved-slot figures should be read as a lower
+bound for a crash-safe layout.
+

@@ -1,0 +1,118 @@
+== Line A extra on Raspberry Pi 5 Model B Rev 1.1 (2026-11-02T21:56:47+03:00)
+   governor: performance  throttled: 0x0  temp=43.3'C
+
+== E1 verification
+  trust store: /tmp/trust-store-z3fw5hc7
+liboqs-python faulthandler is disabled
+  liboqs backend: available
+  Ed25519 done (openssl)
+  ES256 done (openssl)
+  ML-DSA-44 done (liboqs)
+  ML-DSA-65 done (liboqs)
+  ML-DSA-87 done (liboqs)
+  wrote out-pi-extra/e1_verify.json  (5 rows)
+
+== E1 hash against signature
+  sign Ed25519: 0.051 ms (openssl)
+  sign ES256: 0.070 ms (openssl)
+liboqs-python faulthandler is disabled
+  sign ML-DSA-44: 0.204 ms (liboqs)
+  sign ML-DSA-65: 0.314 ms (liboqs)
+  sign ML-DSA-87: 0.432 ms (liboqs)
+  hash thumbnail (20,000 B): 0.014 ms
+  hash Kodak q90 (median) (107,672 B): 0.071 ms
+  hash social re-encode (350,000 B): 0.229 ms
+  hash 1080p JPEG (900,000 B): 0.587 ms
+  hash phone original (4,000,000 B): 2.612 ms
+  hash high-res / raw-ish (12,000,000 B): 7.825 ms
+  wrote out-pi-extra/e1_hash.json  (6 rows)
+
+== E7 edge verifier
+  store on /dev/mmcblk0p2 (ED2S8)
+  Ed25519: building 500 signers
+  ES256: building 500 signers
+  ML-DSA-44: building 500 signers
+  ML-DSA-65: building 500 signers
+  ML-DSA-87: building 500 signers
+  Ed25519    cold 0.682 ms, warm 0.490 ms, embedded 0.469 ms (eviction: sudo)
+  ES256      cold 0.968 ms, warm 0.777 ms, embedded 0.744 ms (eviction: sudo)
+  ML-DSA-44  cold 1.074 ms, warm 0.763 ms, embedded 0.775 ms (eviction: sudo)
+  ML-DSA-65  cold 1.516 ms, warm 1.114 ms, embedded 1.141 ms (eviction: sudo)
+  ML-DSA-87  cold 2.111 ms, warm 1.662 ms, embedded 1.708 ms (eviction: sudo)
+  wrote out-pi-extra/e7_edge.json  (5 rows)
+
+== E8 verification across cores
+liboqs-python faulthandler is disabled
+  Ed25519: 500 publishers, 2000 manifests
+    uncached       workers=1         2137/s  x 1.00
+    uncached       workers=2         4269/s  x 2.00
+    uncached       workers=4         8496/s  x 3.98
+    cached         workers=1         6554/s  x 1.00
+    cached         workers=2        12612/s  x 1.92
+    cached         workers=4        23130/s  x 3.53
+  ES256: 500 publishers, 2000 manifests
+    uncached       workers=1         1347/s  x 1.00
+    uncached       workers=2         2702/s  x 2.01
+    uncached       workers=4         5385/s  x 4.00
+    cached         workers=1         4579/s  x 1.00
+    cached         workers=2         8841/s  x 1.93
+    cached         workers=4        16101/s  x 3.52
+  ML-DSA-44: 500 publishers, 2000 manifests
+    uncached       workers=1         1300/s  x 1.00
+    uncached       workers=2         2596/s  x 2.00
+    uncached       workers=4         5151/s  x 3.96
+    cached         workers=1         3699/s  x 1.00
+    cached         workers=2         7133/s  x 1.93
+    cached         workers=4        13162/s  x 3.56
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1         7657/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2        14228/s  x 1.86
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=4        23712/s  x 3.10
+  ML-DSA-65: 500 publishers, 2000 manifests
+    uncached       workers=1          884/s  x 1.00
+    uncached       workers=2         1763/s  x 2.00
+    uncached       workers=4         3493/s  x 3.95
+    cached         workers=1         2489/s  x 1.00
+    cached         workers=2         4808/s  x 1.93
+    cached         workers=4         8898/s  x 3.58
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1         5063/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2         9401/s  x 1.86
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=4        16018/s  x 3.16
+  ML-DSA-87: 500 publishers, 2000 manifests
+    uncached       workers=1          588/s  x 1.00
+    uncached       workers=2         1173/s  x 1.99
+    uncached       workers=4         2327/s  x 3.95
+    cached         workers=1         1651/s  x 1.00
+    cached         workers=2         3185/s  x 1.93
+    cached         workers=4         5930/s  x 3.59
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1         3272/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2         6112/s  x 1.87
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=4        10446/s  x 3.19
+  wrote out-pi-extra/e8_scale.json  (39 rows)
+
+== done: out-pi-extra/
+e1_hash.json
+e1_verify.json
+e7_edge.json
+e8_scale.json
+run_20261102_215647.log

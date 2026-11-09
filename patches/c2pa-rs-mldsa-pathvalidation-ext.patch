@@ -1,0 +1,82 @@
+diff --git a/sdk/src/crypto/cose/certificate_trust/rust_native.rs b/sdk/src/crypto/cose/certificate_trust/rust_native.rs
+index 63b8433..a5615f2 100644
+--- a/sdk/src/crypto/cose/certificate_trust/rust_native.rs
++++ b/sdk/src/crypto/cose/certificate_trust/rust_native.rs
+@@ -241,6 +241,10 @@ fn signing_alg_to_sig_and_hash_oid(alg: &str) -> Option<(bcder::Oid, bcder::Oid)
+         "ps384" => pair(&RSA_PSS_OID, &SHA384_OID),
+         "ps512" => pair(&RSA_PSS_OID, &SHA512_OID),
+         "ed25519" => pair(&ED25519_OID, &SHA512_OID),
++        // Line A: ML-DSA certificate signatures.
++        "mldsa44" => pair(&ML_DSA_44_OID, &SHA512_OID),
++        "mldsa65" => pair(&ML_DSA_65_OID, &SHA512_OID),
++        "mldsa87" => pair(&ML_DSA_87_OID, &SHA512_OID),
+         _ => None,
+     }
+ }
+@@ -264,6 +268,12 @@ fn cert_signing_alg(cert: &X509Certificate) -> Option<String> {
+         signing_alg_from_rsapss_alg(&cert.signature_algorithm)
+     } else if cert_alg == ED25519_OID.as_bytes() {
+         Some(SigningAlg::Ed25519.to_string())
++    } else if cert_alg == ML_DSA_44_OID.as_bytes() {
++        Some(SigningAlg::MlDsa44.to_string()) // Line A
++    } else if cert_alg == ML_DSA_65_OID.as_bytes() {
++        Some(SigningAlg::MlDsa65.to_string())
++    } else if cert_alg == ML_DSA_87_OID.as_bytes() {
++        Some(SigningAlg::MlDsa87.to_string())
+     } else {
+         None
+     }
+diff --git a/sdk/src/crypto/ocsp/mod.rs b/sdk/src/crypto/ocsp/mod.rs
+index 8aefcc7..64a53e3 100644
+--- a/sdk/src/crypto/ocsp/mod.rs
++++ b/sdk/src/crypto/ocsp/mod.rs
+@@ -451,6 +451,10 @@ fn hash_alg_for_sig_alg(sig_alg: &rasn::types::ObjectIdentifier) -> Option<bcder
+         "1.2.840.113549.1.1.12" => Some(bcder::Oid::from_str("2.16.840.1.101.3.4.2.2").ok()?),
+         "1.2.840.113549.1.1.13" => Some(bcder::Oid::from_str("2.16.840.1.101.3.4.2.3").ok()?),
+         "1.3.101.112" => Some(bcder::Oid::from_str("2.16.840.1.101.3.4.2.3").ok()?),
++        // Line A: ML-DSA OCSP responders; pure ML-DSA, the hash OID is unused.
++        "2.16.840.1.101.3.4.3.17" | "2.16.840.1.101.3.4.3.18" | "2.16.840.1.101.3.4.3.19" => {
++            Some(bcder::Oid::from_str("2.16.840.1.101.3.4.2.3").ok()?)
++        }
+         _ => None,
+     }
+ }
+diff -ruN rc_p1/src/oids.rs c2pa_raw_crypto/src/oids.rs
+--- rc_p1/src/oids.rs	2026-11-02 23:43:20.334475742 +0300
++++ c2pa_raw_crypto/src/oids.rs	2026-11-02 23:43:20.361679221 +0300
+@@ -85,3 +85,15 @@
+ 
+ /// `id-Ed25519` (1.3.101.112).
+ pub const ED25519_OID: Oid<'static> = Oid::new(&[0x2b, 0x65, 0x70]);
++
++// Line A: ML-DSA, FIPS 204 / RFC 9881. One OID names both the key and the
++// signature algorithm.
++/// `id-ml-dsa-44` (2.16.840.1.101.3.4.3.17).
++pub const ML_DSA_44_OID: Oid<'static> =
++    Oid::new(&[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x11]);
++/// `id-ml-dsa-65` (2.16.840.1.101.3.4.3.18).
++pub const ML_DSA_65_OID: Oid<'static> =
++    Oid::new(&[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x12]);
++/// `id-ml-dsa-87` (2.16.840.1.101.3.4.3.19).
++pub const ML_DSA_87_OID: Oid<'static> =
++    Oid::new(&[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x13]);
+diff -ruN rc_p1/src/rust_native/validators/mod.rs c2pa_raw_crypto/src/rust_native/validators/mod.rs
+--- rc_p1/src/rust_native/validators/mod.rs	2026-11-02 23:43:20.335486680 +0300
++++ c2pa_raw_crypto/src/rust_native/validators/mod.rs	2026-11-02 23:43:20.363921778 +0300
+@@ -77,6 +77,16 @@
+     if sig_alg == ED25519_OID.as_bytes() {
+         return Some(Box::new(Ed25519Validator {}));
+     }
++    // Line A: pure ML-DSA; the hash OID plays no part.
++    if sig_alg == ML_DSA_44_OID.as_bytes() {
++        return Some(Box::new(MlDsaValidator::MlDsa44));
++    }
++    if sig_alg == ML_DSA_65_OID.as_bytes() {
++        return Some(Box::new(MlDsaValidator::MlDsa65));
++    }
++    if sig_alg == ML_DSA_87_OID.as_bytes() {
++        return Some(Box::new(MlDsaValidator::MlDsa87));
++    }
+ 
+     // Test for public key algorithms next.
+ 

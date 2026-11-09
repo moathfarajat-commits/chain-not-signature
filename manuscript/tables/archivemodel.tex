@@ -1,0 +1,14 @@
+\begin{table}[t]
+\caption{The per-asset model and its test. $a$ is the fixed cost, measured over a digest already in hand; the hash term is 2,417~MB/s measured with no signing in the loop. Neither is fitted. The error column is the model's median error against held-out images it was not built from. \emph{Crossover} is the file size at which hashing costs as much as everything else, which is where the algorithm stops mattering.}
+\label{tab:archivemodel}
+\begin{tabular}{lrrrrr}
+\toprule
+Algorithm & $a$ (ms) & mean/median & $a$ liboqs (ms) & Held-out error & Crossover\\
+\midrule
+ES256 & 0.031 & 1.01 & -- & 0.24\% & 73~KiB\\
+ML-DSA-44 & 0.293 & 1.35 & 0.087 & 10.28\% & 692~KiB\\
+ML-DSA-65 & 0.502 & 1.16 & 0.129 & 2.08\% & 1,186~KiB\\
+ML-DSA-87 & 0.596 & 1.22 & 0.183 & 0.43\% & 1,407~KiB\\
+\bottomrule
+\end{tabular}
+\end{table}

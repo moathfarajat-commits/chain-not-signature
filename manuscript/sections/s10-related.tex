@@ -1,0 +1,117 @@
+%% ---------------------------------------------------------------------------
+\section{Related work}
+\label{sec:related}
+
+\subsection{Certificate size in post-quantum TLS}
+\label{sec:related-tls}
+That certificates rather than signatures dominate a post-quantum exchange is
+established in the TLS literature, and this paper does not claim it as new.
+Sikeridis et al.\ found the certificate chain, not the handshake signature,
+driving the added latency of post-quantum TLS~1.3, to the point of proposing
+different algorithms at different levels of one
+chain~\cite{sikeridis2020ndss,sikeridis2020conext}; later studies reached the
+same conclusion on newer stacks~\cite{sosnowski2023}, and Cloudflare made the
+sizing argument to practitioners~\cite{westerbaan2021}. The remedies all stop
+sending certificates the verifier could already have: cached
+information~\cite{rfc7924}, abridged certificate compression, which ships a
+dictionary of the WebPKI's roots and intermediates so that only the leaf
+travels and reports about 75\% off the chain against about 25\% for generic
+compression~\cite{certabridge}, and Merkle Tree
+Certificates~\cite{merkletreecerts}. Leaf-only carriage is the manifest
+equivalent of abridged compression in its simplest form, with the C2PA trust
+list as the dictionary, and we present it as such.
+
+\paragraph{What transfers and what does not}
+The structural result transfers, and our measurements extend it to Falcon,
+SLH-DSA and composites: because every certificate contains a signature, chain
+dominance is a property of chains rather than of any scheme. Generic
+compression fails here as it does in TLS (Table~\ref{tab:compress}). Four
+differences change the conclusions. A manifest chain is paid once per object
+and kept for the life of the file, so the cost is storage and bandwidth rather
+than handshake latency. Nothing is negotiated, so the carriage form is a
+policy for every verifier. A manifest verifier may be offline for good, which
+is why we recommend the leaf over the thumbprint where the TLS analogy would
+favour the smaller option. And C2PA's trust list lists issuing CAs as anchors,
+which makes the leaf-only form conformant without any new mechanism.
+
+\subsection{Post-quantum benchmarking}
+\label{sec:related-bench}
+
+Primitive-level performance is well covered, from pqm4 on
+microcontrollers~\cite{kannwischer2019pqm4,pqm4,greconici2021,li2024m0} and
+NEON and AVX2 implementations on application
+processors~\cite{becker2022neon} to batched GPU verification reported in the
+millions per second~\cite{shen2024gpu,lee2024falcon,nvidia2024cupqc}. At the
+protocol level, Paquin et al.\ benchmarked post-quantum TLS under emulated
+loss~\cite{paquin2020}, and the Open Quantum Safe project made such
+experiments routine~\cite{stebila2016}. Deployment has followed for key
+agreement and not for authentication: by late 2025 most human-initiated
+traffic to Cloudflare used post-quantum key agreement while no publicly
+trusted post-quantum certificate was in use~\cite{westerbaan2025pq}. The half
+of the migration this paper prices has not begun even on the web.
+
+Methodology has become a subject of its own. Riou et al.\ catalogue pitfalls
+in ML-DSA benchmarking, among them the tail that rejection sampling gives
+signing time~\cite{riou2026}; SUPERCOP has long recorded the compiler and
+options with every measurement~\cite{ebacs}, and Mytkowicz et al.\ showed that
+measurement setup alone can reverse a conclusion about \texttt{-O2} against
+\texttt{-O3}~\cite{mytkowicz2009}. Our audit (Section~\ref{sec:audit}) finds
+that applied post-quantum work rarely carries those habits over.
+Implementation-controlled measurement is rarer still; our earlier study of HQC
+as a fallback to ML-KEM carries such a control for key
+establishment~\cite{alfarajat2026hqc}. It shares this paper's method and not
+its data or subject: its hardware work runs key establishment over a Thread
+link, and the microcontroller work here is signatures only, over Bluetooth LE,
+on separate firmware.
+
+\subsection{Content provenance}
+\label{sec:related-prov}
+
+C2PA manifests are JUMBF boxes~\cite{iso19566-5} carrying COSE signatures, and
+they have left the laboratory: Leica shipped the first camera that signs at
+capture in 2023~\cite{cai2023leica}, Sony added signing to its bodies the
+following year~\cite{sony2024c2pa}, and Samsung and Google brought content
+credentials to phones in 2025~\cite{samsung2025s25,google2025pixel}. Google's
+design keeps signing keys in a dedicated security chip, runs a time-stamping
+authority on the device and issues a certificate for every
+image~\cite{google2025pixel}, the lifecycle under which Section~\ref{sec:cache}
+finds caching worth least.
+
+Golaszewski et al.\ give the first independent security analysis
+of C2PA and conclude that the specification does not meet its stated
+goals~\cite{golaszewski2026eprint,golaszewski2026}. Two of their findings
+concern machinery whose post-quantum cost we measure: revocation checking is
+optional, and generators and validators disagree about which timestamp is
+trusted. The two departures we found in the reference implementation
+(Section~\ref{sec:patch}) are of the same kind, in the key-usage rules for
+signers and time-stamping authorities. VerITAS proves in zero knowledge that a
+published photograph differs from a signed original only by permitted
+edits~\cite{datta2025veritas}, and Nemecek et al.\ build images whose valid
+manifests contradict their watermarks~\cite{nemecek2026integrity}. Watermarks
+and perceptual hashes are the alternatives to a signature; they rest on no
+assumption Shor's algorithm breaks, and they fail by removal or
+steering~\cite{wen2023treering,gowal2025synthid,an2024waves,zhao2024invisible,%
+meta_pdq,photodna,struppek2022,jain2022}.
+
+Post-quantum signatures have been proposed for image authenticity outside this
+ecosystem, with zero-knowledge proofs of permitted
+transformations~\cite{iavich2025pqveritas} and inside a watermarking framework~\cite{alkhatib2025deepfake}. Neither measures the credential, and to our knowledge this paper is the first published measurement
+of post-quantum signatures inside the credential stack that cameras and phones
+ship.
+
+\subsection{Migration measurement}
+\label{sec:related-migration}
+
+Mixed chains have been measured in TLS: Paul et al.\ placed different
+signature algorithms at different levels of a TLS~1.3 chain~\cite{paul2022},
+and Bindel et al.\ tested whether hybrid certificates survive real X.509, TLS
+and S/MIME implementations~\cite{bindel2017}. Section~\ref{sec:mixedchain}
+asks what each ordering protects and what it costs to carry in every object.
+Planning for migration is mostly guidance: research agendas~\cite{ott2019},
+crypto-agility~\cite{nist_cswp39}, inventory~\cite{nist_sp1800_38,ecma424} and
+maturity models~\cite{hohm2023}. Past migrations were slow at the tail: four
+years after the MD5 rogue CA~\cite{stevens2009} a trusted CA still issued
+MD5-signed certificates~\cite{durumeric2013}, and TLS clients abandon old
+algorithms slowly~\cite{kotzias2018}. Provenance has a worse tail than TLS: a
+handshake renegotiates on the next connection, and a signed image keeps its
+signature until someone signs it again.

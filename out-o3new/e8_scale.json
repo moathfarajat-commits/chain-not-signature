@@ -1,0 +1,1548 @@
+{
+  "experiment": "e8_scale",
+  "env": {
+    "timestamp_utc": "2026-11-02T22:05:45+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "workers_tested": [
+      1,
+      2,
+      4,
+      6,
+      8
+    ],
+    "quick": false,
+    "run": 1,
+    "runs": 3,
+    "run_timestamps": [
+      "2026-11-02T22:05:45+00:00",
+      "2026-11-02T22:22:39+00:00",
+      "2026-11-02T22:30:23+00:00"
+    ]
+  },
+  "notes": [
+    "publishers drawn Zipf(1); hierarchy depth 3, x5chain carries leaf and intermediate, root from the verifier's store; every signature verified",
+    "uncached: chain parsed and validated for every manifest",
+    "cached: chain validated once per publisher per worker, then signature only",
+    "cached-liboqs: as cached, ML-DSA signature checked by liboqs",
+    "per_s is the median over reps of verifications / wall time on a warm pool",
+    "merged from 3 independent runs (fresh processes and keys, random experiment and configuration order); median_ms is the median of per-run medians, ci95_ms a 95% bootstrap interval over runs"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 3600.3,
+      "per_s_runs": [
+        3595.9,
+        3645.8,
+        3600.3
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        3595.9,
+        3645.8
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 7122.0,
+      "per_s_runs": [
+        7145.1,
+        7122.0,
+        7114.9
+      ],
+      "speedup": 1.987,
+      "efficiency": 0.993,
+      "cache_misses": null,
+      "per_s_ci95": [
+        7114.9,
+        7145.1
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 13827.2,
+      "per_s_runs": [
+        13716.3,
+        14092.5,
+        13827.2
+      ],
+      "speedup": 3.814,
+      "efficiency": 0.954,
+      "cache_misses": null,
+      "per_s_ci95": [
+        13716.3,
+        14092.5
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 19391.0,
+      "per_s_runs": [
+        18847.6,
+        19391.0,
+        19835.9
+      ],
+      "speedup": 5.241,
+      "efficiency": 0.874,
+      "cache_misses": null,
+      "per_s_ci95": [
+        18847.6,
+        19835.9
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 21141.3,
+      "per_s_runs": [
+        21136.8,
+        22633.3,
+        21141.3
+      ],
+      "speedup": 5.878,
+      "efficiency": 0.735,
+      "cache_misses": null,
+      "per_s_ci95": [
+        21136.8,
+        22633.3
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 11231.1,
+      "per_s_runs": [
+        11231.1,
+        11271.1,
+        10929.7
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        10929.7,
+        11271.1
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 21081.2,
+      "per_s_runs": [
+        21118.8,
+        21081.2,
+        21047.6
+      ],
+      "speedup": 1.88,
+      "efficiency": 0.94,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        21047.6,
+        21118.8
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 38585.3,
+      "per_s_runs": [
+        37858.1,
+        39093.7,
+        38585.3
+      ],
+      "speedup": 3.371,
+      "efficiency": 0.843,
+      "cache_misses": 1404,
+      "per_s_ci95": [
+        37858.1,
+        39093.7
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 51213.6,
+      "per_s_runs": [
+        51213.6,
+        51066.2,
+        52632.8
+      ],
+      "speedup": 4.56,
+      "efficiency": 0.76,
+      "cache_misses": 2024,
+      "per_s_ci95": [
+        51066.2,
+        52632.8
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 54555.8,
+      "per_s_runs": [
+        53370.9,
+        58277.0,
+        54555.8
+      ],
+      "speedup": 4.752,
+      "efficiency": 0.594,
+      "cache_misses": 2474,
+      "per_s_ci95": [
+        53370.9,
+        58277.0
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 9480.8,
+      "per_s_runs": [
+        9480.8,
+        9844.4,
+        9352.5
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        9352.5,
+        9844.4
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 18674.6,
+      "per_s_runs": [
+        17552.1,
+        18818.3,
+        18674.6
+      ],
+      "speedup": 1.851,
+      "efficiency": 0.926,
+      "cache_misses": null,
+      "per_s_ci95": [
+        17552.1,
+        18818.3
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 36526.3,
+      "per_s_runs": [
+        36526.3,
+        37066.6,
+        36254.8
+      ],
+      "speedup": 3.853,
+      "efficiency": 0.963,
+      "cache_misses": null,
+      "per_s_ci95": [
+        36254.8,
+        37066.6
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 50475.8,
+      "per_s_runs": [
+        49888.5,
+        50475.8,
+        51711.6
+      ],
+      "speedup": 5.262,
+      "efficiency": 0.877,
+      "cache_misses": null,
+      "per_s_ci95": [
+        49888.5,
+        51711.6
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 55645.2,
+      "per_s_runs": [
+        53532.7,
+        57716.2,
+        55645.2
+      ],
+      "speedup": 5.646,
+      "efficiency": 0.706,
+      "cache_misses": null,
+      "per_s_ci95": [
+        53532.7,
+        57716.2
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 40445.5,
+      "per_s_runs": [
+        40445.5,
+        41052.4,
+        39466.4
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        39466.4,
+        41052.4
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 75295.6,
+      "per_s_runs": [
+        75295.6,
+        75654.3,
+        74872.3
+      ],
+      "speedup": 1.862,
+      "efficiency": 0.931,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        74872.3,
+        75654.3
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 133593.4,
+      "per_s_runs": [
+        136498.8,
+        133593.4,
+        132544.6
+      ],
+      "speedup": 3.375,
+      "efficiency": 0.844,
+      "cache_misses": 1382,
+      "per_s_ci95": [
+        132544.6,
+        136498.8
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 176685.7,
+      "per_s_runs": [
+        180955.9,
+        176685.7,
+        171377.9
+      ],
+      "speedup": 4.474,
+      "efficiency": 0.746,
+      "cache_misses": 1980,
+      "per_s_ci95": [
+        171377.9,
+        180955.9
+      ]
+    },
+    {
+      "alg": "PS256",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 171318.9,
+      "per_s_runs": [
+        137874.9,
+        181794.3,
+        171318.9
+      ],
+      "speedup": 3.409,
+      "efficiency": 0.426,
+      "cache_misses": 2504,
+      "per_s_ci95": [
+        137874.9,
+        181794.3
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 2509.0,
+      "per_s_runs": [
+        2561.5,
+        2496.4,
+        2509.0
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        2496.4,
+        2561.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 5007.0,
+      "per_s_runs": [
+        5068.0,
+        4991.7,
+        5007.0
+      ],
+      "speedup": 1.979,
+      "efficiency": 0.989,
+      "cache_misses": null,
+      "per_s_ci95": [
+        4991.7,
+        5068.0
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 9816.2,
+      "per_s_runs": [
+        9974.7,
+        9816.2,
+        9801.1
+      ],
+      "speedup": 3.894,
+      "efficiency": 0.974,
+      "cache_misses": null,
+      "per_s_ci95": [
+        9801.1,
+        9974.7
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 13981.9,
+      "per_s_runs": [
+        14705.1,
+        13981.9,
+        13935.4
+      ],
+      "speedup": 5.741,
+      "efficiency": 0.957,
+      "cache_misses": null,
+      "per_s_ci95": [
+        13935.4,
+        14705.1
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 14715.4,
+      "per_s_runs": [
+        15858.7,
+        13954.9,
+        14715.4
+      ],
+      "speedup": 6.191,
+      "efficiency": 0.774,
+      "cache_misses": null,
+      "per_s_ci95": [
+        13954.9,
+        15858.7
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 7400.7,
+      "per_s_runs": [
+        7716.0,
+        7400.7,
+        7386.9
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        7386.9,
+        7716.0
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 14317.4,
+      "per_s_runs": [
+        14465.8,
+        14317.4,
+        14310.6
+      ],
+      "speedup": 1.875,
+      "efficiency": 0.937,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        14310.6,
+        14465.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 26302.6,
+      "per_s_runs": [
+        26888.3,
+        26302.6,
+        26270.1
+      ],
+      "speedup": 3.485,
+      "efficiency": 0.871,
+      "cache_misses": 1397,
+      "per_s_ci95": [
+        26270.1,
+        26888.3
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 35639.2,
+      "per_s_runs": [
+        37008.2,
+        35639.2,
+        34812.0
+      ],
+      "speedup": 4.796,
+      "efficiency": 0.799,
+      "cache_misses": 2005,
+      "per_s_ci95": [
+        34812.0,
+        37008.2
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 36099.5,
+      "per_s_runs": [
+        38504.7,
+        35455.2,
+        36099.5
+      ],
+      "speedup": 4.99,
+      "efficiency": 0.624,
+      "cache_misses": 2518,
+      "per_s_ci95": [
+        35455.2,
+        38504.7
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached-liboqs",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 12628.7,
+      "per_s_runs": [
+        13090.5,
+        12606.9,
+        12628.7
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        12606.9,
+        13090.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached-liboqs",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 23692.1,
+      "per_s_runs": [
+        24084.6,
+        23504.5,
+        23692.1
+      ],
+      "speedup": 1.84,
+      "efficiency": 0.92,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        23504.5,
+        24084.6
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached-liboqs",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 41815.0,
+      "per_s_runs": [
+        42646.8,
+        40862.3,
+        41815.0
+      ],
+      "speedup": 3.258,
+      "efficiency": 0.814,
+      "cache_misses": 1396,
+      "per_s_ci95": [
+        40862.3,
+        42646.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached-liboqs",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 54038.3,
+      "per_s_runs": [
+        57133.4,
+        51569.4,
+        54038.3
+      ],
+      "speedup": 4.364,
+      "efficiency": 0.727,
+      "cache_misses": 2023,
+      "per_s_ci95": [
+        51569.4,
+        57133.4
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "mode": "cached-liboqs",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 56896.0,
+      "per_s_runs": [
+        59409.9,
+        56896.0,
+        56307.4
+      ],
+      "speedup": 4.538,
+      "efficiency": 0.567,
+      "cache_misses": 2491,
+      "per_s_ci95": [
+        56307.4,
+        59409.9
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 4431.9,
+      "per_s_runs": [
+        4618.6,
+        4252.4,
+        4431.9
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        4252.4,
+        4618.6
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 8791.7,
+      "per_s_runs": [
+        8882.1,
+        8791.7,
+        8782.9
+      ],
+      "speedup": 1.923,
+      "efficiency": 0.962,
+      "cache_misses": null,
+      "per_s_ci95": [
+        8782.9,
+        8882.1
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 17190.4,
+      "per_s_runs": [
+        17692.3,
+        17190.4,
+        17094.5
+      ],
+      "speedup": 3.831,
+      "efficiency": 0.958,
+      "cache_misses": null,
+      "per_s_ci95": [
+        17094.5,
+        17692.3
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 24381.7,
+      "per_s_runs": [
+        20860.9,
+        24568.1,
+        24381.7
+      ],
+      "speedup": 4.517,
+      "efficiency": 0.753,
+      "cache_misses": null,
+      "per_s_ci95": [
+        20860.9,
+        24568.1
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 25666.4,
+      "per_s_runs": [
+        23290.5,
+        25666.4,
+        26320.7
+      ],
+      "speedup": 5.043,
+      "efficiency": 0.63,
+      "cache_misses": null,
+      "per_s_ci95": [
+        23290.5,
+        26320.7
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 15428.6,
+      "per_s_runs": [
+        16411.4,
+        15377.8,
+        15428.6
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        15377.8,
+        16411.4
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 29540.5,
+      "per_s_runs": [
+        30153.8,
+        29540.5,
+        29475.4
+      ],
+      "speedup": 1.837,
+      "efficiency": 0.919,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        29475.4,
+        30153.8
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 53612.3,
+      "per_s_runs": [
+        55115.6,
+        53612.3,
+        53563.1
+      ],
+      "speedup": 3.358,
+      "efficiency": 0.84,
+      "cache_misses": 1401,
+      "per_s_ci95": [
+        53563.1,
+        55115.6
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 71920.6,
+      "per_s_runs": [
+        74306.5,
+        71865.0,
+        71920.6
+      ],
+      "speedup": 4.528,
+      "efficiency": 0.755,
+      "cache_misses": 1986,
+      "per_s_ci95": [
+        71865.0,
+        74306.5
+      ]
+    },
+    {
+      "alg": "ES256",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 73132.8,
+      "per_s_runs": [
+        79478.1,
+        72271.5,
+        73132.8
+      ],
+      "speedup": 4.843,
+      "efficiency": 0.605,
+      "cache_misses": 2458,
+      "per_s_ci95": [
+        72271.5,
+        79478.1
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 3758.5,
+      "per_s_runs": [
+        3795.4,
+        3758.5,
+        3674.0
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        3674.0,
+        3795.4
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 7372.0,
+      "per_s_runs": [
+        7425.7,
+        7372.0,
+        7352.8
+      ],
+      "speedup": 1.956,
+      "efficiency": 0.978,
+      "cache_misses": null,
+      "per_s_ci95": [
+        7352.8,
+        7425.7
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 14419.8,
+      "per_s_runs": [
+        14019.5,
+        14551.8,
+        14419.8
+      ],
+      "speedup": 3.694,
+      "efficiency": 0.923,
+      "cache_misses": null,
+      "per_s_ci95": [
+        14019.5,
+        14551.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 20662.6,
+      "per_s_runs": [
+        21607.4,
+        20106.7,
+        20662.6
+      ],
+      "speedup": 5.693,
+      "efficiency": 0.949,
+      "cache_misses": null,
+      "per_s_ci95": [
+        20106.7,
+        21607.4
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 21922.1,
+      "per_s_runs": [
+        21100.0,
+        21922.5,
+        21922.1
+      ],
+      "speedup": 5.559,
+      "efficiency": 0.695,
+      "cache_misses": null,
+      "per_s_ci95": [
+        21100.0,
+        21922.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 11234.0,
+      "per_s_runs": [
+        11462.9,
+        11234.0,
+        11051.4
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        11051.4,
+        11462.9
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 21406.8,
+      "per_s_runs": [
+        21534.5,
+        21406.8,
+        20958.5
+      ],
+      "speedup": 1.879,
+      "efficiency": 0.939,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        20958.5,
+        21534.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 39638.5,
+      "per_s_runs": [
+        39804.5,
+        39638.5,
+        39197.3
+      ],
+      "speedup": 3.472,
+      "efficiency": 0.868,
+      "cache_misses": 1405,
+      "per_s_ci95": [
+        39197.3,
+        39804.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 52277.1,
+      "per_s_runs": [
+        52283.5,
+        51382.2,
+        52277.1
+      ],
+      "speedup": 4.561,
+      "efficiency": 0.76,
+      "cache_misses": 2020,
+      "per_s_ci95": [
+        51382.2,
+        52283.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 53253.1,
+      "per_s_runs": [
+        53253.1,
+        56571.3,
+        52482.1
+      ],
+      "speedup": 4.646,
+      "efficiency": 0.581,
+      "cache_misses": 2474,
+      "per_s_ci95": [
+        52482.1,
+        56571.3
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached-liboqs",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 19633.5,
+      "per_s_runs": [
+        19886.4,
+        19633.5,
+        19164.6
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        19164.6,
+        19886.4
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached-liboqs",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 35989.7,
+      "per_s_runs": [
+        35843.5,
+        35989.7,
+        36340.8
+      ],
+      "speedup": 1.802,
+      "efficiency": 0.901,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        35843.5,
+        36340.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached-liboqs",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 62863.1,
+      "per_s_runs": [
+        61477.5,
+        64259.0,
+        62863.1
+      ],
+      "speedup": 3.091,
+      "efficiency": 0.773,
+      "cache_misses": 1390,
+      "per_s_ci95": [
+        61477.5,
+        64259.0
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached-liboqs",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 81533.5,
+      "per_s_runs": [
+        84308.1,
+        63230.6,
+        81533.5
+      ],
+      "speedup": 4.239,
+      "efficiency": 0.707,
+      "cache_misses": 1981,
+      "per_s_ci95": [
+        63230.6,
+        84308.1
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "mode": "cached-liboqs",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 87431.0,
+      "per_s_runs": [
+        88026.6,
+        87431.0,
+        81092.1
+      ],
+      "speedup": 4.426,
+      "efficiency": 0.553,
+      "cache_misses": 2453,
+      "per_s_ci95": [
+        81092.1,
+        88026.6
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "uncached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 1642.5,
+      "per_s_runs": [
+        1642.5,
+        1626.1,
+        1646.3
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": null,
+      "per_s_ci95": [
+        1626.1,
+        1646.3
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "uncached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 3282.5,
+      "per_s_runs": [
+        3316.0,
+        3240.6,
+        3282.5
+      ],
+      "speedup": 2.019,
+      "efficiency": 1.009,
+      "cache_misses": null,
+      "per_s_ci95": [
+        3240.6,
+        3316.0
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "uncached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 6425.4,
+      "per_s_runs": [
+        6503.8,
+        6065.3,
+        6425.4
+      ],
+      "speedup": 3.96,
+      "efficiency": 0.99,
+      "cache_misses": null,
+      "per_s_ci95": [
+        6065.3,
+        6503.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "uncached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 9066.9,
+      "per_s_runs": [
+        9066.9,
+        7651.6,
+        9199.9
+      ],
+      "speedup": 5.52,
+      "efficiency": 0.92,
+      "cache_misses": null,
+      "per_s_ci95": [
+        7651.6,
+        9199.9
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "uncached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 9632.5,
+      "per_s_runs": [
+        10084.4,
+        7882.0,
+        9632.5
+      ],
+      "speedup": 6.14,
+      "efficiency": 0.767,
+      "cache_misses": null,
+      "per_s_ci95": [
+        7882.0,
+        10084.4
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 4794.0,
+      "per_s_runs": [
+        4942.8,
+        4759.6,
+        4794.0
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        4759.6,
+        4942.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 9279.6,
+      "per_s_runs": [
+        9318.1,
+        8987.9,
+        9279.6
+      ],
+      "speedup": 1.885,
+      "efficiency": 0.943,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        8987.9,
+        9318.1
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 17003.6,
+      "per_s_runs": [
+        17087.1,
+        15800.0,
+        17003.6
+      ],
+      "speedup": 3.457,
+      "efficiency": 0.864,
+      "cache_misses": 1384,
+      "per_s_ci95": [
+        15800.0,
+        17087.1
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 21814.3,
+      "per_s_runs": [
+        21814.3,
+        17935.1,
+        23156.8
+      ],
+      "speedup": 4.413,
+      "efficiency": 0.736,
+      "cache_misses": 2005,
+      "per_s_ci95": [
+        17935.1,
+        23156.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 23135.3,
+      "per_s_runs": [
+        24895.5,
+        17333.1,
+        23135.3
+      ],
+      "speedup": 5.037,
+      "efficiency": 0.63,
+      "cache_misses": 2464,
+      "per_s_ci95": [
+        17333.1,
+        24895.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached-liboqs",
+      "workers": 1,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 7947.8,
+      "per_s_runs": [
+        8182.5,
+        7840.9,
+        7947.8
+      ],
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "cache_misses": 354,
+      "per_s_ci95": [
+        7840.9,
+        8182.5
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached-liboqs",
+      "workers": 2,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 14981.8,
+      "per_s_runs": [
+        14981.8,
+        14679.0,
+        15049.8
+      ],
+      "speedup": 1.831,
+      "efficiency": 0.915,
+      "cache_misses": 708,
+      "per_s_ci95": [
+        14679.0,
+        15049.8
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached-liboqs",
+      "workers": 4,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 26558.4,
+      "per_s_runs": [
+        26697.2,
+        23876.8,
+        26558.4
+      ],
+      "speedup": 3.263,
+      "efficiency": 0.816,
+      "cache_misses": 1396,
+      "per_s_ci95": [
+        23876.8,
+        26697.2
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached-liboqs",
+      "workers": 6,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 33876.1,
+      "per_s_runs": [
+        34147.9,
+        27751.9,
+        33876.1
+      ],
+      "speedup": 4.173,
+      "efficiency": 0.696,
+      "cache_misses": 2000,
+      "per_s_ci95": [
+        27751.9,
+        34147.9
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "mode": "cached-liboqs",
+      "workers": 8,
+      "publishers": 500,
+      "verifications": 20000,
+      "per_s": 35589.2,
+      "per_s_runs": [
+        37021.5,
+        27842.8,
+        35589.2
+      ],
+      "speedup": 4.524,
+      "efficiency": 0.566,
+      "cache_misses": 2454,
+      "per_s_ci95": [
+        27842.8,
+        37021.5
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+//Enable ml_dsa algorithm family
+OQS_ENABLE_SIG_ML_DSA:BOOL=ON
+OQS_ENABLE_SIG_ml_dsa_44:BOOL=ON
+OQS_ENABLE_SIG_ml_dsa_65:BOOL=ON
+OQS_ENABLE_SIG_ml_dsa_87:BOOL=ON
+OQS_MINIMAL_BUILD:STRING=SIG_ml_dsa_65
+OQS_OPT_TARGET:STRING=generic
+OQS_SPEED_USE_ARM_PMU:BOOL=OFF
+OQS_USE_ARM_NEON_INSTRUCTIONS:UNINITIALIZED=OFF
+OQS_USE_OPENSSL:INTERNAL=OFF
+#define OQS_COMPILE_BUILD_TARGET "arm64-Darwin-27.0.0"
+/* #undef OQS_DIST_ARM64_V8_BUILD */
+/* #undef OQS_DIST_ARM32_V7_BUILD */
+#define ARCH_ARM64v8 1
+/* #undef ARCH_ARM32v7 */
+#define OQS_USE_ARM_AES_INSTRUCTIONS 1
+#define OQS_USE_ARM_SHA2_INSTRUCTIONS 1
+/* #undef OQS_USE_ARM_SHA3_INSTRUCTIONS */
+/* #undef OQS_USE_ARM_NEON_INSTRUCTIONS */
+/* #undef OQS_SPEED_USE_ARM_PMU */
+#define OQS_ENABLE_SIG_ML_DSA 1
+/* #undef OQS_ENABLE_SIG_ml_dsa_44 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_44_x86_64 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_44_aarch64 */
+#define OQS_ENABLE_SIG_ml_dsa_65 1
+/* #undef OQS_ENABLE_SIG_ml_dsa_65_x86_64 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_65_aarch64 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_87 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_87_x86_64 */
+/* #undef OQS_ENABLE_SIG_ml_dsa_87_aarch64 */
+/* #undef OQS_ENABLE_SIG_mayo_1_neon */
+/* #undef OQS_ENABLE_SIG_mayo_2_neon */
+/* #undef OQS_ENABLE_SIG_mayo_3_neon */
+/* #undef OQS_ENABLE_SIG_mayo_5_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Is_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Ip_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_III_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_V_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Is_pkc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Ip_pkc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_III_pkc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_V_pkc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Is_pkc_skc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_Ip_pkc_skc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_III_pkc_skc_neon */
+/* #undef OQS_ENABLE_SIG_uov_ov_V_pkc_skc_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_24_5_4_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_24_5_4_SHAKE_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_24_5_4_esk_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_24_5_4_SHAKE_esk_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_37_17_2_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_25_8_3_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_56_25_2_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_49_11_3_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_37_8_4_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_24_5_5_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_60_10_4_neon */
+/* #undef OQS_ENABLE_SIG_snova_SNOVA_29_6_5_neon */

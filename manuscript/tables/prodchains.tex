@@ -1,0 +1,27 @@
+\begin{table}[t]
+\caption{Certificate chains read out of assets signed by other people's software: the `good' files of the C2PA public test file repository, produced by Conforming Generator Products under the C2PA Conformance Program. Signature counts exceed asset counts because an asset carries its ingredients' manifests whole, certificates included.}
+\label{tab:prodchains}
+\begin{tabular}{lr}
+\toprule
+Observation & Value\\
+\midrule
+Assets with an embedded manifest & 23\\
+Signatures found & 37\\
+Suppliers & \multicolumn{1}{r}{Adobe (19), Nikon (1), Truepic (3)}\\
+Signature algorithms & \multicolumn{1}{r}{ES256 (3), PS256 (34)}\\
+\midrule
+Chains of 2 certificates & 3 of 36\\
+Chains of 3 certificates & 33 of 36\\
+Leaf certificate, median bytes & 1,716\\
+Leaf certificate, range & 837--1,716\\
+Whole chain, median bytes & 5,064\\
+Whole chain, range & 1,991--5,064\\
+\midrule
+Carrying no certificate chain & 1 of 37\\
+Carrying an RFC~3161 timestamp & 35 of 37\\
+Carrying a stapled OCSP response & 0 of 37\\
+Chain in the protected header & 0 of 37\\
+Post-quantum signatures & 0 of 37\\
+\bottomrule
+\end{tabular}
+\end{table}

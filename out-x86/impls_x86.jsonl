@@ -1,0 +1,14 @@
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.80123, "mean_ms": 1.03594, "iqr_ms": 0.87612, "p95_ms": 2.44312, "min_ms": 0.32475}
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 sign deterministic", "n": 1000, "median_ms": 0.34293, "mean_ms": 0.35514, "iqr_ms": 0.01556, "p95_ms": 0.39462, "min_ms": 0.31879}
+{"impl": "openssl-4.0.2-source-asm", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.18163, "mean_ms": 0.18492, "iqr_ms": 0.01067, "p95_ms": 0.20042, "min_ms": 0.16951}
+{"impl": "openssl-4.0.2-source-asm", "op": "SHAKE-256 fetch+short squeeze", "n": 1000, "median_ms": 0.00063, "mean_ms": 0.00065, "iqr_ms": 0.00001, "p95_ms": 0.00066, "min_ms": 0.00061}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.82053, "mean_ms": 1.09686, "iqr_ms": 0.91181, "p95_ms": 2.74809, "min_ms": 0.34200}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 sign deterministic", "n": 1000, "median_ms": 0.99311, "mean_ms": 1.12046, "iqr_ms": 0.12305, "p95_ms": 1.71201, "min_ms": 0.91772}
+{"impl": "openssl-4.0.2-source-noasm", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.20122, "mean_ms": 0.25352, "iqr_ms": 0.16387, "p95_ms": 0.39594, "min_ms": 0.17776}
+{"impl": "openssl-4.0.2-source-noasm", "op": "SHAKE-256 fetch+short squeeze", "n": 1000, "median_ms": 0.00126, "mean_ms": 0.00138, "iqr_ms": 0.00006, "p95_ms": 0.00143, "min_ms": 0.00082}
+{"impl": "liboqs-0.16.0-native-avx2", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.13722, "mean_ms": 0.17097, "iqr_ms": 0.11957, "p95_ms": 0.38179, "min_ms": 0.05469}
+{"impl": "liboqs-0.16.0-native-avx2", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.03939, "mean_ms": 0.04210, "iqr_ms": 0.00457, "p95_ms": 0.05454, "min_ms": 0.03842}
+{"impl": "liboqs-0.16.0-generic", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.35830, "mean_ms": 0.47931, "iqr_ms": 0.32609, "p95_ms": 1.16447, "min_ms": 0.18133}
+{"impl": "liboqs-0.16.0-generic", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.13751, "mean_ms": 0.17324, "iqr_ms": 0.07291, "p95_ms": 0.25153, "min_ms": 0.12251}
+{"impl": "pqclean-ml-dsa-65-clean", "op": "ML-DSA-65 sign", "n": 1000, "median_ms": 0.57255, "mean_ms": 0.74772, "iqr_ms": 0.54801, "p95_ms": 1.88656, "min_ms": 0.25751}
+{"impl": "pqclean-ml-dsa-65-clean", "op": "ML-DSA-65 verify", "n": 1000, "median_ms": 0.31627, "mean_ms": 0.32241, "iqr_ms": 0.03444, "p95_ms": 0.35534, "min_ms": 0.28304}

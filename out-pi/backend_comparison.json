@@ -1,0 +1,77 @@
+{
+  "experiment": "backend_comparison",
+  "env": {
+    "timestamp_utc": "2026-10-23T10:45:11+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "same machine, same algorithms, two implementations",
+    "separates an OpenSSL aarch64 build effect from a hardware effect"
+  ],
+  "results": [
+    {
+      "library": "OpenSSL via cryptography (OpenSSL 4.0.2 25 Aug 2026)",
+      "SHA3-256 64KiB": {
+        "median_ms": 0.2174,
+        "mean_ms": 0.2176,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.2196,
+        "min_ms": 0.2173,
+        "n": 1000
+      },
+      "ML-DSA-65 sign": {
+        "median_ms": 1.4827,
+        "mean_ms": 1.7683,
+        "iqr_ms": 1.4362,
+        "p95_ms": 4.0692,
+        "min_ms": 0.6204,
+        "n": 1000
+      },
+      "ML-DSA-65 verify": {
+        "median_ms": 0.3235,
+        "mean_ms": 0.3237,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.3259,
+        "min_ms": 0.323,
+        "n": 1000
+      },
+      "ML-DSA-65 sig bytes": 3309
+    },
+    {
+      "library": "liboqs 0.16.0",
+      "ML-DSA-65 sign": {
+        "median_ms": 0.2579,
+        "mean_ms": 0.314,
+        "iqr_ms": 0.1864,
+        "p95_ms": 0.6992,
+        "min_ms": 0.1526,
+        "n": 1000
+      },
+      "ML-DSA-65 sig bytes": 3309,
+      "ML-DSA-65 verify": {
+        "median_ms": 0.1165,
+        "mean_ms": 0.1166,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1168,
+        "min_ms": 0.1162,
+        "n": 1000
+      }
+    }
+  ]
+}

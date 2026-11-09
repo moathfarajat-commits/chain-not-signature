@@ -1,0 +1,12 @@
+liboqs-python faulthandler is disabled
+  JUMBF overhead 1072 B; median image 107672 B
+  SLH-DSA-SHA2-192s done
+  SLH-DSA-SHA2-128s done
+  SLH-DSA-SHA2-128f done
+  Falcon-1024 done
+  SLH-DSA-SHA2-256s done
+  ML-DSA-44 done
+  ML-DSA-65 done
+  Falcon-512 done
+  ML-DSA-87 done
+  wrote out-x86-runs/run2/e1_algsweep.json  (48 rows)

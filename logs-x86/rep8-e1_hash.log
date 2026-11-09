@@ -1,0 +1,14 @@
+  sign PS256: 0.482 ms (openssl)
+  sign Ed25519: 0.042 ms (openssl)
+  sign ES256: 0.031 ms (openssl)
+liboqs-python faulthandler is disabled
+  sign ML-DSA-65: 0.152 ms (liboqs)
+  sign ML-DSA-44: 0.084 ms (liboqs)
+  sign ML-DSA-87: 0.146 ms (liboqs)
+  hash thumbnail (20,000 B): 0.015 ms
+  hash Kodak q90 (median) (107,672 B): 0.076 ms
+  hash social re-encode (350,000 B): 0.248 ms
+  hash 1080p JPEG (900,000 B): 0.656 ms
+  hash phone original (4,000,000 B): 2.921 ms
+  hash high-res / raw-ish (12,000,000 B): 8.699 ms
+  wrote out-x86-runs/run8/e1_hash.json  (6 rows)

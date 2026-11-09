@@ -1,0 +1,16 @@
+\begin{table}[t]
+\caption{Full chain against \texttt{x5t} thumbprint, three-certificate chain. Signing cost is unchanged; the whole difference is in bytes. The leaf-only configuration, which sits between these two and is the one deployable today, is not yet measured (Section~\ref{sec:carrying}).}
+\label{tab:certref}
+\begin{tabular}{lrrrr}
+\toprule
+Algorithm & Embedded (B) & Referenced (B) & Saving (B) & Saving (\%)\\
+\midrule
+Ed25519 & 1,472 & 113 & 1,359 & 92.3\\
+ES256 & 1,585 & 113 & 1,472 & 92.9\\
+PS256 & 2,570 & 307 & 2,263 & 88.0\\
+ML-DSA-44 & 11,166 & 2,471 & 8,695 & 77.9\\
+ML-DSA-65 & 15,113 & 3,360 & 11,753 & 77.8\\
+ML-DSA-87 & 20,347 & 4,678 & 15,669 & 77.0\\
+\bottomrule
+\end{tabular}
+\end{table}

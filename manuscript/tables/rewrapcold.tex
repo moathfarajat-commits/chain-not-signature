@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{The re-wrap of Table~\ref{tab:rewrap} repeated with the page cache emptied (\texttt{purge}) after the archive was written and every write forced to the drive with \texttt{F\_FULLFSYNC}, on Apple M1 Pro. Per-object medians in milliseconds. Every object was checked to decrypt under the new key.}
+\label{tab:rewrapcold}
+\begin{tabular}{llrrrrrr}
+\toprule
+Object & Layout & Read & Unwrap & Wrap & Write & Objects/s & Count\\
+\midrule
+105\,KiB & sidecar & 0.292 & 1.635 & 0.064 & 5.947 & 120 & 2,000\\
+105\,KiB & embedded & 0.174 & 1.816 & 0.063 & 5.960 & 120 & 2,000\\
+106\,KiB & reserved & 0.258 & 1.924 & 0.162 & 4.474 & 143 & 2,000\\
+\midrule
+4\,MiB & sidecar & 0.196 & 1.131 & 0.047 & 5.191 & 140 & 200\\
+4\,MiB & embedded & 1.315 & 0.673 & 0.051 & 6.999 & 101 & 200\\
+4\,MiB & reserved & 0.227 & 0.596 & 0.027 & 4.379 & 167 & 200\\
+\bottomrule
+\end{tabular}
+\end{table}

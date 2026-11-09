@@ -1,0 +1,142 @@
+%% Supplementary material for the Line A measurement paper.
+%% Build after main.tex, so that references into the paper resolve:
+%%   latexmk -pdf main.tex && latexmk -pdf supplement.tex && latexmk -pdf main.tex
+%% Tables are generated files, as in the paper.
+
+\documentclass[acmsmall,screen,nonacm]{acmart}
+\settopmatter{printacmref=false, printccs=false, printfolios=true}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[above]{placeins}
+\usepackage{xr}
+\externaldocument{main}
+\input{tables/numbers}
+
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
+
+\begin{document}
+
+\title{Supplementary Material for ``The Chain, Not the Signature: What Post-Quantum Content Credentials Cost''}
+\author{Mua'ad Alfarajat}
+\affiliation{%
+  \institution{The University of Jordan}
+  \city{Aqaba}
+  \country{Jordan}}
+\maketitle
+
+Section~S1 measures the re-wrapping of an encrypted archive under ML-KEM, which
+the paper leaves aside. Section~S2 collects the tables the paper summarises in
+its text. Section~S3 lists every case of the validation matrix, Section~S4 the
+production corpus, and Section~S5 gives the protocol and the studies of the
+reporting audit. Every value is generated from the same result files as the
+paper's own tables.
+
+\section{Re-wrapping an encrypted archive}
+\label{sec:archive}
+\input{archive-rewrap}
+
+\clearpage
+\section{Tables}
+\label{sec:supp-tables}
+
+\input{tables/baseline}
+\input{tables/ci}
+\input{tables/chaindepth}
+\input{tables/hash}
+\input{tables/compress}
+\input{tables/composite}
+\FloatBarrier
+\input{tables/cache}
+\input{tables/cachestale}
+\input{tables/edge}
+\input{tables/video}
+\input{tables/streamdetect}
+\FloatBarrier
+\input{tables/c2parust}
+\input{tables/buildeffect}
+\input{tables/archivebatch}
+\input{tables/archiveproj}
+\FloatBarrier
+\input{tables/keywrap}
+\input{tables/rewrap}
+\input{tables/rewrapcold}
+\FloatBarrier
+
+\clearpage
+\section{The validation matrix}
+\label{sec:supp-val}
+
+Table~\ref{tab:valfull} lists every case of Section~\ref{sec:patch}. Each case
+is signed once through the patched library and validated by both patched
+builds; the classical cases that bear on the two departures from C2PA~2.5 are
+also validated by \texttt{c2pa-rs} at the same commit with no patch at all
+(\emph{p0}), and both departures appear there unchanged, as they do in the
+tagged release c2pa-v0.91.9 and in c2patool~0.28.4. Minimal vectors for the
+two departures, the signed files, the certificates, the trust configuration
+and the raw status codes are released with the data
+(\texttt{data/c2pa-departures/}), except the signed file and leaf
+certificate of the first departure, which are withheld until it is fixed.
+
+\input{tables/valfull}
+
+\clearpage
+\section{The production corpus}
+\label{sec:supp-corpus}
+
+\input{tables/corpussrc}
+\input{tables/chains}
+
+\clearpage
+\section{The reporting audit}
+\label{sec:supp-audit}
+
+\subsection{Protocol}
+\label{sec:auditprotocol}
+
+\emph{Sources.} Keyword searches of the arXiv API by application area (TLS,
+QUIC, IoT, embedded, 5G, DNSSEC, VPN and IKEv2, SSH, blockchain, V2X and CAN,
+PKI, cloud), each combined with post-quantum terms (post-quantum, ML-KEM,
+Kyber, ML-DSA, Dilithium, Falcon, SPHINCS+); Europe PMC full-text searches for
+open-access journal papers (Sensors, Entropy, Scientific Reports); and web
+searches for venue papers with open PDFs (NDSS MADWeb, MDPI Cryptography).
+The audit was completed on 2~November 2026. The exact query strings were not logged, which a replication would have
+to reconstruct from the terms above.
+
+\emph{Inclusion.} Published 2022--2026; the study reports its own timing of a
+post-quantum KEM or signature, as a primitive, a handshake or end to end, in an
+applied setting; the full text could be read. Preprints count as studies:
+\NauditPreprints{} of the \NauditN{} are arXiv preprints, included if first
+posted before 3~September 2026, sixty days before the audit, so that a recent
+preprint had time to be revised; one later preprint was kept because it had
+already been accepted at a workshop (Gillot et al., QSIoT 2026). Where a paper has a published version that
+could not be read, the arXiv text was coded and the version is recorded.
+
+\emph{Exclusion and screening.} Fifty-six candidates were screened and
+sixteen excluded: four whose contribution is an optimised or hardware
+implementation or that report no separable timing (arXiv 2404.13544,
+2606.15744, 2607.12504, 2509.11695), four whose post-quantum cost is
+simulated or projected (2308.10696, 2309.03338, 2608.05087, 2604.04191), two
+generic desktop benchmarks (2508.00832, 2503.12952), one without a stated
+measurement method (2502.02851), one not in English (2501.07028), and four
+under the recency rule (2609.23902, 2609.27828, 2610.38632, 2610.32356).
+
+\emph{Coding.} A mark requires an explicit statement in the text; the
+released file quotes the sentence or table that supports each mark and names
+the version of the text coded. One author coded every study and there was no
+second rater, so no agreement statistic exists; the borderline calls are
+explained in the released notes.
+
+\subsection{Studies}
+
+{\footnotesize
+\input{tables/audit}
+}
+
+\clearpage
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs,audit}
+
+\end{document}

@@ -1,0 +1,15 @@
+{
+  "comment": "BLE transfer schedule: each window sends one carriage form of one algorithm's manifest k times as GATT notifications from DK1 to DK2. The op field is the carriage form.",
+  "start_idle_ms": 2000,
+  "sync_pulses": 3,
+  "sync_ms": 50,
+  "gap_ms": 500,
+  "rounds": 3,
+  "entries": [
+    ["Ed25519",   "full", 10], ["Ed25519",   "leaf", 10], ["Ed25519",   "thumb", 10],
+    ["ES256",     "full", 10], ["ES256",     "leaf", 10], ["ES256",     "thumb", 10],
+    ["ML-DSA-44", "full", 10], ["ML-DSA-44", "leaf", 10], ["ML-DSA-44", "thumb", 10],
+    ["ML-DSA-65", "full", 10], ["ML-DSA-65", "leaf", 10], ["ML-DSA-65", "thumb", 10],
+    ["ML-DSA-87", "full", 10], ["ML-DSA-87", "leaf", 10], ["ML-DSA-87", "thumb", 10]
+  ]
+}

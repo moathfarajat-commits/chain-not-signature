@@ -1,0 +1,198 @@
+{
+  "experiment": "e1_timestamp",
+  "env": {
+    "timestamp_utc": "2026-11-02T19:14:55+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "a deployed manifest carries a signature, an RFC 3161 timestamp token and, where revocation is stapled, an OCSP response",
+    "each of the three brings its own certificate chain, so the certificate term is paid two or three times",
+    "OCSP responses are real objects signed under the measured algorithm",
+    "timestamp tokens are real RFC 3161 tokens built by pq_tst.py: CMS SignedData, TSTInfo, content-type, message-digest and signing-certificate-v2 attributes, TSA chain of three with the timeStamping EKU; written to tst/<alg>.tst",
+    "timestamp_token_bytes_model is the earlier model, signature + chain + 500 B",
+    "the certificate term dominates in every configuration, so the structural estimate does not affect the conclusion"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1260,
+      "manifest_signature_only_bytes": 2516,
+      "timestamp_token_bytes": 1830,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 1830,
+        "tsa_chain_bytes": 1287,
+        "tsa_cert_bytes": [
+          447,
+          424,
+          416
+        ],
+        "signature_bytes": 64,
+        "structure_bytes": 479,
+        "tstinfo_bytes": 120,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 1824,
+      "timestamp_structure_bytes": 479,
+      "ocsp_with_responder_cert_bytes": 727,
+      "ocsp_without_responder_cert_bytes": 303,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 4346,
+      "manifest_full_bytes": 5073,
+      "growth_vs_signature_only": 2.02,
+      "pct_signature_only": 2.34,
+      "pct_timestamped": 4.04,
+      "pct_full": 4.71
+    },
+    {
+      "alg": "ES256",
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1439,
+      "manifest_signature_only_bytes": 2695,
+      "timestamp_token_bytes": 1988,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 1988,
+        "tsa_chain_bytes": 1468,
+        "tsa_cert_bytes": [
+          507,
+          484,
+          477
+        ],
+        "signature_bytes": 70,
+        "structure_bytes": 450,
+        "tstinfo_bytes": 120,
+        "digest_algorithm": "SHA-256"
+      },
+      "timestamp_token_bytes_model": 2003,
+      "timestamp_structure_bytes": 450,
+      "ocsp_with_responder_cert_bytes": 797,
+      "ocsp_without_responder_cert_bytes": 315,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 4683,
+      "manifest_full_bytes": 5480,
+      "growth_vs_signature_only": 2.03,
+      "pct_signature_only": 2.5,
+      "pct_timestamped": 4.35,
+      "pct_full": 5.09
+    },
+    {
+      "alg": "ML-DSA-44",
+      "chain_depth": 3,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 12252,
+      "manifest_signature_only_bytes": 15864,
+      "timestamp_token_bytes": 15188,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 15188,
+        "tsa_chain_bytes": 12279,
+        "tsa_cert_bytes": [
+          4111,
+          4088,
+          4080
+        ],
+        "signature_bytes": 2420,
+        "structure_bytes": 489,
+        "tstinfo_bytes": 120,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 15172,
+      "timestamp_structure_bytes": 489,
+      "ocsp_with_responder_cert_bytes": 6755,
+      "ocsp_without_responder_cert_bytes": 2667,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 31052,
+      "manifest_full_bytes": 37807,
+      "growth_vs_signature_only": 2.38,
+      "pct_signature_only": 14.73,
+      "pct_timestamped": 28.84,
+      "pct_full": 35.11
+    },
+    {
+      "alg": "ML-DSA-65",
+      "chain_depth": 3,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 16839,
+      "manifest_signature_only_bytes": 21340,
+      "timestamp_token_bytes": 20664,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 20664,
+        "tsa_chain_bytes": 16866,
+        "tsa_cert_bytes": [
+          5640,
+          5617,
+          5609
+        ],
+        "signature_bytes": 3309,
+        "structure_bytes": 489,
+        "tstinfo_bytes": 120,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 20648,
+      "timestamp_structure_bytes": 489,
+      "ocsp_with_responder_cert_bytes": 9173,
+      "ocsp_without_responder_cert_bytes": 3556,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 42004,
+      "manifest_full_bytes": 51177,
+      "growth_vs_signature_only": 2.4,
+      "pct_signature_only": 19.82,
+      "pct_timestamped": 39.01,
+      "pct_full": 47.53
+    },
+    {
+      "alg": "ML-DSA-87",
+      "chain_depth": 3,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 22713,
+      "manifest_signature_only_bytes": 28532,
+      "timestamp_token_bytes": 27856,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 27856,
+        "tsa_chain_bytes": 22740,
+        "tsa_cert_bytes": [
+          7598,
+          7575,
+          7567
+        ],
+        "signature_bytes": 4627,
+        "structure_bytes": 489,
+        "tstinfo_bytes": 120,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 27840,
+      "timestamp_structure_bytes": 489,
+      "ocsp_with_responder_cert_bytes": 12449,
+      "ocsp_without_responder_cert_bytes": 4874,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 56388,
+      "manifest_full_bytes": 68837,
+      "growth_vs_signature_only": 2.41,
+      "pct_signature_only": 26.5,
+      "pct_timestamped": 52.37,
+      "pct_full": 63.93
+    }
+  ]
+}

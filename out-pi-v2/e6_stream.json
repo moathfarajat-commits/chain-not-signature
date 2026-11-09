@@ -1,0 +1,5451 @@
+{
+  "experiment": "e6_stream",
+  "env": {
+    "timestamp_utc": "2026-11-03T06:57:21+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pinned_core": 3,
+    "liboqs": true,
+    "streams": {
+      "1080p H.264": 430492080,
+      "4K HEVC": 1444465123
+    },
+    "streams_seconds": {
+      "1080p H.264": 288,
+      "4K HEVC": 288
+    },
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    }
+  },
+  "notes": [
+    "streams from make_stream.sh: fragmented MP4, one fragment per second, 1080p30 H.264 at 12 Mbit/s and 4K30 HEVC at 40 Mbit/s",
+    "frame: a COSE signature with x5chain over every encoded access unit (upper bound, not a C2PA method)",
+    "manifest: C2PA 2.5 Section 15.4, a manifest with BMFF hash, live-video segment assertion and x5chain in every segment",
+    "vsi: C2PA 2.5 Section 15.5, chain and session key once, then a session-key-signed segment-info map in an emsg box per segment; the session key uses the signer's algorithm",
+    "fragments are hashed as they arrive; latency_after_close is hashing the last fragment plus signing",
+    "detected lists what the verifier reports for each manipulation of the stream; the verifier knows the stream id (and for VSI the initial manifest id) it is playing",
+    "cpu_fraction counts hashing every fragment of a segment and building and signing its provenance, over one core in real time",
+    "streams of make_stream.sh looped by stream copy to the length in env.streams_seconds"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0205,
+      "sign_ms_median": 0.0761,
+      "process_ms_p99": 0.311,
+      "cpu_fraction": 0.0033,
+      "latency_after_close_ms": 0.0969,
+      "prov_bytes_per_unit": 1722,
+      "prov_kbps": 413.3,
+      "prov_share_of_video_pct": 3.456
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.985,
+      "sign_ms_median": 0.0823,
+      "process_ms_p99": 1.16,
+      "cpu_fraction": 0.00106,
+      "process_ms_median": 1.0668,
+      "samples": 864,
+      "latency_after_close_ms": 1.0651,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 22.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.187
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9836,
+      "sign_ms_median": 0.0683,
+      "process_ms_p99": 1.1438,
+      "cpu_fraction": 0.00105,
+      "process_ms_median": 1.0534,
+      "samples": 864,
+      "latency_after_close_ms": 1.052,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 2.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9503,
+      "sign_ms_median": 0.0873,
+      "process_ms_p99": 2.1451,
+      "cpu_fraction": 0.00102,
+      "process_ms_median": 2.0404,
+      "samples": 432,
+      "latency_after_close_ms": 1.079,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 11.17,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.093
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9473,
+      "sign_ms_median": 0.0724,
+      "process_ms_p99": 2.132,
+      "cpu_fraction": 0.00101,
+      "process_ms_median": 2.0227,
+      "samples": 432,
+      "latency_after_close_ms": 1.0629,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9112,
+      "sign_ms_median": 0.0932,
+      "process_ms_p99": 4.1299,
+      "cpu_fraction": 0.001,
+      "process_ms_median": 4.0067,
+      "samples": 216,
+      "latency_after_close_ms": 1.0567,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 5.59,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.047
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9111,
+      "sign_ms_median": 0.076,
+      "process_ms_p99": 4.1077,
+      "cpu_fraction": 0.001,
+      "process_ms_median": 3.9898,
+      "samples": 216,
+      "latency_after_close_ms": 1.0403,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8657,
+      "sign_ms_median": 0.0968,
+      "process_ms_p99": 6.1084,
+      "cpu_fraction": 0.00099,
+      "process_ms_median": 5.971,
+      "samples": 144,
+      "latency_after_close_ms": 1.1068,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 3.72,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.031
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8746,
+      "sign_ms_median": 0.0793,
+      "process_ms_p99": 6.0918,
+      "cpu_fraction": 0.00099,
+      "process_ms_median": 5.9563,
+      "samples": 144,
+      "latency_after_close_ms": 1.0897,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0669,
+      "sign_ms_median": 0.0771,
+      "process_ms_p99": 0.5764,
+      "cpu_fraction": 0.0057,
+      "latency_after_close_ms": 0.1454,
+      "prov_bytes_per_unit": 1722,
+      "prov_kbps": 413.3,
+      "prov_share_of_video_pct": 1.03
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2685,
+      "sign_ms_median": 0.0865,
+      "process_ms_p99": 3.6044,
+      "cpu_fraction": 0.00336,
+      "process_ms_median": 3.3554,
+      "samples": 864,
+      "latency_after_close_ms": 3.3539,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 22.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.056
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2696,
+      "sign_ms_median": 0.076,
+      "process_ms_p99": 3.5951,
+      "cpu_fraction": 0.00335,
+      "process_ms_median": 3.346,
+      "samples": 864,
+      "latency_after_close_ms": 3.3444,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 2.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.006
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5364,
+      "sign_ms_median": 0.0935,
+      "process_ms_p99": 6.8892,
+      "cpu_fraction": 0.00332,
+      "process_ms_median": 6.6309,
+      "samples": 432,
+      "latency_after_close_ms": 3.3473,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 11.17,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.028
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5362,
+      "sign_ms_median": 0.0768,
+      "process_ms_p99": 6.873,
+      "cpu_fraction": 0.00331,
+      "process_ms_median": 6.6132,
+      "samples": 432,
+      "latency_after_close_ms": 3.3301,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0684,
+      "sign_ms_median": 0.1014,
+      "process_ms_p99": 13.5582,
+      "cpu_fraction": 0.0033,
+      "process_ms_median": 13.1725,
+      "samples": 216,
+      "latency_after_close_ms": 3.3337,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2793,
+      "init_bytes": 0,
+      "prov_kbps": 5.59,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.014
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0691,
+      "sign_ms_median": 0.0829,
+      "process_ms_p99": 13.5423,
+      "cpu_fraction": 0.00329,
+      "process_ms_median": 13.1542,
+      "samples": 216,
+      "latency_after_close_ms": 3.3156,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6162,
+      "sign_ms_median": 0.1097,
+      "process_ms_p99": 20.061,
+      "cpu_fraction": 0.00329,
+      "process_ms_median": 19.7271,
+      "samples": 144,
+      "latency_after_close_ms": 3.3589,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 3.72,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.009
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6155,
+      "sign_ms_median": 0.0888,
+      "process_ms_p99": 20.0711,
+      "cpu_fraction": 0.00329,
+      "process_ms_median": 19.7059,
+      "samples": 144,
+      "latency_after_close_ms": 3.3376,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0212,
+      "sign_ms_median": 0.1039,
+      "process_ms_p99": 0.3415,
+      "cpu_fraction": 0.0042,
+      "latency_after_close_ms": 0.1253,
+      "prov_bytes_per_unit": 1833,
+      "prov_kbps": 439.9,
+      "prov_share_of_video_pct": 3.679
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9837,
+      "sign_ms_median": 0.1142,
+      "process_ms_p99": 1.1947,
+      "cpu_fraction": 0.0011,
+      "process_ms_median": 1.0996,
+      "samples": 864,
+      "latency_after_close_ms": 1.0974,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 23.24,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.194
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9837,
+      "sign_ms_median": 0.1062,
+      "process_ms_p99": 1.1902,
+      "cpu_fraction": 0.00109,
+      "process_ms_median": 1.0908,
+      "samples": 864,
+      "latency_after_close_ms": 1.0888,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2939,
+      "prov_kbps": 2.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9483,
+      "sign_ms_median": 0.1236,
+      "process_ms_p99": 2.1831,
+      "cpu_fraction": 0.00104,
+      "process_ms_median": 2.0762,
+      "samples": 432,
+      "latency_after_close_ms": 1.1151,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 11.62,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.097
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9495,
+      "sign_ms_median": 0.1126,
+      "process_ms_p99": 2.168,
+      "cpu_fraction": 0.00103,
+      "process_ms_median": 2.0647,
+      "samples": 432,
+      "latency_after_close_ms": 1.1032,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2939,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9123,
+      "sign_ms_median": 0.1321,
+      "process_ms_p99": 4.1575,
+      "cpu_fraction": 0.00101,
+      "process_ms_median": 4.0462,
+      "samples": 216,
+      "latency_after_close_ms": 1.0951,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2904,
+      "init_bytes": 0,
+      "prov_kbps": 5.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.049
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9118,
+      "sign_ms_median": 0.1239,
+      "process_ms_p99": 4.1546,
+      "cpu_fraction": 0.00101,
+      "process_ms_median": 4.0378,
+      "samples": 216,
+      "latency_after_close_ms": 1.0854,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2941,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8689,
+      "sign_ms_median": 0.1392,
+      "process_ms_p99": 6.1576,
+      "cpu_fraction": 0.001,
+      "process_ms_median": 6.0141,
+      "samples": 144,
+      "latency_after_close_ms": 1.1478,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2904,
+      "init_bytes": 0,
+      "prov_kbps": 3.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.032
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8655,
+      "sign_ms_median": 0.1265,
+      "process_ms_p99": 6.1548,
+      "cpu_fraction": 0.001,
+      "process_ms_median": 6.0021,
+      "samples": 144,
+      "latency_after_close_ms": 1.1363,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2938,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0677,
+      "sign_ms_median": 0.1054,
+      "process_ms_p99": 0.6076,
+      "cpu_fraction": 0.0065,
+      "latency_after_close_ms": 0.1753,
+      "prov_bytes_per_unit": 1835,
+      "prov_kbps": 440.4,
+      "prov_share_of_video_pct": 1.098
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2696,
+      "sign_ms_median": 0.1294,
+      "process_ms_p99": 3.6523,
+      "cpu_fraction": 0.00341,
+      "process_ms_median": 3.4002,
+      "samples": 864,
+      "latency_after_close_ms": 3.3983,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 23.24,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.058
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2704,
+      "sign_ms_median": 0.119,
+      "process_ms_p99": 3.6429,
+      "cpu_fraction": 0.0034,
+      "process_ms_median": 3.3908,
+      "samples": 864,
+      "latency_after_close_ms": 3.3885,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2940,
+      "prov_kbps": 2.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.006
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5374,
+      "sign_ms_median": 0.134,
+      "process_ms_p99": 6.935,
+      "cpu_fraction": 0.00334,
+      "process_ms_median": 6.6731,
+      "samples": 432,
+      "latency_after_close_ms": 3.3887,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2904,
+      "init_bytes": 0,
+      "prov_kbps": 11.62,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.029
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.537,
+      "sign_ms_median": 0.1243,
+      "process_ms_p99": 6.9256,
+      "cpu_fraction": 0.00334,
+      "process_ms_median": 6.6623,
+      "samples": 432,
+      "latency_after_close_ms": 3.38,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2939,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0696,
+      "sign_ms_median": 0.1467,
+      "process_ms_p99": 13.6214,
+      "cpu_fraction": 0.00331,
+      "process_ms_median": 13.2176,
+      "samples": 216,
+      "latency_after_close_ms": 3.3778,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 5.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.014
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0703,
+      "sign_ms_median": 0.1356,
+      "process_ms_p99": 13.6011,
+      "cpu_fraction": 0.00331,
+      "process_ms_median": 13.2071,
+      "samples": 216,
+      "latency_after_close_ms": 3.3676,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2938,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6176,
+      "sign_ms_median": 0.1601,
+      "process_ms_p99": 20.0436,
+      "cpu_fraction": 0.0033,
+      "process_ms_median": 19.7839,
+      "samples": 144,
+      "latency_after_close_ms": 3.4094,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2906,
+      "init_bytes": 0,
+      "prov_kbps": 3.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6172,
+      "sign_ms_median": 0.1399,
+      "process_ms_p99": 20.0213,
+      "cpu_fraction": 0.0033,
+      "process_ms_median": 19.7654,
+      "samples": 144,
+      "latency_after_close_ms": 3.3899,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2941,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0231,
+      "sign_ms_median": 3.5696,
+      "process_ms_p99": 4.5202,
+      "cpu_fraction": 0.1091,
+      "latency_after_close_ms": 3.5941,
+      "prov_bytes_per_unit": 2820,
+      "prov_kbps": 676.8,
+      "prov_share_of_video_pct": 5.66
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9854,
+      "sign_ms_median": 3.5786,
+      "process_ms_p99": 5.5017,
+      "cpu_fraction": 0.00459,
+      "process_ms_median": 4.5678,
+      "samples": 864,
+      "latency_after_close_ms": 4.5642,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 31.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.26
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9855,
+      "sign_ms_median": 3.5704,
+      "process_ms_p99": 5.5307,
+      "cpu_fraction": 0.00458,
+      "process_ms_median": 4.5589,
+      "samples": 864,
+      "latency_after_close_ms": 4.5559,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 3.84,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.032
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9479,
+      "sign_ms_median": 3.5834,
+      "process_ms_p99": 6.5073,
+      "cpu_fraction": 0.00279,
+      "process_ms_median": 5.5389,
+      "samples": 432,
+      "latency_after_close_ms": 4.5764,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 15.56,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.13
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9479,
+      "sign_ms_median": 3.5763,
+      "process_ms_p99": 6.4525,
+      "cpu_fraction": 0.00278,
+      "process_ms_median": 5.535,
+      "samples": 432,
+      "latency_after_close_ms": 4.571,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 1.92,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.016
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9112,
+      "sign_ms_median": 3.5918,
+      "process_ms_p99": 8.4403,
+      "cpu_fraction": 0.00188,
+      "process_ms_median": 7.5086,
+      "samples": 216,
+      "latency_after_close_ms": 4.5597,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 7.78,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.065
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9111,
+      "sign_ms_median": 3.587,
+      "process_ms_p99": 8.433,
+      "cpu_fraction": 0.00188,
+      "process_ms_median": 7.5004,
+      "samples": 216,
+      "latency_after_close_ms": 4.5504,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 0.96,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.008
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8636,
+      "sign_ms_median": 3.5961,
+      "process_ms_p99": 10.3001,
+      "cpu_fraction": 0.00158,
+      "process_ms_median": 9.4714,
+      "samples": 144,
+      "latency_after_close_ms": 4.6064,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 5.19,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.043
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8635,
+      "sign_ms_median": 3.5914,
+      "process_ms_p99": 10.3944,
+      "cpu_fraction": 0.00158,
+      "process_ms_median": 9.4636,
+      "samples": 144,
+      "latency_after_close_ms": 4.5981,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 0.64,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0697,
+      "sign_ms_median": 3.5715,
+      "process_ms_p99": 4.6064,
+      "cpu_fraction": 0.1115,
+      "latency_after_close_ms": 3.6491,
+      "prov_bytes_per_unit": 2820,
+      "prov_kbps": 676.8,
+      "prov_share_of_video_pct": 1.687
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2688,
+      "sign_ms_median": 3.5857,
+      "process_ms_p99": 7.7468,
+      "cpu_fraction": 0.00689,
+      "process_ms_median": 6.8596,
+      "samples": 864,
+      "latency_after_close_ms": 6.8565,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 31.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.078
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2695,
+      "sign_ms_median": 3.5784,
+      "process_ms_p99": 7.9387,
+      "cpu_fraction": 0.00689,
+      "process_ms_median": 6.8517,
+      "samples": 864,
+      "latency_after_close_ms": 6.8489,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 3.84,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5361,
+      "sign_ms_median": 3.5924,
+      "process_ms_p99": 11.0722,
+      "cpu_fraction": 0.00509,
+      "process_ms_median": 10.1304,
+      "samples": 432,
+      "latency_after_close_ms": 6.8466,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 15.56,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.039
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5382,
+      "sign_ms_median": 3.5834,
+      "process_ms_p99": 11.0558,
+      "cpu_fraction": 0.00508,
+      "process_ms_median": 10.1242,
+      "samples": 432,
+      "latency_after_close_ms": 6.8381,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 1.92,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0706,
+      "sign_ms_median": 3.6032,
+      "process_ms_p99": 17.8665,
+      "cpu_fraction": 0.00418,
+      "process_ms_median": 16.6795,
+      "samples": 216,
+      "latency_after_close_ms": 6.8408,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3891,
+      "init_bytes": 0,
+      "prov_kbps": 7.78,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0703,
+      "sign_ms_median": 3.593,
+      "process_ms_p99": 17.6075,
+      "cpu_fraction": 0.00418,
+      "process_ms_median": 16.6658,
+      "samples": 216,
+      "latency_after_close_ms": 6.8266,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 0.96,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.002
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6184,
+      "sign_ms_median": 3.6176,
+      "process_ms_p99": 24.3707,
+      "cpu_fraction": 0.00388,
+      "process_ms_median": 23.2381,
+      "samples": 144,
+      "latency_after_close_ms": 6.868,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 5.19,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.013
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6184,
+      "sign_ms_median": 3.6105,
+      "process_ms_p99": 24.3201,
+      "cpu_fraction": 0.00388,
+      "process_ms_median": 23.2301,
+      "samples": 144,
+      "latency_after_close_ms": 6.8608,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 0.64,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.002
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0219,
+      "sign_ms_median": 0.2264,
+      "process_ms_p99": 0.7263,
+      "cpu_fraction": 0.009,
+      "latency_after_close_ms": 0.2642,
+      "prov_bytes_per_unit": 11416,
+      "prov_kbps": 2739.8,
+      "prov_share_of_video_pct": 22.912
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9844,
+      "sign_ms_median": 0.2352,
+      "process_ms_p99": 1.6688,
+      "cpu_fraction": 0.00125,
+      "process_ms_median": 1.2261,
+      "samples": 864,
+      "latency_after_close_ms": 1.224,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 99.9,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.835
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9843,
+      "sign_ms_median": 0.1941,
+      "process_ms_p99": 1.6875,
+      "cpu_fraction": 0.00121,
+      "process_ms_median": 1.1845,
+      "samples": 864,
+      "latency_after_close_ms": 1.1824,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 21.15,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.177
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.949,
+      "sign_ms_median": 0.2405,
+      "process_ms_p99": 2.6479,
+      "cpu_fraction": 0.00112,
+      "process_ms_median": 2.2068,
+      "samples": 432,
+      "latency_after_close_ms": 1.2387,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 49.95,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.418
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9507,
+      "sign_ms_median": 0.2013,
+      "process_ms_p99": 2.6619,
+      "cpu_fraction": 0.0011,
+      "process_ms_median": 2.1772,
+      "samples": 432,
+      "latency_after_close_ms": 1.2028,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 10.58,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.088
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9117,
+      "sign_ms_median": 0.2479,
+      "process_ms_p99": 4.6474,
+      "cpu_fraction": 0.00105,
+      "process_ms_median": 4.1673,
+      "samples": 216,
+      "latency_after_close_ms": 1.2221,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 24.97,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.209
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9122,
+      "sign_ms_median": 0.2157,
+      "process_ms_p99": 4.4426,
+      "cpu_fraction": 0.00104,
+      "process_ms_median": 4.1332,
+      "samples": 216,
+      "latency_after_close_ms": 1.183,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 5.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.044
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.867,
+      "sign_ms_median": 0.2752,
+      "process_ms_p99": 6.5295,
+      "cpu_fraction": 0.00103,
+      "process_ms_median": 6.1346,
+      "samples": 144,
+      "latency_after_close_ms": 1.2655,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 16.65,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.139
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8749,
+      "sign_ms_median": 0.2095,
+      "process_ms_p99": 6.6613,
+      "cpu_fraction": 0.00102,
+      "process_ms_median": 6.0987,
+      "samples": 144,
+      "latency_after_close_ms": 1.2116,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 3.52,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.029
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0682,
+      "sign_ms_median": 0.2303,
+      "process_ms_p99": 0.8648,
+      "cpu_fraction": 0.0114,
+      "latency_after_close_ms": 0.3523,
+      "prov_bytes_per_unit": 11416,
+      "prov_kbps": 2739.8,
+      "prov_share_of_video_pct": 6.828
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2707,
+      "sign_ms_median": 0.2418,
+      "process_ms_p99": 3.9597,
+      "cpu_fraction": 0.00356,
+      "process_ms_median": 3.5301,
+      "samples": 864,
+      "latency_after_close_ms": 3.5274,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 99.9,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.249
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2704,
+      "sign_ms_median": 0.2001,
+      "process_ms_p99": 3.9734,
+      "cpu_fraction": 0.00352,
+      "process_ms_median": 3.4909,
+      "samples": 864,
+      "latency_after_close_ms": 3.4881,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 21.15,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.053
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5383,
+      "sign_ms_median": 0.2651,
+      "process_ms_p99": 7.2859,
+      "cpu_fraction": 0.00342,
+      "process_ms_median": 6.8155,
+      "samples": 432,
+      "latency_after_close_ms": 3.5266,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 49.95,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.124
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5371,
+      "sign_ms_median": 0.2056,
+      "process_ms_p99": 7.3616,
+      "cpu_fraction": 0.0034,
+      "process_ms_median": 6.761,
+      "samples": 432,
+      "latency_after_close_ms": 3.4712,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 10.58,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.026
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0703,
+      "sign_ms_median": 0.2554,
+      "process_ms_p99": 13.9047,
+      "cpu_fraction": 0.00335,
+      "process_ms_median": 13.3294,
+      "samples": 216,
+      "latency_after_close_ms": 3.49,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 12487,
+      "init_bytes": 0,
+      "prov_kbps": 24.97,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.062
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0706,
+      "sign_ms_median": 0.2104,
+      "process_ms_p99": 13.8039,
+      "cpu_fraction": 0.00333,
+      "process_ms_median": 13.2903,
+      "samples": 216,
+      "latency_after_close_ms": 3.4437,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 5.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.013
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6159,
+      "sign_ms_median": 0.2778,
+      "process_ms_p99": 20.4049,
+      "cpu_fraction": 0.00332,
+      "process_ms_median": 19.879,
+      "samples": 144,
+      "latency_after_close_ms": 3.5153,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 16.65,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.041
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6149,
+      "sign_ms_median": 0.2373,
+      "process_ms_p99": 20.2632,
+      "cpu_fraction": 0.00332,
+      "process_ms_median": 19.8617,
+      "samples": 144,
+      "latency_after_close_ms": 3.4606,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 3.52,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.009
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0217,
+      "sign_ms_median": 0.3365,
+      "process_ms_p99": 1.0494,
+      "cpu_fraction": 0.0127,
+      "latency_after_close_ms": 0.3677,
+      "prov_bytes_per_unit": 15363,
+      "prov_kbps": 3687.1,
+      "prov_share_of_video_pct": 30.834
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9851,
+      "sign_ms_median": 0.3378,
+      "process_ms_p99": 2.075,
+      "cpu_fraction": 0.00137,
+      "process_ms_median": 1.3207,
+      "samples": 864,
+      "latency_after_close_ms": 1.3187,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 131.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 1.099
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9848,
+      "sign_ms_median": 0.2916,
+      "process_ms_p99": 1.929,
+      "cpu_fraction": 0.00132,
+      "process_ms_median": 1.2791,
+      "samples": 864,
+      "latency_after_close_ms": 1.2773,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 28.26,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.236
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9481,
+      "sign_ms_median": 0.3513,
+      "process_ms_p99": 2.9093,
+      "cpu_fraction": 0.00118,
+      "process_ms_median": 2.3233,
+      "samples": 432,
+      "latency_after_close_ms": 1.3453,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 65.74,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.55
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.949,
+      "sign_ms_median": 0.3003,
+      "process_ms_p99": 2.8885,
+      "cpu_fraction": 0.00115,
+      "process_ms_median": 2.2617,
+      "samples": 432,
+      "latency_after_close_ms": 1.2935,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 14.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.118
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9127,
+      "sign_ms_median": 0.3548,
+      "process_ms_p99": 4.9578,
+      "cpu_fraction": 0.00108,
+      "process_ms_median": 4.2731,
+      "samples": 216,
+      "latency_after_close_ms": 1.3261,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 32.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.275
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.912,
+      "sign_ms_median": 0.3242,
+      "process_ms_p99": 4.8804,
+      "cpu_fraction": 0.00107,
+      "process_ms_median": 4.25,
+      "samples": 216,
+      "latency_after_close_ms": 1.297,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 7.07,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.059
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8757,
+      "sign_ms_median": 0.3513,
+      "process_ms_p99": 6.8456,
+      "cpu_fraction": 0.00105,
+      "process_ms_median": 6.2414,
+      "samples": 144,
+      "latency_after_close_ms": 1.3598,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 21.91,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.183
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8762,
+      "sign_ms_median": 0.3161,
+      "process_ms_p99": 6.7498,
+      "cpu_fraction": 0.00103,
+      "process_ms_median": 6.186,
+      "samples": 144,
+      "latency_after_close_ms": 1.3001,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 4.71,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.039
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0686,
+      "sign_ms_median": 0.3379,
+      "process_ms_p99": 1.1764,
+      "cpu_fraction": 0.0151,
+      "latency_after_close_ms": 0.4526,
+      "prov_bytes_per_unit": 15363,
+      "prov_kbps": 3687.1,
+      "prov_share_of_video_pct": 9.189
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2711,
+      "sign_ms_median": 0.3517,
+      "process_ms_p99": 4.3015,
+      "cpu_fraction": 0.00368,
+      "process_ms_median": 3.6449,
+      "samples": 864,
+      "latency_after_close_ms": 3.6417,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 131.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.328
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2701,
+      "sign_ms_median": 0.2991,
+      "process_ms_p99": 4.3657,
+      "cpu_fraction": 0.00364,
+      "process_ms_median": 3.5951,
+      "samples": 864,
+      "latency_after_close_ms": 3.5921,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 28.26,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.07
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5376,
+      "sign_ms_median": 0.3637,
+      "process_ms_p99": 7.6411,
+      "cpu_fraction": 0.00348,
+      "process_ms_median": 6.9156,
+      "samples": 432,
+      "latency_after_close_ms": 3.6219,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 65.74,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.164
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.5377,
+      "sign_ms_median": 0.3007,
+      "process_ms_p99": 7.6855,
+      "cpu_fraction": 0.00345,
+      "process_ms_median": 6.8543,
+      "samples": 432,
+      "latency_after_close_ms": 3.5651,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 14.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.035
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0676,
+      "sign_ms_median": 0.3829,
+      "process_ms_p99": 14.2376,
+      "cpu_fraction": 0.00338,
+      "process_ms_median": 13.4717,
+      "samples": 216,
+      "latency_after_close_ms": 3.6245,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 32.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.082
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0681,
+      "sign_ms_median": 0.3209,
+      "process_ms_p99": 14.3509,
+      "cpu_fraction": 0.00337,
+      "process_ms_median": 13.3894,
+      "samples": 216,
+      "latency_after_close_ms": 3.5546,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3533,
+      "init_bytes": 21579,
+      "prov_kbps": 7.07,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.018
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6157,
+      "sign_ms_median": 0.3832,
+      "process_ms_p99": 21.0098,
+      "cpu_fraction": 0.00334,
+      "process_ms_median": 20.0026,
+      "samples": 144,
+      "latency_after_close_ms": 3.6216,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 21.91,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.055
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6137,
+      "sign_ms_median": 0.33,
+      "process_ms_p99": 20.7185,
+      "cpu_fraction": 0.00334,
+      "process_ms_median": 19.9628,
+      "samples": 144,
+      "latency_after_close_ms": 3.5819,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 4.71,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.012
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.022,
+      "sign_ms_median": 0.448,
+      "process_ms_p99": 1.1868,
+      "cpu_fraction": 0.0161,
+      "latency_after_close_ms": 0.4774,
+      "prov_bytes_per_unit": 20597,
+      "prov_kbps": 4943.3,
+      "prov_share_of_video_pct": 41.339
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9844,
+      "sign_ms_median": 0.4562,
+      "process_ms_p99": 2.1841,
+      "cpu_fraction": 0.00148,
+      "process_ms_median": 1.4415,
+      "samples": 864,
+      "latency_after_close_ms": 1.4393,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 173.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 1.45
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 0.9844,
+      "sign_ms_median": 0.3874,
+      "process_ms_p99": 2.0879,
+      "cpu_fraction": 0.00142,
+      "process_ms_median": 1.3681,
+      "samples": 864,
+      "latency_after_close_ms": 1.3656,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 38.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.325
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9483,
+      "sign_ms_median": 0.4565,
+      "process_ms_p99": 3.1944,
+      "cpu_fraction": 0.00123,
+      "process_ms_median": 2.4081,
+      "samples": 432,
+      "latency_after_close_ms": 1.4441,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 86.67,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.725
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 1.9486,
+      "sign_ms_median": 0.3957,
+      "process_ms_p99": 3.1012,
+      "cpu_fraction": 0.00121,
+      "process_ms_median": 2.3623,
+      "samples": 432,
+      "latency_after_close_ms": 1.3896,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 19.4,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.162
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9131,
+      "sign_ms_median": 0.482,
+      "process_ms_p99": 4.955,
+      "cpu_fraction": 0.00111,
+      "process_ms_median": 4.3977,
+      "samples": 216,
+      "latency_after_close_ms": 1.4421,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 43.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.362
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 3.9121,
+      "sign_ms_median": 0.4151,
+      "process_ms_p99": 4.997,
+      "cpu_fraction": 0.00109,
+      "process_ms_median": 4.3318,
+      "samples": 216,
+      "latency_after_close_ms": 1.3904,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 9.7,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.081
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8776,
+      "sign_ms_median": 0.4825,
+      "process_ms_p99": 7.2299,
+      "cpu_fraction": 0.00107,
+      "process_ms_median": 6.3532,
+      "samples": 144,
+      "latency_after_close_ms": 1.4872,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 28.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.242
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 5.8751,
+      "sign_ms_median": 0.4235,
+      "process_ms_p99": 7.1017,
+      "cpu_fraction": 0.00106,
+      "process_ms_median": 6.2981,
+      "samples": 144,
+      "latency_after_close_ms": 1.4326,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 6.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.054
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0686,
+      "sign_ms_median": 0.4547,
+      "process_ms_p99": 1.3159,
+      "cpu_fraction": 0.0186,
+      "latency_after_close_ms": 0.5659,
+      "prov_bytes_per_unit": 20597,
+      "prov_kbps": 4943.3,
+      "prov_share_of_video_pct": 12.32
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.2705,
+      "sign_ms_median": 0.4675,
+      "process_ms_p99": 4.4881,
+      "cpu_fraction": 0.00379,
+      "process_ms_median": 3.7576,
+      "samples": 864,
+      "latency_after_close_ms": 3.7541,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 173.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.432
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 1.0,
+      "segments": 288,
+      "hash_ms_median": 3.271,
+      "sign_ms_median": 0.4007,
+      "process_ms_p99": 4.3897,
+      "cpu_fraction": 0.00373,
+      "process_ms_median": 3.684,
+      "samples": 864,
+      "latency_after_close_ms": 3.6807,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 38.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.097
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.539,
+      "sign_ms_median": 0.4769,
+      "process_ms_p99": 7.7994,
+      "cpu_fraction": 0.00354,
+      "process_ms_median": 7.0319,
+      "samples": 432,
+      "latency_after_close_ms": 3.7336,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 86.67,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.216
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.5,
+      "segments": 144,
+      "hash_ms_median": 6.537,
+      "sign_ms_median": 0.4014,
+      "process_ms_p99": 7.616,
+      "cpu_fraction": 0.0035,
+      "process_ms_median": 6.9547,
+      "samples": 432,
+      "latency_after_close_ms": 3.6733,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 19.4,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.048
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0688,
+      "sign_ms_median": 0.4898,
+      "process_ms_p99": 14.3593,
+      "cpu_fraction": 0.00341,
+      "process_ms_median": 13.5698,
+      "samples": 216,
+      "latency_after_close_ms": 3.7373,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 43.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.108
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.25,
+      "segments": 72,
+      "hash_ms_median": 13.0687,
+      "sign_ms_median": 0.4121,
+      "process_ms_p99": 14.5576,
+      "cpu_fraction": 0.00339,
+      "process_ms_median": 13.4944,
+      "samples": 216,
+      "latency_after_close_ms": 3.6271,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 4851,
+      "init_bytes": 28771,
+      "prov_kbps": 9.7,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.024
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6184,
+      "sign_ms_median": 0.4772,
+      "process_ms_p99": 20.7025,
+      "cpu_fraction": 0.00336,
+      "process_ms_median": 20.1477,
+      "samples": 144,
+      "latency_after_close_ms": 3.7219,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 28.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.072
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 288,
+      "units_per_s": 0.16666666666666666,
+      "segments": 48,
+      "hash_ms_median": 19.6193,
+      "sign_ms_median": 0.3997,
+      "process_ms_p99": 20.5735,
+      "cpu_fraction": 0.00334,
+      "process_ms_median": 20.0587,
+      "samples": 144,
+      "latency_after_close_ms": 3.6494,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 6.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate_within_segment": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ],
+        "cross_stream_replay": [
+          "foreign stream"
+        ],
+        "suffix_removed": [
+          "undetected"
+        ],
+        "suffix_removed_with_end": [
+          "short"
+        ],
+        "missing_init": [
+          "no session key"
+        ],
+        "session_key_expired": [
+          "session key expired"
+        ]
+      },
+      "clean_stream_verifies": true,
+      "prov_share_of_video_pct": 0.016
+    }
+  ]
+}

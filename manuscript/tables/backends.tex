@@ -1,0 +1,16 @@
+\begin{table}[t]
+\caption{The same algorithms through two implementations, OpenSSL through \texttt{cryptography} and liboqs 0.16.0, on two arm64 machines. Milliseconds, medians; the ratio is OpenSSL's time over liboqs's. The spread between libraries exceeds the spread between parameter sets, so any timing reported without naming its implementation is uninterpretable. Key encapsulation was not timed on the Pi, which measures signatures only.}
+\label{tab:backends}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Apple M1 Pro} & \multicolumn{3}{c}{Raspberry Pi 5}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Operation & OpenSSL & liboqs & Ratio & OpenSSL & liboqs & Ratio\\
+\midrule
+ML-DSA-65 sign & 0.4313 & 0.0938 & 4.6$\times$ & 1.4827 & 0.2579 & 5.7$\times$\\
+ML-DSA-65 verify & 0.1075 & 0.0481 & 2.2$\times$ & 0.3235 & 0.1165 & 2.8$\times$\\
+ML-KEM-768 encap & 0.0130 & 0.0149 & 0.9$\times$ & -- & -- & --\\
+ML-KEM-768 decap & 0.0181 & 0.0167 & 1.1$\times$ & -- & -- & --\\
+\bottomrule
+\end{tabular}
+\end{table}

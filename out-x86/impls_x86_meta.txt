@@ -1,0 +1,7 @@
+openssl-4.0.2-source-asm: OpenSSL 4.0.2 25 Aug 2026
+openssl-4.0.2-source-asm: compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG
+openssl-4.0.2-source-noasm: OpenSSL 4.0.2 25 Aug 2026
+openssl-4.0.2-source-noasm: compiler: gcc -fPIC -pthread -m64 -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG
+liboqs-0.16.0-native-avx2: liboqs 0.16.0, FIPS204
+liboqs-0.16.0-generic: liboqs 0.16.0, FIPS204
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0

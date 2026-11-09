@@ -1,0 +1,11 @@
+  compression Ed25519 done
+  compression ES256 done
+  compression PS256 done
+  compression ML-DSA-44 done
+  compression ML-DSA-65 done
+  compression ML-DSA-87 done
+  composite ML-DSA-65+ES256: 15501 B
+  composite ML-DSA-65+Ed25519: 15430 B
+  composite ML-DSA-44+Ed25519: 11483 B
+  composite ML-DSA-87+ES384: 20894 B
+  wrote out-x86-runs/run3/e1_extras.json  (52 rows)

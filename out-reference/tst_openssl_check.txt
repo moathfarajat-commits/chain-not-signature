@@ -1,0 +1,6 @@
+openssl: /opt/homebrew/opt/openssl@3/bin/openssl (OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026))
+Ed25519: CMS Verification successful
+ES256: CMS Verification successful
+ML-DSA-44: CMS Verification successful
+ML-DSA-65: CMS Verification successful
+ML-DSA-87: CMS Verification successful

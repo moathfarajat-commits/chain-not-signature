@@ -1,0 +1,54 @@
+{
+  "experiment": "e1_composite_and",
+  "env": {
+    "timestamp_utc": "2026-11-03T06:42:45+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v230-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "composite verification is AND: each component signature must verify",
+    "corruption is one flipped bit in the middle of a component; 'missing' strips the classical half"
+  ],
+  "results": [
+    {
+      "alg": "ML-DSA-44+Ed25519",
+      "intact_accepted": true,
+      "pq_component_corrupted_rejected": true,
+      "classical_component_corrupted_rejected": true,
+      "classical_component_missing_rejected": true
+    },
+    {
+      "alg": "ML-DSA-65+ES256",
+      "intact_accepted": true,
+      "pq_component_corrupted_rejected": true,
+      "classical_component_corrupted_rejected": true,
+      "classical_component_missing_rejected": true
+    },
+    {
+      "alg": "ML-DSA-65+Ed25519",
+      "intact_accepted": true,
+      "pq_component_corrupted_rejected": true,
+      "classical_component_corrupted_rejected": true,
+      "classical_component_missing_rejected": true
+    },
+    {
+      "alg": "ML-DSA-87+ES384",
+      "intact_accepted": true,
+      "pq_component_corrupted_rejected": true,
+      "classical_component_corrupted_rejected": true,
+      "classical_component_missing_rejected": true
+    }
+  ]
+}

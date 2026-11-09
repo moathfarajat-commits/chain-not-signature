@@ -1,0 +1,33 @@
+%% ---------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+Making media provenance quantum-safe costs less than the size of a
+post-quantum signature suggests and more than a signature swap: a manifest
+under ML-DSA-65 is \NvsESDSAsixtyfive{} times a matched ES256 manifest and \NvsPSDSAsixtyfive{} times a matched PS256 one, the two algorithms deployed signers use, and a timestamped one
+\NtsVsESDSAsixtyfive{} and \NtsVsPSDSAsixtyfive{} times, because certificates
+were already most of the structure and every certificate carries a
+signature of its own. The finding holds from Falcon to SLH-DSA and for
+composite signatures, and generic compression does not touch it.
+
+How much of the chain travels is therefore the design question. Leaving the
+root out, as the specification says generators should and most signers already do,
+saves a quarter of the manifest for those that still carry it. Carrying the leaf alone is conformant when the
+leaf's issuer is on the trust list, saves a further third, and halves the
+path a validator checks; it needs CAs to list their issuing CAs as anchors,
+which several already do. The thumbprint is smaller still and neither
+conformant nor verifiable offline.
+
+Time is not the obstacle on the application processors and workloads we measured. On a phone photograph, the hash the format already requires costs
+more than the post-quantum signature; on an edge board, signing an encoded 4K
+stream by either C2PA live method uses a fraction of one core, and the method,
+not the algorithm, sets the bandwidth. On a microcontroller the verifier's
+memory and the radio are the constraints, and the carriage form decides both.
+
+Two findings concern how the field measures. An apparent architecture effect
+in our first results came from a Python package whose macOS OpenSSL was built
+without optimisation, now fixed, and only \NauditBothWord{} of \NauditNWord{} applied studies we audited state both the compiler and the optimisation level their numbers depend on;
+and a capacity estimate built on median signing times is optimistic by about
+a fifth for ML-DSA, because rejection sampling gives signing a tail that a
+batch pays in full. A post-quantum timing needs the implementation, its
+version, its build and a measure of spread.

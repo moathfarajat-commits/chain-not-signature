@@ -1,0 +1,474 @@
+{
+  "experiment": "e1_timestamp",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:18:49+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 9
+  },
+  "notes": [
+    "a deployed manifest carries a signature, an RFC 3161 timestamp token and, where revocation is stapled, an OCSP response",
+    "each of the three brings its own certificate chain, so the certificate term is paid two or three times",
+    "x5chain and the timestamp token each carry signer and intermediate; roots are the validator's trust anchors and are not carried",
+    "OCSP responses are real objects signed under the measured algorithm, in two shapes: signed by the issuing CA (no certificate inside) and by a delegated responder whose certificate travels in the response; manifest_full_bytes uses the CA-signed shape",
+    "signature-only and timestamped manifests are what deployments ship; the OCSP configuration is modelled, since no corpus signature staples one",
+    "timestamp tokens are real RFC 3161 tokens built by pq_tst.py: CMS SignedData, TSTInfo, content-type, message-digest and signing-certificate-v2 attributes; TSA hierarchy of three with the timeStamping EKU, of which signer and intermediate travel; written to tst/<alg>.tst",
+    "timestamp_token_bytes_model is the earlier model, signature + chain + 500 B",
+    "the certificate term dominates in every configuration, so the structural estimate does not affect the conclusion"
+  ],
+  "results": [
+    {
+      "alg": "ML-DSA-65",
+      "chain_depth": 3,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 11781,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 3309,
+        "leaf": 5893,
+        "intermediate": 5888,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 3309,
+        "tsa_signer_cert": 5915,
+        "tsa_intermediate_cert": 5898,
+        "tstinfo": 120,
+        "signed_attributes": 169,
+        "other_encoding": 213
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 3556,
+          "signature_bytes": 3309,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 247,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 9480,
+          "signature_bytes": 3309,
+          "certificate_bytes": 5916,
+          "certificates": 1,
+          "structure_bytes": 255,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 16282,
+      "timestamp_token_bytes": 15624,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 15624,
+        "tsa_chain_bytes": 11813,
+        "tsa_cert_bytes": [
+          5915,
+          5898
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 5635,
+        "signature_bytes": 3309,
+        "structure_bytes": 502,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 169,
+        "other_encoding_bytes": 213,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 15622,
+      "timestamp_structure_bytes": 502,
+      "ocsp_with_responder_cert_bytes": 9480,
+      "ocsp_without_responder_cert_bytes": 3556,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 31906,
+      "manifest_full_bytes": 35462,
+      "manifest_full_delegated_bytes": 41386,
+      "growth_vs_signature_only": 2.18,
+      "pct_signature_only": 15.12,
+      "pct_timestamped": 29.63,
+      "pct_full": 32.94
+    },
+    {
+      "alg": "ES256",
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1499,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 64,
+        "leaf": 752,
+        "intermediate": 747,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 71,
+        "tsa_signer_cert": 775,
+        "tsa_intermediate_cert": 758,
+        "tstinfo": 120,
+        "signed_attributes": 137,
+        "other_encoding": 206
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 315,
+          "signature_bytes": 71,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 244,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 1099,
+          "signature_bytes": 71,
+          "certificate_bytes": 776,
+          "certificates": 1,
+          "structure_bytes": 252,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 2755,
+      "timestamp_token_bytes": 2067,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 2067,
+        "tsa_chain_bytes": 1533,
+        "tsa_cert_bytes": [
+          775,
+          758
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 502,
+        "signature_bytes": 71,
+        "structure_bytes": 463,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 137,
+        "other_encoding_bytes": 206,
+        "digest_algorithm": "SHA-256"
+      },
+      "timestamp_token_bytes_model": 2097,
+      "timestamp_structure_bytes": 463,
+      "ocsp_with_responder_cert_bytes": 1099,
+      "ocsp_without_responder_cert_bytes": 315,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 4822,
+      "manifest_full_bytes": 5137,
+      "manifest_full_delegated_bytes": 5921,
+      "growth_vs_signature_only": 1.86,
+      "pct_signature_only": 2.56,
+      "pct_timestamped": 4.48,
+      "pct_full": 4.77
+    },
+    {
+      "alg": "ML-DSA-44",
+      "chain_depth": 3,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 8723,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 2420,
+        "leaf": 4364,
+        "intermediate": 4359,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 2420,
+        "tsa_signer_cert": 4386,
+        "tsa_intermediate_cert": 4369,
+        "tstinfo": 120,
+        "signed_attributes": 169,
+        "other_encoding": 213
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 2667,
+          "signature_bytes": 2420,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 247,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 7062,
+          "signature_bytes": 2420,
+          "certificate_bytes": 4387,
+          "certificates": 1,
+          "structure_bytes": 255,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 12335,
+      "timestamp_token_bytes": 11677,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 11677,
+        "tsa_chain_bytes": 8755,
+        "tsa_cert_bytes": [
+          4386,
+          4369
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 4106,
+        "signature_bytes": 2420,
+        "structure_bytes": 502,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 169,
+        "other_encoding_bytes": 213,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 11675,
+      "timestamp_structure_bytes": 502,
+      "ocsp_with_responder_cert_bytes": 7062,
+      "ocsp_without_responder_cert_bytes": 2667,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 24012,
+      "manifest_full_bytes": 26679,
+      "manifest_full_delegated_bytes": 31074,
+      "growth_vs_signature_only": 2.16,
+      "pct_signature_only": 11.46,
+      "pct_timestamped": 22.3,
+      "pct_full": 24.78
+    },
+    {
+      "alg": "Ed25519",
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1387,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 64,
+        "leaf": 696,
+        "intermediate": 691,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 64,
+        "tsa_signer_cert": 718,
+        "tsa_intermediate_cert": 701,
+        "tstinfo": 120,
+        "signed_attributes": 169,
+        "other_encoding": 203
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 303,
+          "signature_bytes": 64,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 239,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 1030,
+          "signature_bytes": 64,
+          "certificate_bytes": 719,
+          "certificates": 1,
+          "structure_bytes": 247,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 2643,
+      "timestamp_token_bytes": 1975,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 1975,
+        "tsa_chain_bytes": 1419,
+        "tsa_cert_bytes": [
+          718,
+          701
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 442,
+        "signature_bytes": 64,
+        "structure_bytes": 492,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 169,
+        "other_encoding_bytes": 203,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 1983,
+      "timestamp_structure_bytes": 492,
+      "ocsp_with_responder_cert_bytes": 1030,
+      "ocsp_without_responder_cert_bytes": 303,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 4618,
+      "manifest_full_bytes": 4921,
+      "manifest_full_delegated_bytes": 5648,
+      "growth_vs_signature_only": 1.86,
+      "pct_signature_only": 2.45,
+      "pct_timestamped": 4.29,
+      "pct_full": 4.57
+    },
+    {
+      "alg": "ML-DSA-87",
+      "chain_depth": 3,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 15697,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 4627,
+        "leaf": 7851,
+        "intermediate": 7846,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 4627,
+        "tsa_signer_cert": 7873,
+        "tsa_intermediate_cert": 7856,
+        "tstinfo": 120,
+        "signed_attributes": 169,
+        "other_encoding": 213
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 4874,
+          "signature_bytes": 4627,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 247,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 12756,
+          "signature_bytes": 4627,
+          "certificate_bytes": 7874,
+          "certificates": 1,
+          "structure_bytes": 255,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 21516,
+      "timestamp_token_bytes": 20858,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 20858,
+        "tsa_chain_bytes": 15729,
+        "tsa_cert_bytes": [
+          7873,
+          7856
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 7593,
+        "signature_bytes": 4627,
+        "structure_bytes": 502,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 169,
+        "other_encoding_bytes": 213,
+        "digest_algorithm": "SHA-512"
+      },
+      "timestamp_token_bytes_model": 20856,
+      "timestamp_structure_bytes": 502,
+      "ocsp_with_responder_cert_bytes": 12756,
+      "ocsp_without_responder_cert_bytes": 4874,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 42374,
+      "manifest_full_bytes": 47248,
+      "manifest_full_delegated_bytes": 55130,
+      "growth_vs_signature_only": 2.2,
+      "pct_signature_only": 19.98,
+      "pct_timestamped": 39.35,
+      "pct_full": 43.88
+    },
+    {
+      "alg": "PS256",
+      "chain_depth": 3,
+      "sig_bytes": 256,
+      "chain_der_bytes": 2291,
+      "certs_carried": 2,
+      "breakdown_signature": {
+        "signature": 256,
+        "leaf": 1148,
+        "intermediate": 1143,
+        "cose_and_jumbf": 1192
+      },
+      "breakdown_timestamp": {
+        "signature": 256,
+        "tsa_signer_cert": 1170,
+        "tsa_intermediate_cert": 1153,
+        "tstinfo": 120,
+        "signed_attributes": 137,
+        "other_encoding": 209
+      },
+      "ocsp": {
+        "ca_signed": {
+          "bytes": 505,
+          "signature_bytes": 256,
+          "certificate_bytes": 0,
+          "certificates": 0,
+          "structure_bytes": 249,
+          "signed_by": "issuing CA"
+        },
+        "delegated": {
+          "bytes": 1684,
+          "signature_bytes": 256,
+          "certificate_bytes": 1171,
+          "certificates": 1,
+          "structure_bytes": 257,
+          "signed_by": "delegated responder"
+        }
+      },
+      "manifest_signature_only_bytes": 3739,
+      "timestamp_token_bytes": 3045,
+      "timestamp_source": "measured (pq_tst, signature verified)",
+      "timestamp_details": {
+        "token_bytes": 3045,
+        "tsa_chain_bytes": 2323,
+        "tsa_cert_bytes": [
+          1170,
+          1153
+        ],
+        "tsa_cert_roles": [
+          "TSA signer",
+          "TSA intermediate"
+        ],
+        "tsa_root_bytes_not_carried": 898,
+        "signature_bytes": 256,
+        "structure_bytes": 466,
+        "tstinfo_bytes": 120,
+        "signed_attributes_bytes": 137,
+        "other_encoding_bytes": 209,
+        "digest_algorithm": "SHA-256"
+      },
+      "timestamp_token_bytes_model": 3079,
+      "timestamp_structure_bytes": 466,
+      "ocsp_with_responder_cert_bytes": 1684,
+      "ocsp_without_responder_cert_bytes": 505,
+      "ocsp_source": "measured",
+      "manifest_signed_and_timestamped_bytes": 6784,
+      "manifest_full_bytes": 7289,
+      "manifest_full_delegated_bytes": 8468,
+      "growth_vs_signature_only": 1.95,
+      "pct_signature_only": 3.47,
+      "pct_timestamped": 6.3,
+      "pct_full": 6.77
+    }
+  ]
+}

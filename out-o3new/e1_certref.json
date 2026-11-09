@@ -1,0 +1,826 @@
+{
+  "experiment": "e1_certref",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:54:10+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 1,
+    "runs": 10,
+    "run_timestamps": [
+      "2026-11-02T20:54:10+00:00",
+      "2026-11-02T21:20:12+00:00",
+      "2026-11-02T20:57:11+00:00",
+      "2026-11-02T20:57:27+00:00",
+      "2026-11-02T21:02:05+00:00",
+      "2026-11-02T21:03:50+00:00",
+      "2026-11-02T21:09:35+00:00",
+      "2026-11-02T21:09:59+00:00",
+      "2026-11-02T21:14:28+00:00",
+      "2026-11-02T21:16:21+00:00"
+    ]
+  },
+  "notes": [
+    "x5t is RFC 9360 header 34, a SHA-256 thumbprint of the leaf certificate",
+    "the verifier resolves the signer through a trust list, not the manifest",
+    "signing cost is unchanged; the saving is entirely in bytes",
+    "trade-off: verification needs trust-list access, so offline verification of an unknown signer is lost",
+    "merged from 10 independent runs (fresh processes and keys, random experiment and configuration order); median_ms is the median of per-run medians, ci95_ms a 95% bootstrap interval over runs"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 686,
+      "cose_embedded_bytes": 767,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 654,
+      "saving_pct": 85.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0335,
+        "mean_ms": 0.0344,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0345,
+        "p99_ms": 0.0522,
+        "min_ms": 0.0331,
+        "max_ms": 0.04,
+        "ci95_ms": [
+          0.0335,
+          0.0336
+        ],
+        "run_medians_ms": [
+          0.0334,
+          0.0344,
+          0.0335,
+          0.0335,
+          0.0335,
+          0.0336,
+          0.0336,
+          0.0336,
+          0.0334,
+          0.0335
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0336,
+        "mean_ms": 0.0347,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.034,
+        "p99_ms": 0.0504,
+        "min_ms": 0.0331,
+        "max_ms": 0.1356,
+        "ci95_ms": [
+          0.0335,
+          0.0344
+        ],
+        "run_medians_ms": [
+          0.0334,
+          0.0345,
+          0.0336,
+          0.0335,
+          0.0336,
+          0.0335,
+          0.0347,
+          0.0337,
+          0.0344,
+          0.0335
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1387,
+      "cose_embedded_bytes": 1472,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1359,
+      "saving_pct": 92.32,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0351,
+        "mean_ms": 0.0361,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0375,
+        "p99_ms": 0.0515,
+        "min_ms": 0.0348,
+        "max_ms": 0.0477,
+        "ci95_ms": [
+          0.035,
+          0.036
+        ],
+        "run_medians_ms": [
+          0.0351,
+          0.0362,
+          0.0351,
+          0.036,
+          0.035,
+          0.0352,
+          0.0351,
+          0.0351,
+          0.0349,
+          0.036
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0335,
+        "mean_ms": 0.0344,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0337,
+        "p99_ms": 0.0471,
+        "min_ms": 0.033,
+        "max_ms": 0.0428,
+        "ci95_ms": [
+          0.0334,
+          0.034
+        ],
+        "run_medians_ms": [
+          0.0333,
+          0.0345,
+          0.0335,
+          0.0349,
+          0.0335,
+          0.034,
+          0.0337,
+          0.0334,
+          0.0333,
+          0.0335
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 741,
+      "cose_embedded_bytes": 822,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 709,
+      "saving_pct": 86.25,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0268,
+        "mean_ms": 0.0275,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0274,
+        "p99_ms": 0.044,
+        "min_ms": 0.026,
+        "max_ms": 0.0459,
+        "ci95_ms": [
+          0.0265,
+          0.0273
+        ],
+        "run_medians_ms": [
+          0.0264,
+          0.0275,
+          0.0265,
+          0.0277,
+          0.0266,
+          0.027,
+          0.0266,
+          0.0271,
+          0.0273,
+          0.0267
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0273,
+        "mean_ms": 0.0282,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0274,
+        "p99_ms": 0.0442,
+        "min_ms": 0.0267,
+        "max_ms": 0.0414,
+        "ci95_ms": [
+          0.0271,
+          0.0277
+        ],
+        "run_medians_ms": [
+          0.027,
+          0.0282,
+          0.027,
+          0.0274,
+          0.0272,
+          0.0277,
+          0.0271,
+          0.0278,
+          0.0276,
+          0.0272
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1500,
+      "cose_embedded_bytes": 1585,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1472,
+      "saving_pct": 92.87,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0275,
+        "mean_ms": 0.0284,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0274,
+        "p99_ms": 0.0431,
+        "min_ms": 0.0268,
+        "max_ms": 0.0404,
+        "ci95_ms": [
+          0.0273,
+          0.0279
+        ],
+        "run_medians_ms": [
+          0.0271,
+          0.0275,
+          0.0272,
+          0.0276,
+          0.0274,
+          0.0279,
+          0.0281,
+          0.0274,
+          0.028,
+          0.0275
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0272,
+        "mean_ms": 0.028,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0278,
+        "p99_ms": 0.0403,
+        "min_ms": 0.0266,
+        "max_ms": 0.0424,
+        "ci95_ms": [
+          0.0271,
+          0.0277
+        ],
+        "run_medians_ms": [
+          0.0269,
+          0.0271,
+          0.0271,
+          0.0273,
+          0.0272,
+          0.0276,
+          0.0278,
+          0.0276,
+          0.0278,
+          0.0272
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 2,
+      "sig_bytes": 256,
+      "chain_der_bytes": 1138,
+      "cose_embedded_bytes": 1413,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 1106,
+      "saving_pct": 78.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5372,
+        "mean_ms": 0.5544,
+        "iqr_ms": 0.0082,
+        "p95_ms": 0.5957,
+        "p99_ms": 0.8005,
+        "min_ms": 0.5328,
+        "max_ms": 0.8092,
+        "ci95_ms": [
+          0.5357,
+          0.5448
+        ],
+        "run_medians_ms": [
+          0.5358,
+          0.5349,
+          0.5363,
+          0.5374,
+          0.5371,
+          0.5474,
+          0.5562,
+          0.5448,
+          0.5372,
+          0.5352
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5393,
+        "mean_ms": 0.5569,
+        "iqr_ms": 0.0093,
+        "p95_ms": 0.5943,
+        "p99_ms": 0.7961,
+        "min_ms": 0.5337,
+        "max_ms": 0.8652,
+        "ci95_ms": [
+          0.537,
+          0.5463
+        ],
+        "run_medians_ms": [
+          0.537,
+          0.5377,
+          0.5395,
+          0.5473,
+          0.5391,
+          0.5452,
+          0.5536,
+          0.5456,
+          0.5363,
+          0.5358
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 3,
+      "sig_bytes": 256,
+      "chain_der_bytes": 2291,
+      "cose_embedded_bytes": 2570,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 2263,
+      "saving_pct": 88.05,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5413,
+        "mean_ms": 0.5613,
+        "iqr_ms": 0.0108,
+        "p95_ms": 0.5791,
+        "p99_ms": 0.8004,
+        "min_ms": 0.5344,
+        "max_ms": 0.8492,
+        "ci95_ms": [
+          0.5362,
+          0.5501
+        ],
+        "run_medians_ms": [
+          0.5378,
+          0.5358,
+          0.544,
+          0.5505,
+          0.5386,
+          0.5501,
+          0.5527,
+          0.5484,
+          0.536,
+          0.5362
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5395,
+        "mean_ms": 0.5574,
+        "iqr_ms": 0.01,
+        "p95_ms": 0.5971,
+        "p99_ms": 0.7925,
+        "min_ms": 0.5338,
+        "max_ms": 1.1914,
+        "ci95_ms": [
+          0.5359,
+          0.5451
+        ],
+        "run_medians_ms": [
+          0.5372,
+          0.5361,
+          0.5419,
+          0.5356,
+          0.5422,
+          0.5451,
+          0.553,
+          0.5458,
+          0.5361,
+          0.5357
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 2,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 4354,
+      "cose_embedded_bytes": 6793,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 4322,
+      "saving_pct": 63.62,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.2778,
+        "mean_ms": 0.3658,
+        "iqr_ms": 0.2543,
+        "p95_ms": 0.9109,
+        "p99_ms": 1.2381,
+        "min_ms": 0.1479,
+        "max_ms": 2.2474,
+        "ci95_ms": [
+          0.276,
+          0.2855
+        ],
+        "run_medians_ms": [
+          0.276,
+          0.2759,
+          0.2952,
+          0.2762,
+          0.2794,
+          0.2807,
+          0.2851,
+          0.2917,
+          0.276,
+          0.2761
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.2799,
+        "mean_ms": 0.3702,
+        "iqr_ms": 0.2733,
+        "p95_ms": 0.935,
+        "p99_ms": 1.3028,
+        "min_ms": 0.1447,
+        "max_ms": 53.0116,
+        "ci95_ms": [
+          0.2751,
+          0.2816
+        ],
+        "run_medians_ms": [
+          0.2799,
+          0.2749,
+          0.2816,
+          0.28,
+          0.2769,
+          0.2799,
+          0.2751,
+          0.2824,
+          0.2849,
+          0.2737
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 3,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 8723,
+      "cose_embedded_bytes": 11166,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 8695,
+      "saving_pct": 77.87,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.2881,
+        "mean_ms": 0.3804,
+        "iqr_ms": 0.2546,
+        "p95_ms": 0.8565,
+        "p99_ms": 1.303,
+        "min_ms": 0.1545,
+        "max_ms": 1.5565,
+        "ci95_ms": [
+          0.2852,
+          0.2904
+        ],
+        "run_medians_ms": [
+          0.288,
+          0.2826,
+          0.287,
+          0.2904,
+          0.285,
+          0.2881,
+          0.2972,
+          0.2913,
+          0.289,
+          0.2852
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.2813,
+        "mean_ms": 0.3702,
+        "iqr_ms": 0.2552,
+        "p95_ms": 0.8539,
+        "p99_ms": 1.2759,
+        "min_ms": 0.1446,
+        "max_ms": 2.5264,
+        "ci95_ms": [
+          0.278,
+          0.2892
+        ],
+        "run_medians_ms": [
+          0.2813,
+          0.2806,
+          0.3356,
+          0.2863,
+          0.2751,
+          0.297,
+          0.2813,
+          0.278,
+          0.2834,
+          0.2754
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 2,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 5883,
+      "cose_embedded_bytes": 9211,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 5851,
+      "saving_pct": 63.52,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.4815,
+        "mean_ms": 0.594,
+        "iqr_ms": 0.4497,
+        "p95_ms": 1.2955,
+        "p99_ms": 2.1309,
+        "min_ms": 0.2149,
+        "max_ms": 3.2252,
+        "ci95_ms": [
+          0.4809,
+          0.4977
+        ],
+        "run_medians_ms": [
+          0.4809,
+          0.484,
+          0.5137,
+          0.4816,
+          0.481,
+          0.5358,
+          0.4866,
+          0.4815,
+          0.4809,
+          0.4809
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.4766,
+        "mean_ms": 0.5978,
+        "iqr_ms": 0.4423,
+        "p95_ms": 1.3652,
+        "p99_ms": 2.1791,
+        "min_ms": 0.2101,
+        "max_ms": 3.2907,
+        "ci95_ms": [
+          0.4761,
+          0.4772
+        ],
+        "run_medians_ms": [
+          0.4757,
+          0.4761,
+          0.4775,
+          0.472,
+          0.477,
+          0.5366,
+          0.4765,
+          0.4772,
+          0.4766,
+          0.4763
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 3,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 11781,
+      "cose_embedded_bytes": 15113,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 11753,
+      "saving_pct": 77.77,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.491,
+        "mean_ms": 0.6108,
+        "iqr_ms": 0.4421,
+        "p95_ms": 1.3757,
+        "p99_ms": 2.1631,
+        "min_ms": 0.2236,
+        "max_ms": 2.9709,
+        "ci95_ms": [
+          0.49,
+          0.4981
+        ],
+        "run_medians_ms": [
+          0.4295,
+          0.4911,
+          0.4913,
+          0.491,
+          0.4905,
+          0.5344,
+          0.495,
+          0.49,
+          0.4897,
+          0.505
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.4766,
+        "mean_ms": 0.598,
+        "iqr_ms": 0.4435,
+        "p95_ms": 1.4563,
+        "p99_ms": 2.0817,
+        "min_ms": 0.2103,
+        "max_ms": 3.3912,
+        "ci95_ms": [
+          0.4762,
+          0.4807
+        ],
+        "run_medians_ms": [
+          0.4763,
+          0.476,
+          0.476,
+          0.4767,
+          0.4766,
+          0.5184,
+          0.4764,
+          0.4765,
+          0.4802,
+          0.4847
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 2,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 7841,
+      "cose_embedded_bytes": 12487,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 7809,
+      "saving_pct": 62.54,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5698,
+        "mean_ms": 0.7012,
+        "iqr_ms": 0.4085,
+        "p95_ms": 1.481,
+        "p99_ms": 2.42,
+        "min_ms": 0.314,
+        "max_ms": 3.2486,
+        "ci95_ms": [
+          0.5695,
+          0.5711
+        ],
+        "run_medians_ms": [
+          0.5705,
+          0.5695,
+          0.5711,
+          0.5712,
+          0.5696,
+          0.7448,
+          0.5696,
+          0.57,
+          0.5691,
+          0.5695
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5659,
+        "mean_ms": 0.7049,
+        "iqr_ms": 0.4027,
+        "p95_ms": 1.7058,
+        "p99_ms": 2.4345,
+        "min_ms": 0.3077,
+        "max_ms": 4.4381,
+        "ci95_ms": [
+          0.5633,
+          0.5726
+        ],
+        "run_medians_ms": [
+          0.5646,
+          0.5616,
+          0.5649,
+          0.5619,
+          0.5746,
+          0.6367,
+          0.5722,
+          0.567,
+          0.5705,
+          0.5646
+        ],
+        "runs": 10
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 3,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 15697,
+      "cose_embedded_bytes": 20347,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 15669,
+      "saving_pct": 77.01,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5919,
+        "mean_ms": 0.7156,
+        "iqr_ms": 0.5125,
+        "p95_ms": 1.5642,
+        "p99_ms": 2.3457,
+        "min_ms": 0.3256,
+        "max_ms": 3.0784,
+        "ci95_ms": [
+          0.5814,
+          0.5967
+        ],
+        "run_medians_ms": [
+          0.5963,
+          0.5811,
+          0.5839,
+          0.5804,
+          0.6026,
+          0.5925,
+          0.5978,
+          0.5913,
+          0.5956,
+          0.5814
+        ],
+        "runs": 10
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5652,
+        "mean_ms": 0.7013,
+        "iqr_ms": 0.419,
+        "p95_ms": 1.5823,
+        "p99_ms": 2.2584,
+        "min_ms": 0.3078,
+        "max_ms": 5.0312,
+        "ci95_ms": [
+          0.5635,
+          0.5717
+        ],
+        "run_medians_ms": [
+          0.5647,
+          0.5623,
+          0.5649,
+          0.5655,
+          0.5779,
+          0.5844,
+          0.5655,
+          0.5624,
+          0.5715,
+          0.5646
+        ],
+        "runs": 10
+      }
+    }
+  ]
+}

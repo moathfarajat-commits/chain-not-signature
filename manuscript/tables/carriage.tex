@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\caption{Carrying the signer. Manifest bytes by carriage form and algorithm, three-certificate hierarchy. \emph{Path} is the number of signatures path validation checks, set by where the trust anchor sits; \emph{Holds} is what the verifier must already have; \emph{int.} is the intermediate. $^a$C2PA~2.5 says the root should not be included. The leaf-only form conforms only when the leaf's issuer is itself on the trust list.}
+\label{tab:carriage}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llclrrrrrr}
+\toprule
+ & & & &  &  &  & \multicolumn{3}{c}{ML-DSA}\\\cmidrule(l){8-10}
+\texttt{x5chain} & Holds & Path & Conf. & Ed25519 & ES256 & PS256 & 44 & 65 & 87\\
+\midrule
+Leaf, int., root & root & 2 & yes$^a$ & 2,981 & 3,155 & 4,535 & 16,339 & 21,815 & 29,007\\
+Leaf, int. & root & 2 & yes & 2,544 & 2,658 & 3,642 & 12,238 & 16,185 & 21,419\\
+Leaf (issuer is anchor) & issuing CA & 1 & yes & 1,849 & 1,906 & 2,495 & 7,875 & 10,293 & 13,569\\
+Leaf (int.\ provisioned) & root, int. & 2 & no & 1,849 & 1,906 & 2,495 & 7,875 & 10,293 & 13,569\\
+Thumbprint & root, int., leaf & 2 & no & 1,185 & 1,185 & 1,379 & 3,543 & 4,432 & 5,750\\
+\midrule
+\multicolumn{4}{l}{Saving, leaf only (\%)} & 27 & 28 & 31 & 36 & 36 & 37\\
+\multicolumn{4}{l}{Saving, thumbprint (\%)} & 53 & 55 & 62 & 71 & 73 & 73\\
+\multicolumn{4}{l}{Cost of the root (\%)} & 17 & 19 & 25 & 34 & 35 & 35\\
+\bottomrule
+\end{tabular}
+\end{table*}

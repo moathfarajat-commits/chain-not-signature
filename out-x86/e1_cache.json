@@ -1,0 +1,6091 @@
+{
+  "experiment": "e1_cache",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:20:00+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.2.0.post2",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 10,
+    "runs": 9,
+    "run_timestamps": [
+      "2026-11-02T21:20:00+00:00",
+      "2026-11-02T20:43:21+00:00",
+      "2026-11-02T20:48:10+00:00",
+      "2026-11-02T20:52:54+00:00",
+      "2026-11-02T20:57:37+00:00",
+      "2026-11-02T21:01:28+00:00",
+      "2026-11-02T21:08:54+00:00",
+      "2026-11-02T21:13:19+00:00",
+      "2026-11-02T21:18:05+00:00"
+    ]
+  },
+  "notes": [
+    "stream of 2000 manifests from 50 publishers (Zipf s = 1.1) under one root, each publisher with its own issuing CA",
+    "leaf lifecycles: one per publisher, a new one every 100 manifests, and a new one per manifest",
+    "LRU cache of validated certificates keyed on SHA-256; a cached leaf skips both path verifications, a cached issuing CA skips one",
+    "half-way through, the most frequent publisher's issuing CA is distrusted; snapshot-tagged caches drop entries validated under the old trust list, naive ones do not",
+    "total_ms is measured over the whole stream, including the manifest signature verification of every accepted manifest",
+    "merged from 9 independent runs (fresh processes and keys, random experiment and configuration order); median_ms is the median of per-run medians, ci95_ms a 95% bootstrap interval over runs"
+  ],
+  "results": [
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 232.49,
+      "per_manifest_ms": 0.1162,
+      "path_verifications": 3464,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 268,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        220.38,
+        266.76
+      ],
+      "total_ms_runs": [
+        256.87,
+        220.67,
+        278.74,
+        229.31,
+        213.89,
+        232.49,
+        266.76,
+        220.38,
+        240.95
+      ],
+      "per_manifest_ms_ci95": [
+        0.1102,
+        0.1334
+      ],
+      "per_manifest_ms_runs": [
+        0.1284,
+        0.1103,
+        0.1394,
+        0.1147,
+        0.1069,
+        0.1162,
+        0.1334,
+        0.1102,
+        0.1205
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 149.87,
+      "per_manifest_ms": 0.0749,
+      "path_verifications": 1818,
+      "leaf_hits": 823,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 18807,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 268,
+      "speedup_vs_no_cache": 1.77,
+      "total_ms_ci95": [
+        146.08,
+        160.7
+      ],
+      "total_ms_runs": [
+        145.31,
+        151.15,
+        170.27,
+        147.07,
+        146.08,
+        149.87,
+        160.7,
+        152.12,
+        146.89
+      ],
+      "per_manifest_ms_ci95": [
+        0.073,
+        0.0804
+      ],
+      "per_manifest_ms_runs": [
+        0.0727,
+        0.0756,
+        0.0851,
+        0.0735,
+        0.073,
+        0.0749,
+        0.0804,
+        0.0761,
+        0.0734
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 153.27,
+      "per_manifest_ms": 0.0766,
+      "path_verifications": 1812,
+      "leaf_hits": 852,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 18807,
+      "accepted_after_distrust": 26,
+      "rejected_after_distrust": 242,
+      "speedup_vs_no_cache": 1.71,
+      "total_ms_ci95": [
+        150.14,
+        162.1
+      ],
+      "total_ms_runs": [
+        150.14,
+        151.24,
+        172.3,
+        150.61,
+        135.28,
+        156.41,
+        159.17,
+        153.27,
+        162.1
+      ],
+      "per_manifest_ms_ci95": [
+        0.0751,
+        0.081
+      ],
+      "per_manifest_ms_runs": [
+        0.0751,
+        0.0756,
+        0.0861,
+        0.0753,
+        0.0676,
+        0.0782,
+        0.0796,
+        0.0766,
+        0.081
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 75.62,
+      "per_manifest_ms": 0.0378,
+      "path_verifications": 198,
+      "leaf_hits": 1633,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 115789,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 268,
+      "speedup_vs_no_cache": 3.27,
+      "total_ms_ci95": [
+        69.94,
+        82.49
+      ],
+      "total_ms_runs": [
+        78.61,
+        72.1,
+        82.49,
+        69.94,
+        67.45,
+        79.15,
+        75.62,
+        75.03,
+        97.96
+      ],
+      "per_manifest_ms_ci95": [
+        0.035,
+        0.0412
+      ],
+      "per_manifest_ms_runs": [
+        0.0393,
+        0.036,
+        0.0412,
+        0.035,
+        0.0337,
+        0.0396,
+        0.0378,
+        0.0375,
+        0.049
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 80.49,
+      "per_manifest_ms": 0.0402,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 116980,
+      "accepted_after_distrust": 268,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 3.27,
+      "total_ms_ci95": [
+        77.88,
+        98.34
+      ],
+      "total_ms_runs": [
+        78.67,
+        80.49,
+        98.34,
+        77.88,
+        70.89,
+        81.25,
+        78.61,
+        86.03,
+        102.84
+      ],
+      "per_manifest_ms_ci95": [
+        0.0389,
+        0.0492
+      ],
+      "per_manifest_ms_runs": [
+        0.0393,
+        0.0402,
+        0.0492,
+        0.0389,
+        0.0354,
+        0.0406,
+        0.0393,
+        0.043,
+        0.0514
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 76.08,
+      "per_manifest_ms": 0.038,
+      "path_verifications": 198,
+      "leaf_hits": 1633,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 115789,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 268,
+      "speedup_vs_no_cache": 3.28,
+      "total_ms_ci95": [
+        73.22,
+        85.07
+      ],
+      "total_ms_runs": [
+        78.2,
+        74.27,
+        99.8,
+        73.22,
+        69.75,
+        76.41,
+        76.08,
+        75.13,
+        85.07
+      ],
+      "per_manifest_ms_ci95": [
+        0.0366,
+        0.0425
+      ],
+      "per_manifest_ms_runs": [
+        0.0391,
+        0.0371,
+        0.0499,
+        0.0366,
+        0.0349,
+        0.0382,
+        0.038,
+        0.0376,
+        0.0425
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 80.47,
+      "per_manifest_ms": 0.0402,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 116980,
+      "accepted_after_distrust": 268,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.8,
+      "total_ms_ci95": [
+        76.73,
+        91.58
+      ],
+      "total_ms_runs": [
+        91.58,
+        81.49,
+        117.13,
+        78.06,
+        76.7,
+        82.74,
+        76.73,
+        80.47,
+        77.42
+      ],
+      "per_manifest_ms_ci95": [
+        0.0384,
+        0.0458
+      ],
+      "per_manifest_ms_runs": [
+        0.0458,
+        0.0407,
+        0.0586,
+        0.039,
+        0.0383,
+        0.0414,
+        0.0384,
+        0.0402,
+        0.0387
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 231.57,
+      "per_manifest_ms": 0.1158,
+      "path_verifications": 3438,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 281,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        223.42,
+        267.77
+      ],
+      "total_ms_runs": [
+        270.19,
+        230.48,
+        232.7,
+        225.18,
+        267.77,
+        222.54,
+        223.42,
+        231.57,
+        243.03
+      ],
+      "per_manifest_ms_ci95": [
+        0.1117,
+        0.1339
+      ],
+      "per_manifest_ms_runs": [
+        0.1351,
+        0.1152,
+        0.1163,
+        0.1126,
+        0.1339,
+        0.1113,
+        0.1117,
+        0.1158,
+        0.1215
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 147.57,
+      "per_manifest_ms": 0.0738,
+      "path_verifications": 1780,
+      "leaf_hits": 829,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 18759,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 281,
+      "speedup_vs_no_cache": 1.78,
+      "total_ms_ci95": [
+        141.5,
+        165.74
+      ],
+      "total_ms_runs": [
+        151.6,
+        147.28,
+        201.78,
+        139.7,
+        141.5,
+        147.57,
+        142.52,
+        156.67,
+        165.74
+      ],
+      "per_manifest_ms_ci95": [
+        0.0708,
+        0.0829
+      ],
+      "per_manifest_ms_runs": [
+        0.0758,
+        0.0736,
+        0.1009,
+        0.0698,
+        0.0708,
+        0.0738,
+        0.0713,
+        0.0783,
+        0.0829
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 149.37,
+      "per_manifest_ms": 0.0747,
+      "path_verifications": 1780,
+      "leaf_hits": 843,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 18759,
+      "accepted_after_distrust": 14,
+      "rejected_after_distrust": 267,
+      "speedup_vs_no_cache": 1.63,
+      "total_ms_ci95": [
+        141.18,
+        159.99
+      ],
+      "total_ms_runs": [
+        166.06,
+        149.15,
+        149.38,
+        142.16,
+        135.33,
+        152.41,
+        141.18,
+        159.99,
+        149.37
+      ],
+      "per_manifest_ms_ci95": [
+        0.0706,
+        0.08
+      ],
+      "per_manifest_ms_runs": [
+        0.083,
+        0.0746,
+        0.0747,
+        0.0711,
+        0.0677,
+        0.0762,
+        0.0706,
+        0.08,
+        0.0747
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 74.94,
+      "per_manifest_ms": 0.0375,
+      "path_verifications": 201,
+      "leaf_hits": 1616,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 121743,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 281,
+      "speedup_vs_no_cache": 3.27,
+      "total_ms_ci95": [
+        71.53,
+        79.23
+      ],
+      "total_ms_runs": [
+        82.57,
+        78.48,
+        71.13,
+        74.94,
+        71.53,
+        79.23,
+        73.46,
+        74.54,
+        75.99
+      ],
+      "per_manifest_ms_ci95": [
+        0.0358,
+        0.0396
+      ],
+      "per_manifest_ms_runs": [
+        0.0413,
+        0.0392,
+        0.0356,
+        0.0375,
+        0.0358,
+        0.0396,
+        0.0367,
+        0.0373,
+        0.038
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 71.18,
+      "per_manifest_ms": 0.0356,
+      "path_verifications": 105,
+      "leaf_hits": 1694,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 122934,
+      "accepted_after_distrust": 30,
+      "rejected_after_distrust": 251,
+      "speedup_vs_no_cache": 3.86,
+      "total_ms_ci95": [
+        68.11,
+        76.73
+      ],
+      "total_ms_runs": [
+        70.03,
+        116.73,
+        68.18,
+        74.49,
+        68.11,
+        76.73,
+        71.18,
+        72.15,
+        67.55
+      ],
+      "per_manifest_ms_ci95": [
+        0.0341,
+        0.0384
+      ],
+      "per_manifest_ms_runs": [
+        0.035,
+        0.0584,
+        0.0341,
+        0.0372,
+        0.0341,
+        0.0384,
+        0.0356,
+        0.0361,
+        0.0338
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 73.15,
+      "per_manifest_ms": 0.0366,
+      "path_verifications": 201,
+      "leaf_hits": 1616,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 121743,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 281,
+      "speedup_vs_no_cache": 3.69,
+      "total_ms_ci95": [
+        72.48,
+        88.96
+      ],
+      "total_ms_runs": [
+        73.15,
+        88.96,
+        73.83,
+        72.86,
+        72.48,
+        93.72,
+        72.93,
+        76.81,
+        70.62
+      ],
+      "per_manifest_ms_ci95": [
+        0.0362,
+        0.0445
+      ],
+      "per_manifest_ms_runs": [
+        0.0366,
+        0.0445,
+        0.0369,
+        0.0364,
+        0.0362,
+        0.0469,
+        0.0365,
+        0.0384,
+        0.0353
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 71.26,
+      "per_manifest_ms": 0.0356,
+      "path_verifications": 105,
+      "leaf_hits": 1694,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 122934,
+      "accepted_after_distrust": 30,
+      "rejected_after_distrust": 251,
+      "speedup_vs_no_cache": 4.0,
+      "total_ms_ci95": [
+        67.57,
+        85.9
+      ],
+      "total_ms_runs": [
+        67.59,
+        77.42,
+        65.46,
+        85.9,
+        67.57,
+        89.8,
+        71.26,
+        74.46,
+        70.59
+      ],
+      "per_manifest_ms_ci95": [
+        0.0338,
+        0.043
+      ],
+      "per_manifest_ms_runs": [
+        0.0338,
+        0.0387,
+        0.0327,
+        0.043,
+        0.0338,
+        0.0449,
+        0.0356,
+        0.0372,
+        0.0353
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 261.93,
+      "per_manifest_ms": 0.131,
+      "path_verifications": 3500,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        236.18,
+        298.82
+      ],
+      "total_ms_runs": [
+        238.87,
+        310.4,
+        272.78,
+        286.93,
+        236.18,
+        247.15,
+        234.08,
+        261.93,
+        298.82
+      ],
+      "per_manifest_ms_ci95": [
+        0.1181,
+        0.1494
+      ],
+      "per_manifest_ms_runs": [
+        0.1194,
+        0.1552,
+        0.1364,
+        0.1435,
+        0.1181,
+        0.1236,
+        0.117,
+        0.131,
+        0.1494
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 219.08,
+      "per_manifest_ms": 0.1095,
+      "path_verifications": 2802,
+      "leaf_hits": 0,
+      "ica_hits": 698,
+      "cache_bytes_at_end": 18774,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.16,
+      "total_ms_ci95": [
+        205.88,
+        245.82
+      ],
+      "total_ms_runs": [
+        205.88,
+        227.44,
+        222.41,
+        201.89,
+        210.66,
+        245.82,
+        206.44,
+        219.08,
+        257.58
+      ],
+      "per_manifest_ms_ci95": [
+        0.1029,
+        0.1229
+      ],
+      "per_manifest_ms_runs": [
+        0.1029,
+        0.1137,
+        0.1112,
+        0.1009,
+        0.1053,
+        0.1229,
+        0.1032,
+        0.1095,
+        0.1288
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 205.36,
+      "per_manifest_ms": 0.1027,
+      "path_verifications": 2800,
+      "leaf_hits": 0,
+      "ica_hits": 700,
+      "cache_bytes_at_end": 18774,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.2,
+      "total_ms_ci95": [
+        199.08,
+        236.49
+      ],
+      "total_ms_runs": [
+        199.08,
+        243.14,
+        236.49,
+        195.17,
+        205.36,
+        215.23,
+        200.65,
+        232.5,
+        203.51
+      ],
+      "per_manifest_ms_ci95": [
+        0.0995,
+        0.1182
+      ],
+      "per_manifest_ms_runs": [
+        0.0995,
+        0.1216,
+        0.1182,
+        0.0976,
+        0.1027,
+        0.1076,
+        0.1003,
+        0.1163,
+        0.1018
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 174.28,
+      "per_manifest_ms": 0.0871,
+      "path_verifications": 1902,
+      "leaf_hits": 0,
+      "ica_hits": 1598,
+      "cache_bytes_at_end": 304146,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.47,
+      "total_ms_ci95": [
+        162.2,
+        208.14
+      ],
+      "total_ms_runs": [
+        162.2,
+        174.28,
+        208.14,
+        160.56,
+        172.36,
+        193.28,
+        167.91,
+        229.66,
+        199.23
+      ],
+      "per_manifest_ms_ci95": [
+        0.0811,
+        0.1041
+      ],
+      "per_manifest_ms_runs": [
+        0.0811,
+        0.0871,
+        0.1041,
+        0.0803,
+        0.0862,
+        0.0966,
+        0.084,
+        0.1148,
+        0.0996
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 173.6,
+      "per_manifest_ms": 0.0868,
+      "path_verifications": 1879,
+      "leaf_hits": 0,
+      "ica_hits": 1621,
+      "cache_bytes_at_end": 304146,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.45,
+      "total_ms_ci95": [
+        165.12,
+        203.03
+      ],
+      "total_ms_runs": [
+        165.12,
+        174.87,
+        203.03,
+        158.71,
+        173.6,
+        167.27,
+        167.89,
+        239.65,
+        188.44
+      ],
+      "per_manifest_ms_ci95": [
+        0.0826,
+        0.1015
+      ],
+      "per_manifest_ms_runs": [
+        0.0826,
+        0.0874,
+        0.1015,
+        0.0794,
+        0.0868,
+        0.0836,
+        0.0839,
+        0.1198,
+        0.0942
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 175.24,
+      "per_manifest_ms": 0.0876,
+      "path_verifications": 1849,
+      "leaf_hits": 0,
+      "ica_hits": 1651,
+      "cache_bytes_at_end": 2148913,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.44,
+      "total_ms_ci95": [
+        161.5,
+        183.55
+      ],
+      "total_ms_runs": [
+        165.9,
+        161.5,
+        175.24,
+        158.01,
+        176.59,
+        181.56,
+        163.97,
+        199.11,
+        183.55
+      ],
+      "per_manifest_ms_ci95": [
+        0.0808,
+        0.0918
+      ],
+      "per_manifest_ms_runs": [
+        0.0829,
+        0.0808,
+        0.0876,
+        0.079,
+        0.0883,
+        0.0908,
+        0.082,
+        0.0996,
+        0.0918
+      ]
+    },
+    {
+      "alg": "PS256",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 168.12,
+      "per_manifest_ms": 0.0841,
+      "path_verifications": 1800,
+      "leaf_hits": 0,
+      "ica_hits": 1700,
+      "cache_bytes_at_end": 2148913,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.44,
+      "total_ms_ci95": [
+        159.56,
+        177.64
+      ],
+      "total_ms_runs": [
+        165.81,
+        164.28,
+        177.64,
+        159.56,
+        176.69,
+        168.12,
+        158.18,
+        186.8,
+        175.05
+      ],
+      "per_manifest_ms_ci95": [
+        0.0798,
+        0.0888
+      ],
+      "per_manifest_ms_runs": [
+        0.0829,
+        0.0821,
+        0.0888,
+        0.0798,
+        0.0883,
+        0.0841,
+        0.0791,
+        0.0934,
+        0.0875
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 728.59,
+      "per_manifest_ms": 0.3643,
+      "path_verifications": 3440,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 280,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        671.01,
+        793.83
+      ],
+      "total_ms_runs": [
+        671.01,
+        806.37,
+        728.59,
+        793.83,
+        738.68,
+        724.85,
+        673.57,
+        769.13,
+        670.64
+      ],
+      "per_manifest_ms_ci95": [
+        0.3355,
+        0.3969
+      ],
+      "per_manifest_ms_runs": [
+        0.3355,
+        0.4032,
+        0.3643,
+        0.3969,
+        0.3693,
+        0.3624,
+        0.3368,
+        0.3846,
+        0.3353
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 453.96,
+      "per_manifest_ms": 0.227,
+      "path_verifications": 1730,
+      "leaf_hits": 855,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 11520,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 280,
+      "speedup_vs_no_cache": 1.5,
+      "total_ms_ci95": [
+        447.51,
+        468.81
+      ],
+      "total_ms_runs": [
+        447.51,
+        454.6,
+        446.73,
+        468.81,
+        466.22,
+        493.71,
+        450.35,
+        453.96,
+        451.03
+      ],
+      "per_manifest_ms_ci95": [
+        0.2238,
+        0.2344
+      ],
+      "per_manifest_ms_runs": [
+        0.2238,
+        0.2273,
+        0.2234,
+        0.2344,
+        0.2331,
+        0.2469,
+        0.2252,
+        0.227,
+        0.2255
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 483.54,
+      "per_manifest_ms": 0.2418,
+      "path_verifications": 1730,
+      "leaf_hits": 966,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 11520,
+      "accepted_after_distrust": 111,
+      "rejected_after_distrust": 169,
+      "speedup_vs_no_cache": 1.5,
+      "total_ms_ci95": [
+        445.97,
+        498.06
+      ],
+      "total_ms_runs": [
+        445.97,
+        453.36,
+        455.05,
+        512.0,
+        438.6,
+        498.06,
+        492.95,
+        489.38,
+        483.54
+      ],
+      "per_manifest_ms_ci95": [
+        0.223,
+        0.249
+      ],
+      "per_manifest_ms_runs": [
+        0.223,
+        0.2267,
+        0.2275,
+        0.256,
+        0.2193,
+        0.249,
+        0.2465,
+        0.2447,
+        0.2418
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 254.92,
+      "per_manifest_ms": 0.1275,
+      "path_verifications": 198,
+      "leaf_hits": 1621,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 71081,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 280,
+      "speedup_vs_no_cache": 2.82,
+      "total_ms_ci95": [
+        236.62,
+        284.94
+      ],
+      "total_ms_runs": [
+        238.17,
+        236.62,
+        254.92,
+        253.43,
+        223.26,
+        261.65,
+        265.34,
+        284.94,
+        286.47
+      ],
+      "per_manifest_ms_ci95": [
+        0.1183,
+        0.1425
+      ],
+      "per_manifest_ms_runs": [
+        0.1191,
+        0.1183,
+        0.1275,
+        0.1267,
+        0.1116,
+        0.1308,
+        0.1327,
+        0.1425,
+        0.1432
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 266.91,
+      "per_manifest_ms": 0.1335,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 71820,
+      "accepted_after_distrust": 280,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.36,
+      "total_ms_ci95": [
+        252.57,
+        335.12
+      ],
+      "total_ms_runs": [
+        284.9,
+        280.08,
+        252.57,
+        261.4,
+        243.88,
+        260.92,
+        266.91,
+        335.12,
+        342.17
+      ],
+      "per_manifest_ms_ci95": [
+        0.1263,
+        0.1676
+      ],
+      "per_manifest_ms_runs": [
+        0.1425,
+        0.14,
+        0.1263,
+        0.1307,
+        0.1219,
+        0.1305,
+        0.1335,
+        0.1676,
+        0.1711
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 251.94,
+      "per_manifest_ms": 0.126,
+      "path_verifications": 198,
+      "leaf_hits": 1621,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 71081,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 280,
+      "speedup_vs_no_cache": 2.16,
+      "total_ms_ci95": [
+        246.0,
+        310.7
+      ],
+      "total_ms_runs": [
+        310.7,
+        242.41,
+        283.49,
+        251.94,
+        247.4,
+        246.0,
+        247.62,
+        253.05,
+        312.22
+      ],
+      "per_manifest_ms_ci95": [
+        0.123,
+        0.1553
+      ],
+      "per_manifest_ms_runs": [
+        0.1553,
+        0.1212,
+        0.1417,
+        0.126,
+        0.1237,
+        0.123,
+        0.1238,
+        0.1265,
+        0.1561
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 259.84,
+      "per_manifest_ms": 0.1299,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 71820,
+      "accepted_after_distrust": 280,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.6,
+      "total_ms_ci95": [
+        257.13,
+        289.42
+      ],
+      "total_ms_runs": [
+        257.82,
+        259.84,
+        255.6,
+        270.18,
+        259.36,
+        257.13,
+        289.42,
+        261.7,
+        336.9
+      ],
+      "per_manifest_ms_ci95": [
+        0.1286,
+        0.1447
+      ],
+      "per_manifest_ms_runs": [
+        0.1289,
+        0.1299,
+        0.1278,
+        0.1351,
+        0.1297,
+        0.1286,
+        0.1447,
+        0.1309,
+        0.1684
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 715.16,
+      "per_manifest_ms": 0.3576,
+      "path_verifications": 3436,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 282,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        684.66,
+        745.64
+      ],
+      "total_ms_runs": [
+        687.72,
+        717.37,
+        696.27,
+        715.16,
+        684.66,
+        651.12,
+        741.4,
+        745.64,
+        862.41
+      ],
+      "per_manifest_ms_ci95": [
+        0.3423,
+        0.3728
+      ],
+      "per_manifest_ms_runs": [
+        0.3439,
+        0.3587,
+        0.3481,
+        0.3576,
+        0.3423,
+        0.3256,
+        0.3707,
+        0.3728,
+        0.4312
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 451.39,
+      "per_manifest_ms": 0.2257,
+      "path_verifications": 1751,
+      "leaf_hits": 842,
+      "ica_hits": 1,
+      "cache_bytes_at_end": 11576,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 282,
+      "speedup_vs_no_cache": 1.37,
+      "total_ms_ci95": [
+        447.17,
+        500.78
+      ],
+      "total_ms_runs": [
+        500.78,
+        467.14,
+        510.92,
+        448.16,
+        422.65,
+        453.4,
+        451.39,
+        451.37,
+        447.17
+      ],
+      "per_manifest_ms_ci95": [
+        0.2236,
+        0.2504
+      ],
+      "per_manifest_ms_runs": [
+        0.2504,
+        0.2336,
+        0.2555,
+        0.2241,
+        0.2113,
+        0.2267,
+        0.2257,
+        0.2257,
+        0.2236
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 468.25,
+      "per_manifest_ms": 0.2341,
+      "path_verifications": 1751,
+      "leaf_hits": 866,
+      "ica_hits": 1,
+      "cache_bytes_at_end": 11576,
+      "accepted_after_distrust": 24,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 1.46,
+      "total_ms_ci95": [
+        444.31,
+        507.65
+      ],
+      "total_ms_runs": [
+        471.93,
+        510.03,
+        461.01,
+        438.23,
+        446.27,
+        468.25,
+        444.31,
+        507.65,
+        503.34
+      ],
+      "per_manifest_ms_ci95": [
+        0.2222,
+        0.2538
+      ],
+      "per_manifest_ms_runs": [
+        0.236,
+        0.255,
+        0.2305,
+        0.2191,
+        0.2231,
+        0.2341,
+        0.2222,
+        0.2538,
+        0.2517
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 249.81,
+      "per_manifest_ms": 0.1249,
+      "path_verifications": 203,
+      "leaf_hits": 1614,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 74776,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 282,
+      "speedup_vs_no_cache": 2.83,
+      "total_ms_ci95": [
+        237.32,
+        287.93
+      ],
+      "total_ms_runs": [
+        243.3,
+        295.76,
+        249.81,
+        245.91,
+        250.91,
+        287.93,
+        237.32,
+        266.37,
+        235.39
+      ],
+      "per_manifest_ms_ci95": [
+        0.1187,
+        0.144
+      ],
+      "per_manifest_ms_runs": [
+        0.1217,
+        0.1479,
+        0.1249,
+        0.123,
+        0.1255,
+        0.144,
+        0.1187,
+        0.1332,
+        0.1177
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 235.79,
+      "per_manifest_ms": 0.1179,
+      "path_verifications": 105,
+      "leaf_hits": 1687,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 75515,
+      "accepted_after_distrust": 24,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 3.05,
+      "total_ms_ci95": [
+        225.78,
+        256.84
+      ],
+      "total_ms_runs": [
+        225.78,
+        265.3,
+        240.49,
+        231.2,
+        235.79,
+        243.05,
+        222.39,
+        256.84,
+        231.68
+      ],
+      "per_manifest_ms_ci95": [
+        0.1129,
+        0.1284
+      ],
+      "per_manifest_ms_runs": [
+        0.1129,
+        0.1327,
+        0.1202,
+        0.1156,
+        0.1179,
+        0.1215,
+        0.1112,
+        0.1284,
+        0.1158
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 255.34,
+      "per_manifest_ms": 0.1277,
+      "path_verifications": 203,
+      "leaf_hits": 1614,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 74776,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 282,
+      "speedup_vs_no_cache": 2.57,
+      "total_ms_ci95": [
+        240.34,
+        262.38
+      ],
+      "total_ms_runs": [
+        267.85,
+        262.38,
+        241.2,
+        256.72,
+        260.73,
+        245.59,
+        228.08,
+        240.34,
+        255.34
+      ],
+      "per_manifest_ms_ci95": [
+        0.1202,
+        0.1312
+      ],
+      "per_manifest_ms_runs": [
+        0.1339,
+        0.1312,
+        0.1206,
+        0.1284,
+        0.1304,
+        0.1228,
+        0.114,
+        0.1202,
+        0.1277
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 244.76,
+      "per_manifest_ms": 0.1224,
+      "path_verifications": 105,
+      "leaf_hits": 1687,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 75515,
+      "accepted_after_distrust": 24,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 2.96,
+      "total_ms_ci95": [
+        226.81,
+        271.95
+      ],
+      "total_ms_runs": [
+        232.32,
+        248.43,
+        324.0,
+        243.67,
+        271.95,
+        247.73,
+        221.94,
+        226.81,
+        244.76
+      ],
+      "per_manifest_ms_ci95": [
+        0.1134,
+        0.136
+      ],
+      "per_manifest_ms_runs": [
+        0.1162,
+        0.1242,
+        0.162,
+        0.1218,
+        0.136,
+        0.1239,
+        0.111,
+        0.1134,
+        0.1224
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 716.16,
+      "per_manifest_ms": 0.3581,
+      "path_verifications": 3506,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        676.92,
+        764.19
+      ],
+      "total_ms_runs": [
+        716.16,
+        723.71,
+        676.92,
+        764.19,
+        723.4,
+        695.09,
+        764.57,
+        697.8,
+        664.16
+      ],
+      "per_manifest_ms_ci95": [
+        0.3385,
+        0.3821
+      ],
+      "per_manifest_ms_runs": [
+        0.3581,
+        0.3619,
+        0.3385,
+        0.3821,
+        0.3617,
+        0.3475,
+        0.3823,
+        0.3489,
+        0.3321
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 630.25,
+      "per_manifest_ms": 0.3151,
+      "path_verifications": 2776,
+      "leaf_hits": 0,
+      "ica_hits": 730,
+      "cache_bytes_at_end": 11500,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.14,
+      "total_ms_ci95": [
+        598.72,
+        660.49
+      ],
+      "total_ms_runs": [
+        630.25,
+        660.49,
+        641.95,
+        712.25,
+        597.93,
+        657.09,
+        605.22,
+        598.72,
+        603.63
+      ],
+      "per_manifest_ms_ci95": [
+        0.2994,
+        0.3302
+      ],
+      "per_manifest_ms_runs": [
+        0.3151,
+        0.3302,
+        0.321,
+        0.3561,
+        0.299,
+        0.3285,
+        0.3026,
+        0.2994,
+        0.3018
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 635.11,
+      "per_manifest_ms": 0.3176,
+      "path_verifications": 2775,
+      "leaf_hits": 0,
+      "ica_hits": 731,
+      "cache_bytes_at_end": 11500,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.05,
+      "total_ms_ci95": [
+        580.72,
+        683.73
+      ],
+      "total_ms_runs": [
+        683.73,
+        635.11,
+        580.72,
+        673.05,
+        564.94,
+        638.46,
+        600.33,
+        584.06,
+        747.65
+      ],
+      "per_manifest_ms_ci95": [
+        0.2904,
+        0.3419
+      ],
+      "per_manifest_ms_runs": [
+        0.3419,
+        0.3176,
+        0.2904,
+        0.3365,
+        0.2825,
+        0.3192,
+        0.3002,
+        0.292,
+        0.3738
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 522.02,
+      "per_manifest_ms": 0.261,
+      "path_verifications": 1911,
+      "leaf_hits": 0,
+      "ica_hits": 1595,
+      "cache_bytes_at_end": 188786,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.34,
+      "total_ms_ci95": [
+        498.48,
+        542.93
+      ],
+      "total_ms_runs": [
+        535.98,
+        556.37,
+        529.04,
+        498.48,
+        519.76,
+        506.9,
+        469.56,
+        542.93,
+        522.02
+      ],
+      "per_manifest_ms_ci95": [
+        0.2492,
+        0.2715
+      ],
+      "per_manifest_ms_runs": [
+        0.268,
+        0.2782,
+        0.2645,
+        0.2492,
+        0.2599,
+        0.2534,
+        0.2348,
+        0.2715,
+        0.261
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 508.08,
+      "per_manifest_ms": 0.254,
+      "path_verifications": 1880,
+      "leaf_hits": 0,
+      "ica_hits": 1626,
+      "cache_bytes_at_end": 188786,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.41,
+      "total_ms_ci95": [
+        484.61,
+        563.51
+      ],
+      "total_ms_runs": [
+        508.08,
+        530.62,
+        472.35,
+        506.32,
+        487.65,
+        563.51,
+        516.33,
+        484.61,
+        578.95
+      ],
+      "per_manifest_ms_ci95": [
+        0.2423,
+        0.2818
+      ],
+      "per_manifest_ms_runs": [
+        0.254,
+        0.2653,
+        0.2362,
+        0.2532,
+        0.2438,
+        0.2818,
+        0.2582,
+        0.2423,
+        0.2895
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 497.67,
+      "per_manifest_ms": 0.2488,
+      "path_verifications": 1852,
+      "leaf_hits": 0,
+      "ica_hits": 1654,
+      "cache_bytes_at_end": 1339190,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.38,
+      "total_ms_ci95": [
+        487.09,
+        521.35
+      ],
+      "total_ms_runs": [
+        517.35,
+        521.35,
+        575.72,
+        497.49,
+        460.0,
+        487.09,
+        494.22,
+        497.67,
+        503.81
+      ],
+      "per_manifest_ms_ci95": [
+        0.2435,
+        0.2607
+      ],
+      "per_manifest_ms_runs": [
+        0.2587,
+        0.2607,
+        0.2879,
+        0.2487,
+        0.23,
+        0.2435,
+        0.2471,
+        0.2488,
+        0.2519
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 487.63,
+      "per_manifest_ms": 0.2438,
+      "path_verifications": 1803,
+      "leaf_hits": 0,
+      "ica_hits": 1703,
+      "cache_bytes_at_end": 1339190,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 247,
+      "speedup_vs_no_cache": 1.47,
+      "total_ms_ci95": [
+        465.79,
+        501.66
+      ],
+      "total_ms_runs": [
+        487.63,
+        489.32,
+        628.82,
+        501.66,
+        462.25,
+        476.03,
+        474.61,
+        465.79,
+        496.02
+      ],
+      "per_manifest_ms_ci95": [
+        0.2329,
+        0.2508
+      ],
+      "per_manifest_ms_runs": [
+        0.2438,
+        0.2447,
+        0.3144,
+        0.2508,
+        0.2311,
+        0.238,
+        0.2373,
+        0.2329,
+        0.248
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 1172.53,
+      "per_manifest_ms": 0.5863,
+      "path_verifications": 3492,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 254,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1141.54,
+        1283.51
+      ],
+      "total_ms_runs": [
+        1130.83,
+        1210.78,
+        1162.54,
+        1283.51,
+        1141.83,
+        1141.54,
+        1348.17,
+        1172.53,
+        1209.08
+      ],
+      "per_manifest_ms_ci95": [
+        0.5708,
+        0.6418
+      ],
+      "per_manifest_ms_runs": [
+        0.5654,
+        0.6054,
+        0.5813,
+        0.6418,
+        0.5709,
+        0.5708,
+        0.6741,
+        0.5863,
+        0.6045
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 819.19,
+      "per_manifest_ms": 0.4096,
+      "path_verifications": 1700,
+      "leaf_hits": 896,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 94673,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 254,
+      "speedup_vs_no_cache": 1.46,
+      "total_ms_ci95": [
+        764.91,
+        888.34
+      ],
+      "total_ms_runs": [
+        774.78,
+        873.41,
+        888.34,
+        804.18,
+        819.19,
+        764.91,
+        903.09,
+        853.09,
+        759.25
+      ],
+      "per_manifest_ms_ci95": [
+        0.3825,
+        0.4442
+      ],
+      "per_manifest_ms_runs": [
+        0.3874,
+        0.4367,
+        0.4442,
+        0.4021,
+        0.4096,
+        0.3825,
+        0.4515,
+        0.4265,
+        0.3796
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 817.38,
+      "per_manifest_ms": 0.4087,
+      "path_verifications": 1708,
+      "leaf_hits": 983,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 94673,
+      "accepted_after_distrust": 91,
+      "rejected_after_distrust": 163,
+      "speedup_vs_no_cache": 1.46,
+      "total_ms_ci95": [
+        774.72,
+        905.06
+      ],
+      "total_ms_runs": [
+        774.72,
+        926.5,
+        905.06,
+        829.98,
+        787.47,
+        764.92,
+        808.25,
+        817.38,
+        841.3
+      ],
+      "per_manifest_ms_ci95": [
+        0.3874,
+        0.4525
+      ],
+      "per_manifest_ms_runs": [
+        0.3874,
+        0.4632,
+        0.4525,
+        0.415,
+        0.3937,
+        0.3825,
+        0.4041,
+        0.4087,
+        0.4206
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 484.48,
+      "per_manifest_ms": 0.2422,
+      "path_verifications": 196,
+      "leaf_hits": 1648,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 585632,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 254,
+      "speedup_vs_no_cache": 2.54,
+      "total_ms_ci95": [
+        443.39,
+        539.71
+      ],
+      "total_ms_runs": [
+        445.06,
+        505.68,
+        573.88,
+        443.39,
+        452.87,
+        433.74,
+        539.71,
+        484.84,
+        484.48
+      ],
+      "per_manifest_ms_ci95": [
+        0.2217,
+        0.2699
+      ],
+      "per_manifest_ms_runs": [
+        0.2225,
+        0.2528,
+        0.2869,
+        0.2217,
+        0.2264,
+        0.2169,
+        0.2699,
+        0.2424,
+        0.2422
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 502.15,
+      "per_manifest_ms": 0.2511,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 591569,
+      "accepted_after_distrust": 254,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.33,
+      "total_ms_ci95": [
+        484.61,
+        529.18
+      ],
+      "total_ms_runs": [
+        484.61,
+        529.18,
+        507.94,
+        556.03,
+        501.02,
+        473.12,
+        518.08,
+        502.15,
+        484.89
+      ],
+      "per_manifest_ms_ci95": [
+        0.2423,
+        0.2646
+      ],
+      "per_manifest_ms_runs": [
+        0.2423,
+        0.2646,
+        0.254,
+        0.278,
+        0.2505,
+        0.2366,
+        0.259,
+        0.2511,
+        0.2424
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 463.73,
+      "per_manifest_ms": 0.2319,
+      "path_verifications": 196,
+      "leaf_hits": 1648,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 585632,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 254,
+      "speedup_vs_no_cache": 2.41,
+      "total_ms_ci95": [
+        433.75,
+        504.72
+      ],
+      "total_ms_runs": [
+        468.4,
+        471.63,
+        454.66,
+        463.73,
+        554.61,
+        433.75,
+        433.17,
+        504.72,
+        444.21
+      ],
+      "per_manifest_ms_ci95": [
+        0.2169,
+        0.2524
+      ],
+      "per_manifest_ms_runs": [
+        0.2342,
+        0.2358,
+        0.2273,
+        0.2319,
+        0.2773,
+        0.2169,
+        0.2166,
+        0.2524,
+        0.2221
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 507.14,
+      "per_manifest_ms": 0.2536,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 591569,
+      "accepted_after_distrust": 254,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.23,
+      "total_ms_ci95": [
+        473.74,
+        577.59
+      ],
+      "total_ms_runs": [
+        507.14,
+        483.35,
+        573.38,
+        577.59,
+        473.74,
+        461.81,
+        555.11,
+        654.21,
+        483.55
+      ],
+      "per_manifest_ms_ci95": [
+        0.2369,
+        0.2888
+      ],
+      "per_manifest_ms_runs": [
+        0.2536,
+        0.2417,
+        0.2867,
+        0.2888,
+        0.2369,
+        0.2309,
+        0.2776,
+        0.3271,
+        0.2418
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 1208.47,
+      "per_manifest_ms": 0.6042,
+      "path_verifications": 3478,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 261,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1173.78,
+        1275.17
+      ],
+      "total_ms_runs": [
+        1281.57,
+        1228.57,
+        1173.78,
+        1178.72,
+        1174.68,
+        1275.17,
+        1152.63,
+        1208.47,
+        1239.44
+      ],
+      "per_manifest_ms_ci95": [
+        0.5869,
+        0.6376
+      ],
+      "per_manifest_ms_runs": [
+        0.6408,
+        0.6143,
+        0.5869,
+        0.5894,
+        0.5873,
+        0.6376,
+        0.5763,
+        0.6042,
+        0.6197
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 803.4,
+      "per_manifest_ms": 0.4017,
+      "path_verifications": 1733,
+      "leaf_hits": 871,
+      "ica_hits": 3,
+      "cache_bytes_at_end": 94686,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 261,
+      "speedup_vs_no_cache": 1.56,
+      "total_ms_ci95": [
+        768.07,
+        823.99
+      ],
+      "total_ms_runs": [
+        823.99,
+        778.27,
+        746.43,
+        807.09,
+        799.44,
+        809.74,
+        910.73,
+        768.07,
+        803.4
+      ],
+      "per_manifest_ms_ci95": [
+        0.384,
+        0.412
+      ],
+      "per_manifest_ms_runs": [
+        0.412,
+        0.3891,
+        0.3732,
+        0.4035,
+        0.3997,
+        0.4049,
+        0.4554,
+        0.384,
+        0.4017
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 777.12,
+      "per_manifest_ms": 0.3886,
+      "path_verifications": 1727,
+      "leaf_hits": 904,
+      "ica_hits": 3,
+      "cache_bytes_at_end": 94686,
+      "accepted_after_distrust": 30,
+      "rejected_after_distrust": 231,
+      "speedup_vs_no_cache": 1.63,
+      "total_ms_ci95": [
+        754.82,
+        812.86
+      ],
+      "total_ms_runs": [
+        788.06,
+        812.86,
+        803.7,
+        815.97,
+        774.74,
+        750.02,
+        763.4,
+        754.82,
+        777.12
+      ],
+      "per_manifest_ms_ci95": [
+        0.3774,
+        0.4064
+      ],
+      "per_manifest_ms_runs": [
+        0.394,
+        0.4064,
+        0.4018,
+        0.408,
+        0.3874,
+        0.375,
+        0.3817,
+        0.3774,
+        0.3886
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 449.11,
+      "per_manifest_ms": 0.2246,
+      "path_verifications": 204,
+      "leaf_hits": 1634,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 621254,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 261,
+      "speedup_vs_no_cache": 2.34,
+      "total_ms_ci95": [
+        429.58,
+        530.12
+      ],
+      "total_ms_runs": [
+        547.79,
+        518.44,
+        431.68,
+        530.12,
+        449.11,
+        417.87,
+        441.76,
+        429.58,
+        470.08
+      ],
+      "per_manifest_ms_ci95": [
+        0.2148,
+        0.2651
+      ],
+      "per_manifest_ms_runs": [
+        0.2739,
+        0.2592,
+        0.2158,
+        0.2651,
+        0.2246,
+        0.2089,
+        0.2209,
+        0.2148,
+        0.235
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 441.48,
+      "per_manifest_ms": 0.2207,
+      "path_verifications": 106,
+      "leaf_hits": 1713,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 627191,
+      "accepted_after_distrust": 30,
+      "rejected_after_distrust": 231,
+      "speedup_vs_no_cache": 2.9,
+      "total_ms_ci95": [
+        428.32,
+        482.73
+      ],
+      "total_ms_runs": [
+        441.48,
+        482.73,
+        474.64,
+        428.32,
+        465.99,
+        433.75,
+        435.95,
+        406.61,
+        487.89
+      ],
+      "per_manifest_ms_ci95": [
+        0.2142,
+        0.2414
+      ],
+      "per_manifest_ms_runs": [
+        0.2207,
+        0.2414,
+        0.2373,
+        0.2142,
+        0.233,
+        0.2169,
+        0.218,
+        0.2033,
+        0.2439
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 470.97,
+      "per_manifest_ms": 0.2355,
+      "path_verifications": 204,
+      "leaf_hits": 1634,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 621254,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 261,
+      "speedup_vs_no_cache": 2.82,
+      "total_ms_ci95": [
+        431.17,
+        518.87
+      ],
+      "total_ms_runs": [
+        454.37,
+        476.64,
+        518.87,
+        470.97,
+        431.17,
+        494.45,
+        435.55,
+        425.9,
+        528.28
+      ],
+      "per_manifest_ms_ci95": [
+        0.2156,
+        0.2594
+      ],
+      "per_manifest_ms_runs": [
+        0.2272,
+        0.2383,
+        0.2594,
+        0.2355,
+        0.2156,
+        0.2472,
+        0.2178,
+        0.213,
+        0.2641
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 59,
+      "total_ms": 433.92,
+      "per_manifest_ms": 0.217,
+      "path_verifications": 106,
+      "leaf_hits": 1713,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 627191,
+      "accepted_after_distrust": 30,
+      "rejected_after_distrust": 231,
+      "speedup_vs_no_cache": 2.68,
+      "total_ms_ci95": [
+        412.66,
+        478.94
+      ],
+      "total_ms_runs": [
+        478.94,
+        455.07,
+        433.92,
+        500.35,
+        412.66,
+        424.65,
+        419.31,
+        440.02,
+        411.49
+      ],
+      "per_manifest_ms_ci95": [
+        0.2063,
+        0.2395
+      ],
+      "per_manifest_ms_runs": [
+        0.2395,
+        0.2275,
+        0.217,
+        0.2502,
+        0.2063,
+        0.2123,
+        0.2097,
+        0.22,
+        0.2057
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1166.0,
+      "per_manifest_ms": 0.583,
+      "path_verifications": 3500,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1142.47,
+        1254.15
+      ],
+      "total_ms_runs": [
+        1284.57,
+        1142.47,
+        1223.73,
+        1161.0,
+        1159.04,
+        1166.0,
+        1223.69,
+        1122.45,
+        1254.15
+      ],
+      "per_manifest_ms_ci95": [
+        0.5712,
+        0.6271
+      ],
+      "per_manifest_ms_runs": [
+        0.6423,
+        0.5712,
+        0.6119,
+        0.5805,
+        0.5795,
+        0.583,
+        0.6118,
+        0.5612,
+        0.6271
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1034.15,
+      "per_manifest_ms": 0.5171,
+      "path_verifications": 2809,
+      "leaf_hits": 0,
+      "ica_hits": 691,
+      "cache_bytes_at_end": 94722,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.23,
+      "total_ms_ci95": [
+        1007.74,
+        1113.64
+      ],
+      "total_ms_runs": [
+        1040.28,
+        1027.51,
+        989.29,
+        1020.59,
+        1034.15,
+        1007.74,
+        1105.47,
+        1141.65,
+        1113.64
+      ],
+      "per_manifest_ms_ci95": [
+        0.5039,
+        0.5568
+      ],
+      "per_manifest_ms_runs": [
+        0.5201,
+        0.5138,
+        0.4946,
+        0.5103,
+        0.5171,
+        0.5039,
+        0.5527,
+        0.5708,
+        0.5568
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1058.53,
+      "per_manifest_ms": 0.5293,
+      "path_verifications": 2809,
+      "leaf_hits": 0,
+      "ica_hits": 691,
+      "cache_bytes_at_end": 94722,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.22,
+      "total_ms_ci95": [
+        1026.01,
+        1076.85
+      ],
+      "total_ms_runs": [
+        1054.8,
+        1076.85,
+        1062.41,
+        1058.53,
+        1035.45,
+        1020.56,
+        1185.03,
+        1026.01,
+        1067.65
+      ],
+      "per_manifest_ms_ci95": [
+        0.513,
+        0.5384
+      ],
+      "per_manifest_ms_runs": [
+        0.5274,
+        0.5384,
+        0.5312,
+        0.5293,
+        0.5177,
+        0.5103,
+        0.5925,
+        0.513,
+        0.5338
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 827.44,
+      "per_manifest_ms": 0.4137,
+      "path_verifications": 1896,
+      "leaf_hits": 0,
+      "ica_hits": 1604,
+      "cache_bytes_at_end": 1519116,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.58,
+      "total_ms_ci95": [
+        801.1,
+        867.68
+      ],
+      "total_ms_runs": [
+        815.0,
+        827.44,
+        867.68,
+        814.19,
+        856.55,
+        801.1,
+        839.12,
+        792.4,
+        1006.18
+      ],
+      "per_manifest_ms_ci95": [
+        0.4005,
+        0.4338
+      ],
+      "per_manifest_ms_runs": [
+        0.4075,
+        0.4137,
+        0.4338,
+        0.4071,
+        0.4283,
+        0.4005,
+        0.4196,
+        0.3962,
+        0.5031
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 853.4,
+      "per_manifest_ms": 0.4267,
+      "path_verifications": 1862,
+      "leaf_hits": 0,
+      "ica_hits": 1638,
+      "cache_bytes_at_end": 1519116,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.59,
+      "total_ms_ci95": [
+        809.99,
+        863.3
+      ],
+      "total_ms_runs": [
+        809.99,
+        857.22,
+        800.98,
+        844.11,
+        837.13,
+        863.3,
+        880.45,
+        853.4,
+        857.42
+      ],
+      "per_manifest_ms_ci95": [
+        0.405,
+        0.4317
+      ],
+      "per_manifest_ms_runs": [
+        0.405,
+        0.4286,
+        0.4005,
+        0.4221,
+        0.4186,
+        0.4317,
+        0.4402,
+        0.4267,
+        0.4287
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 862.4,
+      "per_manifest_ms": 0.4312,
+      "path_verifications": 1849,
+      "leaf_hits": 0,
+      "ica_hits": 1651,
+      "cache_bytes_at_end": 10693296,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.38,
+      "total_ms_ci95": [
+        815.26,
+        928.81
+      ],
+      "total_ms_runs": [
+        928.81,
+        817.94,
+        796.72,
+        815.26,
+        883.49,
+        959.29,
+        841.62,
+        862.4,
+        863.92
+      ],
+      "per_manifest_ms_ci95": [
+        0.4076,
+        0.4644
+      ],
+      "per_manifest_ms_runs": [
+        0.4644,
+        0.409,
+        0.3984,
+        0.4076,
+        0.4417,
+        0.4796,
+        0.4208,
+        0.4312,
+        0.432
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 840.93,
+      "per_manifest_ms": 0.4205,
+      "path_verifications": 1800,
+      "leaf_hits": 0,
+      "ica_hits": 1700,
+      "cache_bytes_at_end": 10693296,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 250,
+      "speedup_vs_no_cache": 1.53,
+      "total_ms_ci95": [
+        817.33,
+        926.57
+      ],
+      "total_ms_runs": [
+        840.93,
+        832.89,
+        926.57,
+        890.76,
+        817.33,
+        878.67,
+        977.45,
+        814.27,
+        834.98
+      ],
+      "per_manifest_ms_ci95": [
+        0.4087,
+        0.4633
+      ],
+      "per_manifest_ms_runs": [
+        0.4205,
+        0.4164,
+        0.4633,
+        0.4454,
+        0.4087,
+        0.4393,
+        0.4887,
+        0.4071,
+        0.4175
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 558.11,
+      "per_manifest_ms": 0.2791,
+      "path_verifications": 3484,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        544.9,
+        591.97
+      ],
+      "total_ms_runs": [
+        552.07,
+        573.55,
+        544.9,
+        540.04,
+        558.11,
+        562.43,
+        598.29,
+        545.5,
+        591.97
+      ],
+      "per_manifest_ms_ci95": [
+        0.2725,
+        0.296
+      ],
+      "per_manifest_ms_runs": [
+        0.276,
+        0.2868,
+        0.2725,
+        0.27,
+        0.2791,
+        0.2812,
+        0.2991,
+        0.2727,
+        0.296
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 355.0,
+      "per_manifest_ms": 0.1775,
+      "path_verifications": 1724,
+      "leaf_hits": 880,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 12424,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 1.61,
+      "total_ms_ci95": [
+        344.95,
+        375.69
+      ],
+      "total_ms_runs": [
+        343.16,
+        367.36,
+        375.69,
+        359.61,
+        344.95,
+        378.93,
+        353.88,
+        346.84,
+        355.0
+      ],
+      "per_manifest_ms_ci95": [
+        0.1725,
+        0.1878
+      ],
+      "per_manifest_ms_runs": [
+        0.1716,
+        0.1837,
+        0.1878,
+        0.1798,
+        0.1725,
+        0.1895,
+        0.1769,
+        0.1734,
+        0.1775
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 357.83,
+      "per_manifest_ms": 0.1789,
+      "path_verifications": 1716,
+      "leaf_hits": 884,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 12424,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 1.58,
+      "total_ms_ci95": [
+        349.7,
+        374.24
+      ],
+      "total_ms_runs": [
+        349.7,
+        375.33,
+        346.68,
+        374.24,
+        357.14,
+        357.83,
+        362.06,
+        349.9,
+        363.02
+      ],
+      "per_manifest_ms_ci95": [
+        0.1749,
+        0.1871
+      ],
+      "per_manifest_ms_runs": [
+        0.1749,
+        0.1877,
+        0.1733,
+        0.1871,
+        0.1786,
+        0.1789,
+        0.181,
+        0.175,
+        0.1815
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 187.2,
+      "per_manifest_ms": 0.0936,
+      "path_verifications": 196,
+      "leaf_hits": 1644,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 76586,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 2.98,
+      "total_ms_ci95": [
+        181.86,
+        197.91
+      ],
+      "total_ms_runs": [
+        185.56,
+        187.2,
+        186.97,
+        191.84,
+        195.09,
+        197.91,
+        181.86,
+        171.32,
+        204.18
+      ],
+      "per_manifest_ms_ci95": [
+        0.0909,
+        0.099
+      ],
+      "per_manifest_ms_runs": [
+        0.0928,
+        0.0936,
+        0.0935,
+        0.0959,
+        0.0975,
+        0.099,
+        0.0909,
+        0.0857,
+        0.1021
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 197.76,
+      "per_manifest_ms": 0.0989,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 77380,
+      "accepted_after_distrust": 258,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.79,
+      "total_ms_ci95": [
+        191.62,
+        202.67
+      ],
+      "total_ms_runs": [
+        197.76,
+        202.37,
+        191.62,
+        196.2,
+        198.74,
+        202.67,
+        192.22,
+        185.78,
+        211.6
+      ],
+      "per_manifest_ms_ci95": [
+        0.0958,
+        0.1013
+      ],
+      "per_manifest_ms_runs": [
+        0.0989,
+        0.1012,
+        0.0958,
+        0.0981,
+        0.0994,
+        0.1013,
+        0.0961,
+        0.0929,
+        0.1058
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 180.95,
+      "per_manifest_ms": 0.0905,
+      "path_verifications": 196,
+      "leaf_hits": 1644,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 76586,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 258,
+      "speedup_vs_no_cache": 3.13,
+      "total_ms_ci95": [
+        174.01,
+        188.71
+      ],
+      "total_ms_runs": [
+        176.55,
+        188.71,
+        179.99,
+        182.89,
+        174.01,
+        188.92,
+        180.95,
+        168.94,
+        184.35
+      ],
+      "per_manifest_ms_ci95": [
+        0.087,
+        0.0944
+      ],
+      "per_manifest_ms_runs": [
+        0.0883,
+        0.0944,
+        0.09,
+        0.0914,
+        0.087,
+        0.0945,
+        0.0905,
+        0.0845,
+        0.0922
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 198.47,
+      "per_manifest_ms": 0.0992,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 77380,
+      "accepted_after_distrust": 258,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.35,
+      "total_ms_ci95": [
+        195.99,
+        215.22
+      ],
+      "total_ms_runs": [
+        234.69,
+        195.99,
+        198.47,
+        196.15,
+        190.39,
+        214.71,
+        196.36,
+        215.22,
+        207.53
+      ],
+      "per_manifest_ms_ci95": [
+        0.098,
+        0.1076
+      ],
+      "per_manifest_ms_runs": [
+        0.1173,
+        0.098,
+        0.0992,
+        0.0981,
+        0.0952,
+        0.1074,
+        0.0982,
+        0.1076,
+        0.1038
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 556.26,
+      "per_manifest_ms": 0.2781,
+      "path_verifications": 3476,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 262,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        524.91,
+        606.1
+      ],
+      "total_ms_runs": [
+        515.17,
+        552.87,
+        611.78,
+        556.26,
+        524.91,
+        579.43,
+        606.1,
+        531.26,
+        602.34
+      ],
+      "per_manifest_ms_ci95": [
+        0.2625,
+        0.303
+      ],
+      "per_manifest_ms_runs": [
+        0.2576,
+        0.2764,
+        0.3059,
+        0.2781,
+        0.2625,
+        0.2897,
+        0.303,
+        0.2656,
+        0.3012
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 358.73,
+      "per_manifest_ms": 0.1794,
+      "path_verifications": 1680,
+      "leaf_hits": 896,
+      "ica_hits": 4,
+      "cache_bytes_at_end": 12456,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 262,
+      "speedup_vs_no_cache": 1.56,
+      "total_ms_ci95": [
+        337.99,
+        372.48
+      ],
+      "total_ms_runs": [
+        329.86,
+        372.48,
+        347.08,
+        359.46,
+        337.99,
+        388.41,
+        358.73,
+        342.67,
+        359.9
+      ],
+      "per_manifest_ms_ci95": [
+        0.169,
+        0.1862
+      ],
+      "per_manifest_ms_runs": [
+        0.1649,
+        0.1862,
+        0.1735,
+        0.1797,
+        0.169,
+        0.1942,
+        0.1794,
+        0.1713,
+        0.1799
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 360.31,
+      "per_manifest_ms": 0.1802,
+      "path_verifications": 1678,
+      "leaf_hits": 937,
+      "ica_hits": 4,
+      "cache_bytes_at_end": 12456,
+      "accepted_after_distrust": 40,
+      "rejected_after_distrust": 222,
+      "speedup_vs_no_cache": 1.5,
+      "total_ms_ci95": [
+        343.27,
+        394.78
+      ],
+      "total_ms_runs": [
+        343.27,
+        394.78,
+        339.01,
+        360.31,
+        354.14,
+        364.25,
+        355.07,
+        403.56,
+        362.3
+      ],
+      "per_manifest_ms_ci95": [
+        0.1716,
+        0.1974
+      ],
+      "per_manifest_ms_runs": [
+        0.1716,
+        0.1974,
+        0.1695,
+        0.1802,
+        0.1771,
+        0.1821,
+        0.1775,
+        0.2018,
+        0.1812
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 185.83,
+      "per_manifest_ms": 0.0929,
+      "path_verifications": 203,
+      "leaf_hits": 1633,
+      "ica_hits": 7,
+      "cache_bytes_at_end": 82140,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 262,
+      "speedup_vs_no_cache": 2.77,
+      "total_ms_ci95": [
+        172.61,
+        190.91
+      ],
+      "total_ms_runs": [
+        185.83,
+        190.91,
+        172.61,
+        186.68,
+        201.62,
+        188.83,
+        178.86,
+        168.87,
+        183.94
+      ],
+      "per_manifest_ms_ci95": [
+        0.0863,
+        0.0955
+      ],
+      "per_manifest_ms_runs": [
+        0.0929,
+        0.0955,
+        0.0863,
+        0.0933,
+        0.1008,
+        0.0944,
+        0.0894,
+        0.0844,
+        0.092
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 177.78,
+      "per_manifest_ms": 0.0889,
+      "path_verifications": 107,
+      "leaf_hits": 1721,
+      "ica_hits": 7,
+      "cache_bytes_at_end": 82935,
+      "accepted_after_distrust": 40,
+      "rejected_after_distrust": 222,
+      "speedup_vs_no_cache": 3.02,
+      "total_ms_ci95": [
+        170.77,
+        187.25
+      ],
+      "total_ms_runs": [
+        170.77,
+        186.95,
+        168.2,
+        187.25,
+        207.5,
+        177.78,
+        172.48,
+        173.38,
+        185.51
+      ],
+      "per_manifest_ms_ci95": [
+        0.0854,
+        0.0936
+      ],
+      "per_manifest_ms_runs": [
+        0.0854,
+        0.0935,
+        0.0841,
+        0.0936,
+        0.1037,
+        0.0889,
+        0.0862,
+        0.0867,
+        0.0928
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 185.25,
+      "per_manifest_ms": 0.0926,
+      "path_verifications": 203,
+      "leaf_hits": 1633,
+      "ica_hits": 7,
+      "cache_bytes_at_end": 82140,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 262,
+      "speedup_vs_no_cache": 2.91,
+      "total_ms_ci95": [
+        173.72,
+        200.65
+      ],
+      "total_ms_runs": [
+        177.32,
+        185.81,
+        180.12,
+        200.65,
+        173.43,
+        212.16,
+        185.25,
+        173.72,
+        193.87
+      ],
+      "per_manifest_ms_ci95": [
+        0.0869,
+        0.1003
+      ],
+      "per_manifest_ms_runs": [
+        0.0887,
+        0.0929,
+        0.0901,
+        0.1003,
+        0.0867,
+        0.1061,
+        0.0926,
+        0.0869,
+        0.0969
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 60,
+      "total_ms": 173.61,
+      "per_manifest_ms": 0.0868,
+      "path_verifications": 107,
+      "leaf_hits": 1721,
+      "ica_hits": 7,
+      "cache_bytes_at_end": 82935,
+      "accepted_after_distrust": 40,
+      "rejected_after_distrust": 222,
+      "speedup_vs_no_cache": 3.02,
+      "total_ms_ci95": [
+        168.07,
+        177.51
+      ],
+      "total_ms_runs": [
+        170.33,
+        177.51,
+        167.63,
+        174.02,
+        168.07,
+        227.76,
+        175.29,
+        170.9,
+        173.61
+      ],
+      "per_manifest_ms_ci95": [
+        0.084,
+        0.0888
+      ],
+      "per_manifest_ms_runs": [
+        0.0852,
+        0.0888,
+        0.0838,
+        0.087,
+        0.084,
+        0.1139,
+        0.0876,
+        0.0854,
+        0.0868
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 556.74,
+      "per_manifest_ms": 0.2784,
+      "path_verifications": 3452,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        548.66,
+        603.93
+      ],
+      "total_ms_runs": [
+        548.66,
+        603.93,
+        556.74,
+        556.18,
+        549.3,
+        622.55,
+        578.54,
+        531.94,
+        562.92
+      ],
+      "per_manifest_ms_ci95": [
+        0.2743,
+        0.302
+      ],
+      "per_manifest_ms_runs": [
+        0.2743,
+        0.302,
+        0.2784,
+        0.2781,
+        0.2747,
+        0.3113,
+        0.2893,
+        0.266,
+        0.2815
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 509.07,
+      "per_manifest_ms": 0.2545,
+      "path_verifications": 2748,
+      "leaf_hits": 0,
+      "ica_hits": 704,
+      "cache_bytes_at_end": 12488,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.14,
+      "total_ms_ci95": [
+        483.12,
+        555.86
+      ],
+      "total_ms_runs": [
+        483.12,
+        635.52,
+        503.27,
+        509.07,
+        555.86,
+        530.94,
+        502.94,
+        465.19,
+        531.88
+      ],
+      "per_manifest_ms_ci95": [
+        0.2416,
+        0.2779
+      ],
+      "per_manifest_ms_runs": [
+        0.2416,
+        0.3178,
+        0.2516,
+        0.2545,
+        0.2779,
+        0.2655,
+        0.2515,
+        0.2326,
+        0.2659
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 506.21,
+      "per_manifest_ms": 0.2531,
+      "path_verifications": 2747,
+      "leaf_hits": 0,
+      "ica_hits": 705,
+      "cache_bytes_at_end": 12488,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.19,
+      "total_ms_ci95": [
+        464.16,
+        584.65
+      ],
+      "total_ms_runs": [
+        461.3,
+        545.11,
+        506.21,
+        480.87,
+        512.67,
+        494.48,
+        597.17,
+        464.16,
+        584.65
+      ],
+      "per_manifest_ms_ci95": [
+        0.2321,
+        0.2923
+      ],
+      "per_manifest_ms_runs": [
+        0.2307,
+        0.2726,
+        0.2531,
+        0.2404,
+        0.2563,
+        0.2472,
+        0.2986,
+        0.2321,
+        0.2923
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 404.75,
+      "per_manifest_ms": 0.2024,
+      "path_verifications": 1875,
+      "leaf_hits": 0,
+      "ica_hits": 1577,
+      "cache_bytes_at_end": 202565,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.44,
+      "total_ms_ci95": [
+        399.02,
+        452.21
+      ],
+      "total_ms_runs": [
+        382.33,
+        429.23,
+        452.21,
+        399.02,
+        413.97,
+        404.75,
+        403.33,
+        399.26,
+        544.71
+      ],
+      "per_manifest_ms_ci95": [
+        0.1995,
+        0.2261
+      ],
+      "per_manifest_ms_runs": [
+        0.1912,
+        0.2146,
+        0.2261,
+        0.1995,
+        0.207,
+        0.2024,
+        0.2017,
+        0.1996,
+        0.2724
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 424.73,
+      "per_manifest_ms": 0.2124,
+      "path_verifications": 1849,
+      "leaf_hits": 0,
+      "ica_hits": 1603,
+      "cache_bytes_at_end": 202565,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.33,
+      "total_ms_ci95": [
+        390.03,
+        452.45
+      ],
+      "total_ms_runs": [
+        413.54,
+        461.03,
+        408.74,
+        430.66,
+        424.73,
+        452.45,
+        390.03,
+        376.93,
+        442.43
+      ],
+      "per_manifest_ms_ci95": [
+        0.195,
+        0.2262
+      ],
+      "per_manifest_ms_runs": [
+        0.2068,
+        0.2305,
+        0.2044,
+        0.2153,
+        0.2124,
+        0.2262,
+        0.195,
+        0.1885,
+        0.2212
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 417.2,
+      "per_manifest_ms": 0.2086,
+      "path_verifications": 1825,
+      "leaf_hits": 0,
+      "ica_hits": 1627,
+      "cache_bytes_at_end": 1416898,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.38,
+      "total_ms_ci95": [
+        397.31,
+        439.31
+      ],
+      "total_ms_runs": [
+        397.31,
+        437.56,
+        397.95,
+        420.27,
+        486.79,
+        404.07,
+        396.52,
+        439.31,
+        417.2
+      ],
+      "per_manifest_ms_ci95": [
+        0.1987,
+        0.2197
+      ],
+      "per_manifest_ms_runs": [
+        0.1987,
+        0.2188,
+        0.199,
+        0.2101,
+        0.2434,
+        0.202,
+        0.1983,
+        0.2197,
+        0.2086
+      ]
+    },
+    {
+      "alg": "ES256",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 396.09,
+      "per_manifest_ms": 0.198,
+      "path_verifications": 1776,
+      "leaf_hits": 0,
+      "ica_hits": 1676,
+      "cache_bytes_at_end": 1416898,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 274,
+      "speedup_vs_no_cache": 1.4,
+      "total_ms_ci95": [
+        390.57,
+        430.77
+      ],
+      "total_ms_runs": [
+        391.73,
+        414.06,
+        430.77,
+        381.24,
+        427.78,
+        396.09,
+        390.57,
+        432.3,
+        395.84
+      ],
+      "per_manifest_ms_ci95": [
+        0.1953,
+        0.2154
+      ],
+      "per_manifest_ms_runs": [
+        0.1959,
+        0.207,
+        0.2154,
+        0.1906,
+        0.2139,
+        0.198,
+        0.1953,
+        0.2161,
+        0.1979
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 825.09,
+      "per_manifest_ms": 0.4125,
+      "path_verifications": 3494,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 253,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        779.37,
+        921.63
+      ],
+      "total_ms_runs": [
+        779.37,
+        825.13,
+        888.34,
+        972.71,
+        825.09,
+        921.63,
+        787.8,
+        783.84,
+        770.1
+      ],
+      "per_manifest_ms_ci95": [
+        0.3897,
+        0.4608
+      ],
+      "per_manifest_ms_runs": [
+        0.3897,
+        0.4126,
+        0.4442,
+        0.4864,
+        0.4125,
+        0.4608,
+        0.3939,
+        0.3919,
+        0.3851
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 541.07,
+      "per_manifest_ms": 0.2705,
+      "path_verifications": 1792,
+      "leaf_hits": 851,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 70279,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 253,
+      "speedup_vs_no_cache": 1.49,
+      "total_ms_ci95": [
+        522.83,
+        629.3
+      ],
+      "total_ms_runs": [
+        522.83,
+        532.78,
+        542.27,
+        643.34,
+        506.23,
+        541.07,
+        542.2,
+        629.3,
+        523.15
+      ],
+      "per_manifest_ms_ci95": [
+        0.2614,
+        0.3146
+      ],
+      "per_manifest_ms_runs": [
+        0.2614,
+        0.2664,
+        0.2711,
+        0.3217,
+        0.2531,
+        0.2705,
+        0.2711,
+        0.3146,
+        0.2616
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 533.87,
+      "per_manifest_ms": 0.2669,
+      "path_verifications": 1790,
+      "leaf_hits": 852,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 70279,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 253,
+      "speedup_vs_no_cache": 1.53,
+      "total_ms_ci95": [
+        513.77,
+        581.54
+      ],
+      "total_ms_runs": [
+        508.58,
+        513.77,
+        529.15,
+        765.6,
+        573.9,
+        533.87,
+        581.54,
+        557.53,
+        518.9
+      ],
+      "per_manifest_ms_ci95": [
+        0.2569,
+        0.2908
+      ],
+      "per_manifest_ms_runs": [
+        0.2543,
+        0.2569,
+        0.2646,
+        0.3828,
+        0.2869,
+        0.2669,
+        0.2908,
+        0.2788,
+        0.2594
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 301.56,
+      "per_manifest_ms": 0.1508,
+      "path_verifications": 198,
+      "leaf_hits": 1648,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 434262,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 253,
+      "speedup_vs_no_cache": 2.69,
+      "total_ms_ci95": [
+        290.84,
+        363.68
+      ],
+      "total_ms_runs": [
+        289.58,
+        306.34,
+        301.56,
+        396.63,
+        290.84,
+        294.53,
+        363.68,
+        309.09,
+        301.04
+      ],
+      "per_manifest_ms_ci95": [
+        0.1454,
+        0.1818
+      ],
+      "per_manifest_ms_runs": [
+        0.1448,
+        0.1532,
+        0.1508,
+        0.1983,
+        0.1454,
+        0.1473,
+        0.1818,
+        0.1545,
+        0.1505
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 335.44,
+      "per_manifest_ms": 0.1677,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 438670,
+      "accepted_after_distrust": 253,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 1.72,
+      "total_ms_ci95": [
+        323.27,
+        423.79
+      ],
+      "total_ms_runs": [
+        453.05,
+        387.59,
+        328.45,
+        423.79,
+        323.59,
+        323.27,
+        335.44,
+        348.75,
+        316.75
+      ],
+      "per_manifest_ms_ci95": [
+        0.1616,
+        0.2119
+      ],
+      "per_manifest_ms_runs": [
+        0.2265,
+        0.1938,
+        0.1642,
+        0.2119,
+        0.1618,
+        0.1616,
+        0.1677,
+        0.1744,
+        0.1584
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 303.71,
+      "per_manifest_ms": 0.1519,
+      "path_verifications": 198,
+      "leaf_hits": 1648,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 434262,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 253,
+      "speedup_vs_no_cache": 2.4,
+      "total_ms_ci95": [
+        293.83,
+        328.27
+      ],
+      "total_ms_runs": [
+        324.32,
+        298.77,
+        293.83,
+        372.89,
+        323.34,
+        303.71,
+        328.27,
+        290.75,
+        296.46
+      ],
+      "per_manifest_ms_ci95": [
+        0.1469,
+        0.1641
+      ],
+      "per_manifest_ms_runs": [
+        0.1622,
+        0.1494,
+        0.1469,
+        0.1864,
+        0.1617,
+        0.1519,
+        0.1641,
+        0.1454,
+        0.1482
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 322.47,
+      "per_manifest_ms": 0.1612,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 438670,
+      "accepted_after_distrust": 253,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.31,
+      "total_ms_ci95": [
+        314.46,
+        404.33
+      ],
+      "total_ms_runs": [
+        336.92,
+        318.84,
+        314.46,
+        406.03,
+        322.47,
+        374.89,
+        404.33,
+        306.62,
+        321.52
+      ],
+      "per_manifest_ms_ci95": [
+        0.1572,
+        0.2022
+      ],
+      "per_manifest_ms_runs": [
+        0.1685,
+        0.1594,
+        0.1572,
+        0.203,
+        0.1612,
+        0.1874,
+        0.2022,
+        0.1533,
+        0.1608
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 794.15,
+      "per_manifest_ms": 0.3971,
+      "path_verifications": 3502,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 249,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        756.12,
+        858.24
+      ],
+      "total_ms_runs": [
+        794.15,
+        756.12,
+        825.81,
+        1001.89,
+        776.21,
+        818.18,
+        780.01,
+        858.24,
+        750.8
+      ],
+      "per_manifest_ms_ci95": [
+        0.3781,
+        0.4291
+      ],
+      "per_manifest_ms_runs": [
+        0.3971,
+        0.3781,
+        0.4129,
+        0.5009,
+        0.3881,
+        0.4091,
+        0.39,
+        0.4291,
+        0.3754
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 524.06,
+      "per_manifest_ms": 0.262,
+      "path_verifications": 1704,
+      "leaf_hits": 899,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 70271,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 249,
+      "speedup_vs_no_cache": 1.49,
+      "total_ms_ci95": [
+        516.42,
+        593.5
+      ],
+      "total_ms_runs": [
+        533.29,
+        516.42,
+        520.07,
+        645.21,
+        524.06,
+        544.25,
+        516.17,
+        593.5,
+        518.8
+      ],
+      "per_manifest_ms_ci95": [
+        0.2582,
+        0.2967
+      ],
+      "per_manifest_ms_runs": [
+        0.2666,
+        0.2582,
+        0.26,
+        0.3226,
+        0.262,
+        0.2721,
+        0.2581,
+        0.2967,
+        0.2594
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 529.91,
+      "per_manifest_ms": 0.265,
+      "path_verifications": 1704,
+      "leaf_hits": 918,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 70271,
+      "accepted_after_distrust": 19,
+      "rejected_after_distrust": 230,
+      "speedup_vs_no_cache": 1.41,
+      "total_ms_ci95": [
+        524.47,
+        564.04
+      ],
+      "total_ms_runs": [
+        564.04,
+        529.91,
+        527.61,
+        720.3,
+        493.75,
+        560.42,
+        526.0,
+        555.78,
+        524.47
+      ],
+      "per_manifest_ms_ci95": [
+        0.2622,
+        0.282
+      ],
+      "per_manifest_ms_runs": [
+        0.282,
+        0.265,
+        0.2638,
+        0.3602,
+        0.2469,
+        0.2802,
+        0.263,
+        0.2779,
+        0.2622
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 301.09,
+      "per_manifest_ms": 0.1505,
+      "path_verifications": 204,
+      "leaf_hits": 1646,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 460710,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 249,
+      "speedup_vs_no_cache": 2.73,
+      "total_ms_ci95": [
+        290.44,
+        328.78
+      ],
+      "total_ms_runs": [
+        290.44,
+        317.61,
+        301.09,
+        370.62,
+        283.6,
+        328.78,
+        291.91,
+        325.85,
+        293.84
+      ],
+      "per_manifest_ms_ci95": [
+        0.1452,
+        0.1644
+      ],
+      "per_manifest_ms_runs": [
+        0.1452,
+        0.1588,
+        0.1505,
+        0.1853,
+        0.1418,
+        0.1644,
+        0.146,
+        0.1629,
+        0.1469
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 290.8,
+      "per_manifest_ms": 0.1454,
+      "path_verifications": 106,
+      "leaf_hits": 1750,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 465118,
+      "accepted_after_distrust": 55,
+      "rejected_after_distrust": 194,
+      "speedup_vs_no_cache": 2.74,
+      "total_ms_ci95": [
+        285.42,
+        307.51
+      ],
+      "total_ms_runs": [
+        289.9,
+        290.8,
+        307.51,
+        364.46,
+        270.79,
+        287.73,
+        285.42,
+        300.36,
+        298.25
+      ],
+      "per_manifest_ms_ci95": [
+        0.1427,
+        0.1538
+      ],
+      "per_manifest_ms_runs": [
+        0.145,
+        0.1454,
+        0.1538,
+        0.1822,
+        0.1354,
+        0.1439,
+        0.1427,
+        0.1502,
+        0.1491
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 326.19,
+      "per_manifest_ms": 0.1631,
+      "path_verifications": 204,
+      "leaf_hits": 1646,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 460710,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 249,
+      "speedup_vs_no_cache": 2.35,
+      "total_ms_ci95": [
+        287.65,
+        403.84
+      ],
+      "total_ms_runs": [
+        337.52,
+        291.03,
+        361.75,
+        403.84,
+        283.06,
+        287.65,
+        423.15,
+        326.19,
+        294.81
+      ],
+      "per_manifest_ms_ci95": [
+        0.1438,
+        0.2019
+      ],
+      "per_manifest_ms_runs": [
+        0.1688,
+        0.1455,
+        0.1809,
+        0.2019,
+        0.1415,
+        0.1438,
+        0.2116,
+        0.1631,
+        0.1474
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 306.46,
+      "per_manifest_ms": 0.1532,
+      "path_verifications": 106,
+      "leaf_hits": 1750,
+      "ica_hits": 6,
+      "cache_bytes_at_end": 465118,
+      "accepted_after_distrust": 55,
+      "rejected_after_distrust": 194,
+      "speedup_vs_no_cache": 2.07,
+      "total_ms_ci95": [
+        286.88,
+        384.11
+      ],
+      "total_ms_runs": [
+        384.11,
+        306.46,
+        286.88,
+        366.31,
+        277.04,
+        352.84,
+        288.08,
+        391.33,
+        293.85
+      ],
+      "per_manifest_ms_ci95": [
+        0.1434,
+        0.1921
+      ],
+      "per_manifest_ms_runs": [
+        0.1921,
+        0.1532,
+        0.1434,
+        0.1832,
+        0.1385,
+        0.1764,
+        0.144,
+        0.1957,
+        0.1469
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 821.2,
+      "per_manifest_ms": 0.4106,
+      "path_verifications": 3456,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        811.64,
+        869.4
+      ],
+      "total_ms_runs": [
+        757.06,
+        811.64,
+        945.99,
+        822.16,
+        869.4,
+        865.64,
+        812.68,
+        814.43,
+        821.2
+      ],
+      "per_manifest_ms_ci95": [
+        0.4058,
+        0.4347
+      ],
+      "per_manifest_ms_runs": [
+        0.3785,
+        0.4058,
+        0.473,
+        0.4111,
+        0.4347,
+        0.4328,
+        0.4063,
+        0.4072,
+        0.4106
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 695.56,
+      "per_manifest_ms": 0.3478,
+      "path_verifications": 2788,
+      "leaf_hits": 0,
+      "ica_hits": 668,
+      "cache_bytes_at_end": 70259,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.01,
+      "total_ms_ci95": [
+        667.89,
+        722.96
+      ],
+      "total_ms_runs": [
+        751.89,
+        722.96,
+        681.55,
+        699.73,
+        647.27,
+        679.67,
+        667.89,
+        695.56,
+        715.96
+      ],
+      "per_manifest_ms_ci95": [
+        0.3339,
+        0.3615
+      ],
+      "per_manifest_ms_runs": [
+        0.3759,
+        0.3615,
+        0.3408,
+        0.3499,
+        0.3236,
+        0.3398,
+        0.3339,
+        0.3478,
+        0.358
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 705.76,
+      "per_manifest_ms": 0.3529,
+      "path_verifications": 2787,
+      "leaf_hits": 0,
+      "ica_hits": 669,
+      "cache_bytes_at_end": 70259,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 0.97,
+      "total_ms_ci95": [
+        661.25,
+        783.05
+      ],
+      "total_ms_runs": [
+        783.05,
+        726.02,
+        705.76,
+        661.25,
+        698.59,
+        728.56,
+        704.7,
+        642.52,
+        819.23
+      ],
+      "per_manifest_ms_ci95": [
+        0.3306,
+        0.3915
+      ],
+      "per_manifest_ms_runs": [
+        0.3915,
+        0.363,
+        0.3529,
+        0.3306,
+        0.3493,
+        0.3643,
+        0.3524,
+        0.3213,
+        0.4096
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 593.72,
+      "per_manifest_ms": 0.2969,
+      "path_verifications": 1887,
+      "leaf_hits": 0,
+      "ica_hits": 1569,
+      "cache_bytes_at_end": 1127835,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.22,
+      "total_ms_ci95": [
+        545.3,
+        641.91
+      ],
+      "total_ms_runs": [
+        622.14,
+        601.33,
+        645.3,
+        545.3,
+        556.82,
+        593.72,
+        584.19,
+        534.22,
+        641.91
+      ],
+      "per_manifest_ms_ci95": [
+        0.2727,
+        0.321
+      ],
+      "per_manifest_ms_runs": [
+        0.3111,
+        0.3007,
+        0.3227,
+        0.2727,
+        0.2784,
+        0.2969,
+        0.2921,
+        0.2671,
+        0.321
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 566.8,
+      "per_manifest_ms": 0.2834,
+      "path_verifications": 1852,
+      "leaf_hits": 0,
+      "ica_hits": 1604,
+      "cache_bytes_at_end": 1127835,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.37,
+      "total_ms_ci95": [
+        546.49,
+        627.8
+      ],
+      "total_ms_runs": [
+        554.51,
+        627.8,
+        641.82,
+        566.8,
+        566.04,
+        575.46,
+        546.49,
+        537.17,
+        570.49
+      ],
+      "per_manifest_ms_ci95": [
+        0.2732,
+        0.3139
+      ],
+      "per_manifest_ms_runs": [
+        0.2773,
+        0.3139,
+        0.3209,
+        0.2834,
+        0.283,
+        0.2877,
+        0.2732,
+        0.2686,
+        0.2852
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 584.17,
+      "per_manifest_ms": 0.2921,
+      "path_verifications": 1826,
+      "leaf_hits": 0,
+      "ica_hits": 1630,
+      "cache_bytes_at_end": 7844104,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.3,
+      "total_ms_ci95": [
+        538.37,
+        614.6
+      ],
+      "total_ms_runs": [
+        584.17,
+        590.43,
+        664.65,
+        602.76,
+        532.72,
+        569.47,
+        614.6,
+        556.8,
+        538.37
+      ],
+      "per_manifest_ms_ci95": [
+        0.2692,
+        0.3073
+      ],
+      "per_manifest_ms_runs": [
+        0.2921,
+        0.2952,
+        0.3323,
+        0.3014,
+        0.2664,
+        0.2847,
+        0.3073,
+        0.2784,
+        0.2692
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 546.7,
+      "per_manifest_ms": 0.2733,
+      "path_verifications": 1778,
+      "leaf_hits": 0,
+      "ica_hits": 1678,
+      "cache_bytes_at_end": 7844104,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 272,
+      "speedup_vs_no_cache": 1.32,
+      "total_ms_ci95": [
+        536.93,
+        586.92
+      ],
+      "total_ms_runs": [
+        575.34,
+        579.47,
+        653.12,
+        526.18,
+        586.92,
+        536.93,
+        546.7,
+        540.2,
+        541.71
+      ],
+      "per_manifest_ms_ci95": [
+        0.2685,
+        0.2935
+      ],
+      "per_manifest_ms_runs": [
+        0.2877,
+        0.2897,
+        0.3266,
+        0.2631,
+        0.2935,
+        0.2685,
+        0.2733,
+        0.2701,
+        0.2709
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 1817.48,
+      "per_manifest_ms": 0.9087,
+      "path_verifications": 3490,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 255,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1676.39,
+        1889.4
+      ],
+      "total_ms_runs": [
+        1787.48,
+        1889.4,
+        1817.48,
+        1855.56,
+        1636.17,
+        1804.33,
+        1821.14,
+        1676.39,
+        1909.31
+      ],
+      "per_manifest_ms_ci95": [
+        0.8382,
+        0.9447
+      ],
+      "per_manifest_ms_runs": [
+        0.8937,
+        0.9447,
+        0.9087,
+        0.9278,
+        0.8181,
+        0.9022,
+        0.9106,
+        0.8382,
+        0.9547
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 1290.8,
+      "per_manifest_ms": 0.6454,
+      "path_verifications": 1770,
+      "leaf_hits": 860,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 126009,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 255,
+      "speedup_vs_no_cache": 1.44,
+      "total_ms_ci95": [
+        1142.91,
+        1381.82
+      ],
+      "total_ms_runs": [
+        1238.53,
+        1301.48,
+        1381.82,
+        1142.91,
+        1118.79,
+        1213.08,
+        1290.8,
+        1305.89,
+        1471.51
+      ],
+      "per_manifest_ms_ci95": [
+        0.5715,
+        0.6909
+      ],
+      "per_manifest_ms_runs": [
+        0.6193,
+        0.6507,
+        0.6909,
+        0.5715,
+        0.5594,
+        0.6065,
+        0.6454,
+        0.6529,
+        0.7358
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 1266.23,
+      "per_manifest_ms": 0.6331,
+      "path_verifications": 1766,
+      "leaf_hits": 868,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 126009,
+      "accepted_after_distrust": 6,
+      "rejected_after_distrust": 249,
+      "speedup_vs_no_cache": 1.54,
+      "total_ms_ci95": [
+        1169.48,
+        1315.86
+      ],
+      "total_ms_runs": [
+        1161.38,
+        1266.23,
+        1381.88,
+        1172.56,
+        1169.48,
+        1213.0,
+        1267.12,
+        1266.83,
+        1315.86
+      ],
+      "per_manifest_ms_ci95": [
+        0.5847,
+        0.6579
+      ],
+      "per_manifest_ms_runs": [
+        0.5807,
+        0.6331,
+        0.6909,
+        0.5863,
+        0.5847,
+        0.6065,
+        0.6336,
+        0.6334,
+        0.6579
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 668.37,
+      "per_manifest_ms": 0.3342,
+      "path_verifications": 196,
+      "leaf_hits": 1647,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 779475,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 255,
+      "speedup_vs_no_cache": 2.76,
+      "total_ms_ci95": [
+        647.19,
+        704.23
+      ],
+      "total_ms_runs": [
+        647.45,
+        704.23,
+        693.41,
+        638.15,
+        694.9,
+        668.37,
+        667.69,
+        647.19,
+        783.01
+      ],
+      "per_manifest_ms_ci95": [
+        0.3236,
+        0.3521
+      ],
+      "per_manifest_ms_runs": [
+        0.3237,
+        0.3521,
+        0.3467,
+        0.3191,
+        0.3475,
+        0.3342,
+        0.3338,
+        0.3236,
+        0.3915
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 728.6,
+      "per_manifest_ms": 0.3643,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 787370,
+      "accepted_after_distrust": 255,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.56,
+      "total_ms_ci95": [
+        703.45,
+        816.82
+      ],
+      "total_ms_runs": [
+        698.32,
+        774.45,
+        703.45,
+        719.74,
+        709.73,
+        816.82,
+        953.16,
+        728.6,
+        812.63
+      ],
+      "per_manifest_ms_ci95": [
+        0.3517,
+        0.4084
+      ],
+      "per_manifest_ms_runs": [
+        0.3492,
+        0.3872,
+        0.3517,
+        0.3599,
+        0.3549,
+        0.4084,
+        0.4766,
+        0.3643,
+        0.4063
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 697.67,
+      "per_manifest_ms": 0.3488,
+      "path_verifications": 196,
+      "leaf_hits": 1647,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 779475,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 255,
+      "speedup_vs_no_cache": 2.56,
+      "total_ms_ci95": [
+        678.97,
+        760.1
+      ],
+      "total_ms_runs": [
+        697.67,
+        686.7,
+        665.64,
+        734.28,
+        680.7,
+        678.97,
+        796.14,
+        719.65,
+        760.1
+      ],
+      "per_manifest_ms_ci95": [
+        0.3395,
+        0.3801
+      ],
+      "per_manifest_ms_runs": [
+        0.3488,
+        0.3433,
+        0.3328,
+        0.3671,
+        0.3404,
+        0.3395,
+        0.3981,
+        0.3598,
+        0.3801
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "long-lived",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 50,
+      "total_ms": 722.43,
+      "per_manifest_ms": 0.3612,
+      "path_verifications": 100,
+      "leaf_hits": 1950,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 787370,
+      "accepted_after_distrust": 255,
+      "rejected_after_distrust": 0,
+      "speedup_vs_no_cache": 2.52,
+      "total_ms_ci95": [
+        700.94,
+        785.13
+      ],
+      "total_ms_runs": [
+        708.89,
+        722.43,
+        739.35,
+        700.94,
+        689.92,
+        721.49,
+        785.13,
+        780.13,
+        822.78
+      ],
+      "per_manifest_ms_ci95": [
+        0.3505,
+        0.3926
+      ],
+      "per_manifest_ms_runs": [
+        0.3544,
+        0.3612,
+        0.3697,
+        0.3505,
+        0.345,
+        0.3607,
+        0.3926,
+        0.3901,
+        0.4114
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 1796.11,
+      "per_manifest_ms": 0.8981,
+      "path_verifications": 3466,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 267,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1674.92,
+        1897.45
+      ],
+      "total_ms_runs": [
+        1674.92,
+        1897.45,
+        1704.59,
+        1898.93,
+        1831.08,
+        1666.23,
+        1680.22,
+        1796.11,
+        1846.7
+      ],
+      "per_manifest_ms_ci95": [
+        0.8375,
+        0.9487
+      ],
+      "per_manifest_ms_runs": [
+        0.8375,
+        0.9487,
+        0.8523,
+        0.9495,
+        0.9155,
+        0.8331,
+        0.8401,
+        0.8981,
+        0.9234
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 1215.84,
+      "per_manifest_ms": 0.6079,
+      "path_verifications": 1739,
+      "leaf_hits": 863,
+      "ica_hits": 1,
+      "cache_bytes_at_end": 126014,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 267,
+      "speedup_vs_no_cache": 1.4,
+      "total_ms_ci95": [
+        1138.18,
+        1272.81
+      ],
+      "total_ms_runs": [
+        1199.14,
+        1189.39,
+        1272.81,
+        1231.44,
+        1122.15,
+        1245.92,
+        1138.18,
+        1215.84,
+        1275.35
+      ],
+      "per_manifest_ms_ci95": [
+        0.5691,
+        0.6364
+      ],
+      "per_manifest_ms_runs": [
+        0.5996,
+        0.5947,
+        0.6364,
+        0.6157,
+        0.5611,
+        0.623,
+        0.5691,
+        0.6079,
+        0.6377
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 1197.55,
+      "per_manifest_ms": 0.5988,
+      "path_verifications": 1737,
+      "leaf_hits": 874,
+      "ica_hits": 1,
+      "cache_bytes_at_end": 126014,
+      "accepted_after_distrust": 10,
+      "rejected_after_distrust": 257,
+      "speedup_vs_no_cache": 1.46,
+      "total_ms_ci95": [
+        1160.89,
+        1270.06
+      ],
+      "total_ms_runs": [
+        1150.66,
+        1160.89,
+        1270.06,
+        1194.24,
+        1197.55,
+        1178.25,
+        1212.36,
+        1255.58,
+        1279.49
+      ],
+      "per_manifest_ms_ci95": [
+        0.5804,
+        0.635
+      ],
+      "per_manifest_ms_runs": [
+        0.5753,
+        0.5804,
+        0.635,
+        0.5971,
+        0.5988,
+        0.5891,
+        0.6062,
+        0.6278,
+        0.6397
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 682.63,
+      "per_manifest_ms": 0.3413,
+      "path_verifications": 201,
+      "leaf_hits": 1630,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 818950,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 267,
+      "speedup_vs_no_cache": 2.5,
+      "total_ms_ci95": [
+        646.1,
+        762.58
+      ],
+      "total_ms_runs": [
+        670.83,
+        762.58,
+        646.1,
+        672.72,
+        638.97,
+        682.63,
+        691.25,
+        686.73,
+        860.86
+      ],
+      "per_manifest_ms_ci95": [
+        0.3231,
+        0.3813
+      ],
+      "per_manifest_ms_runs": [
+        0.3354,
+        0.3813,
+        0.3231,
+        0.3364,
+        0.3195,
+        0.3413,
+        0.3456,
+        0.3434,
+        0.4304
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 673.0,
+      "per_manifest_ms": 0.3365,
+      "path_verifications": 105,
+      "leaf_hits": 1688,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 826845,
+      "accepted_after_distrust": 10,
+      "rejected_after_distrust": 257,
+      "speedup_vs_no_cache": 2.62,
+      "total_ms_ci95": [
+        616.83,
+        798.37
+      ],
+      "total_ms_runs": [
+        638.67,
+        719.29,
+        614.47,
+        673.0,
+        628.43,
+        679.76,
+        798.37,
+        616.83,
+        813.19
+      ],
+      "per_manifest_ms_ci95": [
+        0.3084,
+        0.3992
+      ],
+      "per_manifest_ms_runs": [
+        0.3193,
+        0.3596,
+        0.3072,
+        0.3365,
+        0.3142,
+        0.3399,
+        0.3992,
+        0.3084,
+        0.4066
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 671.96,
+      "per_manifest_ms": 0.336,
+      "path_verifications": 201,
+      "leaf_hits": 1630,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 818950,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 267,
+      "speedup_vs_no_cache": 2.59,
+      "total_ms_ci95": [
+        647.33,
+        702.22
+      ],
+      "total_ms_runs": [
+        647.33,
+        683.59,
+        671.96,
+        652.46,
+        641.59,
+        702.22,
+        848.8,
+        653.72,
+        681.93
+      ],
+      "per_manifest_ms_ci95": [
+        0.3237,
+        0.3511
+      ],
+      "per_manifest_ms_runs": [
+        0.3237,
+        0.3418,
+        0.336,
+        0.3262,
+        0.3208,
+        0.3511,
+        0.4244,
+        0.3269,
+        0.341
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "rotating",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 58,
+      "total_ms": 671.3,
+      "per_manifest_ms": 0.3357,
+      "path_verifications": 105,
+      "leaf_hits": 1688,
+      "ica_hits": 5,
+      "cache_bytes_at_end": 826845,
+      "accepted_after_distrust": 10,
+      "rejected_after_distrust": 257,
+      "speedup_vs_no_cache": 2.63,
+      "total_ms_ci95": [
+        644.22,
+        688.37
+      ],
+      "total_ms_runs": [
+        637.16,
+        688.37,
+        671.3,
+        644.22,
+        661.28,
+        719.69,
+        678.11,
+        688.28,
+        658.57
+      ],
+      "per_manifest_ms_ci95": [
+        0.3221,
+        0.3442
+      ],
+      "per_manifest_ms_runs": [
+        0.3186,
+        0.3442,
+        0.3357,
+        0.3221,
+        0.3306,
+        0.3598,
+        0.3391,
+        0.3441,
+        0.3293
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 0,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1786.02,
+      "per_manifest_ms": 0.893,
+      "path_verifications": 3470,
+      "leaf_hits": 0,
+      "ica_hits": 0,
+      "cache_bytes_at_end": 0,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.0,
+      "total_ms_ci95": [
+        1735.72,
+        1851.91
+      ],
+      "total_ms_runs": [
+        1821.58,
+        1735.72,
+        1739.48,
+        1752.42,
+        1786.02,
+        1732.66,
+        1820.59,
+        1940.84,
+        1851.91
+      ],
+      "per_manifest_ms_ci95": [
+        0.8679,
+        0.926
+      ],
+      "per_manifest_ms_runs": [
+        0.9108,
+        0.8679,
+        0.8697,
+        0.8762,
+        0.893,
+        0.8663,
+        0.9103,
+        0.9704,
+        0.926
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1574.8,
+      "per_manifest_ms": 0.7874,
+      "path_verifications": 2757,
+      "leaf_hits": 0,
+      "ica_hits": 713,
+      "cache_bytes_at_end": 126109,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.15,
+      "total_ms_ci95": [
+        1546.9,
+        1627.97
+      ],
+      "total_ms_runs": [
+        1580.27,
+        1574.8,
+        1560.36,
+        1539.66,
+        1567.08,
+        1586.94,
+        1669.69,
+        1546.9,
+        1627.97
+      ],
+      "per_manifest_ms_ci95": [
+        0.7734,
+        0.814
+      ],
+      "per_manifest_ms_runs": [
+        0.7901,
+        0.7874,
+        0.7802,
+        0.7698,
+        0.7835,
+        0.7935,
+        0.8348,
+        0.7734,
+        0.814
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 16,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1627.59,
+      "per_manifest_ms": 0.8138,
+      "path_verifications": 2756,
+      "leaf_hits": 0,
+      "ica_hits": 714,
+      "cache_bytes_at_end": 126109,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.09,
+      "total_ms_ci95": [
+        1532.87,
+        1691.42
+      ],
+      "total_ms_runs": [
+        1668.54,
+        1522.0,
+        1691.42,
+        1566.08,
+        1553.2,
+        1651.3,
+        1532.87,
+        1627.59,
+        1716.93
+      ],
+      "per_manifest_ms_ci95": [
+        0.7664,
+        0.8457
+      ],
+      "per_manifest_ms_runs": [
+        0.8343,
+        0.761,
+        0.8457,
+        0.783,
+        0.7766,
+        0.8256,
+        0.7664,
+        0.8138,
+        0.8585
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1294.44,
+      "per_manifest_ms": 0.6472,
+      "path_verifications": 1896,
+      "leaf_hits": 0,
+      "ica_hits": 1574,
+      "cache_bytes_at_end": 2020423,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.34,
+      "total_ms_ci95": [
+        1263.58,
+        1410.78
+      ],
+      "total_ms_runs": [
+        1357.6,
+        1275.92,
+        1387.48,
+        1410.78,
+        1263.58,
+        1188.57,
+        1289.05,
+        1294.44,
+        1427.23
+      ],
+      "per_manifest_ms_ci95": [
+        0.6318,
+        0.7054
+      ],
+      "per_manifest_ms_runs": [
+        0.6788,
+        0.638,
+        0.6937,
+        0.7054,
+        0.6318,
+        0.5943,
+        0.6445,
+        0.6472,
+        0.7136
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 256,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1249.41,
+      "per_manifest_ms": 0.6247,
+      "path_verifications": 1866,
+      "leaf_hits": 0,
+      "ica_hits": 1604,
+      "cache_bytes_at_end": 2020423,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.5,
+      "total_ms_ci95": [
+        1215.94,
+        1359.12
+      ],
+      "total_ms_runs": [
+        1215.94,
+        1291.1,
+        1321.85,
+        1504.28,
+        1209.42,
+        1249.41,
+        1248.83,
+        1359.12,
+        1226.76
+      ],
+      "per_manifest_ms_ci95": [
+        0.608,
+        0.6796
+      ],
+      "per_manifest_ms_runs": [
+        0.608,
+        0.6455,
+        0.6609,
+        0.7521,
+        0.6047,
+        0.6247,
+        0.6244,
+        0.6796,
+        0.6134
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": true,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1308.01,
+      "per_manifest_ms": 0.654,
+      "path_verifications": 1833,
+      "leaf_hits": 0,
+      "ica_hits": 1637,
+      "cache_bytes_at_end": 14099213,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.51,
+      "total_ms_ci95": [
+        1227.21,
+        1506.87
+      ],
+      "total_ms_runs": [
+        1208.02,
+        1308.01,
+        1227.21,
+        1506.87,
+        1251.41,
+        1247.75,
+        1606.77,
+        1343.47,
+        1334.13
+      ],
+      "per_manifest_ms_ci95": [
+        0.6136,
+        0.7534
+      ],
+      "per_manifest_ms_runs": [
+        0.604,
+        0.654,
+        0.6136,
+        0.7534,
+        0.6257,
+        0.6239,
+        0.8034,
+        0.6717,
+        0.6671
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "lifecycle": "per-image",
+      "cache_entries": 4096,
+      "snapshot_tagged": false,
+      "stream": 2000,
+      "publishers": 50,
+      "distinct_leaves": 2000,
+      "total_ms": 1349.16,
+      "per_manifest_ms": 0.6746,
+      "path_verifications": 1785,
+      "leaf_hits": 0,
+      "ica_hits": 1685,
+      "cache_bytes_at_end": 14099213,
+      "accepted_after_distrust": 0,
+      "rejected_after_distrust": 265,
+      "speedup_vs_no_cache": 1.46,
+      "total_ms_ci95": [
+        1250.89,
+        1441.84
+      ],
+      "total_ms_runs": [
+        1251.87,
+        1349.16,
+        1349.43,
+        1441.84,
+        1164.81,
+        1250.89,
+        1571.11,
+        1342.56,
+        1407.26
+      ],
+      "per_manifest_ms_ci95": [
+        0.6254,
+        0.7209
+      ],
+      "per_manifest_ms_runs": [
+        0.6259,
+        0.6746,
+        0.6747,
+        0.7209,
+        0.5824,
+        0.6254,
+        0.7856,
+        0.6713,
+        0.7036
+      ]
+    }
+  ]
+}

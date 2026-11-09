@@ -1,0 +1,675 @@
+{
+  "experiment": "e7_edge",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:01:06+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    },
+    "storage": {
+      "path": "~/line-a-pi/trust-store",
+      "mount_source": "/dev/mmcblk0p2",
+      "block_device": "mmcblk0",
+      "name": "ED2S8",
+      "manfid": "0x00001b",
+      "oemid": "0x534d",
+      "date": "05/2025",
+      "type": "SD",
+      "fs": "ext4"
+    },
+    "pinned_core": 3,
+    "quick": false
+  },
+  "notes": [
+    "end-to-end verification through cryptography/OpenSSL; liboqs is not used here",
+    "x5chain and the store hold leaf and intermediate; the root is a trust anchor held in memory",
+    "cold: store files evicted (fadvise DONTNEED, plus drop_caches when permitted)",
+    "resident_before_cold is from fincore when available; 0 means fully evicted",
+    "manifests verified in a fixed shuffled order, the same for every pass"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 696995,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0052,
+          "mean_ms": 0.0054,
+          "p95_ms": 0.0061
+        },
+        "lookup": {
+          "median_ms": 0.2071,
+          "mean_ms": 0.2082,
+          "p95_ms": 0.2142
+        },
+        "parse": {
+          "median_ms": 0.0101,
+          "mean_ms": 0.0102,
+          "p95_ms": 0.0105
+        },
+        "validate": {
+          "median_ms": 0.3352,
+          "mean_ms": 0.3459,
+          "p95_ms": 0.3426
+        },
+        "verify": {
+          "median_ms": 0.1519,
+          "mean_ms": 0.1522,
+          "p95_ms": 0.1558
+        },
+        "total": {
+          "median_ms": 0.7097,
+          "mean_ms": 0.7218,
+          "p95_ms": 0.7208
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0044,
+          "mean_ms": 0.0046,
+          "p95_ms": 0.0057
+        },
+        "lookup": {
+          "median_ms": 0.0206,
+          "mean_ms": 0.0205,
+          "p95_ms": 0.0216
+        },
+        "parse": {
+          "median_ms": 0.0097,
+          "mean_ms": 0.0097,
+          "p95_ms": 0.0102
+        },
+        "validate": {
+          "median_ms": 0.3282,
+          "mean_ms": 0.3287,
+          "p95_ms": 0.3359
+        },
+        "verify": {
+          "median_ms": 0.1504,
+          "mean_ms": 0.1506,
+          "p95_ms": 0.1544
+        },
+        "total": {
+          "median_ms": 0.5131,
+          "mean_ms": 0.5141,
+          "p95_ms": 0.5244
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0047,
+          "mean_ms": 0.0048,
+          "p95_ms": 0.0061
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.007,
+          "mean_ms": 0.007,
+          "p95_ms": 0.0073
+        },
+        "validate": {
+          "median_ms": 0.3178,
+          "mean_ms": 0.3186,
+          "p95_ms": 0.3257
+        },
+        "verify": {
+          "median_ms": 0.1526,
+          "mean_ms": 0.153,
+          "p95_ms": 0.1576
+        },
+        "total": {
+          "median_ms": 0.4824,
+          "mean_ms": 0.4837,
+          "p95_ms": 0.4928
+        }
+      }
+    },
+    {
+      "alg": "ES256",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 752987,
+      "cold": {
+        "decode": {
+          "median_ms": 0.006,
+          "mean_ms": 0.0062,
+          "p95_ms": 0.0066
+        },
+        "lookup": {
+          "median_ms": 0.2095,
+          "mean_ms": 0.2108,
+          "p95_ms": 0.2198
+        },
+        "parse": {
+          "median_ms": 0.0108,
+          "mean_ms": 0.0109,
+          "p95_ms": 0.0113
+        },
+        "validate": {
+          "median_ms": 0.5163,
+          "mean_ms": 0.5187,
+          "p95_ms": 0.5308
+        },
+        "verify": {
+          "median_ms": 0.2438,
+          "mean_ms": 0.2444,
+          "p95_ms": 0.2496
+        },
+        "total": {
+          "median_ms": 0.9873,
+          "mean_ms": 0.991,
+          "p95_ms": 1.0024
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0057,
+          "mean_ms": 0.0058,
+          "p95_ms": 0.0064
+        },
+        "lookup": {
+          "median_ms": 0.0236,
+          "mean_ms": 0.0236,
+          "p95_ms": 0.0244
+        },
+        "parse": {
+          "median_ms": 0.0108,
+          "mean_ms": 0.0107,
+          "p95_ms": 0.0113
+        },
+        "validate": {
+          "median_ms": 0.4846,
+          "mean_ms": 0.4866,
+          "p95_ms": 0.4957
+        },
+        "verify": {
+          "median_ms": 0.2437,
+          "mean_ms": 0.2445,
+          "p95_ms": 0.2498
+        },
+        "total": {
+          "median_ms": 0.7685,
+          "mean_ms": 0.7713,
+          "p95_ms": 0.7816
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0075,
+          "mean_ms": 0.0076,
+          "p95_ms": 0.0084
+        },
+        "lookup": {
+          "median_ms": 0.0004,
+          "mean_ms": 0.0004,
+          "p95_ms": 0.0005
+        },
+        "parse": {
+          "median_ms": 0.0085,
+          "mean_ms": 0.0086,
+          "p95_ms": 0.0088
+        },
+        "validate": {
+          "median_ms": 0.4719,
+          "mean_ms": 0.4732,
+          "p95_ms": 0.4804
+        },
+        "verify": {
+          "median_ms": 0.2426,
+          "mean_ms": 0.2433,
+          "p95_ms": 0.2494
+        },
+        "total": {
+          "median_ms": 0.731,
+          "mean_ms": 0.7331,
+          "p95_ms": 0.7413
+        }
+      }
+    },
+    {
+      "alg": "PS256",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 1148998,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0058,
+          "mean_ms": 0.0059,
+          "p95_ms": 0.0065
+        },
+        "lookup": {
+          "median_ms": 0.2326,
+          "mean_ms": 0.2386,
+          "p95_ms": 0.2489
+        },
+        "parse": {
+          "median_ms": 0.0107,
+          "mean_ms": 0.0108,
+          "p95_ms": 0.0112
+        },
+        "validate": {
+          "median_ms": 0.3087,
+          "mean_ms": 0.3099,
+          "p95_ms": 0.3192
+        },
+        "verify": {
+          "median_ms": 0.1442,
+          "mean_ms": 0.145,
+          "p95_ms": 0.1507
+        },
+        "total": {
+          "median_ms": 0.7026,
+          "mean_ms": 0.7102,
+          "p95_ms": 0.7236
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0056,
+          "mean_ms": 0.0057,
+          "p95_ms": 0.0064
+        },
+        "lookup": {
+          "median_ms": 0.0225,
+          "mean_ms": 0.0226,
+          "p95_ms": 0.0232
+        },
+        "parse": {
+          "median_ms": 0.0106,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0113
+        },
+        "validate": {
+          "median_ms": 0.2879,
+          "mean_ms": 0.2895,
+          "p95_ms": 0.2964
+        },
+        "verify": {
+          "median_ms": 0.1434,
+          "mean_ms": 0.1439,
+          "p95_ms": 0.1472
+        },
+        "total": {
+          "median_ms": 0.47,
+          "mean_ms": 0.4722,
+          "p95_ms": 0.4822
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0063,
+          "mean_ms": 0.0064,
+          "p95_ms": 0.0073
+        },
+        "lookup": {
+          "median_ms": 0.0004,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0082,
+          "mean_ms": 0.0083,
+          "p95_ms": 0.0086
+        },
+        "validate": {
+          "median_ms": 0.2751,
+          "mean_ms": 0.276,
+          "p95_ms": 0.2828
+        },
+        "verify": {
+          "median_ms": 0.1424,
+          "mean_ms": 0.143,
+          "p95_ms": 0.1464
+        },
+        "total": {
+          "median_ms": 0.4324,
+          "mean_ms": 0.434,
+          "p95_ms": 0.4426
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 4364993,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0069,
+          "mean_ms": 0.0069,
+          "p95_ms": 0.0075
+        },
+        "lookup": {
+          "median_ms": 0.322,
+          "mean_ms": 0.3203,
+          "p95_ms": 0.349
+        },
+        "parse": {
+          "median_ms": 0.0106,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0109
+        },
+        "validate": {
+          "median_ms": 0.5178,
+          "mean_ms": 0.5216,
+          "p95_ms": 0.5343
+        },
+        "verify": {
+          "median_ms": 0.2365,
+          "mean_ms": 0.2372,
+          "p95_ms": 0.2428
+        },
+        "total": {
+          "median_ms": 1.0959,
+          "mean_ms": 1.0966,
+          "p95_ms": 1.127
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0059,
+          "mean_ms": 0.006,
+          "p95_ms": 0.007
+        },
+        "lookup": {
+          "median_ms": 0.0228,
+          "mean_ms": 0.0227,
+          "p95_ms": 0.0238
+        },
+        "parse": {
+          "median_ms": 0.0107,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0112
+        },
+        "validate": {
+          "median_ms": 0.5029,
+          "mean_ms": 0.5038,
+          "p95_ms": 0.5124
+        },
+        "verify": {
+          "median_ms": 0.2346,
+          "mean_ms": 0.2354,
+          "p95_ms": 0.241
+        },
+        "total": {
+          "median_ms": 0.777,
+          "mean_ms": 0.7785,
+          "p95_ms": 0.7894
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0069,
+          "mean_ms": 0.0071,
+          "p95_ms": 0.0087
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0004,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0079,
+          "mean_ms": 0.0079,
+          "p95_ms": 0.0082
+        },
+        "validate": {
+          "median_ms": 0.4914,
+          "mean_ms": 0.4928,
+          "p95_ms": 0.5002
+        },
+        "verify": {
+          "median_ms": 0.2617,
+          "mean_ms": 0.2626,
+          "p95_ms": 0.2692
+        },
+        "total": {
+          "median_ms": 0.7683,
+          "mean_ms": 0.7707,
+          "p95_ms": 0.7795
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 5893997,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0072,
+          "mean_ms": 0.0073,
+          "p95_ms": 0.008
+        },
+        "lookup": {
+          "median_ms": 0.3341,
+          "mean_ms": 0.3385,
+          "p95_ms": 0.3778
+        },
+        "parse": {
+          "median_ms": 0.0107,
+          "mean_ms": 0.0108,
+          "p95_ms": 0.0111
+        },
+        "validate": {
+          "median_ms": 0.7528,
+          "mean_ms": 0.7548,
+          "p95_ms": 0.7643
+        },
+        "verify": {
+          "median_ms": 0.3521,
+          "mean_ms": 0.3543,
+          "p95_ms": 0.3651
+        },
+        "total": {
+          "median_ms": 1.4608,
+          "mean_ms": 1.4657,
+          "p95_ms": 1.5073
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0064,
+          "mean_ms": 0.0065,
+          "p95_ms": 0.0074
+        },
+        "lookup": {
+          "median_ms": 0.0236,
+          "mean_ms": 0.0236,
+          "p95_ms": 0.0246
+        },
+        "parse": {
+          "median_ms": 0.0108,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0114
+        },
+        "validate": {
+          "median_ms": 0.7357,
+          "mean_ms": 0.7366,
+          "p95_ms": 0.746
+        },
+        "verify": {
+          "median_ms": 0.3499,
+          "mean_ms": 0.3508,
+          "p95_ms": 0.3565
+        },
+        "total": {
+          "median_ms": 1.1263,
+          "mean_ms": 1.1281,
+          "p95_ms": 1.1395
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0085,
+          "mean_ms": 0.0088,
+          "p95_ms": 0.0109
+        },
+        "lookup": {
+          "median_ms": 0.0004,
+          "mean_ms": 0.0004,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.008,
+          "mean_ms": 0.0081,
+          "p95_ms": 0.0084
+        },
+        "validate": {
+          "median_ms": 0.7254,
+          "mean_ms": 0.7269,
+          "p95_ms": 0.7337
+        },
+        "verify": {
+          "median_ms": 0.3876,
+          "mean_ms": 0.3888,
+          "p95_ms": 0.3954
+        },
+        "total": {
+          "median_ms": 1.132,
+          "mean_ms": 1.133,
+          "p95_ms": 1.1407
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 7851997,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0077,
+          "mean_ms": 0.0078,
+          "p95_ms": 0.0085
+        },
+        "lookup": {
+          "median_ms": 0.3828,
+          "mean_ms": 0.3819,
+          "p95_ms": 0.3954
+        },
+        "parse": {
+          "median_ms": 0.0105,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0109
+        },
+        "validate": {
+          "median_ms": 1.119,
+          "mean_ms": 1.122,
+          "p95_ms": 1.1305
+        },
+        "verify": {
+          "median_ms": 0.5358,
+          "mean_ms": 0.536,
+          "p95_ms": 0.5458
+        },
+        "total": {
+          "median_ms": 2.0558,
+          "mean_ms": 2.0583,
+          "p95_ms": 2.0782
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0071,
+          "mean_ms": 0.0071,
+          "p95_ms": 0.008
+        },
+        "lookup": {
+          "median_ms": 0.0243,
+          "mean_ms": 0.0244,
+          "p95_ms": 0.0255
+        },
+        "parse": {
+          "median_ms": 0.0106,
+          "mean_ms": 0.0105,
+          "p95_ms": 0.0113
+        },
+        "validate": {
+          "median_ms": 1.0978,
+          "mean_ms": 1.0994,
+          "p95_ms": 1.1093
+        },
+        "verify": {
+          "median_ms": 0.5305,
+          "mean_ms": 0.5316,
+          "p95_ms": 0.5366
+        },
+        "total": {
+          "median_ms": 1.6704,
+          "mean_ms": 1.6731,
+          "p95_ms": 1.6842
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.01,
+          "mean_ms": 0.0104,
+          "p95_ms": 0.0125
+        },
+        "lookup": {
+          "median_ms": 0.0004,
+          "mean_ms": 0.0004,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0082,
+          "mean_ms": 0.0082,
+          "p95_ms": 0.0085
+        },
+        "validate": {
+          "median_ms": 1.0899,
+          "mean_ms": 1.0912,
+          "p95_ms": 1.0979
+        },
+        "verify": {
+          "median_ms": 0.5822,
+          "mean_ms": 0.5834,
+          "p95_ms": 0.5895
+        },
+        "total": {
+          "median_ms": 1.6932,
+          "mean_ms": 1.6936,
+          "p95_ms": 1.7001
+        }
+      }
+    }
+  ]
+}

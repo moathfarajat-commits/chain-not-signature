@@ -1,0 +1,55 @@
+{\footnotesize
+\begin{longtable}{p{4.6cm}p{1.2cm}ccccccc}
+\caption{Every case of the validation matrix: the library's outcome under the extended patch (p2) for each algorithm, with the timestamp's own status after a slash (t trusted, m mismatch, u untrusted). \emph{p1}: the three ML-DSA sets with the signing patch alone. \emph{p0}: \texttt{c2pa-rs} \texttt{e2ad88e} unmodified, for the classical cases that bear on the two departures. Codes as in Table~\ref{tab:validation}; every status code the library reported is in the released data.}\label{tab:valfull}\\
+\toprule
+Case & Expected & ES256 & Ed25519 & ML-44 & ML-65 & ML-87 & p1 & p0\\
+\midrule
+\endfirsthead
+\toprule
+Case & Expected & ES256 & Ed25519 & ML-44 & ML-65 & ML-87 & p1 & p0\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\texttt{chain\_noroot\_tsa} & T & T/t & T/t & T/t & T/t & T/t & V & T\\
+\texttt{chain\_noroot} & T & T & T & T & T & T & V & \\
+\texttt{chain\_withroot\_tsa} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{leafonly\_anchor\_int} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{leafonly\_anchor\_root} & not T & V/t & V/t & V/t & V/t & V/t & V & \\
+\texttt{unknown\_anchor} & not T & V/t & V/t & V/t & V/t & V/t & V & \\
+\texttt{eku\_serverauth} & refused & SR & SR & SR & SR & SR & SR & \\
+\texttt{eku\_serverauth\_direct} & not T & I & I & I & I & I & I & \\
+\texttt{eku\_timestamping} & not T & T/t & T/t & T/t & T/t & T/t & V & T\\
+\texttt{eku\_timestamping\_claimsigning\_policy} & not T & T/t & T/t & T/t & T/t & T/t & V & T\\
+\texttt{ku\_no\_digitalsignature} & refused & SR & SR & SR & SR & SR & SR & \\
+\texttt{ku\_no\_digitalsignature\_direct} & not T & I & I & I & I & I & I & \\
+\texttt{chain\_noroot\_direct} & T & T & T & T & T & T & V & \\
+\texttt{image\_modified} & I & I/t & I/t & I/t & I/t & I/t & I & \\
+\texttt{sig\_bitflip} & I & I/m & I/m & I/m & I/m & I/m & I & \\
+\texttt{cose\_cbor\_corrupt} & I & E & E & E & E & E & E & \\
+\texttt{cose\_truncated} & I & E & E & E & E & E & E & \\
+\texttt{tst\_wrong\_imprint} & T & T/m & T/m & T/m & T/m & T/m & V & T\\
+\texttt{tsa\_no\_timestamping\_eku} & T & I/u & I/u & I/u & I/u & I/u & I & I\\
+\texttt{tsa\_anchor\_absent} & T & T/u & T/u & T/u & T/u & T/u & V & \\
+\texttt{ocsp\_good} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{ocsp\_revoked} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{ocsp\_deleg\_good} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{ocsp\_deleg\_revoked} & not T & I/t & I/t & I/t & I/t & I/t & V & \\
+\texttt{pqtsa\_good} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{pqtsa\_wrong\_imprint} & T & T/m & T/m & T/m & T/m & T/m & V & \\
+\texttt{pqtsa\_no\_timestamping\_eku} & T & I/u & I/u & I/u & I/u & I/u & V & \\
+\texttt{pqtsa\_anchor\_absent} & T & T/u & T/u & T/u & T/u & T/u & V & \\
+\texttt{pqtsa\_sig\_bitflip} & I & I/m & I/m & I/m & I/m & I/m & I & \\
+\texttt{x5t\_thumbprint} & not T & E & E & E & E & E & E & \\
+\texttt{no\_credential} & I & E & E & E & E & E & E & \\
+\texttt{alg\_header\_mismatch} & I & I & I & I &  &  & I & \\
+\texttt{oversized\_chain\_50} & not T & V &  &  & V &  & V & \\
+\texttt{oversized\_cert\_1MB} & any & T &  &  & T &  & V & \\
+\texttt{expired\_leaf\_with\_tst} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{expired\_leaf\_no\_tst} & not T & I & I & I & I & I & I & \\
+\texttt{expired\_leaf\_wrong\_imprint\_tst} & not T & I/m & I/m & I/m & I/m & I/m & I & \\
+\texttt{expired\_leaf\_untrusted\_tst} & not T & I/u & I/u & I/u & I/u & I/u & I & \\
+\texttt{expired\_leaf\_noeku\_tst} & not T & I/u & I/u & I/u & I/u & I/u & I & I\\
+\texttt{expired\_leaf\_with\_pqtst} & T & T/t & T/t & T/t & T/t & T/t & I & \\
+\end{longtable}
+}

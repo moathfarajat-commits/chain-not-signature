@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{The manifest a deployment ships: signature, then RFC~3161 timestamp, then stapled revocation evidence, as most production signatures carry a timestamp and a quarter also carry revocation evidence (Section~\ref{sec:prodchains}). Signer and time-stamping authority each carry their certificate and intermediate, roots omitted; the \emph{+ OCSP} column adds a response from a delegated responder, with the responder's certificate inside it, the form the reference implementation honours. Every object is real and signed under the named algorithm. Figure~\ref{fig:compose} breaks the bytes down by role.}
+\label{tab:timestamp}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & Signature & + timestamp & + OCSP & \multicolumn{2}{c}{Timestamped vs} & \% of\\
+\cmidrule(lr){5-6}
+Algorithm & (B) & (B) & (B) & ES256 & PS256 & image\\
+\midrule
+Ed25519 & 2,544 & 4,519 & 5,549 & 1.0$\times$ & 0.7$\times$ & 4.2\\
+ES256 & 2,657 & 4,722 & 5,819 & 1.0$\times$ & 0.7$\times$ & 4.4\\
+PS256 & 3,642 & 6,687 & 8,371 & 1.4$\times$ & 1.0$\times$ & 6.2\\
+ML-DSA-44 & 12,238 & 23,915 & 30,977 & 5.1$\times$ & 3.6$\times$ & 22.2\\
+ML-DSA-65 & 16,185 & 31,809 & 41,289 & 6.7$\times$ & 4.8$\times$ & 29.5\\
+ML-DSA-87 & 21,419 & 42,277 & 55,033 & 9.0$\times$ & 6.3$\times$ & 39.3\\
+\bottomrule
+\end{tabular}
+\end{table}

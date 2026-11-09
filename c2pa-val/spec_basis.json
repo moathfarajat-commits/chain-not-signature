@@ -1,0 +1,15 @@
+{
+ "eku_timestamping": "C2PA 2.5 \u00a713.5.1.1: a certificate valid for id-kp-timeStamping shall be valid for exactly that purpose; using it to sign a claim is an unauthorized purpose",
+ "eku_timestamping_claimsigning_policy": "C2PA 2.5 \u00a714: the signing certificate shall carry an EKU the validator associates with its trust anchors; under a claimSigning-only policy a timeStamping-only certificate has none",
+ "tst_wrong_imprint": "C2PA 2.5 time-stamp validation: a message imprint that does not match gives timeStamp.mismatch (informational) and the time stamp is ignored; the leaf is then checked at the current time",
+ "tsa_no_timestamping_eku": "C2PA 2.5: an invalid TSA credential gives timeStamp.untrusted (and optionally timeStamp.credentialInvalid), both informational, and the time stamp is ignored; the claim signer itself is unaffected",
+ "tsa_anchor_absent": "C2PA 2.5: a TSA chain that does not reach a TSA trust anchor gives timeStamp.untrusted (informational) and the time stamp is ignored",
+ "ocsp_good": "as ocsp_revoked: the CA-signed response is not usable; the manifest is trusted without revocation evidence",
+ "ocsp_revoked": "C2PA 2.5 \u00a713.5.1.1: a certificate that signs OCSP responses shall be valid for id-kp-OCSPSigning; a response signed by the issuing CA (no such EKU) is not usable and is treated as absent, so revocation is not learned from it",
+ "pqtsa_wrong_imprint": "C2PA 2.5 time-stamp validation: a message imprint that does not match gives timeStamp.mismatch (informational) and the time stamp is ignored; the leaf is then checked at the current time",
+ "pqtsa_no_timestamping_eku": "C2PA 2.5: an invalid TSA credential gives timeStamp.untrusted (and optionally timeStamp.credentialInvalid), both informational, and the time stamp is ignored; the claim signer itself is unaffected",
+ "pqtsa_anchor_absent": "C2PA 2.5: a TSA chain that does not reach a TSA trust anchor gives timeStamp.untrusted (informational) and the time stamp is ignored",
+ "expired_leaf_wrong_imprint_tst": "C2PA 2.5 \u00a714.8.2: a time stamp the validator ignores cannot establish signing time; the signer's certificate is then evaluated at the current time, when it has expired",
+ "expired_leaf_untrusted_tst": "as expired_leaf_wrong_imprint_tst: an untrusted time stamp is ignored, so the expired certificate is evaluated at the current time",
+ "expired_leaf_noeku_tst": "as expired_leaf_wrong_imprint_tst: a time stamp from a TSA without id-kp-timeStamping is ignored"
+}

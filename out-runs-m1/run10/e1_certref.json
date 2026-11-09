@@ -1,0 +1,404 @@
+{
+  "experiment": "e1_certref",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:20:12+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 10
+  },
+  "notes": [
+    "x5t is RFC 9360 header 34, a SHA-256 thumbprint of the leaf certificate",
+    "the verifier resolves the signer through a trust list, not the manifest",
+    "signing cost is unchanged; the saving is entirely in bytes",
+    "trade-off: verification needs trust-list access, so offline verification of an unknown signer is lost"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 686,
+      "cose_embedded_bytes": 767,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 654,
+      "saving_pct": 85.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0344,
+        "mean_ms": 0.035,
+        "iqr_ms": 0.0018,
+        "p95_ms": 0.0375,
+        "p99_ms": 0.0588,
+        "min_ms": 0.033,
+        "max_ms": 0.1187
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0345,
+        "mean_ms": 0.0352,
+        "iqr_ms": 0.0011,
+        "p95_ms": 0.0383,
+        "p99_ms": 0.0498,
+        "min_ms": 0.0332,
+        "max_ms": 0.0929
+      }
+    },
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1387,
+      "cose_embedded_bytes": 1472,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1359,
+      "saving_pct": 92.32,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0362,
+        "mean_ms": 0.0367,
+        "iqr_ms": 0.0022,
+        "p95_ms": 0.0391,
+        "p99_ms": 0.0465,
+        "min_ms": 0.0347,
+        "max_ms": 0.1311
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0345,
+        "mean_ms": 0.0353,
+        "iqr_ms": 0.0018,
+        "p95_ms": 0.0378,
+        "p99_ms": 0.059,
+        "min_ms": 0.0331,
+        "max_ms": 0.2231
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 2,
+      "sig_bytes": 64,
+      "chain_der_bytes": 741,
+      "cose_embedded_bytes": 822,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 709,
+      "saving_pct": 86.25,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0275,
+        "mean_ms": 0.028,
+        "iqr_ms": 0.0009,
+        "p95_ms": 0.0303,
+        "p99_ms": 0.039,
+        "min_ms": 0.0263,
+        "max_ms": 0.0686
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0282,
+        "mean_ms": 0.029,
+        "iqr_ms": 0.0018,
+        "p95_ms": 0.0319,
+        "p99_ms": 0.0379,
+        "min_ms": 0.0268,
+        "max_ms": 0.1724
+      }
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 3,
+      "sig_bytes": 64,
+      "chain_der_bytes": 1498,
+      "cose_embedded_bytes": 1583,
+      "cose_referenced_bytes": 113,
+      "saving_bytes": 1470,
+      "saving_pct": 92.86,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.0275,
+        "mean_ms": 0.0278,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.0299,
+        "p99_ms": 0.0309,
+        "min_ms": 0.0271,
+        "max_ms": 0.0338
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.0271,
+        "mean_ms": 0.0273,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.0279,
+        "p99_ms": 0.0294,
+        "min_ms": 0.0267,
+        "max_ms": 0.0598
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 2,
+      "sig_bytes": 256,
+      "chain_der_bytes": 1138,
+      "cose_embedded_bytes": 1413,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 1106,
+      "saving_pct": 78.27,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5349,
+        "mean_ms": 0.5525,
+        "iqr_ms": 0.0166,
+        "p95_ms": 0.6091,
+        "p99_ms": 0.7816,
+        "min_ms": 0.5329,
+        "max_ms": 0.8434
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5377,
+        "mean_ms": 0.5507,
+        "iqr_ms": 0.0106,
+        "p95_ms": 0.5873,
+        "p99_ms": 0.7909,
+        "min_ms": 0.5339,
+        "max_ms": 0.8377
+      }
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 3,
+      "sig_bytes": 256,
+      "chain_der_bytes": 2291,
+      "cose_embedded_bytes": 2570,
+      "cose_referenced_bytes": 307,
+      "saving_bytes": 2263,
+      "saving_pct": 88.05,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5358,
+        "mean_ms": 0.5476,
+        "iqr_ms": 0.0049,
+        "p95_ms": 0.5787,
+        "p99_ms": 0.7787,
+        "min_ms": 0.5345,
+        "max_ms": 0.8108
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5361,
+        "mean_ms": 0.5541,
+        "iqr_ms": 0.0187,
+        "p95_ms": 0.6081,
+        "p99_ms": 0.7861,
+        "min_ms": 0.5337,
+        "max_ms": 0.8265
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 2,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 4354,
+      "cose_embedded_bytes": 6793,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 4322,
+      "saving_pct": 63.62,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.2759,
+        "mean_ms": 0.358,
+        "iqr_ms": 0.2546,
+        "p95_ms": 0.7858,
+        "p99_ms": 1.235,
+        "min_ms": 0.1478,
+        "max_ms": 1.8019
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.2749,
+        "mean_ms": 0.3635,
+        "iqr_ms": 0.254,
+        "p95_ms": 0.8858,
+        "p99_ms": 1.3727,
+        "min_ms": 0.1447,
+        "max_ms": 2.1755
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 3,
+      "sig_bytes": 2420,
+      "chain_der_bytes": 8723,
+      "cose_embedded_bytes": 11166,
+      "cose_referenced_bytes": 2471,
+      "saving_bytes": 8695,
+      "saving_pct": 77.87,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.2826,
+        "mean_ms": 0.3653,
+        "iqr_ms": 0.3036,
+        "p95_ms": 0.8555,
+        "p99_ms": 1.2436,
+        "min_ms": 0.1545,
+        "max_ms": 1.7816
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.2806,
+        "mean_ms": 0.3581,
+        "iqr_ms": 0.2544,
+        "p95_ms": 0.8458,
+        "p99_ms": 1.2692,
+        "min_ms": 0.1446,
+        "max_ms": 2.2992
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 2,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 5883,
+      "cose_embedded_bytes": 9211,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 5851,
+      "saving_pct": 63.52,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.484,
+        "mean_ms": 0.6034,
+        "iqr_ms": 0.4988,
+        "p95_ms": 1.3681,
+        "p99_ms": 1.9755,
+        "min_ms": 0.2152,
+        "max_ms": 2.6737
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.4761,
+        "mean_ms": 0.5834,
+        "iqr_ms": 0.4425,
+        "p95_ms": 1.3825,
+        "p99_ms": 1.9965,
+        "min_ms": 0.2101,
+        "max_ms": 2.6109
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 3,
+      "sig_bytes": 3309,
+      "chain_der_bytes": 11781,
+      "cose_embedded_bytes": 15113,
+      "cose_referenced_bytes": 3360,
+      "saving_bytes": 11753,
+      "saving_pct": 77.77,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.4911,
+        "mean_ms": 0.6071,
+        "iqr_ms": 0.455,
+        "p95_ms": 1.3766,
+        "p99_ms": 1.8434,
+        "min_ms": 0.2237,
+        "max_ms": 4.023
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.476,
+        "mean_ms": 0.5703,
+        "iqr_ms": 0.442,
+        "p95_ms": 1.3645,
+        "p99_ms": 2.0827,
+        "min_ms": 0.2101,
+        "max_ms": 3.1335
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 2,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 7841,
+      "cose_embedded_bytes": 12487,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 7809,
+      "saving_pct": 62.54,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5695,
+        "mean_ms": 0.7129,
+        "iqr_ms": 0.4651,
+        "p95_ms": 1.6631,
+        "p99_ms": 2.4595,
+        "min_ms": 0.3142,
+        "max_ms": 3.0053
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5616,
+        "mean_ms": 0.6869,
+        "iqr_ms": 0.5013,
+        "p95_ms": 1.575,
+        "p99_ms": 2.3845,
+        "min_ms": 0.3075,
+        "max_ms": 3.4985
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 3,
+      "sig_bytes": 4627,
+      "chain_der_bytes": 15697,
+      "cose_embedded_bytes": 20347,
+      "cose_referenced_bytes": 4678,
+      "saving_bytes": 15669,
+      "saving_pct": 77.01,
+      "sign_embedded": {
+        "n": 1000,
+        "median_ms": 0.5811,
+        "mean_ms": 0.7106,
+        "iqr_ms": 0.4163,
+        "p95_ms": 1.6286,
+        "p99_ms": 2.3761,
+        "min_ms": 0.3254,
+        "max_ms": 3.3279
+      },
+      "sign_referenced": {
+        "n": 1000,
+        "median_ms": 0.5623,
+        "mean_ms": 0.6907,
+        "iqr_ms": 0.3916,
+        "p95_ms": 1.5858,
+        "p99_ms": 2.2103,
+        "min_ms": 0.3074,
+        "max_ms": 4.775
+      }
+    }
+  ]
+}

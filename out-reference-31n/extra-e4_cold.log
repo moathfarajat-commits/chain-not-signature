@@ -1,0 +1,10 @@
+<frozen importlib._bootstrap>:488: Warning: OpenSSL 3's legacy provider failed to load. Legacy algorithms will not be available. If you need those algorithms, check your OpenSSL configuration.
+liboqs-python faulthandler is disabled
+  archive re-wrap only: cache cold, F_FULLFSYNC
+    kodak  sidecar      119.9 objects/s
+    kodak  embedded     120.5 objects/s
+    kodak  reserved     142.9 objects/s
+    4MiB   sidecar      140.3 objects/s
+    4MiB   embedded     101.4 objects/s
+    4MiB   reserved     166.6 objects/s
+  wrote out-extra/e4_keywrap_cold.json  (6 rows)

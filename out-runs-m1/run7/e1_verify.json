@@ -1,0 +1,755 @@
+{
+  "experiment": "e1_verify",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:09:49+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 7
+  },
+  "notes": [
+    "embedded: decode COSE, read x5chain (leaf and intermediate), validate the path to the root anchor (two verifications), verify signature",
+    "complete_* adds the cryptographic work of a full validation of one timestamped image: TSA signature, TSA path, SHA-256 of the content; assertion hashing, ingredient manifests, revocation and policy checks are not included",
+    "referenced: decode COSE, read x5t, resolve trust store, validate chain, verify signature",
+    "warm = certificate already in memory; cold = read from local trust store on disk",
+    "remote resolution is a network round trip and is deliberately not measured; add the deployment's own latency to the warm figure",
+    "the reference does not remove chain validation, it moves where the certificates come from",
+    "trade-off to state in the paper: offline verification of a signer the verifier has never seen is no longer possible"
+  ],
+  "results": [
+    {
+      "alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "cose_embedded_bytes": 11166,
+      "cose_referenced_bytes": 2471,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.002,
+        "mean_ms": 0.0021,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0022,
+        "p99_ms": 0.0025,
+        "min_ms": 0.0018,
+        "max_ms": 0.0421
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0013,
+        "mean_ms": 0.0013,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0014,
+        "p99_ms": 0.0014,
+        "min_ms": 0.0012,
+        "max_ms": 0.005
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0013,
+        "mean_ms": 0.0013,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0014,
+        "p99_ms": 0.0015,
+        "min_ms": 0.0012,
+        "max_ms": 0.0015
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0206,
+        "mean_ms": 0.0213,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.023,
+        "p99_ms": 0.0303,
+        "min_ms": 0.0198,
+        "max_ms": 0.1279
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.1733,
+        "mean_ms": 0.1767,
+        "iqr_ms": 0.0048,
+        "p95_ms": 0.1998,
+        "p99_ms": 0.2502,
+        "min_ms": 0.1695,
+        "max_ms": 0.287
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.044,
+        "mean_ms": 0.0448,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.0468,
+        "p99_ms": 0.0642,
+        "min_ms": 0.043,
+        "max_ms": 0.1149
+      },
+      "total_embedded_ms": 0.2193,
+      "total_referenced_warm_ms": 0.2186,
+      "total_referenced_cold_ms": 0.2379,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0698,
+        "mean_ms": 0.0715,
+        "iqr_ms": 0.0021,
+        "p95_ms": 0.0763,
+        "p99_ms": 0.0927,
+        "min_ms": 0.0695,
+        "max_ms": 0.177
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.1728,
+        "mean_ms": 0.176,
+        "iqr_ms": 0.0053,
+        "p95_ms": 0.1939,
+        "p99_ms": 0.2628,
+        "min_ms": 0.1692,
+        "max_ms": 0.3114
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.0461,
+          "mean_ms": 0.0467,
+          "iqr_ms": 0.0001,
+          "p95_ms": 0.0496,
+          "p99_ms": 0.0585,
+          "min_ms": 0.046,
+          "max_ms": 0.0682,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.7278,
+          "mean_ms": 1.7348,
+          "iqr_ms": 0.0673,
+          "p95_ms": 1.8228,
+          "p99_ms": 1.913,
+          "min_ms": 1.6859,
+          "max_ms": 1.9454,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 0.508,
+      "complete_phone_jpeg_ms": 2.1897,
+      "chain_share_of_complete_median_pct": 34.1,
+      "warm_overhead_ms": -0.0007,
+      "cold_overhead_ms": 0.0186
+    },
+    {
+      "alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "cose_embedded_bytes": 20347,
+      "cose_referenced_bytes": 4678,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.0027,
+        "mean_ms": 0.0027,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0029,
+        "p99_ms": 0.0031,
+        "min_ms": 0.0024,
+        "max_ms": 0.0133
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0015,
+        "mean_ms": 0.0015,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0015,
+        "p99_ms": 0.0016,
+        "min_ms": 0.0013,
+        "max_ms": 0.0196
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0015,
+        "mean_ms": 0.0015,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0015,
+        "p99_ms": 0.0016,
+        "min_ms": 0.0013,
+        "max_ms": 0.0017
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0212,
+        "mean_ms": 0.0218,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.0242,
+        "p99_ms": 0.0301,
+        "min_ms": 0.0205,
+        "max_ms": 0.075
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.3843,
+        "mean_ms": 0.3913,
+        "iqr_ms": 0.0134,
+        "p95_ms": 0.4319,
+        "p99_ms": 0.5057,
+        "min_ms": 0.3776,
+        "max_ms": 0.5305
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1113,
+        "mean_ms": 0.1133,
+        "iqr_ms": 0.0017,
+        "p95_ms": 0.1235,
+        "p99_ms": 0.1637,
+        "min_ms": 0.1087,
+        "max_ms": 0.2339
+      },
+      "total_embedded_ms": 0.4983,
+      "total_referenced_warm_ms": 0.4971,
+      "total_referenced_cold_ms": 0.5168,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1735,
+        "mean_ms": 0.1761,
+        "iqr_ms": 0.0052,
+        "p95_ms": 0.1947,
+        "p99_ms": 0.2269,
+        "min_ms": 0.1698,
+        "max_ms": 0.2721
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.3858,
+        "mean_ms": 0.3933,
+        "iqr_ms": 0.0114,
+        "p95_ms": 0.4478,
+        "p99_ms": 0.4963,
+        "min_ms": 0.3779,
+        "max_ms": 0.5467
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.047,
+          "mean_ms": 0.0473,
+          "iqr_ms": 0.0006,
+          "p95_ms": 0.0476,
+          "p99_ms": 0.0593,
+          "min_ms": 0.046,
+          "max_ms": 0.0784,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.718,
+          "mean_ms": 1.7315,
+          "iqr_ms": 0.0711,
+          "p95_ms": 1.8325,
+          "p99_ms": 1.8666,
+          "min_ms": 1.6858,
+          "max_ms": 1.8793,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 1.1046,
+      "complete_phone_jpeg_ms": 2.7756,
+      "chain_share_of_complete_median_pct": 34.8,
+      "warm_overhead_ms": -0.0012,
+      "cold_overhead_ms": 0.0185
+    },
+    {
+      "alg": "ES256",
+      "cose_alg_id": -7,
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "cose_embedded_bytes": 1584,
+      "cose_referenced_bytes": 113,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.0013,
+        "mean_ms": 0.0014,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0014,
+        "p99_ms": 0.0042,
+        "min_ms": 0.0012,
+        "max_ms": 0.0056
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0013,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0013,
+        "p99_ms": 0.0043,
+        "min_ms": 0.0011,
+        "max_ms": 0.0302
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0012,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0012,
+        "p99_ms": 0.0013,
+        "min_ms": 0.0011,
+        "max_ms": 0.0038
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0195,
+        "mean_ms": 0.0205,
+        "iqr_ms": 0.0008,
+        "p95_ms": 0.0235,
+        "p99_ms": 0.0585,
+        "min_ms": 0.0186,
+        "max_ms": 0.0928
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.1494,
+        "mean_ms": 0.1525,
+        "iqr_ms": 0.0042,
+        "p95_ms": 0.1751,
+        "p99_ms": 0.2277,
+        "min_ms": 0.1463,
+        "max_ms": 0.2783
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0572,
+        "mean_ms": 0.0579,
+        "iqr_ms": 0.0013,
+        "p95_ms": 0.0613,
+        "p99_ms": 0.0886,
+        "min_ms": 0.056,
+        "max_ms": 0.124
+      },
+      "total_embedded_ms": 0.2079,
+      "total_referenced_warm_ms": 0.2078,
+      "total_referenced_cold_ms": 0.2261,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0544,
+        "mean_ms": 0.0563,
+        "iqr_ms": 0.0017,
+        "p95_ms": 0.0611,
+        "p99_ms": 0.0896,
+        "min_ms": 0.054,
+        "max_ms": 0.157
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.149,
+        "mean_ms": 0.1521,
+        "iqr_ms": 0.0042,
+        "p95_ms": 0.1721,
+        "p99_ms": 0.2402,
+        "min_ms": 0.1459,
+        "max_ms": 0.3319
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.0465,
+          "mean_ms": 0.0476,
+          "iqr_ms": 0.0015,
+          "p95_ms": 0.0517,
+          "p99_ms": 0.0629,
+          "min_ms": 0.046,
+          "max_ms": 0.0928,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.7225,
+          "mean_ms": 1.7364,
+          "iqr_ms": 0.0755,
+          "p95_ms": 1.8294,
+          "p99_ms": 1.9445,
+          "min_ms": 1.6858,
+          "max_ms": 1.9503,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 0.4578,
+      "complete_phone_jpeg_ms": 2.1338,
+      "chain_share_of_complete_median_pct": 32.6,
+      "warm_overhead_ms": -0.0001,
+      "cold_overhead_ms": 0.0182
+    },
+    {
+      "alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "cose_embedded_bytes": 15113,
+      "cose_referenced_bytes": 3360,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.0022,
+        "mean_ms": 0.0022,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0023,
+        "p99_ms": 0.0025,
+        "min_ms": 0.002,
+        "max_ms": 0.005
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0013,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0013,
+        "p99_ms": 0.0013,
+        "min_ms": 0.0012,
+        "max_ms": 0.0014
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0013,
+        "mean_ms": 0.0014,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0015,
+        "p99_ms": 0.0015,
+        "min_ms": 0.0012,
+        "max_ms": 0.0091
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0212,
+        "mean_ms": 0.022,
+        "iqr_ms": 0.0008,
+        "p95_ms": 0.0249,
+        "p99_ms": 0.0371,
+        "min_ms": 0.0202,
+        "max_ms": 0.1351
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.252,
+        "mean_ms": 0.2576,
+        "iqr_ms": 0.0096,
+        "p95_ms": 0.2865,
+        "p99_ms": 0.3247,
+        "min_ms": 0.2486,
+        "max_ms": 0.4002
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0691,
+        "mean_ms": 0.0703,
+        "iqr_ms": 0.0012,
+        "p95_ms": 0.0739,
+        "p99_ms": 0.1112,
+        "min_ms": 0.0673,
+        "max_ms": 0.1747
+      },
+      "total_embedded_ms": 0.3233,
+      "total_referenced_warm_ms": 0.3224,
+      "total_referenced_cold_ms": 0.3423,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1077,
+        "mean_ms": 0.1107,
+        "iqr_ms": 0.0033,
+        "p95_ms": 0.1187,
+        "p99_ms": 0.1507,
+        "min_ms": 0.1072,
+        "max_ms": 0.2208
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.2515,
+        "mean_ms": 0.257,
+        "iqr_ms": 0.0081,
+        "p95_ms": 0.2837,
+        "p99_ms": 0.3422,
+        "min_ms": 0.2485,
+        "max_ms": 0.3812
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.0461,
+          "mean_ms": 0.0472,
+          "iqr_ms": 0.0005,
+          "p95_ms": 0.05,
+          "p99_ms": 0.0685,
+          "min_ms": 0.046,
+          "max_ms": 0.104,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.7076,
+          "mean_ms": 1.7219,
+          "iqr_ms": 0.0561,
+          "p95_ms": 1.8055,
+          "p99_ms": 1.8511,
+          "min_ms": 1.6857,
+          "max_ms": 1.8702,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 0.7286,
+      "complete_phone_jpeg_ms": 2.3901,
+      "chain_share_of_complete_median_pct": 34.6,
+      "warm_overhead_ms": -0.0009,
+      "cold_overhead_ms": 0.019
+    },
+    {
+      "alg": "PS256",
+      "cose_alg_id": -37,
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "cose_embedded_bytes": 2570,
+      "cose_referenced_bytes": 307,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.0014,
+        "mean_ms": 0.0014,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0015,
+        "p99_ms": 0.0015,
+        "min_ms": 0.0013,
+        "max_ms": 0.0017
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0012,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0012,
+        "p99_ms": 0.0013,
+        "min_ms": 0.0011,
+        "max_ms": 0.0013
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0012,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0013,
+        "p99_ms": 0.0013,
+        "min_ms": 0.0012,
+        "max_ms": 0.0122
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0195,
+        "mean_ms": 0.0205,
+        "iqr_ms": 0.0009,
+        "p95_ms": 0.023,
+        "p99_ms": 0.0435,
+        "min_ms": 0.0187,
+        "max_ms": 0.0988
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.0696,
+        "mean_ms": 0.0715,
+        "iqr_ms": 0.0011,
+        "p95_ms": 0.0755,
+        "p99_ms": 0.1157,
+        "min_ms": 0.0679,
+        "max_ms": 0.1944
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0206,
+        "mean_ms": 0.0211,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0217,
+        "p99_ms": 0.0316,
+        "min_ms": 0.0201,
+        "max_ms": 0.0932
+      },
+      "total_embedded_ms": 0.0916,
+      "total_referenced_warm_ms": 0.0914,
+      "total_referenced_cold_ms": 0.1097,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0167,
+        "mean_ms": 0.0171,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0174,
+        "p99_ms": 0.0293,
+        "min_ms": 0.0162,
+        "max_ms": 0.0669
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.0694,
+        "mean_ms": 0.0705,
+        "iqr_ms": 0.0013,
+        "p95_ms": 0.0742,
+        "p99_ms": 0.1068,
+        "min_ms": 0.0677,
+        "max_ms": 0.1776
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.0461,
+          "mean_ms": 0.0467,
+          "iqr_ms": 0.0014,
+          "p95_ms": 0.0485,
+          "p99_ms": 0.0493,
+          "min_ms": 0.046,
+          "max_ms": 0.0505,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.7144,
+          "mean_ms": 1.73,
+          "iqr_ms": 0.0691,
+          "p95_ms": 1.8278,
+          "p99_ms": 1.8705,
+          "min_ms": 1.6858,
+          "max_ms": 1.8939,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 0.2238,
+      "complete_phone_jpeg_ms": 1.8921,
+      "chain_share_of_complete_median_pct": 31.1,
+      "warm_overhead_ms": -0.0002,
+      "cold_overhead_ms": 0.0181
+    },
+    {
+      "alg": "Ed25519",
+      "cose_alg_id": -8,
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "cose_embedded_bytes": 1472,
+      "cose_referenced_bytes": 113,
+      "decode_embedded_ms": {
+        "n": 1000,
+        "median_ms": 0.0014,
+        "mean_ms": 0.0014,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0015,
+        "p99_ms": 0.0017,
+        "min_ms": 0.0013,
+        "max_ms": 0.0053
+      },
+      "decode_referenced_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0013,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0013,
+        "p99_ms": 0.0033,
+        "min_ms": 0.0011,
+        "max_ms": 0.0411
+      },
+      "lookup_warm_ms": {
+        "n": 1000,
+        "median_ms": 0.0012,
+        "mean_ms": 0.0012,
+        "iqr_ms": 0.0,
+        "p95_ms": 0.0013,
+        "p99_ms": 0.0014,
+        "min_ms": 0.0011,
+        "max_ms": 0.0094
+      },
+      "lookup_cold_ms": {
+        "n": 1000,
+        "median_ms": 0.0193,
+        "mean_ms": 0.0201,
+        "iqr_ms": 0.0008,
+        "p95_ms": 0.0224,
+        "p99_ms": 0.0276,
+        "min_ms": 0.0185,
+        "max_ms": 0.1215
+      },
+      "validate_chain_ms": {
+        "n": 1000,
+        "median_ms": 0.1822,
+        "mean_ms": 0.186,
+        "iqr_ms": 0.0057,
+        "p95_ms": 0.2088,
+        "p99_ms": 0.2547,
+        "min_ms": 0.1793,
+        "max_ms": 0.3031
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0811,
+        "mean_ms": 0.0833,
+        "iqr_ms": 0.0026,
+        "p95_ms": 0.0915,
+        "p99_ms": 0.1113,
+        "min_ms": 0.0807,
+        "max_ms": 0.1797
+      },
+      "total_embedded_ms": 0.2647,
+      "total_referenced_warm_ms": 0.2645,
+      "total_referenced_cold_ms": 0.2826,
+      "verify_timestamp_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.0798,
+        "mean_ms": 0.0814,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.0864,
+        "p99_ms": 0.1145,
+        "min_ms": 0.0795,
+        "max_ms": 0.1758
+      },
+      "validate_tsa_path_ms": {
+        "n": 1000,
+        "median_ms": 0.1834,
+        "mean_ms": 0.1869,
+        "iqr_ms": 0.0058,
+        "p95_ms": 0.2095,
+        "p99_ms": 0.2594,
+        "min_ms": 0.18,
+        "max_ms": 0.3308
+      },
+      "hash_content_ms": {
+        "median_image": {
+          "n": 200,
+          "median_ms": 0.0461,
+          "mean_ms": 0.0469,
+          "iqr_ms": 0.0001,
+          "p95_ms": 0.0489,
+          "p99_ms": 0.0737,
+          "min_ms": 0.046,
+          "max_ms": 0.1147,
+          "bytes": 113540
+        },
+        "phone_jpeg": {
+          "n": 200,
+          "median_ms": 1.7055,
+          "mean_ms": 1.7224,
+          "iqr_ms": 0.0603,
+          "p95_ms": 1.8192,
+          "p99_ms": 1.8681,
+          "min_ms": 1.6857,
+          "max_ms": 1.9143,
+          "bytes": 4194304
+        }
+      },
+      "complete_median_image_ms": 0.574,
+      "complete_phone_jpeg_ms": 2.2334,
+      "chain_share_of_complete_median_pct": 31.7,
+      "warm_overhead_ms": -0.0002,
+      "cold_overhead_ms": 0.0179
+    }
+  ]
+}

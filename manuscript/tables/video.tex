@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{The earlier raw-frame video signer on one core of the Raspberry Pi 5, kept as a computational upper bound; it predates the paper's baseline, so its manifests carry leaf, intermediate and root, and its bandwidth figures are those of that configuration. Every frame is hashed (SHA-256 over raw YUV 4:2:0) and either signed on its own or, in the last column, gathered into a one-second segment that is signed once. \emph{fps} is the sustained rate running flat out; at 30\,fps every configuration finished every frame within its period. \emph{mJ} is energy per frame running flat out, PMIC rail power above idle divided by frame rate. \emph{Mbps} is the provenance stream at 30\,fps with the chain embedded (\texttt{x5chain}) or referenced by thumbprint (\texttt{x5t}). ML-DSA signs through liboqs, Ed25519 and ES256 through OpenSSL.}
+\label{tab:video}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & \multicolumn{4}{c}{Signed every frame} & \multicolumn{3}{c}{Mbps at 30\,fps}\\
+\cmidrule(lr){2-5}\cmidrule(lr){6-8}
+ & \multicolumn{2}{c}{1080p} & \multicolumn{2}{c}{4K} & \multicolumn{2}{c}{every frame} & per second\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-8}
+Algorithm & fps & mJ & fps & mJ & \texttt{x5chain} & \texttt{x5t} & \texttt{x5chain}\\
+\midrule
+Ed25519 & 474 & 2.4 & 122 & 9.5 & 0.35 & 0.06 & 0.02\\
+ES256 & 466 & 2.5 & 121 & 9.5 & 0.40 & 0.06 & 0.02\\
+ML-DSA-44 & 433 & 2.6 & 119 & 9.8 & 3.56 & 0.62 & 0.13\\
+ML-DSA-65 & 410 & 3.0 & 117 & 10.0 & 4.87 & 0.84 & 0.17\\
+ML-DSA-87 & 390 & 2.8 & 115 & 9.8 & 6.60 & 1.15 & 0.23\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,22 @@
+\begin{table}[t]
+\caption{Chains whose levels migrate at different times, leaf first and root last; the root signs the intermediate but is not carried. \emph{Signer PQ} is whether every load-bearing signature in the signer's path is post-quantum. The last two columns add an RFC~3161 timestamp: with a classical TSA the time evidence stays forgeable, so a quantum adversary can backdate the manifest even when the signer's path is post-quantum.}
+\label{tab:mixedchain}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrcrr}
+\toprule
+ & Chain & COSE & Signer & \multicolumn{2}{c}{+ timestamp (B)}\\
+\cmidrule(lr){5-6}
+Stage & leaf/int./root & (B) & PQ & ES256 TSA & ML-DSA-65 TSA\\
+\midrule
+Classical & ES256/ES256/ES256 & 1,585 & no & 3,651 & 17,209\\
+Leaf migrated & D65/ES256/ES256 & 6,724 & no & 8,788 & 22,348\\
+Leaf and intermediate & D65/D65/ES256 & 11,867 & no & 13,933 & 27,491\\
+PKI first, leaves last & ES256/D65/D65 & 9,971 & no & -- & --\\
+Fully migrated & D65/D65/D65 & 15,113 & yes & 17,179 & 30,737\\
+Assurance ladder & D44/D65/D87 & 14,902 & yes & -- & --\\
+Ladder inverted & D87/D65/D44 & 16,182 & yes & -- & --\\
+Cheap leaves, strong root & D44/D44/D87 & 13,373 & yes & -- & --\\
+\bottomrule
+\end{tabular}
+\end{table}

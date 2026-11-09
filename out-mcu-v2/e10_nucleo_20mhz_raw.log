@@ -1,0 +1,53 @@
+{"op":"env","board":"NUCLEO-L4R5ZI","chip":"STM32L4R5ZI","core":"Cortex-M4F","clk_sys_hz":20000000,"flash_wait_states":0,"r1mode":1,"pqm4":"5e5cc76","compiler":"13.2.1 20231009","timer":"SysTick (core cycles)"}
+{"op":"sha256","bytes":8192,"reps":64,"us":1152864,"MBps":0.454,"hw":0}
+{"op":"sizes","alg":"Ed25519","backend":"Monocypher 4 (Ed25519)","full_bytes":1909,"chain_bytes":1472,"leaf_bytes":777,"thumb_bytes":113,"sig_structure_bytes":2277,"sig_bytes":64,"hw":0}
+{"op":"keygen","alg":"Ed25519","n":20,"median_ticks":870094,"mean_ticks":870095,"min_ticks":870094,"max_ticks":870131,"median_us":43504.7,"stack_bytes":1404,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"sign","alg":"Ed25519","n":50,"median_ticks":1524119,"mean_ticks":1524122,"min_ticks":1524119,"max_ticks":1524159,"median_us":76205.9,"stack_bytes":1556,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"verify","alg":"Ed25519","n":50,"median_ticks":2524213,"mean_ticks":2524218,"min_ticks":2524210,"max_ticks":2524263,"median_us":126210.6,"stack_bytes":1820,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"chain","alg":"Ed25519","n":20,"median_ticks":4582859,"mean_ticks":4582871,"min_ticks":4582859,"max_ticks":4582938,"median_us":229142.9,"stack_bytes":2068,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"manifest_full","alg":"Ed25519","n":20,"median_ticks":7107570,"mean_ticks":7107593,"min_ticks":7107569,"max_ticks":7107647,"median_us":355378.5,"stack_bytes":2108,"buffers_bytes":4186,"hw":0,"ok":true}
+{"op":"manifest_chain","alg":"Ed25519","n":20,"median_ticks":7052453,"mean_ticks":7052473,"min_ticks":7052452,"max_ticks":7052533,"median_us":352622.6,"stack_bytes":2108,"buffers_bytes":3312,"hw":0,"ok":true}
+{"op":"manifest_leaf","alg":"Ed25519","n":20,"median_ticks":6923811,"mean_ticks":6923834,"min_ticks":6923811,"max_ticks":6923896,"median_us":346190.5,"stack_bytes":2108,"buffers_bytes":1922,"hw":0,"ok":true}
+{"op":"manifest_thumb","alg":"Ed25519","n":20,"median_ticks":6823026,"mean_ticks":6823050,"min_ticks":6823026,"max_ticks":6823110,"median_us":341151.3,"stack_bytes":2108,"buffers_bytes":594,"hw":0,"ok":true}
+{"op":"negative","alg":"Ed25519","rejects_flipped_bit":true,"accepts_original":true,"rejects_tampered_manifest":true,"rejects_tampered_intermediate":true,"rejects_missing_intermediate":true,"hw":0}
+{"op":"sizes","alg":"ES256","backend":"micro-ecc (P-256) with SHA-256","full_bytes":2081,"chain_bytes":1584,"leaf_bytes":833,"thumb_bytes":113,"sig_structure_bytes":2449,"sig_bytes":64,"hw":0}
+{"op":"keygen","alg":"ES256","n":20,"median_ticks":9426927,"mean_ticks":9427204,"min_ticks":9413915,"max_ticks":9437789,"median_us":471346.3,"stack_bytes":936,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"sign","alg":"ES256","n":50,"median_ticks":10261556,"mean_ticks":10260368,"min_ticks":10249018,"max_ticks":10273242,"median_us":513077.8,"stack_bytes":1072,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"verify","alg":"ES256","n":50,"median_ticks":11660122,"mean_ticks":11660111,"min_ticks":11660084,"max_ticks":11660127,"median_us":583006.1,"stack_bytes":960,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"chain","alg":"ES256","n":20,"median_ticks":22951269,"mean_ticks":22951282,"min_ticks":22951266,"max_ticks":22951308,"median_us":1147563.4,"stack_bytes":1208,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"manifest_full","alg":"ES256","n":20,"median_ticks":34376219,"mean_ticks":34376221,"min_ticks":34376213,"max_ticks":34376257,"median_us":1718810.9,"stack_bytes":1248,"buffers_bytes":4530,"hw":0,"ok":true}
+{"op":"manifest_chain","alg":"ES256","n":20,"median_ticks":34391425,"mean_ticks":34391426,"min_ticks":34391421,"max_ticks":34391463,"median_us":1719571.2,"stack_bytes":1300,"buffers_bytes":3536,"hw":0,"ok":true}
+{"op":"manifest_leaf","alg":"ES256","n":20,"median_ticks":34453771,"mean_ticks":34453772,"min_ticks":34453764,"max_ticks":34453809,"median_us":1722688.5,"stack_bytes":1248,"buffers_bytes":2034,"hw":0,"ok":true}
+{"op":"manifest_thumb","alg":"ES256","n":20,"median_ticks":33917396,"mean_ticks":33917397,"min_ticks":33917393,"max_ticks":33917402,"median_us":1695869.8,"stack_bytes":1308,"buffers_bytes":594,"hw":0,"ok":true}
+{"op":"negative","alg":"ES256","rejects_flipped_bit":true,"accepts_original":true,"rejects_tampered_manifest":true,"rejects_tampered_intermediate":true,"rejects_missing_intermediate":true,"hw":0}
+{"op":"sizes","alg":"ML-DSA-44","backend":"pqm4 ML-DSA m4f (Cortex-M4 assembly)","full_bytes":15267,"chain_bytes":11166,"leaf_bytes":6803,"thumb_bytes":2471,"sig_structure_bytes":13278,"sig_bytes":2420,"hw":0}
+{"op":"keygen","alg":"ML-DSA-44","n":5,"median_ticks":1424639,"mean_ticks":1422513,"min_ticks":1403090,"max_ticks":1435565,"median_us":71231.9,"stack_bytes":38296,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"sign","alg":"ML-DSA-44","n":30,"median_ticks":4145256,"mean_ticks":4735398,"min_ticks":2881038,"max_ticks":14074250,"median_us":207262.8,"stack_bytes":44848,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"verify","alg":"ML-DSA-44","n":20,"median_ticks":2487600,"mean_ticks":2487606,"min_ticks":2487600,"max_ticks":2487640,"median_us":124380.0,"stack_bytes":8944,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"chain","alg":"ML-DSA-44","n":10,"median_ticks":3160295,"mean_ticks":3160302,"min_ticks":3160293,"max_ticks":3160336,"median_us":158014.7,"stack_bytes":9192,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"manifest_full","alg":"ML-DSA-44","n":10,"median_ticks":5672900,"mean_ticks":5672915,"min_ticks":5672900,"max_ticks":5672939,"median_us":283645.0,"stack_bytes":9232,"buffers_bytes":28545,"hw":0,"ok":true}
+{"op":"manifest_chain","alg":"ML-DSA-44","n":10,"median_ticks":5330396,"mean_ticks":5330407,"min_ticks":5330396,"max_ticks":5330437,"median_us":266519.8,"stack_bytes":9232,"buffers_bytes":20343,"hw":0,"ok":true}
+{"op":"manifest_leaf","alg":"ML-DSA-44","n":10,"median_ticks":4976021,"mean_ticks":4976032,"min_ticks":4976021,"max_ticks":4976060,"median_us":248801.0,"stack_bytes":9232,"buffers_bytes":11617,"hw":0,"ok":true}
+{"op":"manifest_thumb","alg":"ML-DSA-44","n":10,"median_ticks":4632143,"mean_ticks":4632154,"min_ticks":4632143,"max_ticks":4632183,"median_us":231607.1,"stack_bytes":9232,"buffers_bytes":2953,"hw":0,"ok":true}
+{"op":"negative","alg":"ML-DSA-44","rejects_flipped_bit":true,"accepts_original":true,"rejects_tampered_manifest":true,"rejects_tampered_intermediate":true,"rejects_missing_intermediate":true,"hw":0}
+{"op":"sizes","alg":"ML-DSA-65","backend":"pqm4 ML-DSA m4f (Cortex-M4 assembly)","full_bytes":20743,"chain_bytes":15113,"leaf_bytes":9221,"thumb_bytes":3360,"sig_structure_bytes":17865,"sig_bytes":3309,"hw":0}
+{"op":"keygen","alg":"ML-DSA-65","n":5,"median_ticks":2518944,"mean_ticks":2518816,"min_ticks":2518237,"max_ticks":2519239,"median_us":125947.2,"stack_bytes":60824,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"sign","alg":"ML-DSA-65","n":30,"median_ticks":6788911,"mean_ticks":7904788,"min_ticks":4345446,"max_ticks":17360440,"median_us":339445.5,"stack_bytes":68904,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"verify","alg":"ML-DSA-65","n":20,"median_ticks":3841388,"mean_ticks":3841395,"min_ticks":3841387,"max_ticks":3841429,"median_us":192069.4,"stack_bytes":9920,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"chain","alg":"ML-DSA-65","n":10,"median_ticks":5260674,"mean_ticks":5260685,"min_ticks":5260672,"max_ticks":5260716,"median_us":263033.7,"stack_bytes":10168,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"manifest_full","alg":"ML-DSA-65","n":10,"median_ticks":9135178,"mean_ticks":9135179,"min_ticks":9135160,"max_ticks":9135200,"median_us":456758.9,"stack_bytes":10208,"buffers_bytes":38608,"hw":0,"ok":true}
+{"op":"manifest_chain","alg":"ML-DSA-65","n":10,"median_ticks":8678960,"mean_ticks":8678960,"min_ticks":8678941,"max_ticks":8678985,"median_us":433948.0,"stack_bytes":10208,"buffers_bytes":27348,"hw":0,"ok":true}
+{"op":"manifest_leaf","alg":"ML-DSA-65","n":10,"median_ticks":8200966,"mean_ticks":8200967,"min_ticks":8200949,"max_ticks":8200989,"median_us":410048.3,"stack_bytes":10208,"buffers_bytes":15564,"hw":0,"ok":true}
+{"op":"manifest_thumb","alg":"ML-DSA-65","n":10,"median_ticks":7726028,"mean_ticks":7726029,"min_ticks":7726011,"max_ticks":7726053,"median_us":386301.4,"stack_bytes":10208,"buffers_bytes":3842,"hw":0,"ok":true}
+{"op":"negative","alg":"ML-DSA-65","rejects_flipped_bit":true,"accepts_original":true,"rejects_tampered_manifest":true,"rejects_tampered_intermediate":true,"rejects_missing_intermediate":true,"hw":0}
+{"op":"sizes","alg":"ML-DSA-87","backend":"pqm4 ML-DSA m4f (Cortex-M4 assembly)","full_bytes":27935,"chain_bytes":20347,"leaf_bytes":12497,"thumb_bytes":4678,"sig_structure_bytes":23739,"sig_bytes":4627,"hw":0}
+{"op":"keygen","alg":"ML-DSA-87","n":5,"median_ticks":4267738,"mean_ticks":4263463,"min_ticks":4224462,"max_ticks":4300309,"median_us":213386.9,"stack_bytes":97796,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"sign","alg":"ML-DSA-87","n":30,"median_ticks":10010063,"mean_ticks":10032596,"min_ticks":6787924,"max_ticks":19871952,"median_us":500503.1,"stack_bytes":107816,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"verify","alg":"ML-DSA-87","n":20,"median_ticks":6098129,"mean_ticks":6098144,"min_ticks":6098129,"max_ticks":6098167,"median_us":304906.4,"stack_bytes":11984,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"chain","alg":"ML-DSA-87","n":10,"median_ticks":8920168,"mean_ticks":8920168,"min_ticks":8920150,"max_ticks":8920189,"median_us":446008.4,"stack_bytes":12340,"buffers_bytes":0,"hw":0,"ok":true}
+{"op":"manifest_full","alg":"ML-DSA-87","n":10,"median_ticks":15061123,"mean_ticks":15061120,"min_ticks":15061085,"max_ticks":15061126,"median_us":753056.1,"stack_bytes":12272,"buffers_bytes":51674,"hw":0,"ok":true}
+{"op":"manifest_chain","alg":"ML-DSA-87","n":10,"median_ticks":14439641,"mean_ticks":14439637,"min_ticks":14439603,"max_ticks":14439643,"median_us":721982.0,"stack_bytes":12380,"buffers_bytes":36498,"hw":0,"ok":true}
+{"op":"manifest_leaf","alg":"ML-DSA-87","n":10,"median_ticks":13798680,"mean_ticks":13798672,"min_ticks":13798641,"max_ticks":13798681,"median_us":689934.0,"stack_bytes":12272,"buffers_bytes":20798,"hw":0,"ok":true}
+{"op":"manifest_thumb","alg":"ML-DSA-87","n":10,"median_ticks":13167263,"mean_ticks":13167256,"min_ticks":13167225,"max_ticks":13167266,"median_us":658363.1,"stack_bytes":12272,"buffers_bytes":5160,"hw":0,"ok":true}
+{"op":"negative","alg":"ML-DSA-87","rejects_flipped_bit":true,"accepts_original":true,"rejects_tampered_manifest":true,"rejects_tampered_intermediate":true,"rejects_missing_intermediate":true,"hw":0}
+{"op":"done"}

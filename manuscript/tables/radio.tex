@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{Measured Bluetooth LE energy for one manifest's COSE signature structure, with the certificates of each carriage form, between two nRF52840-DKs (2M PHY, 251-byte data length, 247-byte ATT MTU, 15\,ms connection interval, boards about a metre apart), on the measured board's supply, microjoules, medians of three rounds of ten transfers. \emph{Send}: from the first notification queued to the last acknowledged. \emph{Receive}: the same board as receiver, from the first notification received to the last. Both include the connected link's idle current and any link-layer retransmissions inside the window, not connection set-up or advertising. The receiving board checked every transfer byte for byte against its own copy; all arrived intact.}
+\label{tab:radio}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+ & \multicolumn{4}{c}{Send} & \multicolumn{4}{c}{Receive}\\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+Algorithm & Root & L+I & Leaf & Th. & Root & L+I & Leaf & Th.\\
+\midrule
+Ed25519 & 205 & 164 & 87 & 14 & 214 & 169 & 89 & 14\\
+ES256 & 228 & 173 & 91 & 13 & 242 & 180 & 94 & 14\\
+ML-DSA-44 & 1,684 & 1,227 & 745 & 273 & 1,742 & 1,266 & 775 & 282\\
+ML-DSA-65 & 2,310 & 1,669 & 1,017 & 366 & 2,387 & 1,713 & 1,045 & 380\\
+ML-DSA-87 & 3,119 & 2,266 & 1,381 & 516 & 3,194 & 2,355 & 1,416 & 530\\
+\bottomrule
+\end{tabular}
+\end{table}

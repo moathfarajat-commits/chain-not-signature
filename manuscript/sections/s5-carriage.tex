@@ -1,0 +1,169 @@
+%% ---------------------------------------------------------------------------
+\section{Carrying the signer}
+\label{sec:carrying}
+
+If certificates carry the cost, the question is how many of them have to
+travel. Table~\ref{tab:carriage} measures four answers under two placements
+of the trust anchor.
+
+\input{tables/carriage}
+
+\paragraph{Leaf, intermediate and root} What the Adobe chains in the public
+test corpus carry. The specification says the anchor's certificate should not
+be included, and it costs \NcostRootDSAsixtyfive\% more than leaving it out
+under ML-DSA-65 while changing no trust decision, since the verifier must
+hold the root anyway. Dropping it is free.
+
+\paragraph{Leaf and intermediate} The form C2PA~2.5 requires and the baseline
+of every comparison in this paper.
+
+\paragraph{Leaf only} The specification requires every intermediate CA certificate and says the trust anchor's should be left out. When the CA that issued the
+leaf is itself on the trust list, it is the anchor, there is no intermediate
+to carry, and the leaf alone is the conformant form. The C2PA trust list is
+built to allow this: \NtlIssuing{} of its \NtlAnchors{} anchors are issuing
+CAs rather than roots, among them Google's capture and media CAs, DigiCert's
+claim-signing CAs and Adobe's product CA~\cite{c2patrustlist}. In that case
+the manifest is \NsaveLeafDSAsixtyfive\% smaller under ML-DSA-65, and path
+validation checks one signature instead of two, because an anchor's own
+signature is never checked. When the leaf's issuer is not an anchor, carrying
+the leaf alone works only for a verifier that already holds the intermediate,
+which no specification provides for; Table~\ref{tab:validation} shows the
+reference implementation returning \emph{Valid} rather than \emph{Trusted} in
+exactly that case.
+
+\paragraph{Thumbprint} The \texttt{x5t} header and no certificate, a further
+\NsaveThumbDSAsixtyfive\% saving against leaf and intermediate. It is not
+conformant, and the reference implementation reads it as a missing
+credential.
+
+Section~\ref{sec:prodchains} measures how often the conformant leaf-only
+condition holds for production signers today: \NcorpProdListed{} of the
+\NcorpProdChains{} distinct production chains we found end at a trust-list
+anchor, and for \NcorpProdIssuer{} of them the leaf's issuer is the anchor. Our recommendation follows from both
+measurements. Generators should never carry the root. A CA that issues
+post-quantum signing certificates should have its issuing CA listed as a
+trust anchor, as several already do for classical ones, and generators under
+such a CA should carry the leaf alone; the saving is a third of the manifest
+and one of two path signatures, and it needs no change to any specification.
+
+\subsection{What each option gives up}
+\label{sec:tradeoffs}
+
+\emph{The trust list does not resolve a thumbprint.} It holds anchors, not
+signers' leaf certificates, so a verifier holding only an \texttt{x5t} has
+nowhere specification-defined to fetch the leaf from, and some signers issue
+a leaf per image~\cite{google2025pixel}, for which there could be no such
+directory.
+
+\emph{Offline verification of an unknown signer.} A verifier with no network
+that has never seen the signer can verify leaf and intermediate, can verify
+the leaf alone when the leaf's issuer is an anchor it holds, and cannot verify
+a thumbprint. Archival readers opening a file decades later are the case where
+provenance matters most and fetching is least possible.
+
+\emph{Privacy.} Remote thumbprint resolution reports every verification to
+whoever hosts the resolver: which verifier looked up which signer, and when.
+For a journalist checking a document, or a reader of politically sensitive
+media, that is a disclosure the embedded forms do not make.
+
+\subsection{Where verification time goes}
+\label{sec:verifytime}
+
+\input{tables/verify}
+
+Certificates dominate verification for the same reason they dominate bytes,
+but how much depends on what is counted. For the manifest signature and the
+signer's path alone, the measurement most comparable to a TLS handshake, the
+path is \NvPathShareSigDSAsixtyfive\% of the ML-DSA-65 work in
+Table~\ref{tab:verify}, against the two thirds that two path signatures and
+one manifest signature would suggest; the excess is that the path goes
+through OpenSSL's X.509 stack, whose ML-DSA verification is slower than
+liboqs's, and a verifier cannot choose a faster one for certificates because
+liboqs has no ASN.1 layer. That fraction is conditional on the hierarchy: with
+the issuing CA as anchor the path is one signature, and with a cached signer
+(Section~\ref{sec:cache}) it is none.
+
+Complete validation of a timestamped image adds the timestamp's signature and
+path and the content hash, and Figure~\ref{fig:latency} shows the result. For a mid-sized Kodak image, the 13th of 24 by size, the signer's path falls to \NvPathShareDSAsixtyfive\% of
+the cryptographic work under ML-DSA-65; for a 4\,MiB phone JPEG, hashing the
+content dominates and the algorithm barely shows, \NvCompletePhonePS\,ms
+under PS256 against \NvCompletePhoneDSAsixtyfive\,ms under ML-DSA-65. The
+reference implementation, which also parses JUMBF and checks every assertion,
+takes \NvalVerifyLo{} to \NvalVerifyHi\,ms per timestamped image
+(Section~\ref{sec:patch}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/latency}
+\Description{Horizontal stacked bars, one per algorithm, showing the time to
+validate one timestamped image split into decode, signer's path, manifest
+signature, timestamp signature, TSA path and content hash for a mid-sized Kodak
+image. Totals run from about 0.2 to 1.1 milliseconds, and the signer's path and the TSA path are the largest segments.}
+\caption{The cryptographic work of validating one timestamped mid-sized Kodak
+image (the 13th of 24 by size) on the M1 Pro (Table~\ref{tab:verify}). Assertion hashing, ingredients,
+revocation and policy checks are outside the boundary.}
+\label{fig:latency}
+\end{figure}
+
+\subsection{Caching a validated signer}
+\label{sec:cache}
+
+A verifier that sees many manifests can cache certificates it has already
+validated and skip path validation for them. Whether that pays depends on how
+signers use certificates, so Table~\ref{tab:cache} in the supplement runs a
+verifier over a stream from \Ncachepublishers{} publishers, each with its own
+issuing CA, under three leaf lifecycles. With one long-lived leaf per
+publisher, a cache of 4,096 certificates makes ML-DSA-65 verification
+\NcacheLongDSAsixtyfive{} times faster. With a new leaf every hundred manifests the gain is about the same, \NcacheRotDSAsixtyfive{} times. With a new leaf for
+every image, as signers that issue a certificate per capture do, only the
+issuing CA is ever found in the cache, and the gain falls to
+\NcachePerDSAsixtyfive{} times.
+
+A cache also has to forget. Half-way through each stream we removed one
+publisher's issuing CA from trust. A cache whose entries carry the trust-list
+snapshot they were validated under, as C2PA~2.5 now makes possible, rejected
+every later manifest from that publisher. A cache without that tag went on
+accepting \NnaiveLongDSAsixtyfive{} of the \NnaiveTotLongDSAsixtyfive{} that
+followed,
+because their certificates had been validated before the change. A snapshot tag covers only changes to the trust list. A cached validation also goes stale when a certificate on the path expires or is revoked while the list stays the same, so we ran the same stream over thirty simulated days with the most frequent publisher's signing certificate expiring, or revoked, half-way (Table~\ref{tab:cachestale} in the supplement). A cache keyed on the certificate alone accepted \NstaleExpNaive{} of the \NstaleExpTot{} manifests signed after expiry and \NstaleRevNaive{} of \NstaleRevTot{} after revocation; checking each entry against its path's notAfter stops the first and not the second. What works is to key an entry on the certificate, the trust-list snapshot and the validation policy, and to let it live only while every certificate on its path is valid and the revocation status it was validated with is current. With seven-day OCSP responses such a cache still accepted \NstaleRevBoundSeven{} manifests, the last \NstaleRevBoundSevenH{} hours after revocation, and with one-day responses \NstaleRevBoundOne{}, the last after \NstaleRevBoundOneH{} hours, which is the window any verifier that trusts a response until its nextUpdate has. A verifier that validates at a historical time, from a trusted timestamp, needs that time in the key as well.
+
+\subsection{Verification across cores}
+\label{sec:scale}
+
+A platform checking credentials on upload sees manifests from many publishers
+and asks how many cores that takes. We verify a stream from 500 publishers,
+drawn from a Zipf distribution, so that a handful of busy publishers send a large share and most send a few each, on every core of the M1 Pro,
+the Xeon VM and the Pi~5, with and without a cached signer
+(Table~\ref{tab:scale} and Figure~\ref{fig:scale}).
+
+\input{tables/scale}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/scale}
+\Description{Two line charts of ML-DSA-65 verifications per second against
+worker processes, uncached and cached, with one line each for the M1 Pro, the
+Xeon VM and the Raspberry Pi 5. Throughput rises close to linearly on the
+Pi's four cores and the M1 Pro's six performance cores.}
+\caption{ML-DSA-65 verification throughput against worker processes on three
+platforms, without and with a cached signer (Table~\ref{tab:scale}).}
+\label{fig:scale}
+\end{figure}
+
+Without a cache, one core verifies \NscMUncDSAsixtyfive{} ML-DSA-65 manifests
+a second on the M1 Pro, \NscXUncDSAsixtyfive{} on the Xeon VM and
+\NscPUncDSAsixtyfive{} on the Pi~5. On the M1 Pro that is \NscMVsES\% of the
+ES256 rate and \NscMVsPS\% of the PS256 rate; the Xeon (\NscXVsES\% and
+\NscXVsPS\%) and the Pi (\NscPVsES\% and \NscPVsPS\%) give the same order.
+The work parallelises:
+\NscPMax{} workers on the Pi give \NscPSpeedUncDSAsixtyfive{} times one
+worker's rate, and \NscMMax{} on the M1 Pro give \NscMSpeedUncDSAsixtyfive{}
+times, its two efficiency cores adding less than a performance core. At one
+core's rate, ten thousand ML-DSA-65 manifests a second need
+\NscMCoresUncDSAsixtyfive{} M1 Pro cores, \NscXCoresUncDSAsixtyfive{} Xeon
+vCPUs or \NscPCoresUncDSAsixtyfive{} Pi cores, against
+\NscMCoresUncES{}, \NscXCoresUncES{} and \NscPCoresUncES{} for ES256. A
+cached signer leaves only the manifest signature, \NscMCacDSAsixtyfive{} a
+second per M1 Pro core through OpenSSL and \NscMOqsDSAsixtyfive{} through
+liboqs, and cuts those counts to \NscMCoresOqsDSAsixtyfive,
+\NscXCoresOqsDSAsixtyfive{} and \NscPCoresOqsDSAsixtyfive. These are throughputs for the manifest signature and the signer's path, the boundary of Table~\ref{tab:scale}. A complete validation of a timestamped median image, with the timestamp's signature and path and the content hash, is \NvCompleteFactorDSAsixtyfive{} times that work under ML-DSA-65 (Table~\ref{tab:verify}), and parsing, assertion checks and revocation lookups come on top; the core counts scale accordingly and are a lower bound for a full ingest pipeline. Within that boundary, post-quantum verification at upload scale is a matter of a few more cores, not of new hardware.

@@ -1,0 +1,600 @@
+{
+  "experiment": "e1_mixedchain",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:51:10+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 1
+  },
+  "notes": [
+    "x5chain carries leaf and intermediates; the root is the trust anchor and is not carried, though its algorithm signs the intermediate",
+    "whole_manifest adds an RFC 3161 timestamp from a classical or a post-quantum TSA; a classical TSA leaves the time evidence forgeable",
+    "chains run leaf first, root last",
+    "a certificate's signature is made in the issuer's algorithm, not the subject's",
+    "the COSE header names the leaf's algorithm, which is what signs the manifest",
+    "quantum_resistant is false when any load-bearing signature in the path is classical",
+    "the root's self-signature is not load-bearing: a root is trusted by being in the trust store",
+    "the assurance ladder puts the higher category on the longer-lived key"
+  ],
+  "results": [
+    {
+      "chain": [
+        "ML-DSA-87",
+        "ML-DSA-65",
+        "ML-DSA-44"
+      ],
+      "label": "D87/D65/D44",
+      "stage": "Ladder inverted",
+      "description": "the error an operator makes by accident",
+      "leaf_alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "cose_bytes": 16182,
+      "chain_der_bytes": 11532,
+      "per_cert_der_bytes": [
+        6533,
+        4999,
+        4098
+      ],
+      "root_der_bytes_not_carried": 4098,
+      "leaf_der_bytes": 6533,
+      "cert_share_pct": 71.26,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.2126,
+        "mean_ms": 0.216,
+        "iqr_ms": 0.0048,
+        "p95_ms": 0.2246,
+        "p99_ms": 0.2878,
+        "min_ms": 0.2117,
+        "max_ms": 0.3308
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.5743,
+        "mean_ms": 0.6938,
+        "iqr_ms": 0.6224,
+        "p95_ms": 1.5907,
+        "p99_ms": 2.2327,
+        "min_ms": 0.3195,
+        "max_ms": 2.6233
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 10.21,
+      "bytes_vs_uniform_pq": 1.07,
+      "whole_manifest": []
+    },
+    {
+      "chain": [
+        "ML-DSA-44",
+        "ML-DSA-65",
+        "ML-DSA-87"
+      ],
+      "label": "D44/D65/D87",
+      "stage": "Assurance ladder",
+      "description": "the longer a key lives, the higher its category",
+      "leaf_alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "cose_bytes": 14902,
+      "chain_der_bytes": 12459,
+      "per_cert_der_bytes": [
+        5253,
+        7206,
+        7585
+      ],
+      "root_der_bytes_not_carried": 7585,
+      "leaf_der_bytes": 5253,
+      "cert_share_pct": 83.61,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.3135,
+        "mean_ms": 0.3176,
+        "iqr_ms": 0.0028,
+        "p95_ms": 0.3417,
+        "p99_ms": 0.3907,
+        "min_ms": 0.3124,
+        "max_ms": 0.4557
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.2885,
+        "mean_ms": 0.356,
+        "iqr_ms": 0.2129,
+        "p95_ms": 0.86,
+        "p99_ms": 1.2412,
+        "min_ms": 0.1607,
+        "max_ms": 1.4345
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 9.4,
+      "bytes_vs_uniform_pq": 0.99,
+      "whole_manifest": []
+    },
+    {
+      "chain": [
+        "ES256",
+        "ES256",
+        "ES256"
+      ],
+      "label": "ES256/ES256/ES256",
+      "stage": "Classical",
+      "description": "classical throughout, the deployed state today",
+      "leaf_alg": "ES256",
+      "cose_alg_id": -7,
+      "cose_bytes": 1585,
+      "chain_der_bytes": 1500,
+      "per_cert_der_bytes": [
+        752,
+        748,
+        494
+      ],
+      "root_der_bytes_not_carried": 494,
+      "leaf_der_bytes": 752,
+      "cert_share_pct": 94.64,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.1472,
+        "mean_ms": 0.1478,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.1513,
+        "p99_ms": 0.155,
+        "min_ms": 0.1466,
+        "max_ms": 0.1557
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.0272,
+        "mean_ms": 0.0273,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0278,
+        "p99_ms": 0.0296,
+        "min_ms": 0.027,
+        "max_ms": 0.0315
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 1.0,
+      "bytes_vs_uniform_pq": 0.1,
+      "whole_manifest": [
+        {
+          "stage": "Classical",
+          "chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "tsa_alg": "ES256",
+          "tsa_chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "signature_cose_bytes": 1585,
+          "timestamp_token_bytes": 2066,
+          "manifest_crypto_bytes": 3651,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": false,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain and the timestamp"
+        },
+        {
+          "stage": "Classical",
+          "chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "tsa_alg": "ML-DSA-65",
+          "tsa_chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "signature_cose_bytes": 1585,
+          "timestamp_token_bytes": 15624,
+          "manifest_crypto_bytes": 17209,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": true,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain"
+        }
+      ]
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ML-DSA-65",
+        "ML-DSA-65"
+      ],
+      "label": "D65/D65/D65",
+      "stage": "Fully migrated",
+      "description": "every level post-quantum",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 15113,
+      "chain_der_bytes": 11781,
+      "per_cert_der_bytes": [
+        5893,
+        5888,
+        5627
+      ],
+      "root_der_bytes_not_carried": 5627,
+      "leaf_der_bytes": 5893,
+      "cert_share_pct": 77.95,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.2493,
+        "mean_ms": 0.2504,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.257,
+        "p99_ms": 0.262,
+        "min_ms": 0.2488,
+        "max_ms": 0.2744
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.4903,
+        "mean_ms": 0.5773,
+        "iqr_ms": 0.4518,
+        "p95_ms": 1.2161,
+        "p99_ms": 1.5536,
+        "min_ms": 0.2235,
+        "max_ms": 1.6515
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 3,
+      "bytes_vs_classical": 9.54,
+      "bytes_vs_uniform_pq": 1.0,
+      "whole_manifest": [
+        {
+          "stage": "Fully migrated",
+          "chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "tsa_alg": "ES256",
+          "tsa_chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "signature_cose_bytes": 15113,
+          "timestamp_token_bytes": 2066,
+          "manifest_crypto_bytes": 17179,
+          "signature_quantum_resistant": true,
+          "timestamp_quantum_resistant": false,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "backdate the manifest by forging the timestamp"
+        },
+        {
+          "stage": "Fully migrated",
+          "chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "tsa_alg": "ML-DSA-65",
+          "tsa_chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "signature_cose_bytes": 15113,
+          "timestamp_token_bytes": 15624,
+          "manifest_crypto_bytes": 30737,
+          "signature_quantum_resistant": true,
+          "timestamp_quantum_resistant": true,
+          "provenance_quantum_resistant": true,
+          "what_a_quantum_adversary_can_do": "nothing in the signature or time evidence"
+        }
+      ]
+    },
+    {
+      "chain": [
+        "ES256",
+        "ML-DSA-65",
+        "ML-DSA-65"
+      ],
+      "label": "ES256/D65/D65",
+      "stage": "PKI first, leaves last",
+      "description": "a migrated PKI still issuing classical leaves for compatibility",
+      "leaf_alg": "ES256",
+      "cose_alg_id": -7,
+      "cose_bytes": 9971,
+      "chain_der_bytes": 9886,
+      "per_cert_der_bytes": [
+        3998,
+        5888,
+        5627
+      ],
+      "root_der_bytes_not_carried": 5627,
+      "leaf_der_bytes": 3998,
+      "cert_share_pct": 99.15,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.2563,
+        "mean_ms": 0.2595,
+        "iqr_ms": 0.0181,
+        "p95_ms": 0.2822,
+        "p99_ms": 0.3706,
+        "min_ms": 0.2469,
+        "max_ms": 0.3756
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.0334,
+        "mean_ms": 0.0338,
+        "iqr_ms": 0.0011,
+        "p95_ms": 0.0359,
+        "p99_ms": 0.0368,
+        "min_ms": 0.0329,
+        "max_ms": 0.0375
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 6.29,
+      "bytes_vs_uniform_pq": 0.66,
+      "whole_manifest": []
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ML-DSA-65",
+        "ES256"
+      ],
+      "label": "D65/D65/ES256",
+      "stage": "Leaf and intermediate",
+      "description": "second step: the root still classical and still in the trust store",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 11867,
+      "chain_der_bytes": 8535,
+      "per_cert_der_bytes": [
+        5893,
+        2642,
+        495
+      ],
+      "root_der_bytes_not_carried": 495,
+      "leaf_der_bytes": 5893,
+      "cert_share_pct": 71.92,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.2003,
+        "mean_ms": 0.2013,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2076,
+        "p99_ms": 0.2114,
+        "min_ms": 0.1998,
+        "max_ms": 0.2154
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.4855,
+        "mean_ms": 0.6275,
+        "iqr_ms": 0.5306,
+        "p95_ms": 1.7259,
+        "p99_ms": 2.0798,
+        "min_ms": 0.219,
+        "max_ms": 2.0869
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 7.49,
+      "bytes_vs_uniform_pq": 0.79,
+      "whole_manifest": [
+        {
+          "stage": "Leaf and intermediate",
+          "chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ES256"
+          ],
+          "tsa_alg": "ES256",
+          "tsa_chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "signature_cose_bytes": 11867,
+          "timestamp_token_bytes": 2066,
+          "manifest_crypto_bytes": 13933,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": false,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain and the timestamp"
+        },
+        {
+          "stage": "Leaf and intermediate",
+          "chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ES256"
+          ],
+          "tsa_alg": "ML-DSA-65",
+          "tsa_chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "signature_cose_bytes": 11867,
+          "timestamp_token_bytes": 15624,
+          "manifest_crypto_bytes": 27491,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": true,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain"
+        }
+      ]
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ES256",
+        "ES256"
+      ],
+      "label": "D65/ES256/ES256",
+      "stage": "Leaf only",
+      "description": "first step: a post-quantum leaf issued by the existing classical PKI",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 6724,
+      "chain_der_bytes": 3392,
+      "per_cert_der_bytes": [
+        2646,
+        746,
+        494
+      ],
+      "root_der_bytes_not_carried": 494,
+      "leaf_der_bytes": 2646,
+      "cert_share_pct": 50.45,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.148,
+        "mean_ms": 0.1486,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.1537,
+        "p99_ms": 0.1578,
+        "min_ms": 0.1475,
+        "max_ms": 0.1585
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.3917,
+        "mean_ms": 0.548,
+        "iqr_ms": 0.4435,
+        "p95_ms": 1.2919,
+        "p99_ms": 1.7335,
+        "min_ms": 0.2119,
+        "max_ms": 1.9843
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 4.24,
+      "bytes_vs_uniform_pq": 0.44,
+      "whole_manifest": [
+        {
+          "stage": "Leaf only",
+          "chain": [
+            "ML-DSA-65",
+            "ES256",
+            "ES256"
+          ],
+          "tsa_alg": "ES256",
+          "tsa_chain": [
+            "ES256",
+            "ES256",
+            "ES256"
+          ],
+          "signature_cose_bytes": 6724,
+          "timestamp_token_bytes": 2064,
+          "manifest_crypto_bytes": 8788,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": false,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain and the timestamp"
+        },
+        {
+          "stage": "Leaf only",
+          "chain": [
+            "ML-DSA-65",
+            "ES256",
+            "ES256"
+          ],
+          "tsa_alg": "ML-DSA-65",
+          "tsa_chain": [
+            "ML-DSA-65",
+            "ML-DSA-65",
+            "ML-DSA-65"
+          ],
+          "signature_cose_bytes": 6724,
+          "timestamp_token_bytes": 15624,
+          "manifest_crypto_bytes": 22348,
+          "signature_quantum_resistant": false,
+          "timestamp_quantum_resistant": true,
+          "provenance_quantum_resistant": false,
+          "what_a_quantum_adversary_can_do": "forge the signer's chain"
+        }
+      ]
+    },
+    {
+      "chain": [
+        "ML-DSA-44",
+        "ML-DSA-44",
+        "ML-DSA-87"
+      ],
+      "label": "D44/D44/D87",
+      "stage": "Cheap leaves, strong root",
+      "description": "category 2 issuance under a category 5 anchor",
+      "leaf_alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "cose_bytes": 13373,
+      "chain_der_bytes": 10930,
+      "per_cert_der_bytes": [
+        4364,
+        6566,
+        7585
+      ],
+      "root_der_bytes_not_carried": 7585,
+      "leaf_der_bytes": 4364,
+      "cert_share_pct": 81.73,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.2729,
+        "mean_ms": 0.2743,
+        "iqr_ms": 0.0026,
+        "p95_ms": 0.2818,
+        "p99_ms": 0.2857,
+        "min_ms": 0.2724,
+        "max_ms": 0.2916
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.2854,
+        "mean_ms": 0.3674,
+        "iqr_ms": 0.2548,
+        "p95_ms": 0.8571,
+        "p99_ms": 1.4287,
+        "min_ms": 0.1576,
+        "max_ms": 1.4986
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 8.44,
+      "bytes_vs_uniform_pq": 0.88,
+      "whole_manifest": []
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\caption{Certificate chains in 317 production-signed files from 28 signing applications, and in the C2PA public test files, read against the C2PA trust list of 29~October 2026, a convenience sample of public files (Section~\ref{sec:supp-corpus} of the supplement lists the chains and sources, and the released inventory every file with its URL, licence and SHA-256). A chain is identified by its issuer: the leaf's issuer name and every certificate after the leaf, so leaves issued per image under one CA count once. Every signature in a file counts, the active manifest's and its ingredients', under the group of the application that wrote the file; a chain carried by files of several groups (Google's camera chains in files that Microsoft's tools wrote, for example) is counted in each, so the rows do not add up, and the \emph{Distinct} row counts each chain once. \emph{Sent}: certificates in \texttt{x5chain}. \emph{Root}: chains that carry a self-signed root. \emph{Listed}: chains whose path ends at a trust-list anchor. \emph{Issuer}: chains whose leaf was issued directly by an anchor, the condition for conformant leaf-only carriage. \emph{2.x}: files with a version-2 claim. \emph{33p}: signatures carrying \texttt{x5chain} under label~33 in the protected bucket. \emph{TST}: signatures with an RFC~3161 token, and its median size. \emph{OCSP}: signatures carrying revocation evidence.}
+\label{tab:corpus}
+\small
+\setlength{\tabcolsep}{3.3pt}
+\begin{tabular}{lrrrrlrrrrrrrr}
+\toprule
+ & & & \multicolumn{2}{c}{Chains} & & & & & & & \multicolumn{2}{c}{TST} & \\
+\cmidrule(lr){4-5}\cmidrule(lr){12-13}
+Signer & Files & Sigs & ES256 & PS256 & Sent & Root & Listed & Issuer & 2.x & 33p & n & B & OCSP\\
+\midrule
+Google & 105 & 141 & 5 & 0 & 2 & 0 & 5 & 2 & 105 & 141 & 141 & 2,015 & 43\\
+OpenAI & 53 & 83 & 3 & 1 & 2, 3 & 1 & 3 & 0 & 51 & 83 & 31 & 5,259 & 23\\
+Microsoft & 66 & 94 & 6 & 1 & 1, 2, 3 & 1 & 4 & 2 & 6 & 27 & 85 & 5,931 & 20\\
+Adobe & 26 & 27 & 0 & 2 & 2 & 0 & 0 & 0 & 0 & 27 & 27 & 3,664 & 26\\
+News publishers & 24 & 35 & 4 & 6 & 1, 2, 3 & 2 & 0 & 0 & 3 & 32 & 25 & 5,625 & 2\\
+Other & 43 & 45 & 4 & 1 & 1, 2 & 0 & 1 & 0 & 3 & 45 & 43 & 5,828 & 0\\
+\midrule
+\emph{Distinct} & 317 & 425 & 15 & 8 & 1, 2, 3 & 4 & 9 & 2 & 168 & 355 & 352 & 3,663 & 114\\
+\midrule
+C2PA test files & 25 & 41 & 1 & 3 & 2, 3 & 1 & 0 & 0 & 0 & 0 & 39 & 5,940 & 0\\
+\bottomrule
+\end{tabular}
+\end{table*}

@@ -1,0 +1,90 @@
+{
+  "experiment": "e1_libsize",
+  "env": {
+    "timestamp_utc": "2026-11-02T22:24:28+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "c2pa-rs e2ad88e with the RFC 9964 patch (c2pa-val), case chain_noroot, kodim01.jpg, no timestamp"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "file": "ed25519-chain_noroot.jpg",
+      "file_bytes": 159095,
+      "store_bytes": 4100,
+      "cose_bytes": 2972,
+      "signature_bytes": 64,
+      "certs_carried": 2,
+      "chain_der_bytes": 860,
+      "pad_bytes": 2020,
+      "outside_signature_bytes": 1128,
+      "x5chain_bucket": "protected"
+    },
+    {
+      "alg": "ES256",
+      "file": "es256-chain_noroot.jpg",
+      "file_bytes": 159284,
+      "store_bytes": 4289,
+      "cose_bytes": 3161,
+      "signature_bytes": 64,
+      "certs_carried": 2,
+      "chain_der_bytes": 981,
+      "pad_bytes": 2088,
+      "outside_signature_bytes": 1128,
+      "x5chain_bucket": "protected"
+    },
+    {
+      "alg": "ML-DSA-44",
+      "file": "mldsa44-chain_noroot.jpg",
+      "file_bytes": 168771,
+      "store_bytes": 13776,
+      "cose_bytes": 12648,
+      "signature_bytes": 2420,
+      "certs_carried": 2,
+      "chain_der_bytes": 8180,
+      "pad_bytes": 2018,
+      "outside_signature_bytes": 1128,
+      "x5chain_bucket": "protected"
+    },
+    {
+      "alg": "ML-DSA-65",
+      "file": "mldsa65-chain_noroot.jpg",
+      "file_bytes": 172718,
+      "store_bytes": 17723,
+      "cose_bytes": 16595,
+      "signature_bytes": 3309,
+      "certs_carried": 2,
+      "chain_der_bytes": 11238,
+      "pad_bytes": 2018,
+      "outside_signature_bytes": 1128,
+      "x5chain_bucket": "protected"
+    },
+    {
+      "alg": "ML-DSA-87",
+      "file": "mldsa87-chain_noroot.jpg",
+      "file_bytes": 177952,
+      "store_bytes": 22957,
+      "cose_bytes": 21829,
+      "signature_bytes": 4627,
+      "certs_carried": 2,
+      "chain_der_bytes": 15154,
+      "pad_bytes": 2018,
+      "outside_signature_bytes": 1128,
+      "x5chain_bucket": "protected"
+    }
+  ]
+}

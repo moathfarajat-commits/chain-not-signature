@@ -1,0 +1,539 @@
+{
+  "experiment": "e12_ble_rx",
+  "env": {
+    "op": "env",
+    "board": "nRF52840-DK (receiver)",
+    "ncs": "3.1.1",
+    "conn_interval_ms": 15.0,
+    "schedule_entries": 15,
+    "rounds": 3
+  },
+  "notes": [
+    "messages are the Sig_structure of a real manifest built by pq_cose.py",
+    "chain: decode COSE, parse three X.509 certificates, verify the leaf's and the intermediate's signatures (the anchor is trusted, not re-verified)",
+    "manifest_full / _leaf / _thumb: copy the manifest into a receive buffer, then decode it, resolve the chain (from the manifest, or from the trust store for the parts not carried), verify chain and manifest signature",
+    "buffers_bytes: receive buffer + rebuilt Sig_structure, both live at once; stack_bytes: peak stack of one call, by stack painting",
+    "Ed25519: Monocypher 4; ES256: micro-ecc P-256 with PQClean SHA-256",
+    "DK2's view of DK1's transfers: bytes per manifest, byte-for-byte check against the vectors, time from first to last notification; energy and per-manifest time come from the PPK2 run on DK1"
+  ],
+  "results": [
+    {
+      "op": "link_requests",
+      "phy": 0,
+      "dle": 0,
+      "mtu": 0
+    },
+    {
+      "op": "link",
+      "att_mtu": 247
+    },
+    {
+      "op": "link",
+      "tx_max_len": 251,
+      "rx_max_len": 251
+    },
+    {
+      "op": "link",
+      "tx_phy": 2,
+      "rx_phy": 2
+    },
+    {
+      "op": "subscribed"
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "Ed25519",
+      "form": "full",
+      "k": 10,
+      "bytes": 1352,
+      "ok": 10,
+      "first_to_last_us_mean": 7980,
+      "first_to_last_us_max": 9429
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "Ed25519",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 519,
+      "ok": 10,
+      "first_to_last_us_mean": 2304,
+      "first_to_last_us_max": 4150
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "Ed25519",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 9,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ES256",
+      "form": "full",
+      "k": 10,
+      "bytes": 1533,
+      "ok": 10,
+      "first_to_last_us_mean": 8837,
+      "first_to_last_us_max": 10131
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ES256",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 578,
+      "ok": 10,
+      "first_to_last_us_mean": 2746,
+      "first_to_last_us_max": 5065
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ES256",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 12,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-44",
+      "form": "full",
+      "k": 10,
+      "bytes": 14702,
+      "ok": 10,
+      "first_to_last_us_mean": 99548,
+      "first_to_last_us_max": 110900
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-44",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 6541,
+      "ok": 10,
+      "first_to_last_us_mean": 42285,
+      "first_to_last_us_max": 49011
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-44",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 2471,
+      "ok": 10,
+      "first_to_last_us_mean": 15280,
+      "first_to_last_us_max": 17395
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-65",
+      "form": "full",
+      "k": 10,
+      "bytes": 20178,
+      "ok": 10,
+      "first_to_last_us_mean": 137664,
+      "first_to_last_us_max": 142242
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-65",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 8959,
+      "ok": 10,
+      "first_to_last_us_mean": 61901,
+      "first_to_last_us_max": 74066
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-65",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 3360,
+      "ok": 10,
+      "first_to_last_us_mean": 23446,
+      "first_to_last_us_max": 38421
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-87",
+      "form": "full",
+      "k": 10,
+      "bytes": 27370,
+      "ok": 10,
+      "first_to_last_us_mean": 190673,
+      "first_to_last_us_max": 203338
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-87",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 12235,
+      "ok": 10,
+      "first_to_last_us_mean": 80349,
+      "first_to_last_us_max": 82489
+    },
+    {
+      "op": "rx",
+      "round": 0,
+      "alg": "ML-DSA-87",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 4678,
+      "ok": 10,
+      "first_to_last_us_mean": 30706,
+      "first_to_last_us_max": 32775
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "Ed25519",
+      "form": "full",
+      "k": 10,
+      "bytes": 1352,
+      "ok": 10,
+      "first_to_last_us_mean": 7980,
+      "first_to_last_us_max": 9429
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "Ed25519",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 519,
+      "ok": 10,
+      "first_to_last_us_mean": 2301,
+      "first_to_last_us_max": 4119
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "Ed25519",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 15,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ES256",
+      "form": "full",
+      "k": 10,
+      "bytes": 1533,
+      "ok": 10,
+      "first_to_last_us_mean": 8840,
+      "first_to_last_us_max": 10101
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ES256",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 578,
+      "ok": 10,
+      "first_to_last_us_mean": 2752,
+      "first_to_last_us_max": 5096
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ES256",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 15,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-44",
+      "form": "full",
+      "k": 10,
+      "bytes": 14702,
+      "ok": 10,
+      "first_to_last_us_mean": 99755,
+      "first_to_last_us_max": 112304
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-44",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 6541,
+      "ok": 10,
+      "first_to_last_us_mean": 41015,
+      "first_to_last_us_max": 41015
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-44",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 2471,
+      "ok": 10,
+      "first_to_last_us_mean": 16769,
+      "first_to_last_us_max": 29968
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-65",
+      "form": "full",
+      "k": 10,
+      "bytes": 20178,
+      "ok": 10,
+      "first_to_last_us_mean": 141311,
+      "first_to_last_us_max": 154968
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-65",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 8959,
+      "ok": 10,
+      "first_to_last_us_mean": 62405,
+      "first_to_last_us_max": 89111
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-65",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 3360,
+      "ok": 10,
+      "first_to_last_us_mean": 21530,
+      "first_to_last_us_max": 23071
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-87",
+      "form": "full",
+      "k": 10,
+      "bytes": 27370,
+      "ok": 10,
+      "first_to_last_us_mean": 190396,
+      "first_to_last_us_max": 201385
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-87",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 12235,
+      "ok": 10,
+      "first_to_last_us_mean": 81103,
+      "first_to_last_us_max": 83984
+    },
+    {
+      "op": "rx",
+      "round": 1,
+      "alg": "ML-DSA-87",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 4678,
+      "ok": 10,
+      "first_to_last_us_mean": 30279,
+      "first_to_last_us_max": 32379
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "Ed25519",
+      "form": "full",
+      "k": 10,
+      "bytes": 1352,
+      "ok": 10,
+      "first_to_last_us_mean": 7983,
+      "first_to_last_us_max": 9429
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "Ed25519",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 519,
+      "ok": 10,
+      "first_to_last_us_mean": 2313,
+      "first_to_last_us_max": 4150
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "Ed25519",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 15,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ES256",
+      "form": "full",
+      "k": 10,
+      "bytes": 1533,
+      "ok": 10,
+      "first_to_last_us_mean": 8840,
+      "first_to_last_us_max": 10101
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ES256",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 578,
+      "ok": 10,
+      "first_to_last_us_mean": 2752,
+      "first_to_last_us_max": 5096
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ES256",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 113,
+      "ok": 10,
+      "first_to_last_us_mean": 18,
+      "first_to_last_us_max": 30
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-44",
+      "form": "full",
+      "k": 10,
+      "bytes": 14702,
+      "ok": 10,
+      "first_to_last_us_mean": 99536,
+      "first_to_last_us_max": 111968
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-44",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 6541,
+      "ok": 10,
+      "first_to_last_us_mean": 44659,
+      "first_to_last_us_max": 58319
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-44",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 2471,
+      "ok": 10,
+      "first_to_last_us_mean": 15277,
+      "first_to_last_us_max": 17395
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-65",
+      "form": "full",
+      "k": 10,
+      "bytes": 20178,
+      "ok": 10,
+      "first_to_last_us_mean": 144238,
+      "first_to_last_us_max": 154663
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-65",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 8959,
+      "ok": 10,
+      "first_to_last_us_mean": 59524,
+      "first_to_last_us_max": 62042
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-65",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 3360,
+      "ok": 10,
+      "first_to_last_us_mean": 21530,
+      "first_to_last_us_max": 23071
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-87",
+      "form": "full",
+      "k": 10,
+      "bytes": 27370,
+      "ok": 10,
+      "first_to_last_us_mean": 194540,
+      "first_to_last_us_max": 207489
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-87",
+      "form": "leaf",
+      "k": 10,
+      "bytes": 12235,
+      "ok": 10,
+      "first_to_last_us_mean": 85104,
+      "first_to_last_us_max": 96160
+    },
+    {
+      "op": "rx",
+      "round": 2,
+      "alg": "ML-DSA-87",
+      "form": "thumb",
+      "k": 10,
+      "bytes": 4678,
+      "ok": 10,
+      "first_to_last_us_mean": 30703,
+      "first_to_last_us_max": 33813
+    }
+  ]
+}

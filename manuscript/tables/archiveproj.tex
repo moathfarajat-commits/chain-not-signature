@@ -1,0 +1,15 @@
+\begin{table}[t]
+\caption{Modelled minutes to re-sign one million assets on eight cores, at a parallel efficiency of 0.70, the mean of the two eight-worker values in Table~\ref{tab:archivebatch}, rather than assuming perfect scaling. These are computation-only model results outside the measured range, not measurements: the efficiency was measured on small images and is not established for large objects, and reading from storage and memory bandwidth are not modelled. The column spread is the argument: at photographic sizes the algorithm barely moves the schedule, and below the crossover it decides it.}
+\label{tab:archiveproj}
+\begin{tabular}{lrrrrr}
+\toprule
+Asset profile & Bytes & ES256 & ML-DSA-44 & ML-DSA-65 & ML-DSA-87\\
+\midrule
+Thumbnail & 8~KiB & 0.1 & 1.2 & 1.7 & 2.2\\
+Web image & 100~KiB & 0.2 & 1.3 & 1.9 & 2.3\\
+Camera JPEG & 4,096~KiB & 5.3 & 6.5 & 7.0 & 7.4\\
+Raw capture & 25,600~KiB & 33.1 & 34.1 & 34.7 & 35.1\\
+Radiology series & 153,600~KiB & 197.7 & 198.8 & 199.4 & 199.8\\
+\bottomrule
+\end{tabular}
+\end{table}

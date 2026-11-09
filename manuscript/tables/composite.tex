@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\caption{Composite signatures (draft-ietf-lamps-pq-composite-sigs): real certificates signed by both component keys, leaf and intermediate carried. Object identifiers are placeholders of the draft's length and no COSE identifier is assigned. This is a component-cost construction, not an implementation of the draft's combiner (domain separator, prehash and context), which changes what is signed but not the length of any key or signature. Times are the two component operations in sequence. Verification is AND: with either component corrupted or the classical half removed, every composite was rejected.}
+\label{tab:composite}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & Public & Sig. & Leaf cert & COSE & Sign & Verify\\
+Pair & key (B) & (B) & (B) & (B) & (ms) & (ms)\\
+\midrule
+ML-DSA-44+Ed25519 & 1,344 & 2,484 & 4,490 & 11,483 & 0.301 & 0.152\\
+ML-DSA-65+ES256 & 2,017 & 3,380 & 6,052 & 15,501 & 0.490 & 0.171\\
+ML-DSA-65+Ed25519 & 1,984 & 3,373 & 6,019 & 15,430 & 0.496 & 0.191\\
+ML-DSA-87+ES384 & 2,689 & 4,729 & 8,073 & 20,892 & 1.157 & 0.656\\
+\bottomrule
+\end{tabular}
+\end{table}

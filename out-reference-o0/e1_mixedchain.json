@@ -1,0 +1,401 @@
+{
+  "experiment": "e1_mixedchain",
+  "env": {
+    "timestamp_utc": "2026-09-24T20:04:01+00:00",
+    "hostname": "192.168.1.105",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -mmacosx-version-min=11.0 -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "chains run leaf first, root last",
+    "a certificate's signature is made in the issuer's algorithm, not the subject's",
+    "the COSE header names the leaf's algorithm, which is what signs the manifest",
+    "quantum_resistant is false when any load-bearing signature in the path is classical",
+    "the root's self-signature is not load-bearing: a root is trusted by being in the trust store",
+    "the assurance ladder puts the higher category on the longer-lived key"
+  ],
+  "results": [
+    {
+      "chain": [
+        "ES256",
+        "ES256",
+        "ES256"
+      ],
+      "label": "ES256/ES256/ES256",
+      "description": "classical throughout, the deployed state today",
+      "leaf_alg": "ES256",
+      "cose_alg_id": -7,
+      "cose_bytes": 1346,
+      "chain_der_bytes": 1251,
+      "per_cert_der_bytes": [
+        434,
+        414,
+        403
+      ],
+      "leaf_der_bytes": 434,
+      "cert_share_pct": 92.94,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.1736,
+        "mean_ms": 0.1815,
+        "iqr_ms": 0.0059,
+        "p95_ms": 0.2189,
+        "p99_ms": 0.3275,
+        "min_ms": 0.1714,
+        "max_ms": 0.438
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.0321,
+        "mean_ms": 0.0345,
+        "iqr_ms": 0.0005,
+        "p95_ms": 0.0449,
+        "p99_ms": 0.092,
+        "min_ms": 0.0315,
+        "max_ms": 0.1453
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 1.0,
+      "bytes_vs_uniform_pq": 0.07
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ML-DSA-65",
+        "ML-DSA-65"
+      ],
+      "label": "D65/D65/D65",
+      "description": "fully migrated, every level post-quantum",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 19986,
+      "chain_der_bytes": 16651,
+      "per_cert_der_bytes": [
+        5567,
+        5547,
+        5537
+      ],
+      "leaf_der_bytes": 5567,
+      "cert_share_pct": 83.31,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 1.7843,
+        "mean_ms": 1.8032,
+        "iqr_ms": 0.0662,
+        "p95_ms": 1.9263,
+        "p99_ms": 2.005,
+        "min_ms": 1.7414,
+        "max_ms": 2.0094
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 4.608,
+        "mean_ms": 6.3558,
+        "iqr_ms": 5.5268,
+        "p95_ms": 16.5797,
+        "p99_ms": 24.7216,
+        "min_ms": 1.7994,
+        "max_ms": 69.5592
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 3,
+      "bytes_vs_classical": 14.85,
+      "bytes_vs_uniform_pq": 1.0
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ES256",
+        "ES256"
+      ],
+      "label": "D65/ES256/ES256",
+      "description": "first step: a post-quantum leaf issued by the existing classical PKI",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 6474,
+      "chain_der_bytes": 3139,
+      "per_cert_der_bytes": [
+        2321,
+        414,
+        404
+      ],
+      "leaf_der_bytes": 2321,
+      "cert_share_pct": 48.49,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.1733,
+        "mean_ms": 0.1817,
+        "iqr_ms": 0.0058,
+        "p95_ms": 0.2191,
+        "p99_ms": 0.3245,
+        "min_ms": 0.1721,
+        "max_ms": 0.339
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 3.7241,
+        "mean_ms": 5.6056,
+        "iqr_ms": 4.6002,
+        "p95_ms": 15.3557,
+        "p99_ms": 23.4581,
+        "min_ms": 1.7782,
+        "max_ms": 24.2548
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 4.81,
+      "bytes_vs_uniform_pq": 0.32
+    },
+    {
+      "chain": [
+        "ML-DSA-65",
+        "ML-DSA-65",
+        "ES256"
+      ],
+      "label": "D65/D65/ES256",
+      "description": "second step: leaf and intermediate migrated, the root still classical",
+      "leaf_alg": "ML-DSA-65",
+      "cose_alg_id": -49,
+      "cose_bytes": 11606,
+      "chain_der_bytes": 8271,
+      "per_cert_der_bytes": [
+        5567,
+        2300,
+        404
+      ],
+      "leaf_der_bytes": 5567,
+      "cert_share_pct": 71.26,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 0.9774,
+        "mean_ms": 0.9982,
+        "iqr_ms": 0.0377,
+        "p95_ms": 1.1308,
+        "p99_ms": 1.1956,
+        "min_ms": 0.9591,
+        "max_ms": 1.2128
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 3.6794,
+        "mean_ms": 5.3248,
+        "iqr_ms": 4.3918,
+        "p95_ms": 14.434,
+        "p99_ms": 20.7371,
+        "min_ms": 1.7813,
+        "max_ms": 21.6889
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 8.62,
+      "bytes_vs_uniform_pq": 0.58
+    },
+    {
+      "chain": [
+        "ES256",
+        "ML-DSA-65",
+        "ML-DSA-65"
+      ],
+      "label": "ES256/D65/D65",
+      "description": "a migrated PKI still issuing classical leaves for compatibility",
+      "leaf_alg": "ES256",
+      "cose_alg_id": -7,
+      "cose_bytes": 14859,
+      "chain_der_bytes": 14764,
+      "per_cert_der_bytes": [
+        3680,
+        5547,
+        5537
+      ],
+      "leaf_der_bytes": 3680,
+      "cert_share_pct": 99.36,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 1.7688,
+        "mean_ms": 1.789,
+        "iqr_ms": 0.0669,
+        "p95_ms": 1.9026,
+        "p99_ms": 1.9488,
+        "min_ms": 1.7405,
+        "max_ms": 1.957
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 0.0425,
+        "mean_ms": 0.044,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.0461,
+        "p99_ms": 0.0754,
+        "min_ms": 0.0415,
+        "max_ms": 0.1836
+      },
+      "quantum_resistant": false,
+      "broken_by": [
+        "ES256"
+      ],
+      "effective_category": 0,
+      "bytes_vs_classical": 11.04,
+      "bytes_vs_uniform_pq": 0.74
+    },
+    {
+      "chain": [
+        "ML-DSA-44",
+        "ML-DSA-65",
+        "ML-DSA-87"
+      ],
+      "label": "D44/D65/D87",
+      "description": "assurance ladder: the longer a key lives, the higher its category",
+      "leaf_alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "cose_bytes": 21733,
+      "chain_der_bytes": 19287,
+      "per_cert_der_bytes": [
+        4927,
+        6865,
+        7495
+      ],
+      "leaf_der_bytes": 4927,
+      "cert_share_pct": 88.75,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 2.1934,
+        "mean_ms": 2.2083,
+        "iqr_ms": 0.0809,
+        "p95_ms": 2.3254,
+        "p99_ms": 2.4235,
+        "min_ms": 2.1392,
+        "max_ms": 2.4363
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 3.1824,
+        "mean_ms": 3.7748,
+        "iqr_ms": 2.6766,
+        "p95_ms": 9.5361,
+        "p99_ms": 14.2607,
+        "min_ms": 1.2685,
+        "max_ms": 15.3264
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 16.15,
+      "bytes_vs_uniform_pq": 1.09
+    },
+    {
+      "chain": [
+        "ML-DSA-87",
+        "ML-DSA-65",
+        "ML-DSA-44"
+      ],
+      "label": "D87/D65/D44",
+      "description": "the ladder inverted, which is the error an operator makes by accident",
+      "leaf_alg": "ML-DSA-87",
+      "cose_alg_id": -50,
+      "cose_bytes": 19526,
+      "chain_der_bytes": 14873,
+      "per_cert_der_bytes": [
+        6207,
+        4658,
+        4008
+      ],
+      "leaf_der_bytes": 6207,
+      "cert_share_pct": 76.17,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 1.5047,
+        "mean_ms": 1.5217,
+        "iqr_ms": 0.0515,
+        "p95_ms": 1.6339,
+        "p99_ms": 1.6658,
+        "min_ms": 1.466,
+        "max_ms": 1.7452
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 5.2134,
+        "mean_ms": 6.8957,
+        "iqr_ms": 6.2017,
+        "p95_ms": 18.335,
+        "p99_ms": 23.2593,
+        "min_ms": 2.5164,
+        "max_ms": 32.5345
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 14.51,
+      "bytes_vs_uniform_pq": 0.98
+    },
+    {
+      "chain": [
+        "ML-DSA-44",
+        "ML-DSA-44",
+        "ML-DSA-87"
+      ],
+      "label": "D44/D44/D87",
+      "description": "cheap leaves under a high-margin root",
+      "leaf_alg": "ML-DSA-44",
+      "cose_alg_id": -48,
+      "cose_bytes": 20204,
+      "chain_der_bytes": 17758,
+      "per_cert_der_bytes": [
+        4038,
+        6225,
+        7495
+      ],
+      "leaf_der_bytes": 4038,
+      "cert_share_pct": 87.89,
+      "validate_chain_ms": {
+        "n": 200,
+        "median_ms": 1.9068,
+        "mean_ms": 1.9288,
+        "iqr_ms": 0.068,
+        "p95_ms": 2.0516,
+        "p99_ms": 2.1359,
+        "min_ms": 1.8653,
+        "max_ms": 2.1473
+      },
+      "sign_ms": {
+        "n": 200,
+        "median_ms": 2.9996,
+        "mean_ms": 3.6599,
+        "iqr_ms": 2.6221,
+        "p95_ms": 9.0672,
+        "p99_ms": 11.7073,
+        "min_ms": 1.269,
+        "max_ms": 13.3551
+      },
+      "quantum_resistant": true,
+      "broken_by": null,
+      "effective_category": 2,
+      "bytes_vs_classical": 15.01,
+      "bytes_vs_uniform_pq": 1.01
+    }
+  ]
+}

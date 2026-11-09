@@ -1,0 +1,8 @@
+  6 algorithms, depths [2, 3]
+  Ed25519 done
+  ES256 done
+  PS256 done
+  ML-DSA-44 done
+  ML-DSA-65 done
+  ML-DSA-87 done
+  wrote out-x86-runs/run4/e1_certref.json  (12 rows)

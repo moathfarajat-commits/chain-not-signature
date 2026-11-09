@@ -1,0 +1,21 @@
+\begin{table}[ht]
+\caption{Stale trust with the trust list unchanged: 2,000 manifests over 30 simulated days from the stream of Table~\ref{tab:cache}, with the most frequent publisher's signing certificate expiring, or being revoked, on day 15. \emph{Key and validity} is what a cache entry is keyed on and what bounds its life; \emph{OCSP} is how long a status response is valid. \emph{Accepted} counts that publisher's manifests accepted after the event (of all it sent after the event), and \emph{Last} how long after the event the last was accepted. ML-DSA-65; ES256 behaves the same.}
+\label{tab:cachestale}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
+\toprule
+Event & Key and validity & OCSP & Accepted & Last (h)\\
+\midrule
+Expiry & certificate hash & -- & 250 of 250 & 359\\
+ & hash, path notAfter & -- & 0 of 250 & --\\
+ & hash, snapshot, policy; notAfter, nextUpdate & 1\,d & 0 of 250 & --\\
+ & hash, snapshot, policy; notAfter, nextUpdate & 7\,d & 0 of 250 & --\\
+\midrule
+Revocation & certificate hash & -- & 280 of 280 & 359\\
+ & hash, path notAfter & -- & 280 of 280 & 359\\
+ & hash, snapshot, policy; notAfter, nextUpdate & 1\,d & 15 of 280 & 21\\
+ & hash, snapshot, policy; notAfter, nextUpdate & 7\,d & 119 of 280 & 145\\
+\bottomrule
+\end{tabular}
+\end{table}

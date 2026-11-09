@@ -1,0 +1,18 @@
+\begin{table}[t]
+\caption{The C2PA hard binding against the signature, on Apple M1 Pro (arm64). The hash over the image is computed before anything is signed. \emph{Hash share} is the hash as a fraction of hash plus signature, so it is the part of end-to-end signing cost that no choice of algorithm can change. Signing figures are ML-DSA-65 through liboqs.}
+\label{tab:hash}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+ & Image & SHA-256 & Throughput & ML-DSA-65 & Hash\\
+Case & (B) & (ms) & (MB/s) & sign (ms) & share (\%)\\
+\midrule
+thumbnail & 20,000 & 0.009 & 2353 & 0.114 & 7.0\\
+Kodak q90 (median) & 107,672 & 0.044 & 2458 & 0.114 & 28.0\\
+social re-encode & 350,000 & 0.143 & 2477 & 0.114 & 55.7\\
+1080p JPEG & 900,000 & 0.365 & 2481 & 0.114 & 76.3\\
+phone original & 4,000,000 & 1.619 & 2476 & 0.114 & 93.5\\
+high-res / raw-ish & 12,000,000 & 4.915 & 2470 & 0.114 & 97.7\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,52 @@
+\subsection{The chains deployments actually ship}
+\label{sec:prodchains}
+
+The configuration costed so far is ours, and a reader is entitled to ask what
+signers actually ship. We read the signatures out of \NcorpProdAssets{} files
+signed by production software, \NcorpProdGens{} signing applications from
+camera and phone makers, AI image services, editing tools and news
+publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples and public datasets, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once. \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
+
+\input{tables/corpus}
+
+\emph{The test files are not production output.} The C2PA public test files,
+on which an earlier version of this analysis relied, hold \NcorpTestChains{}
+distinct chains, almost all Adobe test certificates, every file has a
+version-1 claim, and none reaches the current trust list. They show what a
+conformance test looks like, not what signers emit.
+
+\emph{ECDSA leads, and RSA is far from gone.} Of the
+\NcorpProdChains{} distinct production chains, \NcorpProdEs{} sign with ES256
+and \NcorpProdPs{} with PS256, and \NcorpProdSigEs{} of the
+\NcorpProdSigs{} signatures are ES256. Newer signers, among them Google's
+phones and media services and OpenAI's image service, use ES256; RSA persists
+in Adobe's tools, Microsoft's image service and most newsrooms. Both are
+therefore the baseline, and Table~\ref{tab:pq} reports growth against each.
+
+\emph{Depth is three, and the root mostly stays out.} Signers carry the leaf and one intermediate in \NcorpProdTwoCert{} of the \NcorpProdChains{} chains; \NcorpProdRoot{} of the
+\NcorpProdChains{} still carry the root, which the specification says to
+leave out. The median chain carried is \NcorpProdChainMed{} bytes.
+
+\emph{The leaf-only condition already holds for some signers.}
+\NcorpProdListed{} of the \NcorpProdChains{} chains end at an anchor on the
+C2PA trust list, which was established in 2025 and does not yet cover many
+earlier signers. For \NcorpProdIssuer{} of them, both Google's (they also appear in the Microsoft row, through Pixel images edited there), the CA that issued the leaf is itself the anchor, so carrying the leaf alone would already
+be conformant and would save one path signature at no cost in trust.
+
+\emph{Timestamps and revocation are the ordinary case.} \NcorpProdTs{} of the
+\NcorpProdSigs{} production signatures carry an RFC~3161 token, of
+\NcorpProdTstLo{} to \NcorpProdTstHi{} bytes with a median of
+\NcorpProdTstMed{}: about 2\,kB for an ECDSA time-stamping authority with two
+certificates, as on Google's devices, and about 6\,kB for an RSA-4096 one with
+three. Our ES256 and PS256 tokens, \NtokenBytesES{} and \NtokenBytesPS{}
+bytes, sit at the small end of that range. \NcorpProdOcsp{} production
+signatures carry stapled revocation evidence, so the OCSP column of
+Table~\ref{tab:timestamp} describes what a quarter of today's signatures
+already carry, not a hardened variant.
+
+\emph{The header has moved to the RFC~9360 form.} \NcorpProdPthree{} of the
+\NcorpProdNxfive{} production signatures carry \texttt{x5chain} under the
+integer label~33 in the protected bucket, as C2PA~2.5 says generators shall;
+the rest use the deprecated string label in the unprotected bucket, all but
+\NcorpProdVtwoString{} of them in version-1 claims, which validators must
+still accept.

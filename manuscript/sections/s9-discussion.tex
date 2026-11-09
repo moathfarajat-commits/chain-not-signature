@@ -1,0 +1,35 @@
+%% ---------------------------------------------------------------------------
+\section{Discussion and limitations}
+\label{sec:discussion}
+
+\paragraph{Where the standards stand}
+The measurements were planned against C2PA~2.4, which permitted only
+classical algorithms, and C2PA~2.5 added ML-DSA while they were under way.
+The specification has therefore caught up with RFC~9964 and the reference
+implementation has not: at commit \texttt{\NvalCommit} of 2~November 2026,
+\texttt{c2pa-rs} signs only classical algorithms, and making it validate an
+ML-DSA chain as trusted took the four-gate patch of Section~\ref{sec:patch}
+and a second one for path validation. Every size in this paper is a property of the encoding and carries over to any conforming implementation up to a constant of its own, which for \texttt{c2pa-rs} is about \Nlibgap{} bytes, mostly padding (Section~\ref{sec:patch}); every
+timing is a property of the libraries named beside it. Nothing in C2PA~2.5
+changes the carriage rules this paper relies on, and its trust-list snapshot
+identifiers are what a cache needs to invalidate correctly
+(Section~\ref{sec:cache}).
+
+\paragraph{What the recommendation asks of whom} Generators can stop carrying the root today. Leaf-only carriage needs the signer's issuing CA on the trust list, which is a decision for CAs and for the trust-list operator, and it shortens the path a validator checks as well as the manifest. It needs no change to the specification, but it is a change of trust policy, and the operator takes on four things in exchange for the saving. An anchor is trusted because it is listed: a validator that treats an issuing CA as an anchor no longer checks it against its root's revocation status, so withdrawing that CA means republishing the list, and every verifier must pick the change up. Issuing CAs rotate far more often than roots, so the list changes more often, and offline verifiers, which hold a copy, see each change later. Constraints that a root imposes on the CAs below it, on names, policies or path length, stop applying unless the anchor entry carries them. And an issuing CA retired from the list leaves its older manifests verifiable only by a validator that kept it, or that falls back to the full chain, which a generator should therefore still be able to emit. The trust-list snapshot identifiers of C2PA~2.5 make each change addressable, and Section~\ref{sec:cache} shows why a validator must honour them. Validators should tie cached trust decisions to the trust list, policy and validation time they were made under, and bound them by certificate validity and the currency of revocation status. The specification could say both outright.
+
+\paragraph{Limitations}
+Remote trust-list resolution is not measured; it is a network round trip
+whose cost belongs to the deployment. The post-quantum certificates are ours,
+issued under a production-like profile, since no deployed signer issues them
+yet; production profiles vary by a few hundred bytes per certificate
+(Section~\ref{sec:method-decisions}), which moves the ratios we report by up to about ten per cent. Falcon and the composites carry placeholder object
+identifiers, and Falcon is measured as submitted rather than as FN-DSA will
+be standardised. HQC is not measured, and neither is any key establishment;
+encrypted archives, whose data keys would have to be re-wrapped under ML-KEM,
+lie outside the paper's question, and Section~S1 of the supplement measures
+that re-wrap separately. The validation matrix covers an ML-DSA-65 time-stamping authority only at that one parameter set, and every timestamp in it comes from our own authority, not a deployed one. The microcontroller energy figures are taken at three
+different points and compare algorithms on one board rather than boards with
+one another, and the radio figures are for one Bluetooth LE configuration, two boards about a metre apart in an office, with whatever interference that brought. No secure element and no accelerator beyond the CryptoCell was
+measured, and batched GPU verification of lattice
+signatures~\cite{shen2024gpu,lee2024falcon} is a question we leave open.
+Timings on the Xeon come from a small, two-core cloud virtual machine whose host load we do not control; the across-run intervals record what that cost, and its scaling curve stops at two workers.

@@ -1,0 +1,38 @@
+{\footnotesize
+\begin{longtable}{lllrrcccc}
+\caption{The 23 distinct certificate chains in the production corpus. \emph{Chain} is the first 16 hex digits of the identifier (SHA-256 over the leaf's issuer name and every certificate after the leaf). \emph{Groups} are the file groups whose files carry the chain, in the active manifest or an ingredient. \emph{Sent}: certificates in \texttt{x5chain}; \emph{Root}: a self-signed root is among them; \emph{Listed}: the path ends at a trust-list anchor; \emph{Issuer}: the leaf's issuer is that anchor. Certificate names and the per-signature inventory, with every file's source URL, licence and SHA-256, are in the released data (\texttt{data/corpus/}).}\label{tab:chains}\\
+\toprule
+Chain & Alg. & Groups & Files & Sigs & Sent & Root & Listed & Issuer\\
+\midrule
+\endfirsthead
+\toprule
+Chain & Alg. & Groups & Files & Sigs & Sent & Root & Listed & Issuer\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\texttt{eb4f07fbf0e72105} & ES256 & Microsoft, News, OpenAI, Other & 44 & 76 & 2 &  &  & \\
+\texttt{059d714eea488027} & ES256 & Google, Microsoft & 21 & 63 & 2 &  & \checkmark & \checkmark\\
+\texttt{ad2e02cc81bcb0d6} & PS256 & Microsoft & 61 & 62 & 3 & \checkmark &  & \\
+\texttt{1ddad138a81fa08a} & PS256 & News, Other & 41 & 41 & 1 &  &  & \\
+\texttt{b6a839803145b704} & ES256 & Google & 26 & 28 & 2 &  & \checkmark & \\
+\texttt{ab2c59799757acd3} & ES256 & Google, Microsoft & 26 & 27 & 2 &  & \checkmark & \\
+\texttt{1c5fcc3bc51f3092} & ES256 & Google, Microsoft & 24 & 25 & 2 &  & \checkmark & \checkmark\\
+\texttt{5fe1b974efe76da6} & PS256 & Adobe, News & 23 & 25 & 2 &  &  & \\
+\texttt{e922dee41f67e089} & ES256 & Google, Microsoft & 21 & 21 & 2 &  & \checkmark & \\
+\texttt{b2a7adf04c2f9f2a} & PS256 & OpenAI & 13 & 13 & 2 &  & \checkmark & \\
+\texttt{08a647bc2fb7134c} & ES256 & OpenAI & 7 & 7 & 2 &  & \checkmark & \\
+\texttt{4acf47494642c929} & ES256 & Microsoft & 5 & 7 & 1 &  &  & \\
+\texttt{f03733b1c4875aa3} & PS256 & News & 7 & 7 & 2 &  &  & \\
+\texttt{755a133dc7ae94cf} & ES256 & News & 1 & 6 & 2 &  &  & \\
+\texttt{528189cafc11fa03} & PS256 & Adobe, News & 5 & 5 & 2 &  &  & \\
+\texttt{fec7c0c8e04ae616} & ES256 & OpenAI & 3 & 3 & 3 & \checkmark & \checkmark & \\
+\texttt{69bd84fb7a133599} & ES256 & Other & 2 & 2 & 2 &  & \checkmark & \\
+\texttt{9cea7f8da067c086} & ES256 & News & 2 & 2 & 3 & \checkmark &  & \\
+\texttt{20b27601b5395ac6} & ES256 & Other & 1 & 1 & 2 &  &  & \\
+\texttt{60064e71c0fb8908} & ES256 & Other & 1 & 1 & 1 &  &  & \\
+\texttt{9e35df7169bc3f05} & PS256 & News & 1 & 1 & 3 & \checkmark &  & \\
+\texttt{a1d0be37c2988d7f} & ES256 & News & 1 & 1 & 2 &  &  & \\
+\texttt{b288c76e51da3a3a} & PS256 & News & 1 & 1 & 2 &  &  & \\
+\end{longtable}
+}

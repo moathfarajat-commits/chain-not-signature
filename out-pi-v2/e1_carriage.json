@@ -1,0 +1,2233 @@
+{
+  "experiment": "e1_carriage",
+  "env": {
+    "timestamp_utc": "2026-11-02T21:01:18+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "run": 1,
+    "runs": 5,
+    "run_timestamps": [
+      "2026-11-02T21:01:18+00:00",
+      "2026-11-02T21:01:46+00:00",
+      "2026-11-02T21:02:13+00:00",
+      "2026-11-02T21:02:31+00:00",
+      "2026-11-02T21:03:24+00:00"
+    ]
+  },
+  "notes": [
+    "four carriage forms; build_chain makes leaf, intermediate and root",
+    "baseline is 'chain': signer and every intermediate, root omitted, as C2PA 2.5 Section 13.5 requires",
+    "an anchor's own signature is never checked, so path validation costs two verifications with the root as anchor and one with the issuing CA as anchor",
+    "leaf-only carriage conforms only when the issuing CA is a trust anchor; the C2PA trust list lists issuing CAs as well as roots",
+    "thumbprint carriage has no specification-defined resolver",
+    "path timings are the cryptography/OpenSSL certificate checks; the manifest signature uses liboqs where available",
+    "merged from 5 independent runs (fresh processes and keys, random experiment and configuration order); median_ms is the median of per-run medians, ci95_ms a 95% bootstrap interval over runs"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 3,
+      "cert_bytes_carried": 1821,
+      "cose_bytes": 1909,
+      "manifest_bytes": 2981,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.3226,
+        "mean_ms": 0.3229,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.3261,
+        "p99_ms": 0.3277,
+        "min_ms": 0.3221,
+        "max_ms": 0.3311,
+        "ci95_ms": [
+          0.3193,
+          0.3232
+        ],
+        "run_medians_ms": [
+          0.3227,
+          0.3193,
+          0.3226,
+          0.3219,
+          0.3232
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1428,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1442,
+        "p99_ms": 0.1452,
+        "min_ms": 0.1434,
+        "max_ms": 0.1724,
+        "ci95_ms": [
+          0.1386,
+          0.1437
+        ],
+        "run_medians_ms": [
+          0.1437,
+          0.1429,
+          0.1428,
+          0.1386,
+          0.1417
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4649,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 2.77,
+      "saving_vs_chain_pct": -17.18,
+      "verify_total_ms_ci95": [
+        0.4605,
+        0.4664
+      ],
+      "verify_total_ms_runs": [
+        0.4664,
+        0.4622,
+        0.4654,
+        0.4605,
+        0.4649
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 2,
+      "cert_bytes_carried": 1387,
+      "cose_bytes": 1472,
+      "manifest_bytes": 2544,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.3226,
+        "mean_ms": 0.3229,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.3261,
+        "p99_ms": 0.3277,
+        "min_ms": 0.3221,
+        "max_ms": 0.3311,
+        "ci95_ms": [
+          0.3193,
+          0.3232
+        ],
+        "run_medians_ms": [
+          0.3227,
+          0.3193,
+          0.3226,
+          0.3219,
+          0.3232
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1428,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1442,
+        "p99_ms": 0.1452,
+        "min_ms": 0.1434,
+        "max_ms": 0.1724,
+        "ci95_ms": [
+          0.1386,
+          0.1437
+        ],
+        "run_medians_ms": [
+          0.1437,
+          0.1429,
+          0.1428,
+          0.1386,
+          0.1417
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4649,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 2.36,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        0.4605,
+        0.4664
+      ],
+      "verify_total_ms_runs": [
+        0.4664,
+        0.4622,
+        0.4654,
+        0.4605,
+        0.4649
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 1,
+      "cert_bytes_carried": 696,
+      "cose_bytes": 777,
+      "manifest_bytes": 1849,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.1644,
+        "mean_ms": 0.1646,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.1671,
+        "p99_ms": 0.1688,
+        "min_ms": 0.1638,
+        "max_ms": 0.1696,
+        "ci95_ms": [
+          0.1629,
+          0.1657
+        ],
+        "run_medians_ms": [
+          0.1644,
+          0.1629,
+          0.1649,
+          0.1637,
+          0.1657
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1428,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1442,
+        "p99_ms": 0.1452,
+        "min_ms": 0.1434,
+        "max_ms": 0.1724,
+        "ci95_ms": [
+          0.1386,
+          0.1437
+        ],
+        "run_medians_ms": [
+          0.1437,
+          0.1429,
+          0.1428,
+          0.1386,
+          0.1417
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.3074,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 1.72,
+      "saving_vs_chain_pct": 27.32,
+      "verify_total_ms_ci95": [
+        0.3023,
+        0.3081
+      ],
+      "verify_total_ms_runs": [
+        0.3081,
+        0.3058,
+        0.3077,
+        0.3023,
+        0.3074
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 1,
+      "cert_bytes_carried": 696,
+      "cose_bytes": 777,
+      "manifest_bytes": 1849,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.3226,
+        "mean_ms": 0.3229,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.3261,
+        "p99_ms": 0.3277,
+        "min_ms": 0.3221,
+        "max_ms": 0.3311,
+        "ci95_ms": [
+          0.3193,
+          0.3232
+        ],
+        "run_medians_ms": [
+          0.3227,
+          0.3193,
+          0.3226,
+          0.3219,
+          0.3232
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1428,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1442,
+        "p99_ms": 0.1452,
+        "min_ms": 0.1434,
+        "max_ms": 0.1724,
+        "ci95_ms": [
+          0.1386,
+          0.1437
+        ],
+        "run_medians_ms": [
+          0.1437,
+          0.1429,
+          0.1428,
+          0.1386,
+          0.1417
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4649,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 1.72,
+      "saving_vs_chain_pct": 27.32,
+      "verify_total_ms_ci95": [
+        0.4605,
+        0.4664
+      ],
+      "verify_total_ms_runs": [
+        0.4664,
+        0.4622,
+        0.4654,
+        0.4605,
+        0.4649
+      ]
+    },
+    {
+      "alg": "Ed25519",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 113,
+      "manifest_bytes": 1185,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.3226,
+        "mean_ms": 0.3229,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.3261,
+        "p99_ms": 0.3277,
+        "min_ms": 0.3221,
+        "max_ms": 0.3311,
+        "ci95_ms": [
+          0.3193,
+          0.3232
+        ],
+        "run_medians_ms": [
+          0.3227,
+          0.3193,
+          0.3226,
+          0.3219,
+          0.3232
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1428,
+        "mean_ms": 0.1429,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1442,
+        "p99_ms": 0.1452,
+        "min_ms": 0.1434,
+        "max_ms": 0.1724,
+        "ci95_ms": [
+          0.1386,
+          0.1437
+        ],
+        "run_medians_ms": [
+          0.1437,
+          0.1429,
+          0.1428,
+          0.1386,
+          0.1417
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4649,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 1.1,
+      "saving_vs_chain_pct": 53.42,
+      "verify_total_ms_ci95": [
+        0.4605,
+        0.4664
+      ],
+      "verify_total_ms_runs": [
+        0.4664,
+        0.4622,
+        0.4654,
+        0.4605,
+        0.4649
+      ]
+    },
+    {
+      "alg": "PS256",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 256,
+      "certs_carried": 3,
+      "cert_bytes_carried": 3181,
+      "cose_bytes": 3463,
+      "manifest_bytes": 4535,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2923,
+        "mean_ms": 0.2926,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2956,
+        "p99_ms": 0.2976,
+        "min_ms": 0.2907,
+        "max_ms": 0.2978,
+        "ci95_ms": [
+          0.2915,
+          0.2941
+        ],
+        "run_medians_ms": [
+          0.2917,
+          0.2915,
+          0.2923,
+          0.2928,
+          0.2941
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1141,
+        "mean_ms": 0.1142,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1146,
+        "p99_ms": 0.1172,
+        "min_ms": 0.1138,
+        "max_ms": 0.1211,
+        "ci95_ms": [
+          0.114,
+          0.1147
+        ],
+        "run_medians_ms": [
+          0.114,
+          0.1141,
+          0.114,
+          0.1142,
+          0.1147
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4063,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 4.21,
+      "saving_vs_chain_pct": -24.52,
+      "verify_total_ms_ci95": [
+        0.4056,
+        0.4088
+      ],
+      "verify_total_ms_runs": [
+        0.4057,
+        0.4056,
+        0.4063,
+        0.407,
+        0.4088
+      ]
+    },
+    {
+      "alg": "PS256",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 256,
+      "certs_carried": 2,
+      "cert_bytes_carried": 2291,
+      "cose_bytes": 2570,
+      "manifest_bytes": 3642,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2923,
+        "mean_ms": 0.2926,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2956,
+        "p99_ms": 0.2976,
+        "min_ms": 0.2907,
+        "max_ms": 0.2978,
+        "ci95_ms": [
+          0.2915,
+          0.2941
+        ],
+        "run_medians_ms": [
+          0.2917,
+          0.2915,
+          0.2923,
+          0.2928,
+          0.2941
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1141,
+        "mean_ms": 0.1142,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1146,
+        "p99_ms": 0.1172,
+        "min_ms": 0.1138,
+        "max_ms": 0.1211,
+        "ci95_ms": [
+          0.114,
+          0.1147
+        ],
+        "run_medians_ms": [
+          0.114,
+          0.1141,
+          0.114,
+          0.1142,
+          0.1147
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4063,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 3.38,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        0.4056,
+        0.4088
+      ],
+      "verify_total_ms_runs": [
+        0.4057,
+        0.4056,
+        0.4063,
+        0.407,
+        0.4088
+      ]
+    },
+    {
+      "alg": "PS256",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 256,
+      "certs_carried": 1,
+      "cert_bytes_carried": 1148,
+      "cose_bytes": 1423,
+      "manifest_bytes": 2495,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.1497,
+        "mean_ms": 0.1499,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.151,
+        "p99_ms": 0.1547,
+        "min_ms": 0.1487,
+        "max_ms": 0.1713,
+        "ci95_ms": [
+          0.149,
+          0.1506
+        ],
+        "run_medians_ms": [
+          0.1491,
+          0.149,
+          0.1497,
+          0.1499,
+          0.1506
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1141,
+        "mean_ms": 0.1142,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1146,
+        "p99_ms": 0.1172,
+        "min_ms": 0.1138,
+        "max_ms": 0.1211,
+        "ci95_ms": [
+          0.114,
+          0.1147
+        ],
+        "run_medians_ms": [
+          0.114,
+          0.1141,
+          0.114,
+          0.1142,
+          0.1147
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.2637,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 2.32,
+      "saving_vs_chain_pct": 31.49,
+      "verify_total_ms_ci95": [
+        0.2631,
+        0.2653
+      ],
+      "verify_total_ms_runs": [
+        0.2631,
+        0.2631,
+        0.2637,
+        0.2641,
+        0.2653
+      ]
+    },
+    {
+      "alg": "PS256",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 256,
+      "certs_carried": 1,
+      "cert_bytes_carried": 1148,
+      "cose_bytes": 1423,
+      "manifest_bytes": 2495,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2923,
+        "mean_ms": 0.2926,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2956,
+        "p99_ms": 0.2976,
+        "min_ms": 0.2907,
+        "max_ms": 0.2978,
+        "ci95_ms": [
+          0.2915,
+          0.2941
+        ],
+        "run_medians_ms": [
+          0.2917,
+          0.2915,
+          0.2923,
+          0.2928,
+          0.2941
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1141,
+        "mean_ms": 0.1142,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1146,
+        "p99_ms": 0.1172,
+        "min_ms": 0.1138,
+        "max_ms": 0.1211,
+        "ci95_ms": [
+          0.114,
+          0.1147
+        ],
+        "run_medians_ms": [
+          0.114,
+          0.1141,
+          0.114,
+          0.1142,
+          0.1147
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4063,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 2.32,
+      "saving_vs_chain_pct": 31.49,
+      "verify_total_ms_ci95": [
+        0.4056,
+        0.4088
+      ],
+      "verify_total_ms_runs": [
+        0.4057,
+        0.4056,
+        0.4063,
+        0.407,
+        0.4088
+      ]
+    },
+    {
+      "alg": "PS256",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 256,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 307,
+      "manifest_bytes": 1379,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2923,
+        "mean_ms": 0.2926,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2956,
+        "p99_ms": 0.2976,
+        "min_ms": 0.2907,
+        "max_ms": 0.2978,
+        "ci95_ms": [
+          0.2915,
+          0.2941
+        ],
+        "run_medians_ms": [
+          0.2917,
+          0.2915,
+          0.2923,
+          0.2928,
+          0.2941
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1141,
+        "mean_ms": 0.1142,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1146,
+        "p99_ms": 0.1172,
+        "min_ms": 0.1138,
+        "max_ms": 0.1211,
+        "ci95_ms": [
+          0.114,
+          0.1147
+        ],
+        "run_medians_ms": [
+          0.114,
+          0.1141,
+          0.114,
+          0.1142,
+          0.1147
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4063,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 1.28,
+      "saving_vs_chain_pct": 62.14,
+      "verify_total_ms_ci95": [
+        0.4056,
+        0.4088
+      ],
+      "verify_total_ms_runs": [
+        0.4057,
+        0.4056,
+        0.4063,
+        0.407,
+        0.4088
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 3309,
+      "certs_carried": 3,
+      "cert_bytes_carried": 17408,
+      "cose_bytes": 20743,
+      "manifest_bytes": 21815,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.7336,
+        "mean_ms": 0.7348,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.7383,
+        "p99_ms": 0.7426,
+        "min_ms": 0.7319,
+        "max_ms": 0.8231,
+        "ci95_ms": [
+          0.7333,
+          0.7373
+        ],
+        "run_medians_ms": [
+          0.7336,
+          0.7333,
+          0.7333,
+          0.7339,
+          0.7373
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1586,
+        "mean_ms": 0.159,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1593,
+        "p99_ms": 0.1634,
+        "min_ms": 0.1583,
+        "max_ms": 0.2009,
+        "ci95_ms": [
+          0.1585,
+          0.1589
+        ],
+        "run_medians_ms": [
+          0.1586,
+          0.1588,
+          0.1589,
+          0.1585,
+          0.1586
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.8922,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 20.26,
+      "saving_vs_chain_pct": -34.79,
+      "verify_total_ms_ci95": [
+        0.8921,
+        0.8959
+      ],
+      "verify_total_ms_runs": [
+        0.8922,
+        0.8921,
+        0.8922,
+        0.8924,
+        0.8959
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 3309,
+      "certs_carried": 2,
+      "cert_bytes_carried": 11781,
+      "cose_bytes": 15113,
+      "manifest_bytes": 16185,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.7336,
+        "mean_ms": 0.7348,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.7383,
+        "p99_ms": 0.7426,
+        "min_ms": 0.7319,
+        "max_ms": 0.8231,
+        "ci95_ms": [
+          0.7333,
+          0.7373
+        ],
+        "run_medians_ms": [
+          0.7336,
+          0.7333,
+          0.7333,
+          0.7339,
+          0.7373
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1586,
+        "mean_ms": 0.159,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1593,
+        "p99_ms": 0.1634,
+        "min_ms": 0.1583,
+        "max_ms": 0.2009,
+        "ci95_ms": [
+          0.1585,
+          0.1589
+        ],
+        "run_medians_ms": [
+          0.1586,
+          0.1588,
+          0.1589,
+          0.1585,
+          0.1586
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.8922,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 15.03,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        0.8921,
+        0.8959
+      ],
+      "verify_total_ms_runs": [
+        0.8922,
+        0.8921,
+        0.8922,
+        0.8924,
+        0.8959
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 3309,
+      "certs_carried": 1,
+      "cert_bytes_carried": 5893,
+      "cose_bytes": 9221,
+      "manifest_bytes": 10293,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.3701,
+        "mean_ms": 0.3705,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.3736,
+        "p99_ms": 0.3752,
+        "min_ms": 0.3693,
+        "max_ms": 0.3758,
+        "ci95_ms": [
+          0.3699,
+          0.3717
+        ],
+        "run_medians_ms": [
+          0.3701,
+          0.3699,
+          0.3699,
+          0.3702,
+          0.3717
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1586,
+        "mean_ms": 0.159,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1593,
+        "p99_ms": 0.1634,
+        "min_ms": 0.1583,
+        "max_ms": 0.2009,
+        "ci95_ms": [
+          0.1585,
+          0.1589
+        ],
+        "run_medians_ms": [
+          0.1586,
+          0.1588,
+          0.1589,
+          0.1585,
+          0.1586
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.5287,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 9.56,
+      "saving_vs_chain_pct": 36.4,
+      "verify_total_ms_ci95": [
+        0.5287,
+        0.5303
+      ],
+      "verify_total_ms_runs": [
+        0.5287,
+        0.5287,
+        0.5288,
+        0.5287,
+        0.5303
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 3309,
+      "certs_carried": 1,
+      "cert_bytes_carried": 5893,
+      "cose_bytes": 9221,
+      "manifest_bytes": 10293,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.7336,
+        "mean_ms": 0.7348,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.7383,
+        "p99_ms": 0.7426,
+        "min_ms": 0.7319,
+        "max_ms": 0.8231,
+        "ci95_ms": [
+          0.7333,
+          0.7373
+        ],
+        "run_medians_ms": [
+          0.7336,
+          0.7333,
+          0.7333,
+          0.7339,
+          0.7373
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1586,
+        "mean_ms": 0.159,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1593,
+        "p99_ms": 0.1634,
+        "min_ms": 0.1583,
+        "max_ms": 0.2009,
+        "ci95_ms": [
+          0.1585,
+          0.1589
+        ],
+        "run_medians_ms": [
+          0.1586,
+          0.1588,
+          0.1589,
+          0.1585,
+          0.1586
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.8922,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 9.56,
+      "saving_vs_chain_pct": 36.4,
+      "verify_total_ms_ci95": [
+        0.8921,
+        0.8959
+      ],
+      "verify_total_ms_runs": [
+        0.8922,
+        0.8921,
+        0.8922,
+        0.8924,
+        0.8959
+      ]
+    },
+    {
+      "alg": "ML-DSA-65",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 3309,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 3360,
+      "manifest_bytes": 4432,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.7336,
+        "mean_ms": 0.7348,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.7383,
+        "p99_ms": 0.7426,
+        "min_ms": 0.7319,
+        "max_ms": 0.8231,
+        "ci95_ms": [
+          0.7333,
+          0.7373
+        ],
+        "run_medians_ms": [
+          0.7336,
+          0.7333,
+          0.7333,
+          0.7339,
+          0.7373
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1586,
+        "mean_ms": 0.159,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.1593,
+        "p99_ms": 0.1634,
+        "min_ms": 0.1583,
+        "max_ms": 0.2009,
+        "ci95_ms": [
+          0.1585,
+          0.1589
+        ],
+        "run_medians_ms": [
+          0.1586,
+          0.1588,
+          0.1589,
+          0.1585,
+          0.1586
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.8922,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 4.12,
+      "saving_vs_chain_pct": 72.62,
+      "verify_total_ms_ci95": [
+        0.8921,
+        0.8959
+      ],
+      "verify_total_ms_runs": [
+        0.8922,
+        0.8921,
+        0.8922,
+        0.8924,
+        0.8959
+      ]
+    },
+    {
+      "alg": "ES256",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 3,
+      "cert_bytes_carried": 1991,
+      "cose_bytes": 2079,
+      "manifest_bytes": 3151,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.4993,
+        "mean_ms": 0.5,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.5068,
+        "p99_ms": 0.5101,
+        "min_ms": 0.4972,
+        "max_ms": 0.5283,
+        "ci95_ms": [
+          0.499,
+          0.502
+        ],
+        "run_medians_ms": [
+          0.4993,
+          0.4994,
+          0.4992,
+          0.499,
+          0.502
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.201,
+        "mean_ms": 0.2014,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2042,
+        "p99_ms": 0.2074,
+        "min_ms": 0.2003,
+        "max_ms": 0.2216,
+        "ci95_ms": [
+          0.2006,
+          0.2018
+        ],
+        "run_medians_ms": [
+          0.2013,
+          0.2009,
+          0.2006,
+          0.201,
+          0.2018
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.7003,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 2.93,
+      "saving_vs_chain_pct": -18.68,
+      "verify_total_ms_ci95": [
+        0.6998,
+        0.7038
+      ],
+      "verify_total_ms_runs": [
+        0.7006,
+        0.7003,
+        0.6998,
+        0.7,
+        0.7038
+      ]
+    },
+    {
+      "alg": "ES256",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 2,
+      "cert_bytes_carried": 1498,
+      "cose_bytes": 1583,
+      "manifest_bytes": 2655,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.4993,
+        "mean_ms": 0.5,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.5068,
+        "p99_ms": 0.5101,
+        "min_ms": 0.4972,
+        "max_ms": 0.5283,
+        "ci95_ms": [
+          0.499,
+          0.502
+        ],
+        "run_medians_ms": [
+          0.4993,
+          0.4994,
+          0.4992,
+          0.499,
+          0.502
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.201,
+        "mean_ms": 0.2014,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2042,
+        "p99_ms": 0.2074,
+        "min_ms": 0.2003,
+        "max_ms": 0.2216,
+        "ci95_ms": [
+          0.2006,
+          0.2018
+        ],
+        "run_medians_ms": [
+          0.2013,
+          0.2009,
+          0.2006,
+          0.201,
+          0.2018
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.7003,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 2.47,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        0.6998,
+        0.7038
+      ],
+      "verify_total_ms_runs": [
+        0.7006,
+        0.7003,
+        0.6998,
+        0.7,
+        0.7038
+      ]
+    },
+    {
+      "alg": "ES256",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 1,
+      "cert_bytes_carried": 752,
+      "cose_bytes": 833,
+      "manifest_bytes": 1905,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2533,
+        "mean_ms": 0.2536,
+        "iqr_ms": 0.0009,
+        "p95_ms": 0.2574,
+        "p99_ms": 0.2594,
+        "min_ms": 0.2515,
+        "max_ms": 0.2608,
+        "ci95_ms": [
+          0.2531,
+          0.2545
+        ],
+        "run_medians_ms": [
+          0.2533,
+          0.2533,
+          0.2531,
+          0.2533,
+          0.2545
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.201,
+        "mean_ms": 0.2014,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2042,
+        "p99_ms": 0.2074,
+        "min_ms": 0.2003,
+        "max_ms": 0.2216,
+        "ci95_ms": [
+          0.2006,
+          0.2018
+        ],
+        "run_medians_ms": [
+          0.2013,
+          0.2009,
+          0.2006,
+          0.201,
+          0.2018
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.4543,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 1.77,
+      "saving_vs_chain_pct": 28.25,
+      "verify_total_ms_ci95": [
+        0.4537,
+        0.4563
+      ],
+      "verify_total_ms_runs": [
+        0.4546,
+        0.4542,
+        0.4537,
+        0.4543,
+        0.4563
+      ]
+    },
+    {
+      "alg": "ES256",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 1,
+      "cert_bytes_carried": 752,
+      "cose_bytes": 833,
+      "manifest_bytes": 1905,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.4993,
+        "mean_ms": 0.5,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.5068,
+        "p99_ms": 0.5101,
+        "min_ms": 0.4972,
+        "max_ms": 0.5283,
+        "ci95_ms": [
+          0.499,
+          0.502
+        ],
+        "run_medians_ms": [
+          0.4993,
+          0.4994,
+          0.4992,
+          0.499,
+          0.502
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.201,
+        "mean_ms": 0.2014,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2042,
+        "p99_ms": 0.2074,
+        "min_ms": 0.2003,
+        "max_ms": 0.2216,
+        "ci95_ms": [
+          0.2006,
+          0.2018
+        ],
+        "run_medians_ms": [
+          0.2013,
+          0.2009,
+          0.2006,
+          0.201,
+          0.2018
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.7003,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 1.77,
+      "saving_vs_chain_pct": 28.25,
+      "verify_total_ms_ci95": [
+        0.6998,
+        0.7038
+      ],
+      "verify_total_ms_runs": [
+        0.7006,
+        0.7003,
+        0.6998,
+        0.7,
+        0.7038
+      ]
+    },
+    {
+      "alg": "ES256",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "openssl",
+      "sig_bytes": 64,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 113,
+      "manifest_bytes": 1185,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.4993,
+        "mean_ms": 0.5,
+        "iqr_ms": 0.0014,
+        "p95_ms": 0.5068,
+        "p99_ms": 0.5101,
+        "min_ms": 0.4972,
+        "max_ms": 0.5283,
+        "ci95_ms": [
+          0.499,
+          0.502
+        ],
+        "run_medians_ms": [
+          0.4993,
+          0.4994,
+          0.4992,
+          0.499,
+          0.502
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.201,
+        "mean_ms": 0.2014,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.2042,
+        "p99_ms": 0.2074,
+        "min_ms": 0.2003,
+        "max_ms": 0.2216,
+        "ci95_ms": [
+          0.2006,
+          0.2018
+        ],
+        "run_medians_ms": [
+          0.2013,
+          0.2009,
+          0.2006,
+          0.201,
+          0.2018
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.7003,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 1.1,
+      "saving_vs_chain_pct": 55.37,
+      "verify_total_ms_ci95": [
+        0.6998,
+        0.7038
+      ],
+      "verify_total_ms_runs": [
+        0.7006,
+        0.7003,
+        0.6998,
+        0.7,
+        0.7038
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 2420,
+      "certs_carried": 3,
+      "cert_bytes_carried": 12821,
+      "cose_bytes": 15267,
+      "manifest_bytes": 16339,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.5012,
+        "mean_ms": 0.5019,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.5059,
+        "p99_ms": 0.5076,
+        "min_ms": 0.5003,
+        "max_ms": 0.5079,
+        "ci95_ms": [
+          0.501,
+          0.5024
+        ],
+        "run_medians_ms": [
+          0.5012,
+          0.501,
+          0.5011,
+          0.5014,
+          0.5024
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1027,
+        "mean_ms": 0.1029,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.103,
+        "p99_ms": 0.1058,
+        "min_ms": 0.1024,
+        "max_ms": 0.1093,
+        "ci95_ms": [
+          0.1025,
+          0.1029
+        ],
+        "run_medians_ms": [
+          0.1026,
+          0.1027,
+          0.1029,
+          0.1025,
+          0.1027
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.6039,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 15.17,
+      "saving_vs_chain_pct": -33.51,
+      "verify_total_ms_ci95": [
+        0.6037,
+        0.6051
+      ],
+      "verify_total_ms_runs": [
+        0.6038,
+        0.6037,
+        0.604,
+        0.6039,
+        0.6051
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 2420,
+      "certs_carried": 2,
+      "cert_bytes_carried": 8723,
+      "cose_bytes": 11166,
+      "manifest_bytes": 12238,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.5012,
+        "mean_ms": 0.5019,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.5059,
+        "p99_ms": 0.5076,
+        "min_ms": 0.5003,
+        "max_ms": 0.5079,
+        "ci95_ms": [
+          0.501,
+          0.5024
+        ],
+        "run_medians_ms": [
+          0.5012,
+          0.501,
+          0.5011,
+          0.5014,
+          0.5024
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1027,
+        "mean_ms": 0.1029,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.103,
+        "p99_ms": 0.1058,
+        "min_ms": 0.1024,
+        "max_ms": 0.1093,
+        "ci95_ms": [
+          0.1025,
+          0.1029
+        ],
+        "run_medians_ms": [
+          0.1026,
+          0.1027,
+          0.1029,
+          0.1025,
+          0.1027
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.6039,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 11.37,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        0.6037,
+        0.6051
+      ],
+      "verify_total_ms_runs": [
+        0.6038,
+        0.6037,
+        0.604,
+        0.6039,
+        0.6051
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 2420,
+      "certs_carried": 1,
+      "cert_bytes_carried": 4364,
+      "cose_bytes": 6803,
+      "manifest_bytes": 7875,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.2542,
+        "mean_ms": 0.2545,
+        "iqr_ms": 0.0003,
+        "p95_ms": 0.2575,
+        "p99_ms": 0.2602,
+        "min_ms": 0.2536,
+        "max_ms": 0.2727,
+        "ci95_ms": [
+          0.2538,
+          0.2545
+        ],
+        "run_medians_ms": [
+          0.2542,
+          0.2538,
+          0.2538,
+          0.2542,
+          0.2545
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1027,
+        "mean_ms": 0.1029,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.103,
+        "p99_ms": 0.1058,
+        "min_ms": 0.1024,
+        "max_ms": 0.1093,
+        "ci95_ms": [
+          0.1025,
+          0.1029
+        ],
+        "run_medians_ms": [
+          0.1026,
+          0.1027,
+          0.1029,
+          0.1025,
+          0.1027
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.3567,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 7.31,
+      "saving_vs_chain_pct": 35.65,
+      "verify_total_ms_ci95": [
+        0.3565,
+        0.3572
+      ],
+      "verify_total_ms_runs": [
+        0.3568,
+        0.3565,
+        0.3567,
+        0.3567,
+        0.3572
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 2420,
+      "certs_carried": 1,
+      "cert_bytes_carried": 4364,
+      "cose_bytes": 6803,
+      "manifest_bytes": 7875,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.5012,
+        "mean_ms": 0.5019,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.5059,
+        "p99_ms": 0.5076,
+        "min_ms": 0.5003,
+        "max_ms": 0.5079,
+        "ci95_ms": [
+          0.501,
+          0.5024
+        ],
+        "run_medians_ms": [
+          0.5012,
+          0.501,
+          0.5011,
+          0.5014,
+          0.5024
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1027,
+        "mean_ms": 0.1029,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.103,
+        "p99_ms": 0.1058,
+        "min_ms": 0.1024,
+        "max_ms": 0.1093,
+        "ci95_ms": [
+          0.1025,
+          0.1029
+        ],
+        "run_medians_ms": [
+          0.1026,
+          0.1027,
+          0.1029,
+          0.1025,
+          0.1027
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.6039,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 7.31,
+      "saving_vs_chain_pct": 35.65,
+      "verify_total_ms_ci95": [
+        0.6037,
+        0.6051
+      ],
+      "verify_total_ms_runs": [
+        0.6038,
+        0.6037,
+        0.604,
+        0.6039,
+        0.6051
+      ]
+    },
+    {
+      "alg": "ML-DSA-44",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 2420,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 2471,
+      "manifest_bytes": 3543,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.5012,
+        "mean_ms": 0.5019,
+        "iqr_ms": 0.0007,
+        "p95_ms": 0.5059,
+        "p99_ms": 0.5076,
+        "min_ms": 0.5003,
+        "max_ms": 0.5079,
+        "ci95_ms": [
+          0.501,
+          0.5024
+        ],
+        "run_medians_ms": [
+          0.5012,
+          0.501,
+          0.5011,
+          0.5014,
+          0.5024
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.1027,
+        "mean_ms": 0.1029,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.103,
+        "p99_ms": 0.1058,
+        "min_ms": 0.1024,
+        "max_ms": 0.1093,
+        "ci95_ms": [
+          0.1025,
+          0.1029
+        ],
+        "run_medians_ms": [
+          0.1026,
+          0.1027,
+          0.1029,
+          0.1025,
+          0.1027
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.6039,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 3.29,
+      "saving_vs_chain_pct": 71.05,
+      "verify_total_ms_ci95": [
+        0.6037,
+        0.6051
+      ],
+      "verify_total_ms_runs": [
+        0.6038,
+        0.6037,
+        0.604,
+        0.6039,
+        0.6051
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "carriage": "root",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 4627,
+      "certs_carried": 3,
+      "cert_bytes_carried": 23282,
+      "cose_bytes": 27935,
+      "manifest_bytes": 29007,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 1.0989,
+        "mean_ms": 1.0999,
+        "iqr_ms": 0.0035,
+        "p95_ms": 1.1035,
+        "p99_ms": 1.1071,
+        "min_ms": 1.097,
+        "max_ms": 1.1046,
+        "ci95_ms": [
+          1.0977,
+          1.0994
+        ],
+        "run_medians_ms": [
+          1.0992,
+          1.098,
+          1.0977,
+          1.0989,
+          1.0994
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.2525,
+        "mean_ms": 0.2527,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.2548,
+        "p99_ms": 0.2565,
+        "min_ms": 0.2518,
+        "max_ms": 0.2903,
+        "ci95_ms": [
+          0.2521,
+          0.254
+        ],
+        "run_medians_ms": [
+          0.2521,
+          0.2525,
+          0.254,
+          0.2526,
+          0.2521
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 1.3515,
+      "conformance_c2pa_2_5": "allowed; root should not be included",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 26.94,
+      "saving_vs_chain_pct": -35.43,
+      "verify_total_ms_ci95": [
+        1.3505,
+        1.3517
+      ],
+      "verify_total_ms_runs": [
+        1.3513,
+        1.3505,
+        1.3517,
+        1.3515,
+        1.3515
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "carriage": "chain",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 4627,
+      "certs_carried": 2,
+      "cert_bytes_carried": 15697,
+      "cose_bytes": 20347,
+      "manifest_bytes": 21419,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 1.0989,
+        "mean_ms": 1.0999,
+        "iqr_ms": 0.0035,
+        "p95_ms": 1.1035,
+        "p99_ms": 1.1071,
+        "min_ms": 1.097,
+        "max_ms": 1.1046,
+        "ci95_ms": [
+          1.0977,
+          1.0994
+        ],
+        "run_medians_ms": [
+          1.0992,
+          1.098,
+          1.0977,
+          1.0989,
+          1.0994
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.2525,
+        "mean_ms": 0.2527,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.2548,
+        "p99_ms": 0.2565,
+        "min_ms": 0.2518,
+        "max_ms": 0.2903,
+        "ci95_ms": [
+          0.2521,
+          0.254
+        ],
+        "run_medians_ms": [
+          0.2521,
+          0.2525,
+          0.254,
+          0.2526,
+          0.2521
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 1.3515,
+      "conformance_c2pa_2_5": "required form",
+      "verifier_must_hold": "root",
+      "manifest_pct_of_median_image": 19.89,
+      "saving_vs_chain_pct": 0.0,
+      "verify_total_ms_ci95": [
+        1.3505,
+        1.3517
+      ],
+      "verify_total_ms_runs": [
+        1.3513,
+        1.3505,
+        1.3517,
+        1.3515,
+        1.3515
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "carriage": "leaf",
+      "anchor": "issuing CA",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 4627,
+      "certs_carried": 1,
+      "cert_bytes_carried": 7851,
+      "cose_bytes": 12497,
+      "manifest_bytes": 13569,
+      "path_verifications": 1,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 0.5531,
+        "mean_ms": 0.5537,
+        "iqr_ms": 0.0011,
+        "p95_ms": 0.5569,
+        "p99_ms": 0.5688,
+        "min_ms": 0.5522,
+        "max_ms": 0.5611,
+        "ci95_ms": [
+          0.5524,
+          0.5532
+        ],
+        "run_medians_ms": [
+          0.5531,
+          0.5524,
+          0.5525,
+          0.5532,
+          0.5532
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.2525,
+        "mean_ms": 0.2527,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.2548,
+        "p99_ms": 0.2565,
+        "min_ms": 0.2518,
+        "max_ms": 0.2903,
+        "ci95_ms": [
+          0.2521,
+          0.254
+        ],
+        "run_medians_ms": [
+          0.2521,
+          0.2525,
+          0.254,
+          0.2526,
+          0.2521
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 0.8053,
+      "conformance_c2pa_2_5": "conformant",
+      "verifier_must_hold": "issuing CA",
+      "manifest_pct_of_median_image": 12.6,
+      "saving_vs_chain_pct": 36.65,
+      "verify_total_ms_ci95": [
+        0.8049,
+        0.8065
+      ],
+      "verify_total_ms_runs": [
+        0.8052,
+        0.8049,
+        0.8065,
+        0.8058,
+        0.8053
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "carriage": "leaf",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 4627,
+      "certs_carried": 1,
+      "cert_bytes_carried": 7851,
+      "cose_bytes": 12497,
+      "manifest_bytes": 13569,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 1.0989,
+        "mean_ms": 1.0999,
+        "iqr_ms": 0.0035,
+        "p95_ms": 1.1035,
+        "p99_ms": 1.1071,
+        "min_ms": 1.097,
+        "max_ms": 1.1046,
+        "ci95_ms": [
+          1.0977,
+          1.0994
+        ],
+        "run_medians_ms": [
+          1.0992,
+          1.098,
+          1.0977,
+          1.0989,
+          1.0994
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.2525,
+        "mean_ms": 0.2527,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.2548,
+        "p99_ms": 0.2565,
+        "min_ms": 0.2518,
+        "max_ms": 0.2903,
+        "ci95_ms": [
+          0.2521,
+          0.254
+        ],
+        "run_medians_ms": [
+          0.2521,
+          0.2525,
+          0.254,
+          0.2526,
+          0.2521
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 1.3515,
+      "conformance_c2pa_2_5": "not conformant; intermediate must be provisioned",
+      "verifier_must_hold": "root and intermediate",
+      "manifest_pct_of_median_image": 12.6,
+      "saving_vs_chain_pct": 36.65,
+      "verify_total_ms_ci95": [
+        1.3505,
+        1.3517
+      ],
+      "verify_total_ms_runs": [
+        1.3513,
+        1.3505,
+        1.3517,
+        1.3515,
+        1.3515
+      ]
+    },
+    {
+      "alg": "ML-DSA-87",
+      "carriage": "thumb",
+      "anchor": "root",
+      "chain_depth": 3,
+      "sig_backend": "liboqs",
+      "sig_bytes": 4627,
+      "certs_carried": 0,
+      "cert_bytes_carried": 0,
+      "cose_bytes": 4678,
+      "manifest_bytes": 5750,
+      "path_verifications": 2,
+      "verify_path_ms": {
+        "n": 200,
+        "median_ms": 1.0989,
+        "mean_ms": 1.0999,
+        "iqr_ms": 0.0035,
+        "p95_ms": 1.1035,
+        "p99_ms": 1.1071,
+        "min_ms": 1.097,
+        "max_ms": 1.1046,
+        "ci95_ms": [
+          1.0977,
+          1.0994
+        ],
+        "run_medians_ms": [
+          1.0992,
+          1.098,
+          1.0977,
+          1.0989,
+          1.0994
+        ],
+        "runs": 5
+      },
+      "verify_signature_ms": {
+        "n": 1000,
+        "median_ms": 0.2525,
+        "mean_ms": 0.2527,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.2548,
+        "p99_ms": 0.2565,
+        "min_ms": 0.2518,
+        "max_ms": 0.2903,
+        "ci95_ms": [
+          0.2521,
+          0.254
+        ],
+        "run_medians_ms": [
+          0.2521,
+          0.2525,
+          0.254,
+          0.2526,
+          0.2521
+        ],
+        "runs": 5
+      },
+      "verify_total_ms": 1.3515,
+      "conformance_c2pa_2_5": "not conformant; leaf must be provisioned",
+      "verifier_must_hold": "root, intermediate and leaf",
+      "manifest_pct_of_median_image": 5.34,
+      "saving_vs_chain_pct": 73.15,
+      "verify_total_ms_ci95": [
+        1.3505,
+        1.3517
+      ],
+      "verify_total_ms_runs": [
+        1.3513,
+        1.3505,
+        1.3517,
+        1.3515,
+        1.3515
+      ]
+    }
+  ]
+}

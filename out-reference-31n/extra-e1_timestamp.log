@@ -1,0 +1,8 @@
+<frozen importlib._bootstrap>:488: Warning: OpenSSL 3's legacy provider failed to load. Legacy algorithms will not be available. If you need those algorithms, check your OpenSSL configuration.
+  Ed25519: signature only 2,516 B, full 5,073 B
+  ES256: signature only 2,695 B, full 5,480 B
+liboqs-python faulthandler is disabled
+  ML-DSA-44: signature only 15,864 B, full 37,807 B
+  ML-DSA-65: signature only 21,340 B, full 51,177 B
+  ML-DSA-87: signature only 28,532 B, full 68,837 B
+  wrote out-extra/e1_timestamp.json  (5 rows)

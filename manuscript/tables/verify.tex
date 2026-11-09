@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\caption{Where the cryptographic work of validating one timestamped image goes, in milliseconds on Apple M1 Pro. \emph{Path} checks leaf and intermediate up to the root anchor; \emph{TST} and \emph{TSA path} are the timestamp's signature and certificate path; \emph{Hash} is SHA-256 over the content, for the 13th of the 24 Kodak images by size (113,540\,B) and for a 4\,MiB phone JPEG. Assertion hashing, ingredients, revocation and policy checks are outside the boundary. \emph{Total} is the sum of the row for each image. Times are medians over 10 independent runs, each the median of its own repetitions; Table~\ref{tab:ci} in the supplement gives their intervals across runs.}
+\label{tab:verify}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+ & Decode & Path & Manifest & TST & TSA & \multicolumn{2}{c}{Hash} & \multicolumn{2}{c}{Total}\\
+\cmidrule(lr){7-8}\cmidrule(lr){9-10}
+Algorithm & & & signature & & path & median & 4\,MiB & median & 4\,MiB\\
+\midrule
+Ed25519 & 0.001 & 0.181 & 0.081 & 0.080 & 0.180 & 0.046 & 1.70 & 0.571 & 2.23\\
+ES256 & 0.001 & 0.148 & 0.056 & 0.054 & 0.148 & 0.046 & 1.71 & 0.456 & 2.12\\
+PS256 & 0.001 & 0.069 & 0.021 & 0.016 & 0.069 & 0.046 & 1.71 & 0.223 & 1.89\\
+ML-DSA-44 & 0.002 & 0.170 & 0.043 & 0.070 & 0.171 & 0.046 & 1.71 & 0.501 & 2.16\\
+ML-DSA-65 & 0.002 & 0.251 & 0.068 & 0.108 & 0.251 & 0.046 & 1.70 & 0.729 & 2.39\\
+ML-DSA-87 & 0.003 & 0.380 & 0.110 & 0.171 & 0.380 & 0.046 & 1.71 & 1.089 & 2.76\\
+\bottomrule
+\end{tabular}
+\end{table*}

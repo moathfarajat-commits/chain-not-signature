@@ -1,0 +1,1772 @@
+{
+  "experiment": "e1_archive",
+  "env": {
+    "timestamp_utc": "2026-11-02T22:30:36+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null,
+    "runs": 1,
+    "run_timestamps": [
+      "2026-11-02T22:30:36+00:00"
+    ]
+  },
+  "notes": [
+    "t(s) = a + s/h, with a and h measured separately and neither fitted",
+    "h is SHA-256 throughput, measured on the corpus with no signing in the loop",
+    "a is claim assembly plus signature over a digest already in hand",
+    "the held-out images test whether the two costs add, which is the model's only claim",
+    "the per-asset test uses medians, which is the right statistic for one asset's latency",
+    "the batch is reported against both statistics: a batch pays the mean, not the median",
+    "tail_ratio_mean_over_median is how far rejection sampling separates the two",
+    "the projection uses the mean, because a schedule is a throughput question",
+    "fixed_cost_liboqs_ms is the same work with the signature from liboqs rather than OpenSSL",
+    "the batch check signs 4800 assets, the corpus 200 times over, across worker processes",
+    "only an index crosses the process boundary; each worker holds the corpus and its credential",
+    "storage is outside both the model and the batch: a real archive adds one disk read per asset",
+    "key generation happens once per worker, outside the timed region",
+    "crossover_bytes is the file size at which hashing costs as much as everything else",
+    "the projection uses parallel efficiency measured at full core count, not perfect scaling",
+    "projection beyond the measured range is a model result, not a measurement",
+    "1 runs available; first run reported (no timing merge)"
+  ],
+  "results": {
+    "hash_MB_s": 2416.8,
+    "hash_MB_s_mean": 2375.5,
+    "per_asset": [
+      {
+        "alg": "ES256",
+        "chain_depth": 3,
+        "fixed_cost_ms": 0.031,
+        "fixed_cost_mean_ms": 0.0313,
+        "tail_ratio_mean_over_median": 1.01,
+        "fixed_cost_iqr_ms": 0.0005,
+        "fixed_cost_p95_ms": 0.0326,
+        "fixed_cost_liboqs_ms": null,
+        "hash_MB_s": 2416.8,
+        "heldout_n": 12,
+        "heldout_abs_error_median_pct": 0.24,
+        "heldout_abs_error_max_pct": 0.92,
+        "heldout_detail": [
+          {
+            "image": "kodim02.jpg",
+            "bytes": 99568,
+            "measured_ms": 0.0728,
+            "predicted_ms": 0.0722,
+            "error_pct": -0.83
+          },
+          {
+            "image": "kodim04.jpg",
+            "bytes": 101804,
+            "measured_ms": 0.0738,
+            "predicted_ms": 0.0731,
+            "error_pct": -0.92
+          },
+          {
+            "image": "kodim06.jpg",
+            "bytes": 124141,
+            "measured_ms": 0.0827,
+            "predicted_ms": 0.0824,
+            "error_pct": -0.4
+          },
+          {
+            "image": "kodim08.jpg",
+            "bytes": 165527,
+            "measured_ms": 0.0995,
+            "predicted_ms": 0.0995,
+            "error_pct": -0.01
+          },
+          {
+            "image": "kodim10.jpg",
+            "bytes": 93249,
+            "measured_ms": 0.0697,
+            "predicted_ms": 0.0696,
+            "error_pct": -0.17
+          },
+          {
+            "image": "kodim12.jpg",
+            "bytes": 87612,
+            "measured_ms": 0.0675,
+            "predicted_ms": 0.0673,
+            "error_pct": -0.37
+          },
+          {
+            "image": "kodim14.jpg",
+            "bytes": 142857,
+            "measured_ms": 0.0901,
+            "predicted_ms": 0.0901,
+            "error_pct": 0.01
+          },
+          {
+            "image": "kodim16.jpg",
+            "bytes": 98872,
+            "measured_ms": 0.0721,
+            "predicted_ms": 0.0719,
+            "error_pct": -0.26
+          },
+          {
+            "image": "kodim18.jpg",
+            "bytes": 141109,
+            "measured_ms": 0.0892,
+            "predicted_ms": 0.0894,
+            "error_pct": 0.21
+          },
+          {
+            "image": "kodim20.jpg",
+            "bytes": 78614,
+            "measured_ms": 0.0635,
+            "predicted_ms": 0.0635,
+            "error_pct": 0.05
+          },
+          {
+            "image": "kodim22.jpg",
+            "bytes": 119043,
+            "measured_ms": 0.0801,
+            "predicted_ms": 0.0803,
+            "error_pct": 0.2
+          },
+          {
+            "image": "kodim24.jpg",
+            "bytes": 135100,
+            "measured_ms": 0.0866,
+            "predicted_ms": 0.0869,
+            "error_pct": 0.35
+          }
+        ],
+        "crossover_bytes": 74919,
+        "profiles": [
+          {
+            "profile": "thumbnail",
+            "bytes": 8192,
+            "predicted_ms": 0.034,
+            "fixed_share_pct": 90.14
+          },
+          {
+            "profile": "web image",
+            "bytes": 102400,
+            "predicted_ms": 0.073,
+            "fixed_share_pct": 42.25
+          },
+          {
+            "profile": "camera JPEG",
+            "bytes": 4194304,
+            "predicted_ms": 1.767,
+            "fixed_share_pct": 1.75
+          },
+          {
+            "profile": "raw capture",
+            "bytes": 26214400,
+            "predicted_ms": 10.878,
+            "fixed_share_pct": 0.28
+          },
+          {
+            "profile": "radiology series",
+            "bytes": 157286400,
+            "predicted_ms": 65.113,
+            "fixed_share_pct": 0.05
+          }
+        ]
+      },
+      {
+        "alg": "ML-DSA-44",
+        "chain_depth": 3,
+        "fixed_cost_ms": 0.2932,
+        "fixed_cost_mean_ms": 0.3973,
+        "tail_ratio_mean_over_median": 1.355,
+        "fixed_cost_iqr_ms": 0.2786,
+        "fixed_cost_p95_ms": 0.9565,
+        "fixed_cost_liboqs_ms": 0.087,
+        "hash_MB_s": 2416.8,
+        "heldout_n": 12,
+        "heldout_abs_error_median_pct": 10.28,
+        "heldout_abs_error_max_pct": 16.19,
+        "heldout_detail": [
+          {
+            "image": "kodim02.jpg",
+            "bytes": 99568,
+            "measured_ms": 0.3772,
+            "predicted_ms": 0.3344,
+            "error_pct": -11.35
+          },
+          {
+            "image": "kodim04.jpg",
+            "bytes": 101804,
+            "measured_ms": 0.4001,
+            "predicted_ms": 0.3353,
+            "error_pct": -16.19
+          },
+          {
+            "image": "kodim06.jpg",
+            "bytes": 124141,
+            "measured_ms": 0.4062,
+            "predicted_ms": 0.3446,
+            "error_pct": -15.17
+          },
+          {
+            "image": "kodim08.jpg",
+            "bytes": 165527,
+            "measured_ms": 0.4021,
+            "predicted_ms": 0.3617,
+            "error_pct": -10.05
+          },
+          {
+            "image": "kodim10.jpg",
+            "bytes": 93249,
+            "measured_ms": 0.3397,
+            "predicted_ms": 0.3318,
+            "error_pct": -2.33
+          },
+          {
+            "image": "kodim12.jpg",
+            "bytes": 87612,
+            "measured_ms": 0.3464,
+            "predicted_ms": 0.3295,
+            "error_pct": -4.89
+          },
+          {
+            "image": "kodim14.jpg",
+            "bytes": 142857,
+            "measured_ms": 0.3937,
+            "predicted_ms": 0.3523,
+            "error_pct": -10.51
+          },
+          {
+            "image": "kodim16.jpg",
+            "bytes": 98872,
+            "measured_ms": 0.342,
+            "predicted_ms": 0.3341,
+            "error_pct": -2.31
+          },
+          {
+            "image": "kodim18.jpg",
+            "bytes": 141109,
+            "measured_ms": 0.4129,
+            "predicted_ms": 0.3516,
+            "error_pct": -14.85
+          },
+          {
+            "image": "kodim20.jpg",
+            "bytes": 78614,
+            "measured_ms": 0.3875,
+            "predicted_ms": 0.3257,
+            "error_pct": -15.94
+          },
+          {
+            "image": "kodim22.jpg",
+            "bytes": 119043,
+            "measured_ms": 0.3472,
+            "predicted_ms": 0.3425,
+            "error_pct": -1.37
+          },
+          {
+            "image": "kodim24.jpg",
+            "bytes": 135100,
+            "measured_ms": 0.3836,
+            "predicted_ms": 0.3491,
+            "error_pct": -8.99
+          }
+        ],
+        "crossover_bytes": 708593,
+        "profiles": [
+          {
+            "profile": "thumbnail",
+            "bytes": 8192,
+            "predicted_ms": 0.297,
+            "fixed_share_pct": 98.86
+          },
+          {
+            "profile": "web image",
+            "bytes": 102400,
+            "predicted_ms": 0.336,
+            "fixed_share_pct": 87.37
+          },
+          {
+            "profile": "camera JPEG",
+            "bytes": 4194304,
+            "predicted_ms": 2.029,
+            "fixed_share_pct": 14.45
+          },
+          {
+            "profile": "raw capture",
+            "bytes": 26214400,
+            "predicted_ms": 11.14,
+            "fixed_share_pct": 2.63
+          },
+          {
+            "profile": "radiology series",
+            "bytes": 157286400,
+            "predicted_ms": 65.375,
+            "fixed_share_pct": 0.45
+          }
+        ]
+      },
+      {
+        "alg": "ML-DSA-65",
+        "chain_depth": 3,
+        "fixed_cost_ms": 0.5024,
+        "fixed_cost_mean_ms": 0.582,
+        "tail_ratio_mean_over_median": 1.158,
+        "fixed_cost_iqr_ms": 0.4602,
+        "fixed_cost_p95_ms": 1.3184,
+        "fixed_cost_liboqs_ms": 0.1289,
+        "hash_MB_s": 2416.8,
+        "heldout_n": 12,
+        "heldout_abs_error_median_pct": 2.08,
+        "heldout_abs_error_max_pct": 14.97,
+        "heldout_detail": [
+          {
+            "image": "kodim02.jpg",
+            "bytes": 99568,
+            "measured_ms": 0.5453,
+            "predicted_ms": 0.5436,
+            "error_pct": -0.31
+          },
+          {
+            "image": "kodim04.jpg",
+            "bytes": 101804,
+            "measured_ms": 0.5,
+            "predicted_ms": 0.5445,
+            "error_pct": 8.9
+          },
+          {
+            "image": "kodim06.jpg",
+            "bytes": 124141,
+            "measured_ms": 0.6395,
+            "predicted_ms": 0.5538,
+            "error_pct": -13.41
+          },
+          {
+            "image": "kodim08.jpg",
+            "bytes": 165527,
+            "measured_ms": 0.5905,
+            "predicted_ms": 0.5709,
+            "error_pct": -3.32
+          },
+          {
+            "image": "kodim10.jpg",
+            "bytes": 93249,
+            "measured_ms": 0.541,
+            "predicted_ms": 0.541,
+            "error_pct": -0.0
+          },
+          {
+            "image": "kodim12.jpg",
+            "bytes": 87612,
+            "measured_ms": 0.5411,
+            "predicted_ms": 0.5387,
+            "error_pct": -0.45
+          },
+          {
+            "image": "kodim14.jpg",
+            "bytes": 142857,
+            "measured_ms": 0.4884,
+            "predicted_ms": 0.5615,
+            "error_pct": 14.97
+          },
+          {
+            "image": "kodim16.jpg",
+            "bytes": 98872,
+            "measured_ms": 0.5279,
+            "predicted_ms": 0.5433,
+            "error_pct": 2.92
+          },
+          {
+            "image": "kodim18.jpg",
+            "bytes": 141109,
+            "measured_ms": 0.5648,
+            "predicted_ms": 0.5608,
+            "error_pct": -0.71
+          },
+          {
+            "image": "kodim20.jpg",
+            "bytes": 78614,
+            "measured_ms": 0.5416,
+            "predicted_ms": 0.5349,
+            "error_pct": -1.23
+          },
+          {
+            "image": "kodim22.jpg",
+            "bytes": 119043,
+            "measured_ms": 0.5546,
+            "predicted_ms": 0.5517,
+            "error_pct": -0.53
+          },
+          {
+            "image": "kodim24.jpg",
+            "bytes": 135100,
+            "measured_ms": 0.5294,
+            "predicted_ms": 0.5583,
+            "error_pct": 5.46
+          }
+        ],
+        "crossover_bytes": 1214178,
+        "profiles": [
+          {
+            "profile": "thumbnail",
+            "bytes": 8192,
+            "predicted_ms": 0.506,
+            "fixed_share_pct": 99.33
+          },
+          {
+            "profile": "web image",
+            "bytes": 102400,
+            "predicted_ms": 0.545,
+            "fixed_share_pct": 92.22
+          },
+          {
+            "profile": "camera JPEG",
+            "bytes": 4194304,
+            "predicted_ms": 2.238,
+            "fixed_share_pct": 22.45
+          },
+          {
+            "profile": "raw capture",
+            "bytes": 26214400,
+            "predicted_ms": 11.349,
+            "fixed_share_pct": 4.43
+          },
+          {
+            "profile": "radiology series",
+            "bytes": 157286400,
+            "predicted_ms": 65.584,
+            "fixed_share_pct": 0.77
+          }
+        ]
+      },
+      {
+        "alg": "ML-DSA-87",
+        "chain_depth": 3,
+        "fixed_cost_ms": 0.5961,
+        "fixed_cost_mean_ms": 0.7279,
+        "tail_ratio_mean_over_median": 1.221,
+        "fixed_cost_iqr_ms": 0.4081,
+        "fixed_cost_p95_ms": 1.5006,
+        "fixed_cost_liboqs_ms": 0.1829,
+        "hash_MB_s": 2416.8,
+        "heldout_n": 12,
+        "heldout_abs_error_median_pct": 0.43,
+        "heldout_abs_error_max_pct": 4.3,
+        "heldout_detail": [
+          {
+            "image": "kodim02.jpg",
+            "bytes": 99568,
+            "measured_ms": 0.6659,
+            "predicted_ms": 0.6373,
+            "error_pct": -4.3
+          },
+          {
+            "image": "kodim04.jpg",
+            "bytes": 101804,
+            "measured_ms": 0.641,
+            "predicted_ms": 0.6382,
+            "error_pct": -0.43
+          },
+          {
+            "image": "kodim06.jpg",
+            "bytes": 124141,
+            "measured_ms": 0.6459,
+            "predicted_ms": 0.6475,
+            "error_pct": 0.24
+          },
+          {
+            "image": "kodim08.jpg",
+            "bytes": 165527,
+            "measured_ms": 0.664,
+            "predicted_ms": 0.6646,
+            "error_pct": 0.09
+          },
+          {
+            "image": "kodim10.jpg",
+            "bytes": 93249,
+            "measured_ms": 0.6337,
+            "predicted_ms": 0.6347,
+            "error_pct": 0.16
+          },
+          {
+            "image": "kodim12.jpg",
+            "bytes": 87612,
+            "measured_ms": 0.6312,
+            "predicted_ms": 0.6324,
+            "error_pct": 0.18
+          },
+          {
+            "image": "kodim14.jpg",
+            "bytes": 142857,
+            "measured_ms": 0.671,
+            "predicted_ms": 0.6552,
+            "error_pct": -2.35
+          },
+          {
+            "image": "kodim16.jpg",
+            "bytes": 98872,
+            "measured_ms": 0.6348,
+            "predicted_ms": 0.637,
+            "error_pct": 0.35
+          },
+          {
+            "image": "kodim18.jpg",
+            "bytes": 141109,
+            "measured_ms": 0.6684,
+            "predicted_ms": 0.6545,
+            "error_pct": -2.08
+          },
+          {
+            "image": "kodim20.jpg",
+            "bytes": 78614,
+            "measured_ms": 0.6319,
+            "predicted_ms": 0.6286,
+            "error_pct": -0.52
+          },
+          {
+            "image": "kodim22.jpg",
+            "bytes": 119043,
+            "measured_ms": 0.6426,
+            "predicted_ms": 0.6454,
+            "error_pct": 0.43
+          },
+          {
+            "image": "kodim24.jpg",
+            "bytes": 135100,
+            "measured_ms": 0.6486,
+            "predicted_ms": 0.652,
+            "error_pct": 0.52
+          }
+        ],
+        "crossover_bytes": 1440629,
+        "profiles": [
+          {
+            "profile": "thumbnail",
+            "bytes": 8192,
+            "predicted_ms": 0.599,
+            "fixed_share_pct": 99.43
+          },
+          {
+            "profile": "web image",
+            "bytes": 102400,
+            "predicted_ms": 0.638,
+            "fixed_share_pct": 93.36
+          },
+          {
+            "profile": "camera JPEG",
+            "bytes": 4194304,
+            "predicted_ms": 2.332,
+            "fixed_share_pct": 25.57
+          },
+          {
+            "profile": "raw capture",
+            "bytes": 26214400,
+            "predicted_ms": 11.443,
+            "fixed_share_pct": 5.21
+          },
+          {
+            "profile": "radiology series",
+            "bytes": 157286400,
+            "predicted_ms": 65.678,
+            "fixed_share_pct": 0.91
+          }
+        ]
+      }
+    ],
+    "batch": [
+      {
+        "alg": "ES256",
+        "workers": 1,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.378,
+        "predicted_mean_s": 0.383,
+        "measured_s": 0.398,
+        "error_median_pct": -5.08,
+        "error_mean_pct": -3.72,
+        "parallel_efficiency": 0.963,
+        "assets_per_s": 12058.4
+      },
+      {
+        "alg": "ES256",
+        "workers": 2,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.189,
+        "predicted_mean_s": 0.192,
+        "measured_s": 0.2,
+        "error_median_pct": -5.38,
+        "error_mean_pct": -4.03,
+        "parallel_efficiency": 0.96,
+        "assets_per_s": 24038.7
+      },
+      {
+        "alg": "ES256",
+        "workers": 4,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.094,
+        "predicted_mean_s": 0.096,
+        "measured_s": 0.1,
+        "error_median_pct": -5.66,
+        "error_mean_pct": -4.31,
+        "parallel_efficiency": 0.957,
+        "assets_per_s": 47937.1
+      },
+      {
+        "alg": "ES256",
+        "workers": 8,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.047,
+        "predicted_mean_s": 0.048,
+        "measured_s": 0.063,
+        "error_median_pct": -25.45,
+        "error_mean_pct": -24.38,
+        "parallel_efficiency": 0.756,
+        "assets_per_s": 75765.8
+      },
+      {
+        "alg": "ML-DSA-65",
+        "workers": 1,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 2.641,
+        "predicted_mean_s": 3.027,
+        "measured_s": 3.238,
+        "error_median_pct": -18.44,
+        "error_mean_pct": -6.51,
+        "parallel_efficiency": 0.935,
+        "assets_per_s": 1482.6
+      },
+      {
+        "alg": "ML-DSA-65",
+        "workers": 2,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 1.32,
+        "predicted_mean_s": 1.513,
+        "measured_s": 1.654,
+        "error_median_pct": -20.17,
+        "error_mean_pct": -8.5,
+        "parallel_efficiency": 0.915,
+        "assets_per_s": 2902.4
+      },
+      {
+        "alg": "ML-DSA-65",
+        "workers": 4,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.66,
+        "predicted_mean_s": 0.757,
+        "measured_s": 0.841,
+        "error_median_pct": -21.51,
+        "error_mean_pct": -10.03,
+        "parallel_efficiency": 0.9,
+        "assets_per_s": 5707.3
+      },
+      {
+        "alg": "ML-DSA-65",
+        "workers": 8,
+        "assets": 4800,
+        "archive_bytes": 553567000,
+        "predicted_median_s": 0.33,
+        "predicted_mean_s": 0.378,
+        "measured_s": 0.591,
+        "error_median_pct": -44.15,
+        "error_mean_pct": -35.98,
+        "parallel_efficiency": 0.64,
+        "assets_per_s": 8122.0
+      }
+    ],
+    "projection": [
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.014,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.03,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.007,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.715,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.089,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.011,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.044,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.006,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 4.404,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.551,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.069,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.264,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.033,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 26.362,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 3.295,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ES256",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.412,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.159,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.02,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.175,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.022,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.003,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.009,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.861,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.108,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.013,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.045,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.006,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 4.55,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.569,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.071,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.265,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.033,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 26.508,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 3.313,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-44",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.414,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.233,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.029,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.002,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.249,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.031,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.009,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.934,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.117,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.015,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.046,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.006,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 4.623,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.578,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.072,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.266,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.033,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 26.581,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 3.323,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-65",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.415,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.003,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.291,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.036,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "thumbnail",
+        "asset_bytes": 8192,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.005,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.003,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.307,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.038,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "web image",
+        "asset_bytes": 102400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.005,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.01,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.0,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 0.992,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.124,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "camera JPEG",
+        "asset_bytes": 4194304,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.016,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.047,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.006,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.001,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 4.681,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 0.585,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "raw capture",
+        "asset_bytes": 26214400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.073,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 1,
+        "hours": 0.266,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 8,
+        "hours": 0.033,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 10000,
+        "cores": 64,
+        "hours": 0.004,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 1,
+        "hours": 26.64,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 8,
+        "hours": 3.33,
+        "assumed_efficiency": 0.698
+      },
+      {
+        "alg": "ML-DSA-87",
+        "profile": "radiology series",
+        "asset_bytes": 157286400,
+        "assets": 1000000,
+        "cores": 64,
+        "hours": 0.416,
+        "assumed_efficiency": 0.698
+      }
+    ]
+  }
+}

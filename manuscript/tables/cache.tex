@@ -1,0 +1,37 @@
+\begin{table}[ht]
+\caption{Caching validated certificates in a verifier, under three leaf lifecycles. A stream of 2000 manifests from 50 publishers (Zipf), each publisher with its own issuing CA; LRU cache of the given number of certificates, entries tagged with the trust-list snapshot. Speed-up is whole-stream wall time against no cache. \emph{Naive} is an untagged cache of 4,096: half-way through, one publisher's CA is distrusted, and the column counts that publisher's manifests it still accepts; tagged caches accept none.}
+\label{tab:cache}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrr}
+\toprule
+ & & \multicolumn{3}{c}{Speed-up, tagged cache of} & Naive\\
+\cmidrule(lr){3-5}
+Algorithm & Leaves & 16 & 256 & 4,096 & accepts\\
+\midrule
+Ed25519 & long-lived & 1.49 & 2.86 & 2.88 & 268/268\\
+ & rotating & 1.46 & 2.75 & 2.71 & 30/281\\
+ & per-image & 1.15 & 1.42 & 1.44 & 0/250\\
+\midrule
+ES256 & long-lived & 1.61 & 3.05 & 3.04 & 258/258\\
+ & rotating & 1.53 & 2.89 & 2.71 & 40/262\\
+ & per-image & 1.16 & 1.35 & 1.36 & 0/274\\
+\midrule
+PS256 & long-lived & 1.54 & 3.19 & 3.19 & 280/280\\
+ & rotating & 1.55 & 3.21 & 3.18 & 24/282\\
+ & per-image & 1.24 & 1.43 & 1.46 & 0/247\\
+\midrule
+ML-DSA-44 & long-lived & 1.43 & 2.64 & 2.62 & 253/253\\
+ & rotating & 1.40 & 2.61 & 2.31 & 55/249\\
+ & per-image & 1.06 & 1.37 & 1.40 & 0/272\\
+\midrule
+ML-DSA-65 & long-lived & 1.51 & 2.64 & 2.65 & 254/254\\
+ & rotating & 1.49 & 2.61 & 2.62 & 30/261\\
+ & per-image & 1.14 & 1.46 & 1.45 & 0/250\\
+\midrule
+ML-DSA-87 & long-lived & 1.48 & 2.62 & 2.62 & 255/255\\
+ & rotating & 1.50 & 2.66 & 2.67 & 10/267\\
+ & per-image & 1.16 & 1.41 & 1.41 & 0/265\\
+\bottomrule
+\end{tabular}
+\end{table}

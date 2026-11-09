@@ -1,0 +1,161 @@
+%% ---------------------------------------------------------------------------
+\section{The cost of a post-quantum content credential}
+\label{sec:cost}
+
+\input{tables/postquantum}
+
+Table~\ref{tab:pq} is the central result, and it has to be read against what
+signers use today, which is ES256 and, about half as often, RSA-2048 PS256
+(Section~\ref{sec:prodchains}). Against ES256 an ML-DSA manifest is
+\NvsESDSAfortyfour{}, \NvsESDSAsixtyfive{} and \NvsESDSAeightyseven{} times
+larger; against PS256, \NvsPSDSAfortyfour{}, \NvsPSDSAsixtyfive{} and
+\NvsPSDSAeightyseven{} times. Either way the manifest grows far more slowly than
+the signature, which grows from 64 bytes under ES256 and 256 under RSA-2048 to
+3,309 under ML-DSA-65.
+
+The chain column says why. Leaf and intermediate together are
+\NchainBytesDSAsixtyfive{} bytes under ML-DSA-65, \NchainShareDSAsixtyfive\% of the signed COSE structure and \NchainShareManDSAsixtyfive\% of the whole manifest once JUMBF framing and the claim are added, against a 3,309-byte signature; under ES256 the
+same two certificates are \NchainShareES\% of a much smaller structure. Each
+certificate carries a public key and its issuer's signature, so every
+certificate in the chain repeats the growth that the manifest signature
+shows once. Post-quantum cryptography did not create this imbalance; it scaled
+an existing one until it became the cost.
+
+Signing time is not part of the argument. Through liboqs, ML-DSA-44 signs in
+\NsignMsDSAfortyfour\,ms, against \NsignMsEd\,ms for Ed25519 and
+\NsignMsPS\,ms for PS256 through OpenSSL on the same machine.
+
+\subsection{The denominator problem}
+\label{sec:denominator}
+
+A percentage of a Kodak image invites a division the reader will do anyway.
+Kodak images are 768$\times$512 and a median of about 108\,kB; a phone
+photograph is closer to 4\,MB, where the same ML-DSA-65 manifest that is
+\NpctimgDSAsixtyfive\% of a Kodak image is under half a per cent. Once
+thumbnails are disabled, manifest size does not depend on the pixels: it is
+fixed by the algorithm, by how much of the chain travels, and by the
+assertions the generator writes, which for a capture are a handful of hashes
+and actions. Ingredients, edit histories and large assertions add bytes of
+their own that no choice of algorithm changes. The percentage is therefore an
+exact curve, and Figure~\ref{fig:sizeladder} plots it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.86\linewidth]{figures/sizeladder}
+\Description{Log-log plot of manifest size as a percentage of file size
+against file size from 10 kB to 20 MB. Falling straight lines for ML-DSA-65
+with timestamp and OCSP, ML-DSA-65 timestamped, ML-DSA-65 with leaf and
+intermediate, ML-DSA-65 leaf only, ML-DSA-65 thumbprint, and PS256 timestamped.
+A shaded band marks the Kodak images; vertical guides mark a thumbnail, a
+social re-encode, a 1080p JPEG and a phone original.}
+\caption{Manifest cost against file size. Sizes are measured
+(Tables~\ref{tab:timestamp} and~\ref{tab:carriage}) and do not depend on
+image content once thumbnails are disabled, so each line is exact. The shaded
+band is the Kodak set; the vertical guides are reference sizes, not
+measurements. Both axes are logarithmic, so the vertical distance between two
+lines is the ratio of their manifest sizes at every file size.}
+\label{fig:sizeladder}
+\end{figure}
+
+A reader with phone originals in mind will find the migration affordable, and
+for that case they are right. A platform storing derivatives, a camera signing
+burst frames or a pipeline signing video operates at the left of the figure,
+where the manifest is a double-digit percentage of the payload. The two
+readings disagree about file size, not about cryptography.
+
+\subsection{The manifest a deployment ships}
+\label{sec:timestamp}
+
+\input{tables/timestamp}
+
+Deployed manifests carry more than one signature. \NcorpProdTs{} of the
+\NcorpProdSigs{} production signatures we read carry an RFC~3161
+timestamp~\cite{rfc3161}, which is a second signature with certificates of
+its own, and the specification asks for one whenever revocation status is
+attached~\cite{c2pacc24}. Revocation evidence is a third signature, a stapled
+OCSP response~\cite{rfc6960}, and \NcorpProdOcsp{} of the production
+signatures carry it; validators need not check it, the gap that Golaszewski et
+al.\ identify~\cite{golaszewski2026}, which makes the last column of
+Table~\ref{tab:timestamp} the configuration that closing the gap would make
+universal. RFC~6960 lets the issuing CA sign the response itself, and then
+it carries no certificate, since the verifier already has the CA's from
+\texttt{x5chain}. C2PA~2.5 requires the certificate that signs OCSP
+responses to hold the OCSP-signing usage, and the reference implementation
+skips a CA-signed response (Table~\ref{tab:validation}), so the column uses a
+delegated responder, which carries its own certificate:
+\NocspDelDSAsixtyfive{} bytes under ML-DSA-65 against
+\NocspCADSAsixtyfive{} for the CA-signed form.
+
+The timestamp multiplies the certificate term rather than adding to it. Under
+ES256 it takes the manifest from \NtsSigES{} to \NtsTstES{} bytes; under
+ML-DSA-65, from \NtsSigDSAsixtyfive{} to \NtsTstDSAsixtyfive{}, a factor of
+\NtsGrowthDSAsixtyfive{}, because the time-stamping authority's certificates
+cost what the signer's do. Figure~\ref{fig:compose} breaks a timestamped
+manifest down by role: under every post-quantum parameter set, certificates
+are the largest part and the two manifest signatures a minority.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/compose}
+\Description{Horizontal stacked bars, one per algorithm from Ed25519 to
+ML-DSA-87, showing the bytes of a timestamped manifest split into manifest
+signature, signer leaf certificate, signer intermediate certificate, TSA
+signature, TSA certificates, and structure. The bars grow from \NtsTstkBEd{} kB for
+Ed25519 to \NtsTstkBDSAeightyseven{} kB for ML-DSA-87, and certificates are the largest
+segments in the post-quantum bars.}
+\caption{What a timestamped manifest is made of, by role: the \emph{+ timestamp} column of Table~\ref{tab:timestamp}, roots omitted, without the OCSP response. Structure covers COSE and JUMBF
+wrapping, the claim, and the CMS and TSTInfo encoding of the timestamp.}
+\label{fig:compose}
+\end{figure}
+
+\subsection{What signing actually costs}
+\label{sec:hash}
+
+A content credential is not only a signature. The claim contains a hard
+binding, a hash over the content, computed before anything is signed. On a
+4\,MB phone photograph SHA-256 takes \NhashPhone\,ms on the M1 Pro, so the hash
+is \NhashSharePhone\% of hashing and ML-DSA-65 signing together; on a Kodak
+image it is \NhashShareKodak\% (Table~\ref{tab:hash} in the supplement). The
+platform has hardware SHA-256 and no hardware support for lattice arithmetic,
+the configuration least favourable to this conclusion. On images large enough
+to be worth signing, the post-quantum signature costs less than the hash the
+format already requires; the signer's cost of migrating is bytes, and time
+only at small sizes and high rates, which Section~\ref{sec:edge} measures.
+
+\subsection{Beyond ML-DSA}
+\label{sec:algsweep}
+
+\input{tables/algsweep}
+
+Table~\ref{tab:algsweep} holds the chain share between \NsweepShareLo\% and
+\NsweepShareHi\% for signatures whose sizes span a factor of
+\NsweepSigFactor. SLH-DSA is unsuitable for per-image provenance at the
+burst and frame rates this paper considers: SHA2-256s produces a manifest of
+\NslhBigPct\% of the median image, and the compact variants sign in hundreds
+of milliseconds; a workflow that signs a few documents an hour could still
+use it. Falcon-512 is close to classical cost, a manifest of \NfalconEmbPct\%
+of the median image with the chain embedded, but FN-DSA is unpublished, its
+arithmetic is being changed from floating to fixed point, and the timings here
+are for the submitted algorithm~\cite{nist_fips206_status,nist_fips206_plan}.
+
+Two controls a reader will ask for are in the supplement. Composite
+signatures, built from their two components with real certificates
+(Table~\ref{tab:composite}), cost the sum of their parts: an
+ML-DSA-65 and ES256 composite is \NcompositeCose{} bytes of COSE against
+\NcoseDSAsixtyfive{} for ML-DSA-65 alone, so hedging against a lattice
+break costs a few per cent of the manifest. General-purpose compression
+(Table~\ref{tab:compress}) removes \NcompressDSAsixtyfive\% of an ML-DSA-65
+signature structure and \NcompressEd\% of an Ed25519 one: what compresses is
+X.509 names and structure, and post-quantum keys and signatures do not.
+
+\subsection{Chain depth}
+\label{sec:chaindepth}
+
+Each further level of the hierarchy adds one certificate to \texttt{x5chain}
+and costs the same again (Table~\ref{tab:chaindepth} in the supplement).
+Under ML-DSA-65 the difference between a two-level and a four-level hierarchy
+is \NdepthSpread{} percentage points of a Kodak image, the order of the
+difference between ML-DSA-44 and ML-DSA-87. Leaving a root out of
+\texttt{x5chain} that the verifier already holds changes no trust decision;
+shortening the hierarchy itself is a change of PKI design, and its security
+consequences belong to the operator rather than to this measurement.

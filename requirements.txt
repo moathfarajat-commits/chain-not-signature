@@ -1,0 +1,5 @@
+cryptography>=50.0.1
+cbor2>=6.1.4
+c2pa-python>=0.90.19
+pillow>=11.0
+matplotlib>=3.10

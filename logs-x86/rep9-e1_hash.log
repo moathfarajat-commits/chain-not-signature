@@ -1,0 +1,14 @@
+liboqs-python faulthandler is disabled
+  sign ML-DSA-65: 0.119 ms (liboqs)
+  sign ES256: 0.031 ms (openssl)
+  sign ML-DSA-44: 0.096 ms (liboqs)
+  sign Ed25519: 0.056 ms (openssl)
+  sign ML-DSA-87: 0.150 ms (liboqs)
+  sign PS256: 0.376 ms (openssl)
+  hash thumbnail (20,000 B): 0.014 ms
+  hash Kodak q90 (median) (107,672 B): 0.074 ms
+  hash social re-encode (350,000 B): 0.244 ms
+  hash 1080p JPEG (900,000 B): 0.616 ms
+  hash phone original (4,000,000 B): 2.801 ms
+  hash high-res / raw-ish (12,000,000 B): 8.435 ms
+  wrote out-x86-runs/run9/e1_hash.json  (6 rows)

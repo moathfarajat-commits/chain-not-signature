@@ -1,0 +1,16 @@
+\begin{table}[t]
+\caption{Wrapping one 32-byte AES-256 data key on Apple M1 Pro (arm64). The ML-KEM rows follow the shape of RFC~9629's KEMRecipientInfo (the KEM, HKDF-SHA256 to a key-encryption key, AES-256 key wrap) with a fixed info string, not the full CMS structure (Section~\ref{sec:archive}). \emph{Stored} is what the archive keeps per object. Wrap and unwrap cover every step of each construction; medians over 1,000 calls.}
+\label{tab:keywrap}
+\begin{tabular}{llrrrr}
+\toprule
+Scheme & Library & Stored (B) & $\times$RSA-2048 & Wrap (ms) & Unwrap (ms)\\
+\midrule
+RSA-2048-OAEP & OpenSSL & 256 & 1.00 & 0.0174 & 0.5269\\
+RSA-3072-OAEP & OpenSSL & 384 & 1.50 & 0.0331 & 1.5380\\
+ML-KEM-768 & OpenSSL & 1,128 & 4.41 & 0.0167 & 0.0218\\
+ML-KEM-768 & liboqs & 1,128 & 4.41 & 0.0188 & 0.0205\\
+ML-KEM-1024 & OpenSSL & 1,608 & 6.28 & 0.0217 & 0.0285\\
+ML-KEM-1024 & liboqs & 1,608 & 6.28 & 0.0255 & 0.0283\\
+\bottomrule
+\end{tabular}
+\end{table}

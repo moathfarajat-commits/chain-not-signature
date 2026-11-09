@@ -1,0 +1,295 @@
+{
+  "experiment": "e4_keywrap_cold",
+  "env": {
+    "timestamp_utc": "2026-11-02T19:15:54+00:00",
+    "hostname": "192.168.1.149",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "archive re-wrap only, RSA-2048 to ML-KEM-768 (RFC 9629 construction)",
+    "page_cache: how the cache was emptied after the archive was written and before the re-wrap (purge on macOS), or warm",
+    "sync: F_FULLFSYNC flushes the drive's cache on macOS; fsync does not",
+    "each object is verified to decrypt under the new key after the run"
+  ],
+  "results": [
+    {
+      "corpus": "kodak",
+      "layout": "sidecar",
+      "objects": 2000,
+      "median_object_bytes": 107688,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 16.687,
+      "objects_per_s": 119.9,
+      "per_object": {
+        "median_ms": 8.1499,
+        "mean_ms": 8.3285,
+        "p95_ms": 10.9477,
+        "total_s": 16.657
+      },
+      "read": {
+        "median_ms": 0.2923,
+        "mean_ms": 0.4483,
+        "p95_ms": 0.9702,
+        "total_s": 0.897
+      },
+      "unwrap": {
+        "median_ms": 1.6354,
+        "mean_ms": 1.7502,
+        "p95_ms": 2.7913,
+        "total_s": 3.5
+      },
+      "wrap": {
+        "median_ms": 0.0639,
+        "mean_ms": 0.1036,
+        "p95_ms": 0.313,
+        "total_s": 0.207
+      },
+      "write": {
+        "median_ms": 5.9471,
+        "mean_ms": 6.0265,
+        "p95_ms": 7.7588,
+        "total_s": 12.053
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    },
+    {
+      "corpus": "kodak",
+      "layout": "embedded",
+      "objects": 2000,
+      "median_object_bytes": 107952,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 16.594,
+      "objects_per_s": 120.5,
+      "per_object": {
+        "median_ms": 8.154,
+        "mean_ms": 8.278,
+        "p95_ms": 10.5997,
+        "total_s": 16.556
+      },
+      "read": {
+        "median_ms": 0.1742,
+        "mean_ms": 0.2967,
+        "p95_ms": 0.684,
+        "total_s": 0.593
+      },
+      "unwrap": {
+        "median_ms": 1.8156,
+        "mean_ms": 1.8378,
+        "p95_ms": 2.8438,
+        "total_s": 3.676
+      },
+      "wrap": {
+        "median_ms": 0.0634,
+        "mean_ms": 0.119,
+        "p95_ms": 0.3197,
+        "total_s": 0.238
+      },
+      "write": {
+        "median_ms": 5.9599,
+        "mean_ms": 6.0244,
+        "p95_ms": 7.8244,
+        "total_s": 12.049
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    },
+    {
+      "corpus": "kodak",
+      "layout": "reserved",
+      "objects": 2000,
+      "median_object_bytes": 108824,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 13.994,
+      "objects_per_s": 142.9,
+      "per_object": {
+        "median_ms": 6.9631,
+        "mean_ms": 6.9727,
+        "p95_ms": 8.9718,
+        "total_s": 13.945
+      },
+      "read": {
+        "median_ms": 0.2575,
+        "mean_ms": 0.3044,
+        "p95_ms": 0.6271,
+        "total_s": 0.609
+      },
+      "unwrap": {
+        "median_ms": 1.924,
+        "mean_ms": 1.9407,
+        "p95_ms": 2.7434,
+        "total_s": 3.881
+      },
+      "wrap": {
+        "median_ms": 0.1615,
+        "mean_ms": 0.1605,
+        "p95_ms": 0.3134,
+        "total_s": 0.321
+      },
+      "write": {
+        "median_ms": 4.4744,
+        "mean_ms": 4.567,
+        "p95_ms": 5.7964,
+        "total_s": 9.134
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "sidecar",
+      "objects": 200,
+      "median_object_bytes": 4194320,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.426,
+      "objects_per_s": 140.3,
+      "per_object": {
+        "median_ms": 6.785,
+        "mean_ms": 7.1179,
+        "p95_ms": 10.2044,
+        "total_s": 1.424
+      },
+      "read": {
+        "median_ms": 0.1956,
+        "mean_ms": 0.2916,
+        "p95_ms": 0.7451,
+        "total_s": 0.058
+      },
+      "unwrap": {
+        "median_ms": 1.1306,
+        "mean_ms": 1.3846,
+        "p95_ms": 2.841,
+        "total_s": 0.277
+      },
+      "wrap": {
+        "median_ms": 0.0474,
+        "mean_ms": 0.0886,
+        "p95_ms": 0.2223,
+        "total_s": 0.018
+      },
+      "write": {
+        "median_ms": 5.1914,
+        "mean_ms": 5.3532,
+        "p95_ms": 7.0787,
+        "total_s": 1.071
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "embedded",
+      "objects": 200,
+      "median_object_bytes": 4194584,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.973,
+      "objects_per_s": 101.4,
+      "per_object": {
+        "median_ms": 9.0745,
+        "mean_ms": 9.8578,
+        "p95_ms": 13.9595,
+        "total_s": 1.972
+      },
+      "read": {
+        "median_ms": 1.3152,
+        "mean_ms": 1.4087,
+        "p95_ms": 2.0767,
+        "total_s": 0.282
+      },
+      "unwrap": {
+        "median_ms": 0.6729,
+        "mean_ms": 0.7442,
+        "p95_ms": 0.7621,
+        "total_s": 0.149
+      },
+      "wrap": {
+        "median_ms": 0.0509,
+        "mean_ms": 0.0888,
+        "p95_ms": 0.0772,
+        "total_s": 0.018
+      },
+      "write": {
+        "median_ms": 6.9987,
+        "mean_ms": 7.616,
+        "p95_ms": 11.8531,
+        "total_s": 1.523
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    },
+    {
+      "corpus": "4MiB",
+      "layout": "reserved",
+      "objects": 200,
+      "median_object_bytes": 4195456,
+      "legacy": "RSA-2048-OAEP",
+      "new": "ML-KEM-768 (OpenSSL)",
+      "wall_s": 1.2,
+      "objects_per_s": 166.6,
+      "per_object": {
+        "median_ms": 5.2443,
+        "mean_ms": 5.9961,
+        "p95_ms": 10.9806,
+        "total_s": 1.199
+      },
+      "read": {
+        "median_ms": 0.2274,
+        "mean_ms": 0.2773,
+        "p95_ms": 0.5814,
+        "total_s": 0.055
+      },
+      "unwrap": {
+        "median_ms": 0.5964,
+        "mean_ms": 0.8636,
+        "p95_ms": 2.0,
+        "total_s": 0.173
+      },
+      "wrap": {
+        "median_ms": 0.0269,
+        "mean_ms": 0.0757,
+        "p95_ms": 0.064,
+        "total_s": 0.015
+      },
+      "write": {
+        "median_ms": 4.3787,
+        "mean_ms": 4.7795,
+        "p95_ms": 6.2637,
+        "total_s": 0.956
+      },
+      "verified": true,
+      "page_cache": "purge",
+      "sync": "F_FULLFSYNC",
+      "part": "archive"
+    }
+  ]
+}

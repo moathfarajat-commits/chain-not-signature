@@ -1,0 +1,104 @@
+{
+  "experiment": "e1_profile",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:55:09+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "overhead: certificate DER length minus SubjectPublicKeyInfo and signature, i.e. names, validity, extensions and encoding",
+    "trust list from c2pa-org/conformance-public, see data/c2pa-trust-list"
+  ],
+  "results": [
+    {
+      "source": "C2PA trust list",
+      "role": "issuing CA",
+      "n": 12,
+      "overhead_bytes": [
+        508,
+        508,
+        511,
+        511,
+        514,
+        626,
+        648,
+        668,
+        674,
+        682,
+        723,
+        784
+      ],
+      "median": 637.0
+    },
+    {
+      "source": "C2PA trust list",
+      "role": "root",
+      "n": 20,
+      "overhead_bytes": [
+        336,
+        338,
+        344,
+        356,
+        362,
+        366,
+        370,
+        370,
+        371,
+        372,
+        382,
+        390,
+        413,
+        429,
+        430,
+        453,
+        492,
+        569,
+        605,
+        692
+      ],
+      "median": 377.0
+    },
+    {
+      "source": "generated (production)",
+      "alg": "ES256",
+      "role": "leaf, issuing CA, root",
+      "overhead_bytes": [
+        590,
+        585,
+        332
+      ]
+    },
+    {
+      "source": "generated (production)",
+      "alg": "PS256",
+      "role": "leaf, issuing CA, root",
+      "overhead_bytes": [
+        598,
+        593,
+        340
+      ]
+    },
+    {
+      "source": "generated (production)",
+      "alg": "ML-DSA-65",
+      "role": "leaf, issuing CA, root",
+      "overhead_bytes": [
+        610,
+        605,
+        344
+      ]
+    }
+  ]
+}

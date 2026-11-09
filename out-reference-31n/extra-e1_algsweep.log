@@ -1,0 +1,13 @@
+<frozen importlib._bootstrap>:488: Warning: OpenSSL 3's legacy provider failed to load. Legacy algorithms will not be available. If you need those algorithms, check your OpenSSL configuration.
+liboqs-python faulthandler is disabled
+  JUMBF overhead 1072 B; median image 107672 B
+  ML-DSA-44 done
+  ML-DSA-65 done
+  ML-DSA-87 done
+  Falcon-512 done
+  Falcon-1024 done
+  SLH-DSA-SHA2-128s done
+  SLH-DSA-SHA2-128f done
+  SLH-DSA-SHA2-192s done
+  SLH-DSA-SHA2-256s done
+  wrote out-extra/e1_algsweep.json  (55 rows)

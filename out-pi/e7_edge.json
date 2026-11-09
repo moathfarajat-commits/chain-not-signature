@@ -1,0 +1,570 @@
+{
+  "experiment": "e7_edge",
+  "env": {
+    "timestamp_utc": "2026-11-02T18:57:22+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    },
+    "storage": {
+      "path": "~/line-a-pi/trust-store",
+      "mount_source": "/dev/mmcblk0p2",
+      "block_device": "mmcblk0",
+      "name": "ED2S8",
+      "manfid": "0x00001b",
+      "oemid": "0x534d",
+      "date": "05/2025",
+      "type": "SD",
+      "fs": "ext4"
+    },
+    "pinned_core": 3,
+    "quick": false
+  },
+  "notes": [
+    "end-to-end verification through cryptography/OpenSSL; liboqs is not used here",
+    "cold: store files evicted (fadvise DONTNEED, plus drop_caches when permitted)",
+    "resident_before_cold is from fincore when available; 0 means fully evicted",
+    "manifests verified in a fixed shuffled order, the same for every pass"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 636993,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0051,
+          "mean_ms": 0.0052,
+          "p95_ms": 0.0059
+        },
+        "lookup": {
+          "median_ms": 0.2009,
+          "mean_ms": 0.202,
+          "p95_ms": 0.2071
+        },
+        "parse": {
+          "median_ms": 0.0098,
+          "mean_ms": 0.0099,
+          "p95_ms": 0.0102
+        },
+        "validate": {
+          "median_ms": 0.3168,
+          "mean_ms": 0.3244,
+          "p95_ms": 0.322
+        },
+        "verify": {
+          "median_ms": 0.1492,
+          "mean_ms": 0.1494,
+          "p95_ms": 0.1518
+        },
+        "total": {
+          "median_ms": 0.6823,
+          "mean_ms": 0.6909,
+          "p95_ms": 0.69
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0043,
+          "mean_ms": 0.0044,
+          "p95_ms": 0.0049
+        },
+        "lookup": {
+          "median_ms": 0.0166,
+          "mean_ms": 0.017,
+          "p95_ms": 0.0195
+        },
+        "parse": {
+          "median_ms": 0.0084,
+          "mean_ms": 0.0084,
+          "p95_ms": 0.0087
+        },
+        "validate": {
+          "median_ms": 0.3125,
+          "mean_ms": 0.3128,
+          "p95_ms": 0.3174
+        },
+        "verify": {
+          "median_ms": 0.1478,
+          "mean_ms": 0.1479,
+          "p95_ms": 0.1502
+        },
+        "total": {
+          "median_ms": 0.49,
+          "mean_ms": 0.4905,
+          "p95_ms": 0.4972
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0046,
+          "mean_ms": 0.0046,
+          "p95_ms": 0.0051
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0003
+        },
+        "parse": {
+          "median_ms": 0.0077,
+          "mean_ms": 0.0077,
+          "p95_ms": 0.0079
+        },
+        "validate": {
+          "median_ms": 0.306,
+          "mean_ms": 0.3063,
+          "p95_ms": 0.3097
+        },
+        "verify": {
+          "median_ms": 0.1503,
+          "mean_ms": 0.1503,
+          "p95_ms": 0.1528
+        },
+        "total": {
+          "median_ms": 0.4689,
+          "mean_ms": 0.4693,
+          "p95_ms": 0.4746
+        }
+      }
+    },
+    {
+      "alg": "ES256",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 727020,
+      "cold": {
+        "decode": {
+          "median_ms": 0.006,
+          "mean_ms": 0.0061,
+          "p95_ms": 0.0065
+        },
+        "lookup": {
+          "median_ms": 0.2057,
+          "mean_ms": 0.2073,
+          "p95_ms": 0.2129
+        },
+        "parse": {
+          "median_ms": 0.0108,
+          "mean_ms": 0.0109,
+          "p95_ms": 0.0114
+        },
+        "validate": {
+          "median_ms": 0.5007,
+          "mean_ms": 0.5025,
+          "p95_ms": 0.5089
+        },
+        "verify": {
+          "median_ms": 0.2443,
+          "mean_ms": 0.245,
+          "p95_ms": 0.25
+        },
+        "total": {
+          "median_ms": 0.9681,
+          "mean_ms": 0.9719,
+          "p95_ms": 0.9791
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0058,
+          "mean_ms": 0.0058,
+          "p95_ms": 0.0062
+        },
+        "lookup": {
+          "median_ms": 0.0227,
+          "mean_ms": 0.0229,
+          "p95_ms": 0.0244
+        },
+        "parse": {
+          "median_ms": 0.01,
+          "mean_ms": 0.0101,
+          "p95_ms": 0.0102
+        },
+        "validate": {
+          "median_ms": 0.4955,
+          "mean_ms": 0.497,
+          "p95_ms": 0.5037
+        },
+        "verify": {
+          "median_ms": 0.2424,
+          "mean_ms": 0.243,
+          "p95_ms": 0.2475
+        },
+        "total": {
+          "median_ms": 0.7767,
+          "mean_ms": 0.7788,
+          "p95_ms": 0.7865
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0083,
+          "mean_ms": 0.0084,
+          "p95_ms": 0.009
+        },
+        "lookup": {
+          "median_ms": 0.0004,
+          "mean_ms": 0.0004,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0095,
+          "mean_ms": 0.0095,
+          "p95_ms": 0.0098
+        },
+        "validate": {
+          "median_ms": 0.4826,
+          "mean_ms": 0.4836,
+          "p95_ms": 0.4906
+        },
+        "verify": {
+          "median_ms": 0.2427,
+          "mean_ms": 0.2433,
+          "p95_ms": 0.2477
+        },
+        "total": {
+          "median_ms": 0.7436,
+          "mean_ms": 0.7451,
+          "p95_ms": 0.7536
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-44",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 6132996,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0066,
+          "mean_ms": 0.0067,
+          "p95_ms": 0.0074
+        },
+        "lookup": {
+          "median_ms": 0.3249,
+          "mean_ms": 0.3268,
+          "p95_ms": 0.3488
+        },
+        "parse": {
+          "median_ms": 0.0104,
+          "mean_ms": 0.0106,
+          "p95_ms": 0.0112
+        },
+        "validate": {
+          "median_ms": 0.4967,
+          "mean_ms": 0.4982,
+          "p95_ms": 0.503
+        },
+        "verify": {
+          "median_ms": 0.2342,
+          "mean_ms": 0.2347,
+          "p95_ms": 0.2391
+        },
+        "total": {
+          "median_ms": 1.0744,
+          "mean_ms": 1.0769,
+          "p95_ms": 1.1007
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0059,
+          "mean_ms": 0.006,
+          "p95_ms": 0.0066
+        },
+        "lookup": {
+          "median_ms": 0.0209,
+          "mean_ms": 0.0213,
+          "p95_ms": 0.024
+        },
+        "parse": {
+          "median_ms": 0.0093,
+          "mean_ms": 0.0093,
+          "p95_ms": 0.0096
+        },
+        "validate": {
+          "median_ms": 0.4938,
+          "mean_ms": 0.4945,
+          "p95_ms": 0.5001
+        },
+        "verify": {
+          "median_ms": 0.2329,
+          "mean_ms": 0.2334,
+          "p95_ms": 0.2378
+        },
+        "total": {
+          "median_ms": 0.7631,
+          "mean_ms": 0.7646,
+          "p95_ms": 0.7703
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0079,
+          "mean_ms": 0.0079,
+          "p95_ms": 0.0085
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0086,
+          "mean_ms": 0.0086,
+          "p95_ms": 0.0089
+        },
+        "validate": {
+          "median_ms": 0.4851,
+          "mean_ms": 0.4858,
+          "p95_ms": 0.4907
+        },
+        "verify": {
+          "median_ms": 0.2733,
+          "mean_ms": 0.2737,
+          "p95_ms": 0.2774
+        },
+        "total": {
+          "median_ms": 0.7752,
+          "mean_ms": 0.7764,
+          "p95_ms": 0.7815
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-65",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 8426496,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0069,
+          "mean_ms": 0.007,
+          "p95_ms": 0.0077
+        },
+        "lookup": {
+          "median_ms": 0.4194,
+          "mean_ms": 0.4359,
+          "p95_ms": 0.4585
+        },
+        "parse": {
+          "median_ms": 0.0103,
+          "mean_ms": 0.0104,
+          "p95_ms": 0.0108
+        },
+        "validate": {
+          "median_ms": 0.7296,
+          "mean_ms": 0.7308,
+          "p95_ms": 0.7366
+        },
+        "verify": {
+          "median_ms": 0.3479,
+          "mean_ms": 0.3488,
+          "p95_ms": 0.3532
+        },
+        "total": {
+          "median_ms": 1.5162,
+          "mean_ms": 1.5328,
+          "p95_ms": 1.5582
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0063,
+          "mean_ms": 0.0064,
+          "p95_ms": 0.0073
+        },
+        "lookup": {
+          "median_ms": 0.0229,
+          "mean_ms": 0.0233,
+          "p95_ms": 0.0259
+        },
+        "parse": {
+          "median_ms": 0.0094,
+          "mean_ms": 0.0094,
+          "p95_ms": 0.0097
+        },
+        "validate": {
+          "median_ms": 0.7271,
+          "mean_ms": 0.7281,
+          "p95_ms": 0.734
+        },
+        "verify": {
+          "median_ms": 0.3467,
+          "mean_ms": 0.3474,
+          "p95_ms": 0.3521
+        },
+        "total": {
+          "median_ms": 1.114,
+          "mean_ms": 1.1147,
+          "p95_ms": 1.1204
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0094,
+          "mean_ms": 0.0095,
+          "p95_ms": 0.0101
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0089,
+          "mean_ms": 0.0089,
+          "p95_ms": 0.0091
+        },
+        "validate": {
+          "median_ms": 0.7182,
+          "mean_ms": 0.7193,
+          "p95_ms": 0.724
+        },
+        "verify": {
+          "median_ms": 0.4034,
+          "mean_ms": 0.4041,
+          "p95_ms": 0.4077
+        },
+        "total": {
+          "median_ms": 1.1406,
+          "mean_ms": 1.1421,
+          "p95_ms": 1.1467
+        }
+      }
+    },
+    {
+      "alg": "ML-DSA-87",
+      "signers": 500,
+      "chain_depth": 3,
+      "eviction": "sudo",
+      "resident_before_cold": null,
+      "store_bytes": 11363493,
+      "cold": {
+        "decode": {
+          "median_ms": 0.0072,
+          "mean_ms": 0.0074,
+          "p95_ms": 0.0081
+        },
+        "lookup": {
+          "median_ms": 0.4684,
+          "mean_ms": 0.4746,
+          "p95_ms": 0.5142
+        },
+        "parse": {
+          "median_ms": 0.0106,
+          "mean_ms": 0.0108,
+          "p95_ms": 0.0114
+        },
+        "validate": {
+          "median_ms": 1.0945,
+          "mean_ms": 1.0966,
+          "p95_ms": 1.1019
+        },
+        "verify": {
+          "median_ms": 0.5281,
+          "mean_ms": 0.5291,
+          "p95_ms": 0.5346
+        },
+        "total": {
+          "median_ms": 2.1114,
+          "mean_ms": 2.1183,
+          "p95_ms": 2.1587
+        }
+      },
+      "warm": {
+        "decode": {
+          "median_ms": 0.0065,
+          "mean_ms": 0.0066,
+          "p95_ms": 0.0074
+        },
+        "lookup": {
+          "median_ms": 0.0248,
+          "mean_ms": 0.0251,
+          "p95_ms": 0.0272
+        },
+        "parse": {
+          "median_ms": 0.0095,
+          "mean_ms": 0.0095,
+          "p95_ms": 0.0098
+        },
+        "validate": {
+          "median_ms": 1.0918,
+          "mean_ms": 1.0932,
+          "p95_ms": 1.0986
+        },
+        "verify": {
+          "median_ms": 0.5268,
+          "mean_ms": 0.5277,
+          "p95_ms": 0.5317
+        },
+        "total": {
+          "median_ms": 1.6616,
+          "mean_ms": 1.6621,
+          "p95_ms": 1.6667
+        }
+      },
+      "embedded": {
+        "decode": {
+          "median_ms": 0.0108,
+          "mean_ms": 0.0109,
+          "p95_ms": 0.0116
+        },
+        "lookup": {
+          "median_ms": 0.0003,
+          "mean_ms": 0.0003,
+          "p95_ms": 0.0004
+        },
+        "parse": {
+          "median_ms": 0.0091,
+          "mean_ms": 0.0091,
+          "p95_ms": 0.0093
+        },
+        "validate": {
+          "median_ms": 1.0834,
+          "mean_ms": 1.0846,
+          "p95_ms": 1.0888
+        },
+        "verify": {
+          "median_ms": 0.6039,
+          "mean_ms": 0.6045,
+          "p95_ms": 0.6081
+        },
+        "total": {
+          "median_ms": 1.7085,
+          "mean_ms": 1.7094,
+          "p95_ms": 1.7137
+        }
+      }
+    }
+  ]
+}

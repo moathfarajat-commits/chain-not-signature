@@ -1,0 +1,4243 @@
+{
+  "experiment": "e6_video",
+  "env": {
+    "timestamp_utc": "2026-10-23T13:13:06+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    },
+    "pinned_core": 3,
+    "idle": {
+      "samples": 60,
+      "temp_c_mean": 55.66,
+      "temp_c_max": 60.4,
+      "arm_hz_min": 2400017408,
+      "arm_hz_max": 2400037120,
+      "throttled_or": "0x0",
+      "power_w_mean": 2.2553,
+      "power_w_max": 2.3935
+    },
+    "quick": false,
+    "liboqs": true,
+    "liboqs_version": "0.16.0"
+  },
+  "notes": [
+    "frame hash is SHA-256 over raw YUV 4:2:0 pixels",
+    "segment_frames=1 signs every frame; 30 signs once per second at 30 fps",
+    "a paced frame is late if it is not finished before the next is released",
+    "power is the PMIC rail sum, V*I over rails; not wall power",
+    "mJ per frame is rail power above the idle baseline divided by frame rate",
+    "application-processor signer, not a secure element",
+    "ES256 rows: byte and Mbps fields come from a second run on 23 October 2026 (e6_video_es256.json) after ES256 signatures were changed to the 64-byte COSE form; the earlier DER values are kept as *_der. Frame rates, energy and telemetry stay from this run, so that every row shares one idle baseline (the second run's baseline was 0.06 W lower, on a cooler board)."
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1478,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3547,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 473.84,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.12,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.3752,
+        "power_w_max": 3.5146
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.1244,
+        "frame_ms_p99": 2.1736,
+        "frame_ms_max": 2.279
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.65,
+        "temp_c_max": 59.3,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5471,
+        "power_w_max": 3.4387
+      },
+      "mj_per_frame_paced": 9.7267,
+      "mj_per_frame_burst": 2.3635
+    },
+    {
+      "alg": "Ed25519",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2466,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0197,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 491.06,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.57,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4069,
+        "power_w_max": 3.5412
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.0302,
+        "frame_ms_p99": 2.1985,
+        "frame_ms_max": 2.2124
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.73,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.522,
+        "power_w_max": 3.4422
+      },
+      "mj_per_frame_paced": 8.89,
+      "mj_per_frame_burst": 2.3451
+    },
+    {
+      "alg": "ES256",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1656,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3974,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 466.21,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.53,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.3989,
+        "power_w_max": 3.7412
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.1694,
+        "frame_ms_p99": 2.2534,
+        "frame_ms_max": 2.4091
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.68,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5281,
+        "power_w_max": 3.4489
+      },
+      "mj_per_frame_paced": 9.0933,
+      "mj_per_frame_burst": 2.453,
+      "manifest_bytes_embedded_der": 1663,
+      "manifest_bytes_thumbprint_der": 246,
+      "mbps_embedded_der": 0.3991,
+      "mbps_thumbprint_der": 0.059,
+      "sizes_from": "e6_video_es256.json"
+    },
+    {
+      "alg": "ES256",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2647,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0212,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 490.51,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.43,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4017,
+        "power_w_max": 3.5629
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.03,
+        "frame_ms_p99": 2.2674,
+        "frame_ms_max": 2.2865
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.73,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5179,
+        "power_w_max": 3.4682
+      },
+      "mj_per_frame_paced": 8.7533,
+      "mj_per_frame_burst": 2.3372,
+      "manifest_bytes_embedded_der": 2654,
+      "manifest_bytes_thumbprint_der": 1234,
+      "mbps_embedded_der": 0.0212,
+      "mbps_thumbprint_der": 0.0099,
+      "sizes_from": "e6_video_es256.json"
+    },
+    {
+      "alg": "ML-DSA-44",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 14828,
+      "manifest_bytes_thumbprint": 2597,
+      "mbps_embedded": 3.5587,
+      "mbps_thumbprint": 0.6233,
+      "burst_fps": 432.74,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.58,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.3721,
+        "power_w_max": 3.525
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.2938,
+        "frame_ms_p99": 2.7314,
+        "frame_ms_max": 3.0898
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.96,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5523,
+        "power_w_max": 3.4543
+      },
+      "mj_per_frame_paced": 9.9,
+      "mj_per_frame_burst": 2.5808
+    },
+    {
+      "alg": "ML-DSA-44",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 15816,
+      "manifest_bytes_thumbprint": 3585,
+      "mbps_embedded": 0.1265,
+      "mbps_thumbprint": 0.0287,
+      "burst_fps": 489.19,
+      "burst_telemetry": {
+        "samples": 10,
+        "temp_c_mean": 58.77,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.5073,
+        "power_w_max": 3.5492
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.033,
+        "frame_ms_p99": 2.4365,
+        "frame_ms_max": 2.988
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.95,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5379,
+        "power_w_max": 3.4376
+      },
+      "mj_per_frame_paced": 9.42,
+      "mj_per_frame_burst": 2.5593
+    },
+    {
+      "alg": "ML-DSA-65",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 20304,
+      "manifest_bytes_thumbprint": 3486,
+      "mbps_embedded": 4.873,
+      "mbps_thumbprint": 0.8366,
+      "burst_fps": 409.97,
+      "burst_telemetry": {
+        "samples": 10,
+        "temp_c_mean": 59.0,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4766,
+        "power_w_max": 3.5373
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.4129,
+        "frame_ms_p99": 3.1281,
+        "frame_ms_max": 3.8063
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.81,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5571,
+        "power_w_max": 3.4545
+      },
+      "mj_per_frame_paced": 10.06,
+      "mj_per_frame_burst": 2.979
+    },
+    {
+      "alg": "ML-DSA-65",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 21292,
+      "manifest_bytes_thumbprint": 4474,
+      "mbps_embedded": 0.1703,
+      "mbps_thumbprint": 0.0358,
+      "burst_fps": 488.25,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.86,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400030464,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.395,
+        "power_w_max": 3.5428
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.0328,
+        "frame_ms_p99": 2.5384,
+        "frame_ms_max": 3.4149
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 55.87,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5172,
+        "power_w_max": 3.4777
+      },
+      "mj_per_frame_paced": 8.73,
+      "mj_per_frame_burst": 2.3343
+    },
+    {
+      "alg": "ML-DSA-87",
+      "resolution": "1080p",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 27496,
+      "manifest_bytes_thumbprint": 4804,
+      "mbps_embedded": 6.599,
+      "mbps_thumbprint": 1.153,
+      "burst_fps": 389.63,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.73,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.3394,
+        "power_w_max": 3.5246
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.5336,
+        "frame_ms_p99": 3.2875,
+        "frame_ms_max": 4.0376
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.21,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5999,
+        "power_w_max": 3.5351
+      },
+      "mj_per_frame_paced": 11.4867,
+      "mj_per_frame_burst": 2.7824
+    },
+    {
+      "alg": "ML-DSA-87",
+      "resolution": "1080p",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 28484,
+      "manifest_bytes_thumbprint": 5792,
+      "mbps_embedded": 0.2279,
+      "mbps_thumbprint": 0.0463,
+      "burst_fps": 487.36,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 59.23,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4008,
+        "power_w_max": 3.5475
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 2.0328,
+        "frame_ms_p99": 2.7127,
+        "frame_ms_max": 3.3029
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.29,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5461,
+        "power_w_max": 3.6287
+      },
+      "mj_per_frame_paced": 9.6933,
+      "mj_per_frame_burst": 2.3504
+    },
+    {
+      "alg": "Ed25519",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1478,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3547,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 121.87,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 59.22,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4114,
+        "power_w_max": 3.584
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.2147,
+        "frame_ms_p99": 8.2815,
+        "frame_ms_max": 8.3252
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.82,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1413,
+        "power_w_max": 3.5535
+      },
+      "thermal": {
+        "frames": 54000,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.2152,
+        "frame_ms_p99": 8.2746,
+        "frame_ms_max": 8.6028,
+        "seconds": 1800
+      },
+      "thermal_telemetry": {
+        "samples": 1800,
+        "temp_c_mean": 57.67,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.6026,
+        "power_w_max": 4.5134
+      },
+      "thermal_trace": [
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.23780539828022
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.26492512878795
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.37352201411201
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3786467815737398
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.5575082833591605
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4858109768145
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.47121217354738
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.44557744792049
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.48576213230407
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.47277405174243
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4847309126101096
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.47847774993966
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.36353232429793
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.35537851696896
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.89240938355322
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28794691833022
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23422183119906
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30647222685453
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.27778412611603
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.25940524026269
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27340122465606
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2671768886875197
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28352213672001
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.27267361372396
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.26793940323282
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.24972058267186
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.3092066531262803
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26549942453899
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.22830563561144
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.26876233750213
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2903382482059698
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2794538692956
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2650981349195103
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.28243048661106
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.28307412837865
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.29925363050371
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2184049742289798
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.25573135312227
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.25512649033189
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2789145485427
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24564737235999
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24282944947144
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2526655582983
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.30456492432659
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.46652961684393
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.43093159452719
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.78363901657278
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 4.51343225891605
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49388756712907
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.48495805444684
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4670974329147497
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49626611501408
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.46893707895057
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.5250287266700298
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.31377936474357
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.3565144477655697
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.92720980151957
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.29052101076819
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.20704328001358
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29765936150871
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26693432535125
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.31498227036343
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27943919107362
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.26869483797672
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.26037030624151
+        },
+        {
+          "temp_c": 59.8,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2957584100263597
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23261371823729
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2399942083807303
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25107372150055
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.32015012212037
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.28276947956307
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.3098203512100097
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.34186137806317
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.29028515540067
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.25705871647595
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26964216369813
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3034798590194
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2394705975508398
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24428672347326
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27959247268209
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2730542324083802
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24500620901851
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.23577462715369
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2893997367440497
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2861715261318403
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.37870039185756
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3675073663638297
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.81205868700291
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.49146514722333
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.48172005791439
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.48110025540691
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4773510143940203
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.5074375164235
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.47782867347441
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4488853807286297
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.34767999494314
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.37965205325784
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.8562339566686896
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2718019549915
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23772556792545
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.28376817652274
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23155998726375
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26738039880056
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.33337496640439
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.22445140577339
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2920662337886397
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.28315628145186
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3081602813207898
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2951379992267897
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.28041822448702
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26650538961095
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25574685128433
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.2852273633127203
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26401441005268
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.24118080807886
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24789180825005
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.2633654162777703
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.28224093558357
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.24397468348492
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29681163841546
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2507564075079802
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.29066398510601
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29055803540508
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2842936703721897
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.2820461423656897
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.23600287678377
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.38296442342629
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3990273537969897
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.5429420057816103
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4896277972899
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.47807486981866
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4778213951829198
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4866031052686397
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.4540856405487896
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4422795726102002
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.4767846035845795
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.35482421641149
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.65448460682956
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.23508050316493
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.17633454885594
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30495200626021
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.31096148369098
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2878319766936097
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.2719630207373602
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29910004318883
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.18724900737429
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.26509567526318
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3080519342583
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.24996790537175
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24044734031903
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2223060347782
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.25612675076791
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.22915808948819
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.30578167099436
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30019600231557
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.29430823974882
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.26394611791074
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.31261693753529
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26903504797728
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2774184266579898
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.24424466042795
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28322646679372
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.28417847549304
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28784209233626
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28840908545093
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3741948650447298
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.28161565370219
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.25707341702665
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27494934508528
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26543254255867
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3908261186615603
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.46091738565598
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.43974536907767
+        },
+        {
+          "temp_c": 59.8,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.5099385111819803
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.51025172258543
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.54619612777114
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49885307074508
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.46816525212803
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.4745190503767
+        },
+        {
+          "temp_c": 59.8,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.51843083715466
+        }
+      ],
+      "mj_per_frame_paced": 29.5333,
+      "mj_per_frame_burst": 9.4863,
+      "mj_per_frame_thermal": 11.5767
+    },
+    {
+      "alg": "Ed25519",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2466,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0197,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 123.17,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 61.13,
+        "temp_c_max": 62.6,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4093,
+        "power_w_max": 3.5446
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.1128,
+        "frame_ms_p99": 8.288,
+        "frame_ms_max": 8.3229
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 57.82,
+        "temp_c_max": 62.0,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1144,
+        "power_w_max": 3.6203
+      },
+      "mj_per_frame_paced": 28.6367,
+      "mj_per_frame_burst": 9.3692
+    },
+    {
+      "alg": "ES256",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 1657,
+      "manifest_bytes_thumbprint": 239,
+      "mbps_embedded": 0.3977,
+      "mbps_thumbprint": 0.0574,
+      "burst_fps": 121.23,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.67,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4013,
+        "power_w_max": 3.5583
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.2636,
+        "frame_ms_p99": 8.3528,
+        "frame_ms_max": 8.4267
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.45,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1271,
+        "power_w_max": 4.5099
+      },
+      "mj_per_frame_paced": 29.06,
+      "mj_per_frame_burst": 9.4531,
+      "manifest_bytes_embedded_der": 1665,
+      "manifest_bytes_thumbprint_der": 246,
+      "mbps_embedded_der": 0.3996,
+      "mbps_thumbprint_der": 0.059,
+      "sizes_from": "e6_video_es256.json"
+    },
+    {
+      "alg": "ES256",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "cryptography",
+      "manifest_bytes_embedded": 2647,
+      "manifest_bytes_thumbprint": 1227,
+      "mbps_embedded": 0.0212,
+      "mbps_thumbprint": 0.0098,
+      "burst_fps": 123.11,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 59.53,
+        "temp_c_max": 61.5,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4083,
+        "power_w_max": 3.5554
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.114,
+        "frame_ms_p99": 8.3649,
+        "frame_ms_max": 8.3976
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.97,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1529,
+        "power_w_max": 3.9821
+      },
+      "mj_per_frame_paced": 29.92,
+      "mj_per_frame_burst": 9.3656,
+      "manifest_bytes_embedded_der": 2654,
+      "manifest_bytes_thumbprint_der": 1234,
+      "mbps_embedded_der": 0.0212,
+      "mbps_thumbprint_der": 0.0099,
+      "sizes_from": "e6_video_es256.json"
+    },
+    {
+      "alg": "ML-DSA-44",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 14828,
+      "manifest_bytes_thumbprint": 2597,
+      "mbps_embedded": 3.5587,
+      "mbps_thumbprint": 0.6233,
+      "burst_fps": 118.8,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 59.93,
+        "temp_c_max": 62.0,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4187,
+        "power_w_max": 3.7745
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.3944,
+        "frame_ms_p99": 8.8281,
+        "frame_ms_max": 9.1437
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 57.08,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1427,
+        "power_w_max": 4.1398
+      },
+      "mj_per_frame_paced": 29.58,
+      "mj_per_frame_burst": 9.7929
+    },
+    {
+      "alg": "ML-DSA-44",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 15816,
+      "manifest_bytes_thumbprint": 3585,
+      "mbps_embedded": 0.1265,
+      "mbps_thumbprint": 0.0287,
+      "burst_fps": 123.05,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.58,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4156,
+        "power_w_max": 3.5879
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.1135,
+        "frame_ms_p99": 8.5427,
+        "frame_ms_max": 8.8111
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 57.03,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1418,
+        "power_w_max": 4.0173
+      },
+      "mj_per_frame_paced": 29.55,
+      "mj_per_frame_burst": 9.4295
+    },
+    {
+      "alg": "ML-DSA-65",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 20304,
+      "manifest_bytes_thumbprint": 3486,
+      "mbps_embedded": 4.873,
+      "mbps_thumbprint": 0.8366,
+      "burst_fps": 117.03,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 60.02,
+        "temp_c_max": 61.5,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4258,
+        "power_w_max": 3.5766
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.5035,
+        "frame_ms_p99": 9.1977,
+        "frame_ms_max": 9.8115
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 57.11,
+        "temp_c_max": 62.0,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.131,
+        "power_w_max": 3.5667
+      },
+      "thermal": {
+        "frames": 54000,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.504,
+        "frame_ms_p99": 9.1823,
+        "frame_ms_max": 10.3163,
+        "seconds": 1800
+      },
+      "thermal_telemetry": {
+        "samples": 1800,
+        "temp_c_mean": 57.46,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.5934,
+        "power_w_max": 4.481
+      },
+      "thermal_trace": [
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.3001273946028697
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24206176319117
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.39979983418104
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.3778254234767
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.5268550572561
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.53123607389229
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4747900320905
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.4788244298426103
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4845868095227197
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4822045059603797
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4736610566031
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.45637856597011
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.38439745749112
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.38880518245653
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.32239340374954
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.22010411480638
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3059110595201497
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2964851364576497
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27147597286205
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26847642533293
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2774168291296397
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2727867212043202
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.28925269390088
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27286589208083
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2749560708628698
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.26586671503714
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.23924494797376
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.33877750119939
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28617355743173
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.22791967513251
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.21095357003067
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2725713483685
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.31887935026237
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26458126461886
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24251240097045
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.24093304653681
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29547048589472
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.23982896868327
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.28421833323199
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30287263227805
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2744958399314097
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27644029047068
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.23460666696664
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27814055791037
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24777724721881
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.39612167869882
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.41761094051386
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.4790017955153703
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.50093751858
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.47559229065713
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.49054562380412
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.52008498173487
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.49019533361964
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.48262557852612
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.45916028003888
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.39095056396485
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.3637720518460097
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.3755587120918698
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.1184815131636503
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26968511077275
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23764541005817
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.3824532377109198
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.33348515464811
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26360647382401
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.28366842852826
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.26597340726623
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.25645482893849
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2801290736188697
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30332596518901
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.2673609010069797
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29695141989581
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2629608485009203
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2913329855227103
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.30689389639698
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.26107389141895
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.29762120822476
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24462767528996
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.27989912264339
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2809142695255797
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30868216867926
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23895004658941
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2503026863866498
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.23881591851105
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2408061833251
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.24609149214164
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.29163593407173
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.27890766987932
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2760873388337
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.38058341600343
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.36995070264954
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.57327109332392
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.4772489867484397
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.47746786473763
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.46258524160739
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.4772235787245096
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.47641687934747
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.46756400862889
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.50951766178776
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.35838748875779
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.3375736867844896
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.33964584245904
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.14724959649912
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26682750824641
+        },
+        {
+          "temp_c": 54.9,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.16563836293716
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.28561963914873
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27427631200956
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.24681478218662
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.22048038199113
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2686571603173102
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24720825197215
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.265764858102
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.30574885257067
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.28702612342805
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.29528590782213
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.25159790252019
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2931091135404
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.8025892352278197
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27956659714213
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26071288817341
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2661089900309
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.26905230805166
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27700749627259
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29248761744821
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.29083776451724
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.30245573479099
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.30113775719506
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27994352812408
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28816637919021
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2522899363643
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.30172657293863
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.23596952295211
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27604754279934
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.48727305395889
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.4155143601147997
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.4710969094003703
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4856372601811603
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.47787696449513
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49973247296492
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.5685598424004596
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4998707931857203
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.48379167464462
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.50780449766038
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.49139351683324
+        },
+        {
+          "temp_c": 59.8,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.39237810351901
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.3801602849493597
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.02683866266446
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.26975739958606
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2326418981292
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.26046907587993
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24889457261678
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2216443852226
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23578702193722
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.26447997949926
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.2786167558713197
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24045718085001
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.24493199110073
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.26438127721796
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.25214957757347
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.26966304647677
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.31408905832052
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.27340223727837
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2462613416012798
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2516419969108803
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.28257183897585
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.25526655817766
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.21948871524833
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27826225240582
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.23946846016687
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.26918517630414
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2682611657629
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2410455984462
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.3103361340915303
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24142509212686
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.22720982234104
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.25318254413775
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.39824041261004
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.38172151950051
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.44073319160535
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.52507064553355
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.5153868019048997
+        }
+      ],
+      "mj_per_frame_paced": 29.19,
+      "mj_per_frame_burst": 10.0017,
+      "mj_per_frame_thermal": 11.27
+    },
+    {
+      "alg": "ML-DSA-65",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 21292,
+      "manifest_bytes_thumbprint": 4474,
+      "mbps_embedded": 0.1703,
+      "mbps_thumbprint": 0.0358,
+      "burst_fps": 122.97,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 60.43,
+        "temp_c_max": 62.6,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400033792,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.445,
+        "power_w_max": 3.7609
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.1134,
+        "frame_ms_p99": 8.6617,
+        "frame_ms_max": 9.1533
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 57.12,
+        "temp_c_max": 60.9,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.4455,
+        "power_w_max": 4.0358
+      },
+      "mj_per_frame_paced": 39.6733,
+      "mj_per_frame_burst": 9.6747
+    },
+    {
+      "alg": "ML-DSA-87",
+      "resolution": "4K",
+      "segment_frames": 1,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 27496,
+      "manifest_bytes_thumbprint": 4804,
+      "mbps_embedded": 6.599,
+      "mbps_thumbprint": 1.153,
+      "burst_fps": 115.34,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.72,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.3909,
+        "power_w_max": 3.5385
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.6294,
+        "frame_ms_p99": 9.3646,
+        "frame_ms_max": 10.037
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.32,
+        "temp_c_max": 58.7,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1427,
+        "power_w_max": 4.1738
+      },
+      "thermal": {
+        "frames": 54000,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.6313,
+        "frame_ms_p99": 9.3426,
+        "frame_ms_max": 10.4989,
+        "seconds": 1800
+      },
+      "thermal_telemetry": {
+        "samples": 1800,
+        "temp_c_mean": 57.26,
+        "temp_c_max": 60.4,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 2.6018,
+        "power_w_max": 4.2088
+      },
+      "thermal_trace": [
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23038101875449
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.25422802080565
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.41549860652905
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.4560562991947
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.53092018005777
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.5051732254528605
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.4747964005399297
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.5030434986662202
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.47726683546156
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.49858747527661
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.46916990797577
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.499385155953
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4331498867762402
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.44909815060275
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.21473433075501
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.29752576373037
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.20593739753618
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.23299597893083
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.30140480984805
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.28801153272958
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.30555696781352
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.29410966849261
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27215022286828
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3402494987668403
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.25772188377004
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.3314904651722
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.29624413570288
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.23441242518189
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2778784266414602
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28373739700373
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.29839768117211
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.30846440109792
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.27419783916312
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.24213866471526
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.22406357400867
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2431823799034
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.29211283196839
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.25143876466387
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.25296376052311
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24208495496613
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.22874641569307
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.26851669399692
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.22212838993223
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.22482276344512
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.37289736544761
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.4147917713842597
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.4491150232518097
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.54095441178871
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4776991486425
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.50589273975937
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.5010805868254002
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.4805302276847
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.51509314071861
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.50047053588615
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.4672657193002205
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.342742819134
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.37017732914829
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.10973901818794
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.25949038037056
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.27474271953061
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27069352878257
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.273757650742
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2624812728371397
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.33456067062356
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2280647640624203
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2434323757907797
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2373504868550302
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27574395723044
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.3039954389209
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29064216621243
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.27598605701779
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27143087697606
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2925327572668097
+        },
+        {
+          "temp_c": 59.8,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23177750928655
+        },
+        {
+          "temp_c": 59.3,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.25375934683319
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26406665669088
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.2376866960396797
+        },
+        {
+          "temp_c": 58.7,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.25219810552552
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.29252838182795
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.32777657450711
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.26645220868278
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.25621274503523
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.28146825525416
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2341428096635
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.20170033635751
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26233680498233
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24718145764289
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.3968551880634
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.4065332524089
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.5699759944055898
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.5050836288379803
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.45877583258922
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.48246616893181
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.48630479310618
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.46911631370116
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.46927884522628
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.48736663844022
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.42860342721912
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.35652119091723
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.29190655240327
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.1488601594188803
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.2983311417187298
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2235782107449
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.29577502129306
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2282798721883
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.29893657785103
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24970382109696
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.22778047525848
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.24719314882252
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.30147599616628
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.73435220419479
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.2591227578230297
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24976315481124
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.29118313139124
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.27482195276101
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.25746691972194
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23890289735356
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.2650264474804502
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2298061112088696
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.26901925866043
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.23168464614412
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2497530486046697
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2353639157656797
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2617692817387
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.25417923731357
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.24891863422277
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.60059872452029
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.23656310671328
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.2515124126763
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.28147417797552
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.42409009718142
+        },
+        {
+          "temp_c": 58.2,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.37751321199794
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.49541561586701
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49861159270983
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.49073695993371
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.49989661780035
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 3.47461085156234
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.50671911237449
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.4961787024794
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.52402994657609
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 3.4599919424647103
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.35578430182161
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 3.3802592785665797
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.2149522720465002
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 2.27821360430256
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25923426070313
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.25968087724427
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.21792493418262
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2410365421701197
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.32693390461734
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.25189062862224
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24374026072408
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25175325742334
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400017408,
+          "throttled": 0,
+          "power_w": 2.20915628441463
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.2768367323253402
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2714351183279198
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 2.30591202883714
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.25000123989325
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2514651824547802
+        },
+        {
+          "temp_c": 57.6,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.24220442851984
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.24441609965894
+        },
+        {
+          "temp_c": 54.9,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25742838620652
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.26257124306556
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27802769311403
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2537370081215498
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 2.23570287805041
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.27386229938806
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.23808263946091
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.25982890844789
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.27639585413653
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.2950316994427102
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2296826364619
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400030464,
+          "throttled": 0,
+          "power_w": 2.2813206451352
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 2.3818570632805
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400023808,
+          "throttled": 0,
+          "power_w": 2.3512151262339502
+        },
+        {
+          "temp_c": 55.4,
+          "arm_hz": 2400027136,
+          "throttled": 0,
+          "power_w": 3.48748376842834
+        },
+        {
+          "temp_c": 57.1,
+          "arm_hz": 2400037120,
+          "throttled": 0,
+          "power_w": 3.4807587546356804
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.4739761203075297
+        },
+        {
+          "temp_c": 56.5,
+          "arm_hz": 2400020480,
+          "throttled": 0,
+          "power_w": 3.45890330337638
+        },
+        {
+          "temp_c": 56.0,
+          "arm_hz": 2400033792,
+          "throttled": 0,
+          "power_w": 3.48604751707447
+        }
+      ],
+      "mj_per_frame_paced": 29.58,
+      "mj_per_frame_burst": 9.8457,
+      "mj_per_frame_thermal": 11.55
+    },
+    {
+      "alg": "ML-DSA-87",
+      "resolution": "4K",
+      "segment_frames": 30,
+      "fps": 30,
+      "backend": "liboqs",
+      "manifest_bytes_embedded": 28484,
+      "manifest_bytes_thumbprint": 5792,
+      "mbps_embedded": 0.2279,
+      "mbps_thumbprint": 0.0463,
+      "burst_fps": 122.94,
+      "burst_telemetry": {
+        "samples": 11,
+        "temp_c_mean": 58.48,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400020480,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.394,
+        "power_w_max": 3.5655
+      },
+      "paced": {
+        "frames": 3600,
+        "late_frames": 0,
+        "late_fraction": 0.0,
+        "max_backlog_ms": 0.0,
+        "frame_ms_median": 8.1133,
+        "frame_ms_p99": 8.8578,
+        "frame_ms_max": 9.66
+      },
+      "paced_telemetry": {
+        "samples": 121,
+        "temp_c_mean": 56.25,
+        "temp_c_max": 59.8,
+        "arm_hz_min": 2400017408,
+        "arm_hz_max": 2400037120,
+        "throttled_or": "0x0",
+        "power_w_mean": 3.1481,
+        "power_w_max": 3.8592
+      },
+      "mj_per_frame_paced": 29.76,
+      "mj_per_frame_burst": 9.2622
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+  ES256/D65/D65         9971 B  chain    9886 B  classical
+  D44/D44/D87          13373 B  chain   10930 B  PQ
+  ES256/ES256/ES256     1586 B  chain    1501 B  classical
+  D65/ES256/ES256       6726 B  chain    3394 B  classical
+  D87/D65/D44          16182 B  chain   11532 B  PQ
+  D44/D65/D87          14902 B  chain   12459 B  PQ
+  D65/D65/D65          15113 B  chain   11781 B  PQ
+  D65/D65/ES256        11867 B  chain    8535 B  classical
+  wrote out-x86-runs/run2/e1_mixedchain.json  (8 rows)

@@ -1,0 +1,85 @@
+%% ---------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Content provenance has moved out of the proposal stage. Cameras ship with
+signing built in~\cite{cai2023leica,sony2024c2pa}, phones attach content
+credentials of their own~\cite{samsung2025s25,google2025pixel}, and editing
+tools record what they changed in a signed manifest that travels inside the
+file. The mechanism behind all of it is a digital signature over a claim about
+the content, and the signatures in use are RSA-PSS and ECDSA.
+
+Shor's algorithm breaks both~\cite{shor1997}. A photograph signed today
+carries a proof of origin that a sufficiently capable quantum computer can
+forge, and a photograph is an object with a long life. The replacements exist.
+NIST standardised ML-DSA and SLH-DSA in 2024~\cite{fips204,fips205},
+RFC~9964 assigned the COSE identifiers that let an ML-DSA signature appear in
+a manifest~\cite{rfc9964}, RFC~9881 the identifiers for ML-DSA
+certificates~\cite{rfc9881}, and in October 2026 version 2.5 of the C2PA
+specification added ML-DSA-44, 65 and 87 to the signature algorithms a
+manifest may use~\cite{c2pa25}. The reference implementation had not followed
+by the time of writing~\cite{c2pars}.
+
+What has not been published is the bill. Knowing that ML-DSA-65 produces a
+3,309-byte signature does not tell an operator what happens to a photograph,
+a camera roll, a video stream or an archive. Post-quantum signatures have been
+proposed for image authenticity outside the format cameras use~\cite{%
+iavich2025pqveritas,alkhatib2025deepfake}, and a commercial SDK now advertises ML-DSA signing of AI-generated content as
+quantum-resistant provenance~\cite{certivu2026}, but no measurement of the
+credential has been published, and the credential is where most of the bytes
+turn out to be.
+
+This paper measures it, for the configuration C2PA~2.5 now permits. We build
+manifests under ML-DSA, SLH-DSA, Falcon and composite signatures and under the
+classical algorithms deployed today, sign and validate them through a patched
+copy of the reference implementation, and measure size, signing and
+validation on a laptop and a small cloud server, a Raspberry Pi~5 signing encoded
+video, and three microcontrollers sending manifests over Bluetooth LE.
+
+\paragraph{What is new, and what is not}
+Certificate chains dominating a post-quantum handshake is not a discovery. The
+TLS community established it years ago~\cite{sikeridis2020ndss,%
+sikeridis2020conext,sosnowski2023} and has been working on remedies ever
+since, from cached information~\cite{rfc7924} and abridged
+compression~\cite{certabridge} to Merkle Tree
+Certificates~\cite{merkletreecerts}. Section~\ref{sec:related-tls} says what
+transfers to manifests. What this paper contributes is the measurement for
+manifests, where four things differ from TLS: the cost is paid per object
+rather than per connection, nothing is negotiated between signer and
+verifier, some verifiers are offline for good, and C2PA operates a trust list
+whose anchors include issuing CAs as well as roots, which is what makes the
+cheapest carriage form conformant.
+
+\paragraph{Contributions}
+\begin{itemize}
+\item A measurement of post-quantum content credentials inside the C2PA
+stack, against the two classical algorithms deployed signers use, for the chain
+form the specification requires and for the complete timestamped manifest, in
+bytes, signing time and validation time. Certificates rather than signatures
+carry the cost across ML-DSA, SLH-DSA, Falcon and composite signatures
+(Sections~\ref{sec:cost} and~\ref{sec:verifytime}).
+
+\item Four ways to carry the signer, with the condition under which the
+cheapest conformant one applies, checked against the live C2PA trust list and
+against production-signed assets, and a validation matrix of
+\Nvalcases{} cases through the patched reference implementation that finds
+two departures from the specification (Sections~\ref{sec:patch},
+\ref{sec:prodchains} and~\ref{sec:carrying}).
+
+\item Signing and verifying where resources are short: encoded H.264 and HEVC
+streams signed on a Raspberry Pi~5 by the two live-video methods of C2PA~2.5,
+with a per-frame signature as an upper bound, and verification, memory,
+energy and radio cost on three microcontrollers
+(Section~\ref{sec:edge}).
+
+\item Evidence that implementation and build outweigh the choice of parameter
+set, including a widely installed OpenSSL build that ran every post-quantum
+primitive about ten times slow, an audit in which \NauditBoth{} of \NauditN{} applied post-quantum timing studies report both the compiler and an explicit optimisation level, and a
+capacity model for re-signing an archive whose error traces to reporting
+medians for a heavy-tailed operation (Sections~\ref{sec:backends}
+and~\ref{sec:resign}).
+\end{itemize}
+
+Every script, raw measurement, generated certificate and manifest, firmware
+image and patch is released, and every table and every number in the text is
+generated from the released measurements rather than transcribed.

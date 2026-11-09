@@ -1,0 +1,109 @@
+{
+  "active_manifest": "urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c",
+  "manifests": {
+    "urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c": {
+      "claim_generator_info": [
+        {
+          "name": "line-a-validation",
+          "version": "1",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        }
+      ],
+      "title": "line-a.jpg",
+      "instance_id": "xmp.iid:31b5ff60-c065-442d-951f-f53b76e6e09c",
+      "assertions": [
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+              }
+            ]
+          },
+          "created": true
+        }
+      ],
+      "signature_info": {
+        "alg": "Es256",
+        "issuer": "Line A test PKI",
+        "common_name": "es256 leaf signer",
+        "cert_serial_number": "632583962433911802512625359218553526710267569743",
+        "time": "2026-11-03T06:30:00+00:00"
+      },
+      "label": "urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c",
+      "claim_version": 2
+    }
+  },
+  "validation_status": [
+    {
+      "code": "signingCredential.invalid",
+      "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+      "explanation": "certificate missing required EKU"
+    }
+  ],
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "timeStamp.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "timestamp message digest matched: es256 tsa_noeku signer"
+        },
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.assertions/c2pa.hash.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+        },
+        {
+          "code": "assertion.dataHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.assertions/c2pa.hash.data",
+          "explanation": "data hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        },
+        {
+          "code": "timeStamp.untrusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "timestamp cert untrusted: es256 tsa_noeku signer"
+        }
+      ],
+      "failure": [
+        {
+          "code": "signingCredential.invalid",
+          "url": "self#jumbf=/c2pa/urn:c2pa:4ccaf2e4-df0c-4d62-aa70-28a3c827e01c/c2pa.signature",
+          "explanation": "certificate missing required EKU"
+        }
+      ]
+    },
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Invalid"
+}

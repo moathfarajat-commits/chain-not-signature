@@ -1,0 +1,23 @@
+\begin{table}[ht]
+\caption{General-purpose compression of the COSE signature (leaf and intermediate carried) and of signature plus timestamp token, saving in per cent at each compressor's highest setting. What compresses is X.509 structure and names; ML-DSA keys and signatures do not.}
+\label{tab:compress}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Algorithm & Object & Bytes & zlib-9 & zstd-19 & brotli-11\\
+\midrule
+Ed25519 & signature & 1,472 & 41.3 & 42.1 & 45.2\\
+ & + timestamp & 3,447 & 48.6 & 50.2 & 52.0\\
+ES256 & signature & 1,584 & 39.6 & 40.6 & 40.7\\
+ & + timestamp & 3,649 & 47.7 & 49.5 & 49.6\\
+PS256 & signature & 2,570 & 23.4 & 25.7 & 26.6\\
+ & + timestamp & 5,615 & 31.2 & 33.0 & 33.5\\
+ML-DSA-44 & signature & 11,166 & 5.6 & 6.3 & 6.4\\
+ & + timestamp & 22,843 & 7.5 & 8.3 & 8.6\\
+ML-DSA-65 & signature & 15,113 & 4.0 & 4.5 & 4.7\\
+ & + timestamp & 30,737 & 5.5 & 6.1 & 6.3\\
+ML-DSA-87 & signature & 20,347 & 3.0 & 3.5 & 3.6\\
+ & + timestamp & 41,205 & 4.0 & 4.5 & 4.7\\
+\bottomrule
+\end{tabular}
+\end{table}

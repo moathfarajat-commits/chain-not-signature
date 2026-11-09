@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{The same \texttt{cryptography} 50.0.1 over the same OpenSSL 4.0.2 on the same machine, built with optimisation and as the PyPI wheel ships it, without. Medians in milliseconds over 1,000 calls. \emph{Path} is how OpenSSL implements the operation on arm64. Only the operations written in C move, and every post-quantum one is.}
+\label{tab:buildeffect}
+\begin{tabular}{llrrr}
+\toprule
+Operation & Path & \texttt{-O3} & wheel & Ratio\\
+\midrule
+SHA3-256, 64\,KiB & assembly & 0.0722 & 0.0725 & 1.0$\times$\\
+ECDSA P-256 sign & assembly & 0.0217 & 0.0262 & 1.2$\times$\\
+Ed25519 sign & C and assembly & 0.0297 & 0.0923 & 3.1$\times$\\
+ML-DSA-44 sign & C & 0.2792 & 2.6036 & 9.3$\times$\\
+ML-DSA-65 sign & C & 0.4814 & 4.4833 & 9.3$\times$\\
+ML-DSA-87 sign & C & 0.5719 & 5.1919 & 9.1$\times$\\
+ML-DSA-65 verify & C & 0.1075 & 0.8487 & 7.9$\times$\\
+ML-KEM-768 encapsulate & C & 0.0130 & 0.1323 & 10.2$\times$\\
+ML-KEM-768 decapsulate & C & 0.0181 & 0.1995 & 11.0$\times$\\
+\bottomrule
+\end{tabular}
+\end{table}

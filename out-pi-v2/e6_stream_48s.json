@@ -1,0 +1,4005 @@
+{
+  "experiment": "e6_stream",
+  "env": {
+    "timestamp_utc": "2026-11-02T20:54:15+00:00",
+    "hostname": "h6pi",
+    "platform": "Linux-6.18.50+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "cpu": "Raspberry Pi 5 Model B Rev 1.1",
+    "cpu_count": 4,
+    "crypto_features": [
+      "aes",
+      "pmull",
+      "sha1",
+      "sha2"
+    ],
+    "python": "3.13.5",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -Wa,--noexecstack -Wall -O3 -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null,
+    "pinned_core": 3,
+    "liboqs": true,
+    "streams": {
+      "1080p H.264": 71749385,
+      "4K HEVC": 240746978
+    },
+    "pi": {
+      "board": "Raspberry Pi 5 Model B Rev 1.1",
+      "core": "Cortex-A76",
+      "governor": "performance",
+      "telemetry": "vcgencmd"
+    }
+  },
+  "notes": [
+    "streams from make_stream.sh: fragmented MP4, one fragment per second, 1080p30 H.264 at 12 Mbit/s and 4K30 HEVC at 40 Mbit/s",
+    "frame: a COSE signature with x5chain over every encoded access unit (upper bound, not a C2PA method)",
+    "manifest: C2PA 2.5 Section 15.4, a manifest with BMFF hash, live-video segment assertion and x5chain in every segment",
+    "vsi: C2PA 2.5 Section 15.5, chain and session key once, then a session-key-signed segment-info map in an emsg box per segment; the session key uses the signer's algorithm",
+    "fragments are hashed as they arrive; latency_after_close is hashing the last fragment plus signing",
+    "detected lists what the verifier reports for each manipulation of the stream"
+  ],
+  "results": [
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0205,
+      "sign_ms_median": 0.0765,
+      "process_ms_p99": 0.3121,
+      "cpu_fraction": 0.0033,
+      "latency_after_close_ms": 0.0975,
+      "prov_bytes_per_unit": 1722,
+      "prov_kbps": 413.2,
+      "prov_share_of_video_pct": 3.455
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.984,
+      "sign_ms_median": 0.083,
+      "process_ms_p99": 1.1727,
+      "cpu_fraction": 0.00107,
+      "latency_after_close_ms": 1.0681,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 22.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.187
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9854,
+      "sign_ms_median": 0.0685,
+      "process_ms_p99": 1.1664,
+      "cpu_fraction": 0.00105,
+      "latency_after_close_ms": 1.0522,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 2.28,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9506,
+      "sign_ms_median": 0.0919,
+      "process_ms_p99": 2.163,
+      "cpu_fraction": 0.00103,
+      "latency_after_close_ms": 1.0865,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 11.17,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.093
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9568,
+      "sign_ms_median": 0.0858,
+      "process_ms_p99": 2.2285,
+      "cpu_fraction": 0.00103,
+      "latency_after_close_ms": 1.0854,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.915,
+      "sign_ms_median": 0.1054,
+      "process_ms_p99": 4.1761,
+      "cpu_fraction": 0.00101,
+      "latency_after_close_ms": 1.089,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 5.58,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.047
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9181,
+      "sign_ms_median": 0.0872,
+      "process_ms_p99": 4.1392,
+      "cpu_fraction": 0.001,
+      "latency_after_close_ms": 1.0592,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.872,
+      "sign_ms_median": 0.1235,
+      "process_ms_p99": 6.1351,
+      "cpu_fraction": 0.001,
+      "latency_after_close_ms": 1.1314,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 3.72,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.031
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8676,
+      "sign_ms_median": 0.0916,
+      "process_ms_p99": 6.1088,
+      "cpu_fraction": 0.00099,
+      "latency_after_close_ms": 1.1055,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.067,
+      "sign_ms_median": 0.078,
+      "process_ms_p99": 0.5783,
+      "cpu_fraction": 0.0057,
+      "latency_after_close_ms": 0.147,
+      "prov_bytes_per_unit": 1722,
+      "prov_kbps": 413.2,
+      "prov_share_of_video_pct": 1.03
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2728,
+      "sign_ms_median": 0.0966,
+      "process_ms_p99": 3.6172,
+      "cpu_fraction": 0.00338,
+      "latency_after_close_ms": 3.3703,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 22.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.056
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2718,
+      "sign_ms_median": 0.0823,
+      "process_ms_p99": 3.6052,
+      "cpu_fraction": 0.00336,
+      "latency_after_close_ms": 3.3532,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2769,
+      "prov_kbps": 2.28,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.006
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5422,
+      "sign_ms_median": 0.1072,
+      "process_ms_p99": 6.9162,
+      "cpu_fraction": 0.00333,
+      "latency_after_close_ms": 3.3671,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 11.17,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.028
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5423,
+      "sign_ms_median": 0.0912,
+      "process_ms_p99": 6.8828,
+      "cpu_fraction": 0.00332,
+      "latency_after_close_ms": 3.3481,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0734,
+      "sign_ms_median": 0.1369,
+      "process_ms_p99": 13.5833,
+      "cpu_fraction": 0.00331,
+      "latency_after_close_ms": 3.3684,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 5.58,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.014
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.075,
+      "sign_ms_median": 0.0988,
+      "process_ms_p99": 13.5809,
+      "cpu_fraction": 0.0033,
+      "latency_after_close_ms": 3.3356,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6277,
+      "sign_ms_median": 0.1413,
+      "process_ms_p99": 20.051,
+      "cpu_fraction": 0.0033,
+      "latency_after_close_ms": 3.3875,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2792,
+      "init_bytes": 0,
+      "prov_kbps": 3.72,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.009
+    },
+    {
+      "alg": "Ed25519",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6252,
+      "sign_ms_median": 0.1007,
+      "process_ms_p99": 20.0258,
+      "cpu_fraction": 0.00329,
+      "latency_after_close_ms": 3.3523,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2769,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0226,
+      "sign_ms_median": 0.1059,
+      "process_ms_p99": 0.3463,
+      "cpu_fraction": 0.0043,
+      "latency_after_close_ms": 0.1288,
+      "prov_bytes_per_unit": 1834,
+      "prov_kbps": 440.1,
+      "prov_share_of_video_pct": 3.68
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9855,
+      "sign_ms_median": 0.1186,
+      "process_ms_p99": 1.1981,
+      "cpu_fraction": 0.0011,
+      "latency_after_close_ms": 1.1043,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2906,
+      "init_bytes": 0,
+      "prov_kbps": 23.24,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.194
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.985,
+      "sign_ms_median": 0.1103,
+      "process_ms_p99": 1.2028,
+      "cpu_fraction": 0.00109,
+      "latency_after_close_ms": 1.0929,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2938,
+      "prov_kbps": 2.28,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9531,
+      "sign_ms_median": 0.1281,
+      "process_ms_p99": 2.204,
+      "cpu_fraction": 0.00104,
+      "latency_after_close_ms": 1.1236,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 11.62,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.097
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9487,
+      "sign_ms_median": 0.1216,
+      "process_ms_p99": 2.2092,
+      "cpu_fraction": 0.00104,
+      "latency_after_close_ms": 1.115,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2941,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9171,
+      "sign_ms_median": 0.1577,
+      "process_ms_p99": 4.2127,
+      "cpu_fraction": 0.00102,
+      "latency_after_close_ms": 1.1328,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2903,
+      "init_bytes": 0,
+      "prov_kbps": 5.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.049
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9162,
+      "sign_ms_median": 0.134,
+      "process_ms_p99": 4.1913,
+      "cpu_fraction": 0.00101,
+      "latency_after_close_ms": 1.1154,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2940,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8729,
+      "sign_ms_median": 0.1789,
+      "process_ms_p99": 6.1961,
+      "cpu_fraction": 0.00101,
+      "latency_after_close_ms": 1.185,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 3.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.032
+    },
+    {
+      "alg": "ES256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8703,
+      "sign_ms_median": 0.1392,
+      "process_ms_p99": 6.1377,
+      "cpu_fraction": 0.001,
+      "latency_after_close_ms": 1.1473,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2940,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0689,
+      "sign_ms_median": 0.1081,
+      "process_ms_p99": 0.6111,
+      "cpu_fraction": 0.0067,
+      "latency_after_close_ms": 0.1809,
+      "prov_bytes_per_unit": 1835,
+      "prov_kbps": 440.4,
+      "prov_share_of_video_pct": 1.098
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2736,
+      "sign_ms_median": 0.1336,
+      "process_ms_p99": 3.6536,
+      "cpu_fraction": 0.00341,
+      "latency_after_close_ms": 3.406,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2902,
+      "init_bytes": 0,
+      "prov_kbps": 23.22,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.058
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2722,
+      "sign_ms_median": 0.128,
+      "process_ms_p99": 3.6574,
+      "cpu_fraction": 0.00341,
+      "latency_after_close_ms": 3.3994,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 286,
+      "init_bytes": 2939,
+      "prov_kbps": 2.28,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.006
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.542,
+      "sign_ms_median": 0.1524,
+      "process_ms_p99": 6.9603,
+      "cpu_fraction": 0.00336,
+      "latency_after_close_ms": 3.4118,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 11.62,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.029
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5418,
+      "sign_ms_median": 0.137,
+      "process_ms_p99": 6.954,
+      "cpu_fraction": 0.00335,
+      "latency_after_close_ms": 3.3975,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2940,
+      "prov_kbps": 1.14,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.003
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0739,
+      "sign_ms_median": 0.1851,
+      "process_ms_p99": 13.689,
+      "cpu_fraction": 0.00332,
+      "latency_after_close_ms": 3.4214,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 5.81,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.014
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.071,
+      "sign_ms_median": 0.1469,
+      "process_ms_p99": 13.6427,
+      "cpu_fraction": 0.00331,
+      "latency_after_close_ms": 3.3854,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2939,
+      "prov_kbps": 0.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6295,
+      "sign_ms_median": 0.2032,
+      "process_ms_p99": 20.171,
+      "cpu_fraction": 0.00331,
+      "latency_after_close_ms": 3.4552,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2905,
+      "init_bytes": 0,
+      "prov_kbps": 3.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "ES256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6205,
+      "sign_ms_median": 0.1528,
+      "process_ms_p99": 20.1193,
+      "cpu_fraction": 0.0033,
+      "latency_after_close_ms": 3.4099,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 285,
+      "init_bytes": 2940,
+      "prov_kbps": 0.38,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.001
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0229,
+      "sign_ms_median": 3.5781,
+      "process_ms_p99": 4.5293,
+      "cpu_fraction": 0.1093,
+      "latency_after_close_ms": 3.6016,
+      "prov_bytes_per_unit": 2820,
+      "prov_kbps": 676.8,
+      "prov_share_of_video_pct": 5.66
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9854,
+      "sign_ms_median": 3.5868,
+      "process_ms_p99": 5.5095,
+      "cpu_fraction": 0.0046,
+      "latency_after_close_ms": 4.5699,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 31.12,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.26
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9859,
+      "sign_ms_median": 3.5791,
+      "process_ms_p99": 5.4483,
+      "cpu_fraction": 0.00458,
+      "latency_after_close_ms": 4.5645,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 3.84,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.032
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9497,
+      "sign_ms_median": 3.5958,
+      "process_ms_p99": 6.5188,
+      "cpu_fraction": 0.00279,
+      "latency_after_close_ms": 4.5907,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 15.56,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.13
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9525,
+      "sign_ms_median": 3.5852,
+      "process_ms_p99": 5.6481,
+      "cpu_fraction": 0.00277,
+      "latency_after_close_ms": 4.5753,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 1.92,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.016
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9151,
+      "sign_ms_median": 3.6196,
+      "process_ms_p99": 8.476,
+      "cpu_fraction": 0.00189,
+      "latency_after_close_ms": 4.5951,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 7.78,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.065
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9134,
+      "sign_ms_median": 3.6024,
+      "process_ms_p99": 7.6487,
+      "cpu_fraction": 0.00188,
+      "latency_after_close_ms": 4.5814,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 0.96,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.008
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8653,
+      "sign_ms_median": 3.6344,
+      "process_ms_p99": 10.4798,
+      "cpu_fraction": 0.00159,
+      "latency_after_close_ms": 4.6433,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 5.19,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.043
+    },
+    {
+      "alg": "PS256",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8802,
+      "sign_ms_median": 3.6104,
+      "process_ms_p99": 9.6363,
+      "cpu_fraction": 0.00158,
+      "latency_after_close_ms": 4.6225,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 0.64,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0694,
+      "sign_ms_median": 3.58,
+      "process_ms_p99": 4.6108,
+      "cpu_fraction": 0.1117,
+      "latency_after_close_ms": 3.656,
+      "prov_bytes_per_unit": 2820,
+      "prov_kbps": 676.8,
+      "prov_share_of_video_pct": 1.687
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2711,
+      "sign_ms_median": 3.5969,
+      "process_ms_p99": 7.7614,
+      "cpu_fraction": 0.00691,
+      "latency_after_close_ms": 6.8763,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 31.12,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.078
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2718,
+      "sign_ms_median": 3.5905,
+      "process_ms_p99": 7.7859,
+      "cpu_fraction": 0.00689,
+      "latency_after_close_ms": 6.8696,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 480,
+      "init_bytes": 4325,
+      "prov_kbps": 3.84,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.01
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5402,
+      "sign_ms_median": 3.614,
+      "process_ms_p99": 11.0959,
+      "cpu_fraction": 0.0051,
+      "latency_after_close_ms": 6.8732,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 15.56,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.039
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5418,
+      "sign_ms_median": 3.6047,
+      "process_ms_p99": 10.4889,
+      "cpu_fraction": 0.00508,
+      "latency_after_close_ms": 6.8621,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 1.92,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.005
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0696,
+      "sign_ms_median": 3.6559,
+      "process_ms_p99": 18.0725,
+      "cpu_fraction": 0.0042,
+      "latency_after_close_ms": 6.8864,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 7.78,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.019
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0711,
+      "sign_ms_median": 3.6173,
+      "process_ms_p99": 17.0981,
+      "cpu_fraction": 0.00418,
+      "latency_after_close_ms": 6.8552,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 0.96,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.002
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6257,
+      "sign_ms_median": 3.6696,
+      "process_ms_p99": 24.5831,
+      "cpu_fraction": 0.00389,
+      "latency_after_close_ms": 6.9255,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3890,
+      "init_bytes": 0,
+      "prov_kbps": 5.19,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.013
+    },
+    {
+      "alg": "PS256",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "cryptography",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6227,
+      "sign_ms_median": 3.6241,
+      "process_ms_p99": 23.5625,
+      "cpu_fraction": 0.00388,
+      "latency_after_close_ms": 6.8806,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 479,
+      "init_bytes": 4325,
+      "prov_kbps": 0.64,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.002
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0226,
+      "sign_ms_median": 0.2262,
+      "process_ms_p99": 0.7176,
+      "cpu_fraction": 0.009,
+      "latency_after_close_ms": 0.2656,
+      "prov_bytes_per_unit": 11416,
+      "prov_kbps": 2739.8,
+      "prov_share_of_video_pct": 22.912
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9863,
+      "sign_ms_median": 0.2341,
+      "process_ms_p99": 1.5937,
+      "cpu_fraction": 0.00125,
+      "latency_after_close_ms": 1.2308,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 99.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.835
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.985,
+      "sign_ms_median": 0.2033,
+      "process_ms_p99": 1.7462,
+      "cpu_fraction": 0.00123,
+      "latency_after_close_ms": 1.1959,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 21.15,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.177
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9503,
+      "sign_ms_median": 0.2597,
+      "process_ms_p99": 2.7365,
+      "cpu_fraction": 0.00112,
+      "latency_after_close_ms": 1.2493,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 49.94,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.418
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9528,
+      "sign_ms_median": 0.2251,
+      "process_ms_p99": 2.459,
+      "cpu_fraction": 0.0011,
+      "latency_after_close_ms": 1.2154,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 10.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.088
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9166,
+      "sign_ms_median": 0.2561,
+      "process_ms_p99": 4.5574,
+      "cpu_fraction": 0.00105,
+      "latency_after_close_ms": 1.2244,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 24.97,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.209
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9153,
+      "sign_ms_median": 0.2099,
+      "process_ms_p99": 4.5094,
+      "cpu_fraction": 0.00104,
+      "latency_after_close_ms": 1.1828,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 5.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.044
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8803,
+      "sign_ms_median": 0.301,
+      "process_ms_p99": 6.535,
+      "cpu_fraction": 0.00103,
+      "latency_after_close_ms": 1.3042,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 16.65,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.139
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8771,
+      "sign_ms_median": 0.2372,
+      "process_ms_p99": 6.3812,
+      "cpu_fraction": 0.00102,
+      "latency_after_close_ms": 1.2204,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 3.52,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.029
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0693,
+      "sign_ms_median": 0.2278,
+      "process_ms_p99": 0.8752,
+      "cpu_fraction": 0.0113,
+      "latency_after_close_ms": 0.35,
+      "prov_bytes_per_unit": 11416,
+      "prov_kbps": 2739.8,
+      "prov_share_of_video_pct": 6.828
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2707,
+      "sign_ms_median": 0.2485,
+      "process_ms_p99": 3.9196,
+      "cpu_fraction": 0.00356,
+      "latency_after_close_ms": 3.5339,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 99.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.249
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2709,
+      "sign_ms_median": 0.226,
+      "process_ms_p99": 4.06,
+      "cpu_fraction": 0.00354,
+      "latency_after_close_ms": 3.5179,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 2644,
+      "init_bytes": 16103,
+      "prov_kbps": 21.15,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.053
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5407,
+      "sign_ms_median": 0.2757,
+      "process_ms_p99": 7.4608,
+      "cpu_fraction": 0.00343,
+      "latency_after_close_ms": 3.5458,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 49.94,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.124
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5384,
+      "sign_ms_median": 0.2298,
+      "process_ms_p99": 7.3911,
+      "cpu_fraction": 0.00341,
+      "latency_after_close_ms": 3.4826,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 10.57,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.026
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0741,
+      "sign_ms_median": 0.3086,
+      "process_ms_p99": 13.9021,
+      "cpu_fraction": 0.00336,
+      "latency_after_close_ms": 3.5401,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 24.97,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.062
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0751,
+      "sign_ms_median": 0.2628,
+      "process_ms_p99": 14.0202,
+      "cpu_fraction": 0.00334,
+      "latency_after_close_ms": 3.4734,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 5.29,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.013
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6238,
+      "sign_ms_median": 0.2951,
+      "process_ms_p99": 20.2876,
+      "cpu_fraction": 0.00333,
+      "latency_after_close_ms": 3.554,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 12486,
+      "init_bytes": 0,
+      "prov_kbps": 16.65,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.041
+    },
+    {
+      "alg": "ML-DSA-44",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6143,
+      "sign_ms_median": 0.2741,
+      "process_ms_p99": 20.3084,
+      "cpu_fraction": 0.00332,
+      "latency_after_close_ms": 3.5216,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 2643,
+      "init_bytes": 16103,
+      "prov_kbps": 3.52,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.009
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0227,
+      "sign_ms_median": 0.3344,
+      "process_ms_p99": 1.0824,
+      "cpu_fraction": 0.0127,
+      "latency_after_close_ms": 0.3672,
+      "prov_bytes_per_unit": 15363,
+      "prov_kbps": 3687.1,
+      "prov_share_of_video_pct": 30.834
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9846,
+      "sign_ms_median": 0.3473,
+      "process_ms_p99": 1.9764,
+      "cpu_fraction": 0.00137,
+      "latency_after_close_ms": 1.3198,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 131.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 1.099
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9857,
+      "sign_ms_median": 0.2784,
+      "process_ms_p99": 1.7499,
+      "cpu_fraction": 0.00131,
+      "latency_after_close_ms": 1.269,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 28.26,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.236
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9509,
+      "sign_ms_median": 0.3524,
+      "process_ms_p99": 2.9128,
+      "cpu_fraction": 0.00118,
+      "latency_after_close_ms": 1.3464,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 65.73,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.55
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9468,
+      "sign_ms_median": 0.2725,
+      "process_ms_p99": 2.9195,
+      "cpu_fraction": 0.00115,
+      "latency_after_close_ms": 1.2699,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 14.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.118
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9175,
+      "sign_ms_median": 0.4033,
+      "process_ms_p99": 5.1049,
+      "cpu_fraction": 0.00109,
+      "latency_after_close_ms": 1.3551,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 32.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.275
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9166,
+      "sign_ms_median": 0.3333,
+      "process_ms_p99": 4.9827,
+      "cpu_fraction": 0.00107,
+      "latency_after_close_ms": 1.312,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 7.06,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.059
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8723,
+      "sign_ms_median": 0.3968,
+      "process_ms_p99": 6.9586,
+      "cpu_fraction": 0.00105,
+      "latency_after_close_ms": 1.3986,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 21.91,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.183
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8668,
+      "sign_ms_median": 0.372,
+      "process_ms_p99": 6.6411,
+      "cpu_fraction": 0.00104,
+      "latency_after_close_ms": 1.3455,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 4.71,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.039
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0694,
+      "sign_ms_median": 0.336,
+      "process_ms_p99": 1.1451,
+      "cpu_fraction": 0.015,
+      "latency_after_close_ms": 0.4524,
+      "prov_bytes_per_unit": 15363,
+      "prov_kbps": 3687.1,
+      "prov_share_of_video_pct": 9.189
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2709,
+      "sign_ms_median": 0.3666,
+      "process_ms_p99": 4.2478,
+      "cpu_fraction": 0.00369,
+      "latency_after_close_ms": 3.6613,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 16434,
+      "init_bytes": 0,
+      "prov_kbps": 131.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.328
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2724,
+      "sign_ms_median": 0.323,
+      "process_ms_p99": 4.2716,
+      "cpu_fraction": 0.00366,
+      "latency_after_close_ms": 3.6166,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 28.26,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.07
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5404,
+      "sign_ms_median": 0.3621,
+      "process_ms_p99": 7.4677,
+      "cpu_fraction": 0.00347,
+      "latency_after_close_ms": 3.613,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 65.73,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.164
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5411,
+      "sign_ms_median": 0.3184,
+      "process_ms_p99": 7.687,
+      "cpu_fraction": 0.00347,
+      "latency_after_close_ms": 3.609,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 14.13,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.035
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0725,
+      "sign_ms_median": 0.4013,
+      "process_ms_p99": 14.1486,
+      "cpu_fraction": 0.00338,
+      "latency_after_close_ms": 3.6208,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 32.87,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.082
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0767,
+      "sign_ms_median": 0.3498,
+      "process_ms_p99": 14.2404,
+      "cpu_fraction": 0.00338,
+      "latency_after_close_ms": 3.5865,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 7.06,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.018
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6217,
+      "sign_ms_median": 0.3983,
+      "process_ms_p99": 21.0365,
+      "cpu_fraction": 0.00335,
+      "latency_after_close_ms": 3.629,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 16433,
+      "init_bytes": 0,
+      "prov_kbps": 21.91,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.055
+    },
+    {
+      "alg": "ML-DSA-65",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6199,
+      "sign_ms_median": 0.4438,
+      "process_ms_p99": 20.8089,
+      "cpu_fraction": 0.00335,
+      "latency_after_close_ms": 3.6831,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 3532,
+      "init_bytes": 21579,
+      "prov_kbps": 4.71,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.012
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.023,
+      "sign_ms_median": 0.448,
+      "process_ms_p99": 1.2043,
+      "cpu_fraction": 0.0162,
+      "latency_after_close_ms": 0.4789,
+      "prov_bytes_per_unit": 20597,
+      "prov_kbps": 4943.2,
+      "prov_share_of_video_pct": 41.338
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9846,
+      "sign_ms_median": 0.4234,
+      "process_ms_p99": 1.9871,
+      "cpu_fraction": 0.00148,
+      "latency_after_close_ms": 1.4312,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 173.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 1.45
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 0.9848,
+      "sign_ms_median": 0.3838,
+      "process_ms_p99": 2.109,
+      "cpu_fraction": 0.00142,
+      "latency_after_close_ms": 1.3689,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 38.8,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.324
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9539,
+      "sign_ms_median": 0.4708,
+      "process_ms_p99": 3.0002,
+      "cpu_fraction": 0.00124,
+      "latency_after_close_ms": 1.4721,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 86.67,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.725
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 1.9491,
+      "sign_ms_median": 0.3856,
+      "process_ms_p99": 2.9911,
+      "cpu_fraction": 0.0012,
+      "latency_after_close_ms": 1.3778,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 19.4,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.162
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9152,
+      "sign_ms_median": 0.5323,
+      "process_ms_p99": 5.4898,
+      "cpu_fraction": 0.00113,
+      "latency_after_close_ms": 1.4966,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 43.33,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.362
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 3.9162,
+      "sign_ms_median": 0.4682,
+      "process_ms_p99": 5.113,
+      "cpu_fraction": 0.0011,
+      "latency_after_close_ms": 1.4105,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 9.7,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.081
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8665,
+      "sign_ms_median": 0.5192,
+      "process_ms_p99": 6.8142,
+      "cpu_fraction": 0.00107,
+      "latency_after_close_ms": 1.5171,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 28.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.242
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "1080p H.264",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 11.958,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 5.8646,
+      "sign_ms_median": 0.3889,
+      "process_ms_p99": 6.5903,
+      "cpu_fraction": 0.00105,
+      "latency_after_close_ms": 1.4088,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 6.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.054
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "frame",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 30.0,
+      "hash_ms_median": 0.0698,
+      "sign_ms_median": 0.4535,
+      "process_ms_p99": 1.3164,
+      "cpu_fraction": 0.0187,
+      "latency_after_close_ms": 0.5686,
+      "prov_bytes_per_unit": 20597,
+      "prov_kbps": 4943.2,
+      "prov_share_of_video_pct": 12.32
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2726,
+      "sign_ms_median": 0.4802,
+      "process_ms_p99": 4.423,
+      "cpu_fraction": 0.00381,
+      "latency_after_close_ms": 3.7675,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 21668,
+      "init_bytes": 0,
+      "prov_kbps": 173.34,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.432
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 1,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 1.0,
+      "segments": 48,
+      "hash_ms_median": 3.2717,
+      "sign_ms_median": 0.4087,
+      "process_ms_p99": 4.2927,
+      "cpu_fraction": 0.00374,
+      "latency_after_close_ms": 3.7045,
+      "verify_delay_floor_s": 1,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 38.8,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.097
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5402,
+      "sign_ms_median": 0.4827,
+      "process_ms_p99": 7.5352,
+      "cpu_fraction": 0.00353,
+      "latency_after_close_ms": 3.7468,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 86.67,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.216
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 2,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.5,
+      "segments": 24,
+      "hash_ms_median": 6.5411,
+      "sign_ms_median": 0.418,
+      "process_ms_p99": 7.8121,
+      "cpu_fraction": 0.00351,
+      "latency_after_close_ms": 3.6776,
+      "verify_delay_floor_s": 2,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 19.4,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.048
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0738,
+      "sign_ms_median": 0.5083,
+      "process_ms_p99": 14.7084,
+      "cpu_fraction": 0.00341,
+      "latency_after_close_ms": 3.7307,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 43.33,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.108
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 4,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.25,
+      "segments": 12,
+      "hash_ms_median": 13.0748,
+      "sign_ms_median": 0.4196,
+      "process_ms_p99": 14.1501,
+      "cpu_fraction": 0.00339,
+      "latency_after_close_ms": 3.6759,
+      "verify_delay_floor_s": 4,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 9.7,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.024
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "manifest",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6249,
+      "sign_ms_median": 0.542,
+      "process_ms_p99": 20.881,
+      "cpu_fraction": 0.00337,
+      "latency_after_close_ms": 3.7681,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 21667,
+      "init_bytes": 0,
+      "prov_kbps": 28.89,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.072
+    },
+    {
+      "alg": "ML-DSA-87",
+      "stream": "4K HEVC",
+      "method": "vsi",
+      "segment_s": 6,
+      "backend": "liboqs",
+      "video_mbps": 40.124,
+      "fragments": 48,
+      "units_per_s": 0.16666666666666666,
+      "segments": 8,
+      "hash_ms_median": 19.6237,
+      "sign_ms_median": 0.441,
+      "process_ms_p99": 20.8079,
+      "cpu_fraction": 0.00336,
+      "latency_after_close_ms": 3.686,
+      "verify_delay_floor_s": 6,
+      "prov_bytes_per_unit": 4850,
+      "init_bytes": 28771,
+      "prov_kbps": 6.47,
+      "detected": {
+        "drop": [
+          "gap"
+        ],
+        "reorder": [
+          "gap",
+          "order"
+        ],
+        "truncate": [
+          "hash"
+        ],
+        "replay": [
+          "order"
+        ],
+        "substitute": [
+          "hash"
+        ]
+      },
+      "prov_share_of_video_pct": 0.016
+    }
+  ]
+}

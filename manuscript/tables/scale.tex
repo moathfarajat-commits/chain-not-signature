@@ -1,0 +1,35 @@
+\begin{table}[t]
+\caption{Manifests verified per second, in thousands, on one core and on every core of each machine. A stream from 500 publishers, drawn Zipf(1), each with a three-certificate chain. \emph{Uncached} validates the embedded chain for every manifest; \emph{cached} validates each publisher's chain once per worker and then checks only the signature, through OpenSSL or, for ML-DSA, liboqs. x5chain carries leaf and intermediate; the root comes from the verifier's store. Medians of three independent runs of 20,000 verifications each.}
+\label{tab:scale}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{Uncached} & \multicolumn{2}{c}{Cached} & \multicolumn{2}{c}{Cached, liboqs}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Algorithm & 1 core & all & 1 core & all & 1 core & all\\
+\midrule
+\multicolumn{7}{l}{\emph{Apple M1 Pro, all = 8 cores}}\\
+Ed25519 & 3.6 & 21.1 & 11.2 & 54.6 & -- & --\\
+ES256 & 4.4 & 25.7 & 15.4 & 73.1 & -- & --\\
+PS256 & 9.5 & 55.6 & 40.4 & 171.3 & -- & --\\
+ML-DSA-44 & 3.8 & 21.9 & 11.2 & 53.3 & 19.6 & 87.4\\
+ML-DSA-65 & 2.5 & 14.7 & 7.4 & 36.1 & 12.6 & 56.9\\
+ML-DSA-87 & 1.6 & 9.6 & 4.8 & 23.1 & 7.9 & 35.6\\
+\midrule
+\multicolumn{7}{l}{\emph{Intel Xeon VM, all = 2 cores}}\\
+Ed25519 & 2.4 & 4.6 & 7.4 & 13.9 & -- & --\\
+ES256 & 2.7 & 5.2 & 10.1 & 18.5 & -- & --\\
+PS256 & 6.4 & 12.9 & 26.6 & 47.8 & -- & --\\
+ML-DSA-44 & 2.1 & 4.2 & 6.5 & 12.4 & 20.0 & 32.6\\
+ML-DSA-65 & 1.5 & 2.9 & 4.2 & 7.9 & 13.2 & 24.1\\
+ML-DSA-87 & 1.0 & 1.9 & 2.8 & 5.3 & 9.8 & 16.6\\
+\midrule
+\multicolumn{7}{l}{\emph{Raspberry Pi 5, all = 4 cores}}\\
+Ed25519 & 2.1 & 8.3 & 6.5 & 23.1 & -- & --\\
+ES256 & 1.3 & 5.3 & 4.6 & 15.9 & -- & --\\
+PS256 & 2.2 & 8.9 & 7.9 & 27.0 & -- & --\\
+ML-DSA-44 & 1.3 & 5.1 & 3.9 & 13.7 & 8.5 & 25.8\\
+ML-DSA-65 & 0.9 & 3.5 & 2.6 & 9.3 & 5.6 & 17.5\\
+ML-DSA-87 & 0.6 & 2.3 & 1.7 & 6.1 & 3.6 & 11.2\\
+\bottomrule
+\end{tabular}
+\end{table}

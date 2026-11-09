@@ -1,0 +1,300 @@
+{
+ "port": "/dev/cu.usbmodemFDE99AA19FBF2",
+ "board": "nrf52840",
+ "mode": "source",
+ "mv": 3000,
+ "calibrated": true,
+ "calibration_tries": 1,
+ "modifiers": {
+  "Calibrated": "0",
+  "R": {
+   "0": 993.2796630859375,
+   "1": 100.62547302246094,
+   "2": 10.099562644958496,
+   "3": 0.9467781782150269,
+   "4": 0.055971208959817886
+  },
+  "GS": {
+   "0": 1e-19,
+   "1": 86.3489990234375,
+   "2": 14.078447341918945,
+   "3": 1.9226292371749878,
+   "4": 0.06016289070248604
+  },
+  "GI": {
+   "0": 1.0,
+   "1": 0.9760321378707886,
+   "2": 0.9688621163368225,
+   "3": 0.9620682597160339,
+   "4": 0.9656036496162415
+  },
+  "O": {
+   "0": 87.5855941772461,
+   "1": 55.50851821899414,
+   "2": 48.74277114868164,
+   "3": 36.94935607910156,
+   "4": 64.98047637939453
+  },
+  "S": {
+   "0": 6.264091467756e-08,
+   "1": 8.0131331969824e-07,
+   "2": 8.64989033289021e-06,
+   "3": 9.134004358202219e-05,
+   "4": 0.0038800318725407124
+  },
+  "I": {
+   "0": -1.0357511825987e-07,
+   "1": -2.47019852395169e-06,
+   "2": 1.346908629784593e-05,
+   "3": -0.00042762552038766444,
+   "4": -0.012335383333265781
+  },
+  "UG": {
+   "0": 1.0,
+   "1": 1.0,
+   "2": 1.0,
+   "3": 1.0,
+   "4": 1.0
+  },
+  "HW": "52602",
+  "IA": "60"
+ },
+ "rate_hz": 100000,
+ "schedule": {
+  "comment": "nRF52840 energy schedule: the 4th field is 1 for the CryptoCell-310 (PSA) path, 0 for software. ML-DSA has no hardware path. v2 (35n): manifest_chain added.",
+  "start_idle_ms": 2000,
+  "sync_pulses": 3,
+  "sync_ms": 50,
+  "gap_ms": 300,
+  "rounds": 3,
+  "entries": [
+   [
+    "Ed25519",
+    "sign",
+    20,
+    0
+   ],
+   [
+    "Ed25519",
+    "verify",
+    20,
+    0
+   ],
+   [
+    "Ed25519",
+    "manifest_full",
+    10,
+    0
+   ],
+   [
+    "Ed25519",
+    "manifest_chain",
+    10,
+    0
+   ],
+   [
+    "Ed25519",
+    "manifest_thumb",
+    10,
+    0
+   ],
+   [
+    "Ed25519",
+    "sign",
+    20,
+    1
+   ],
+   [
+    "Ed25519",
+    "verify",
+    20,
+    1
+   ],
+   [
+    "Ed25519",
+    "manifest_full",
+    10,
+    1
+   ],
+   [
+    "Ed25519",
+    "manifest_chain",
+    10,
+    1
+   ],
+   [
+    "Ed25519",
+    "manifest_thumb",
+    10,
+    1
+   ],
+   [
+    "ES256",
+    "sign",
+    10,
+    0
+   ],
+   [
+    "ES256",
+    "verify",
+    10,
+    0
+   ],
+   [
+    "ES256",
+    "manifest_full",
+    5,
+    0
+   ],
+   [
+    "ES256",
+    "manifest_chain",
+    5,
+    0
+   ],
+   [
+    "ES256",
+    "manifest_thumb",
+    5,
+    0
+   ],
+   [
+    "ES256",
+    "sign",
+    10,
+    1
+   ],
+   [
+    "ES256",
+    "verify",
+    10,
+    1
+   ],
+   [
+    "ES256",
+    "manifest_full",
+    5,
+    1
+   ],
+   [
+    "ES256",
+    "manifest_chain",
+    5,
+    1
+   ],
+   [
+    "ES256",
+    "manifest_thumb",
+    5,
+    1
+   ],
+   [
+    "ML-DSA-44",
+    "sign",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-44",
+    "verify",
+    10,
+    0
+   ],
+   [
+    "ML-DSA-44",
+    "manifest_full",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-44",
+    "manifest_chain",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-44",
+    "manifest_thumb",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-65",
+    "sign",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-65",
+    "verify",
+    10,
+    0
+   ],
+   [
+    "ML-DSA-65",
+    "manifest_full",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-65",
+    "manifest_chain",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-65",
+    "manifest_thumb",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-87",
+    "sign",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-87",
+    "verify",
+    10,
+    0
+   ],
+   [
+    "ML-DSA-87",
+    "manifest_full",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-87",
+    "manifest_chain",
+    5,
+    0
+   ],
+   [
+    "ML-DSA-87",
+    "manifest_thumb",
+    5,
+    0
+   ],
+   [
+    "-",
+    "sha256_8KiB",
+    20,
+    0
+   ],
+   [
+    "-",
+    "sha256_8KiB",
+    20,
+    1
+   ]
+  ]
+ },
+ "started": "2026-11-03T15:05:18+0300",
+ "flash_cmd": "JLinkExe -USB 001050276547 -device nRF52840_xxAA -if SWD -speed 4000 -autoconnect 1 -NoGui 1 -CommandFile logs-v3/dk1_nrf_cred_energy_v3.hex.jlink",
+ "seconds": 166.23,
+ "marker_falls": 114,
+ "sample_rate_received": 99998.4
+}

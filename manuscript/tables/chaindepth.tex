@@ -1,0 +1,19 @@
+\begin{table}[ht]
+\caption{Manifest size as a percentage of the median image against hierarchy depth. A hierarchy of $h$ certificates puts $h-1$ in \texttt{x5chain}, the root omitted; each further level costs the same again.}
+\label{tab:chaindepth}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Hierarchy depth & 2 & 3 & 4 & 5\\
+Certificates carried & 1 & 2 & 3 & 4\\
+\midrule
+Ed25519 & 1.7 & 2.4 & 3.0 & 3.7\\
+PS256 & 2.3 & 3.4 & 4.5 & 5.5\\
+Falcon-512 & 3.7 & 5.7 & 7.7 & 9.8\\
+ML-DSA-44 & 7.3 & 11.4 & 15.4 & 19.5\\
+ML-DSA-65 & 9.6 & 15.0 & 20.5 & 26.0\\
+ML-DSA-87 & 12.6 & 19.9 & 27.2 & 34.5\\
+SLH-DSA-SHA2-128s & 16.2 & 24.2 & 32.1 & 40.1\\
+\bottomrule
+\end{tabular}
+\end{table}

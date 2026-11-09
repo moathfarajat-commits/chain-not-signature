@@ -1,0 +1,204 @@
+{
+  "experiment": "e4_keywrap",
+  "env": {
+    "timestamp_utc": "2026-09-24T20:03:51+00:00",
+    "hostname": "192.168.1.105",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -mmacosx-version-min=11.0 -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "wrapped_bytes for a KEM counts the ciphertext plus the AES-wrapped 32-byte data key",
+    "RSA-OAEP wraps the data key directly, so wrapped_bytes is the modulus size",
+    "re-wrapping an archive needs one legacy unwrap plus one post-quantum wrap per object",
+    "OpenSSL and liboqs are reported separately; OpenSSL's lattice code is much slower",
+    "HQC needs a liboqs build with HQC enabled and is not measured here; see README"
+  ],
+  "results": [
+    {
+      "scheme": "RSA-2048-OAEP",
+      "family": "classical",
+      "wrapped_bytes": 256,
+      "wrap": {
+        "n": 50,
+        "median_ms": 0.0298,
+        "mean_ms": 0.0304,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0348,
+        "p99_ms": 0.0466,
+        "min_ms": 0.0296,
+        "max_ms": 0.0466
+      },
+      "unwrap": {
+        "n": 50,
+        "median_ms": 1.405,
+        "mean_ms": 1.4375,
+        "iqr_ms": 0.0596,
+        "p95_ms": 1.5564,
+        "p99_ms": 2.4532,
+        "min_ms": 1.3689,
+        "max_ms": 2.4532
+      },
+      "library": "OpenSSL",
+      "wrapped_bytes_vs_rsa2048": 1.0
+    },
+    {
+      "scheme": "RSA-3072-OAEP",
+      "family": "classical",
+      "wrapped_bytes": 384,
+      "wrap": {
+        "n": 50,
+        "median_ms": 0.0536,
+        "mean_ms": 0.0575,
+        "iqr_ms": 0.0008,
+        "p95_ms": 0.0675,
+        "p99_ms": 0.1601,
+        "min_ms": 0.0533,
+        "max_ms": 0.1601
+      },
+      "unwrap": {
+        "n": 50,
+        "median_ms": 3.4796,
+        "mean_ms": 3.5292,
+        "iqr_ms": 0.0757,
+        "p95_ms": 3.6053,
+        "p99_ms": 5.614,
+        "min_ms": 3.4037,
+        "max_ms": 5.614
+      },
+      "library": "OpenSSL",
+      "wrapped_bytes_vs_rsa2048": 1.5
+    },
+    {
+      "scheme": "ML-KEM-768",
+      "family": "post-quantum",
+      "wrapped_bytes": 1120,
+      "kem_ciphertext_bytes": 1088,
+      "shared_secret_bytes": 32,
+      "public_key_bytes": 1184,
+      "wrap": {
+        "n": 200,
+        "median_ms": 0.1323,
+        "mean_ms": 0.135,
+        "iqr_ms": 0.0008,
+        "p95_ms": 0.15,
+        "p99_ms": 0.1728,
+        "min_ms": 0.1316,
+        "max_ms": 0.2517
+      },
+      "unwrap": {
+        "n": 200,
+        "median_ms": 0.1996,
+        "mean_ms": 0.2056,
+        "iqr_ms": 0.0061,
+        "p95_ms": 0.2263,
+        "p99_ms": 0.3024,
+        "min_ms": 0.1987,
+        "max_ms": 0.311
+      },
+      "library": "OpenSSL",
+      "wrapped_bytes_vs_rsa2048": 4.38
+    },
+    {
+      "scheme": "ML-KEM-768",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "wrapped_bytes": 1120,
+      "kem_ciphertext_bytes": 1088,
+      "public_key_bytes": 1184,
+      "wrap": {
+        "n": 200,
+        "median_ms": 0.015,
+        "mean_ms": 0.016,
+        "iqr_ms": 0.0004,
+        "p95_ms": 0.0245,
+        "p99_ms": 0.0307,
+        "min_ms": 0.0148,
+        "max_ms": 0.055
+      },
+      "unwrap": {
+        "n": 200,
+        "median_ms": 0.0168,
+        "mean_ms": 0.0173,
+        "iqr_ms": 0.0006,
+        "p95_ms": 0.0185,
+        "p99_ms": 0.0273,
+        "min_ms": 0.0167,
+        "max_ms": 0.0486
+      },
+      "wrapped_bytes_vs_rsa2048": 4.38
+    },
+    {
+      "scheme": "ML-KEM-1024",
+      "family": "post-quantum",
+      "wrapped_bytes": 1600,
+      "kem_ciphertext_bytes": 1568,
+      "shared_secret_bytes": 32,
+      "public_key_bytes": 1568,
+      "wrap": {
+        "n": 200,
+        "median_ms": 0.1828,
+        "mean_ms": 0.1878,
+        "iqr_ms": 0.0035,
+        "p95_ms": 0.2066,
+        "p99_ms": 0.2507,
+        "min_ms": 0.1821,
+        "max_ms": 0.3424
+      },
+      "unwrap": {
+        "n": 200,
+        "median_ms": 0.2683,
+        "mean_ms": 0.2752,
+        "iqr_ms": 0.0063,
+        "p95_ms": 0.3038,
+        "p99_ms": 0.3867,
+        "min_ms": 0.2673,
+        "max_ms": 0.4043
+      },
+      "library": "OpenSSL",
+      "wrapped_bytes_vs_rsa2048": 6.25
+    },
+    {
+      "scheme": "ML-KEM-1024",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "wrapped_bytes": 1600,
+      "kem_ciphertext_bytes": 1568,
+      "public_key_bytes": 1568,
+      "wrap": {
+        "n": 200,
+        "median_ms": 0.0226,
+        "mean_ms": 0.0227,
+        "iqr_ms": 0.0001,
+        "p95_ms": 0.0228,
+        "p99_ms": 0.0234,
+        "min_ms": 0.0224,
+        "max_ms": 0.0385
+      },
+      "unwrap": {
+        "n": 200,
+        "median_ms": 0.0254,
+        "mean_ms": 0.026,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0282,
+        "p99_ms": 0.042,
+        "min_ms": 0.0252,
+        "max_ms": 0.063
+      },
+      "wrapped_bytes_vs_rsa2048": 6.25
+    }
+  ]
+}

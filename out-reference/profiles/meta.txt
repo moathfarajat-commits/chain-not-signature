@@ -1,0 +1,9 @@
+openssl-4.0.2-source-asm: OpenSSL 4.0.2 25 Aug 2026
+openssl-4.0.2-source-asm: compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG
+openssl-4.0.2-source-noasm: OpenSSL 4.0.2 25 Aug 2026
+openssl-4.0.2-source-noasm: compiler: cc -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG
+openssl-homebrew: OpenSSL 3.6.4 25 Aug 2026
+openssl-homebrew: compiler: clang -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DOPENSSL_BUILDING_OPENSSL -DNDEBUG
+liboqs-0.16.0-native: liboqs 0.16.0, FIPS204
+liboqs-0.16.0-generic: liboqs 0.16.0, FIPS204
+liboqs-installed: liboqs 0.16.0, FIPS204

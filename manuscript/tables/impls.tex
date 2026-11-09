@@ -1,0 +1,28 @@
+\begin{table}[t]
+\caption{ML-DSA-65 through every implementation and build we could obtain on the M1 Pro, and the corresponding builds on the Xeon VM, 1,000 timed calls each after 50 discarded. The C harness uses one call sequence for every OpenSSL build, the same one the Python \texttt{cryptography} package uses. The last two rows are the same package version over the same OpenSSL version and differ only in whether that OpenSSL was compiled with optimisation.}
+\label{tab:impls}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{llrrrr}
+\toprule
+Implementation & Build & Sign, med. & Sign, mean & Verify & $\times$ fastest\\
+\midrule
+\multicolumn{6}{l}{\emph{Apple M1 Pro, arm64}}\\
+liboqs 0.16.0 & native, arm64 path & 0.097 & 0.117 & 0.047 & 1.0\\
+liboqs 0.16.0 & generic, no NEON & 0.181 & 0.226 & 0.065 & 1.9\\
+PQClean reference & portable C, \texttt{-O3} & 0.314 & 0.398 & 0.102 & 3.2\\
+OpenSSL 4.0.2 & source, \texttt{-O3} & 0.477 & 0.599 & 0.110 & 4.9\\
+OpenSSL 4.0.2 & source, \texttt{-O3}, no asm & 0.563 & 0.757 & 0.133 & 5.8\\
+OpenSSL 3.6.4 & Homebrew & 0.496 & 0.603 & 0.115 & 5.1\\
+\texttt{cryptography} 50.0.1 & OpenSSL 4.0.2 source, \texttt{-O3} & 0.431 & 0.563 & 0.107 & 4.4\\
+\texttt{cryptography} 50.0.1 & PyPI wheel, no \texttt{-O} & 4.599 & 6.416 & 0.859 & 47.2\\
+\midrule
+\multicolumn{6}{l}{\emph{Intel Xeon VM, x86-64, GCC 13.3}}\\
+liboqs 0.16.0 & AVX2 & 0.137 & 0.171 & 0.039 & 1.0\\
+liboqs 0.16.0 & generic & 0.358 & 0.479 & 0.138 & 2.6\\
+PQClean reference & \texttt{-O3} & 0.573 & 0.748 & 0.316 & 4.2\\
+OpenSSL 4.0.2 & source, asm & 0.801 & 1.036 & 0.182 & 5.8\\
+OpenSSL 4.0.2 & source, no asm & 0.821 & 1.097 & 0.201 & 6.0\\
+\bottomrule
+\end{tabular}
+\end{table}

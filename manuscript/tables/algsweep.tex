@@ -1,0 +1,26 @@
+\begin{table}[t]
+\caption{Signature schemes at hierarchy depth three, leaf and intermediate carried. \emph{Chain} is the share of the signed structure taken by certificates; \emph{Embed.} and \emph{Ref.} are the manifest with the chain and with a thumbprint, as a percentage of the median image. Every certificate is real; Falcon carries a placeholder object identifier and its padded signature length. A dash means no COSE identifier is assigned. Signing times through liboqs on Apple M1 Pro, over the claim alone (Section~\ref{sec:timing}). Times are medians over 10 independent runs; their intervals across runs are in the released data.}
+\label{tab:algsweep}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+ & COSE & Sig. & Chain & Chain & Embed. & Ref. & Sign\\
+Algorithm & id & (B) & (B) & (\%) & (\% img) & (\% img) & (ms)\\
+\midrule
+Ed25519 & -8 & 64 & 1,387 & 94.2 & 2.4 & 1.1 & --\\
+ES256 & -7 & 64 & 1,499 & 94.6 & 2.5 & 1.1 & --\\
+PS256 & -37 & 256 & 2,291 & 89.1 & 3.4 & 1.3 & --\\
+\midrule
+ML-DSA-44 & -48 & 2,420 & 8,723 & 78.1 & 11.4 & 3.3 & 0.061\\
+ML-DSA-65 & -49 & 3,309 & 11,781 & 78.0 & 15.0 & 4.1 & 0.096\\
+ML-DSA-87 & -50 & 4,627 & 15,697 & 77.2 & 19.9 & 5.3 & 0.138\\
+Falcon-512 & -- & 666 & 4,372 & 86.4 & 5.7 & 1.7 & 0.155\\
+Falcon-1024 & -- & 1,280 & 7,398 & 85.0 & 9.1 & 2.2 & 0.304\\
+SLH-DSA-SHA2-128f & -- & 17,088 & 35,558 & 67.5 & 49.9 & 16.9 & 21\\
+SLH-DSA-SHA2-128s & -- & 7,856 & 17,094 & 68.5 & 24.2 & 8.3 & 429\\
+SLH-DSA-SHA2-192s & -- & 16,224 & 33,862 & 67.6 & 47.5 & 16.1 & 757\\
+SLH-DSA-SHA2-256s & -- & 29,792 & 61,030 & 67.2 & 85.4 & 28.7 & 672\\
+\bottomrule
+\end{tabular}
+\end{table}

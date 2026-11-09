@@ -1,0 +1,111 @@
+{
+  "experiment": "backend_comparison",
+  "env": {
+    "timestamp_utc": "2026-09-24T20:04:09+00:00",
+    "hostname": "192.168.1.105",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "cpu_count": 8,
+    "crypto_features": [
+      "aes",
+      "sha2",
+      "sha3",
+      "sha512"
+    ],
+    "python": "3.12.14",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: cc -fPIC -arch arm64 -mmacosx-version-min=11.0 -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "same machine, same algorithms, two implementations",
+    "separates an OpenSSL aarch64 build effect from a hardware effect"
+  ],
+  "results": [
+    {
+      "library": "OpenSSL via cryptography (OpenSSL 4.0.2 25 Aug 2026)",
+      "SHA3-256 64KiB": {
+        "median_ms": 0.0725,
+        "mean_ms": 0.0747,
+        "iqr_ms": 0.0012,
+        "p95_ms": 0.0859,
+        "min_ms": 0.0723,
+        "n": 1000
+      },
+      "ML-DSA-65 sign": {
+        "median_ms": 4.4461,
+        "mean_ms": 5.6633,
+        "iqr_ms": 4.5482,
+        "p95_ms": 13.5521,
+        "min_ms": 1.7605,
+        "n": 1000
+      },
+      "ML-DSA-65 verify": {
+        "median_ms": 0.8487,
+        "mean_ms": 0.8595,
+        "iqr_ms": 0.0288,
+        "p95_ms": 0.9394,
+        "min_ms": 0.8335,
+        "n": 1000
+      },
+      "ML-DSA-65 sig bytes": 3309,
+      "ML-KEM-768 encap": {
+        "median_ms": 0.1323,
+        "mean_ms": 0.1357,
+        "iqr_ms": 0.0029,
+        "p95_ms": 0.15,
+        "min_ms": 0.1314,
+        "n": 1000
+      },
+      "ML-KEM-768 decap": {
+        "median_ms": 0.1995,
+        "mean_ms": 0.2047,
+        "iqr_ms": 0.0034,
+        "p95_ms": 0.2228,
+        "min_ms": 0.1985,
+        "n": 1000
+      },
+      "ML-KEM-768 ct bytes": 1088
+    },
+    {
+      "library": "liboqs 0.16.0",
+      "ML-DSA-65 sign": {
+        "median_ms": 0.0946,
+        "mean_ms": 0.1124,
+        "iqr_ms": 0.0614,
+        "p95_ms": 0.2282,
+        "min_ms": 0.0588,
+        "n": 1000
+      },
+      "ML-DSA-65 sig bytes": 3309,
+      "ML-DSA-65 verify": {
+        "median_ms": 0.0482,
+        "mean_ms": 0.0504,
+        "iqr_ms": 0.0025,
+        "p95_ms": 0.0552,
+        "min_ms": 0.0479,
+        "n": 1000
+      },
+      "ML-KEM-768 encap": {
+        "median_ms": 0.015,
+        "mean_ms": 0.0157,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0178,
+        "min_ms": 0.0147,
+        "n": 1000
+      },
+      "ML-KEM-768 decap": {
+        "median_ms": 0.0168,
+        "mean_ms": 0.0175,
+        "iqr_ms": 0.0002,
+        "p95_ms": 0.0195,
+        "min_ms": 0.0165,
+        "n": 1000
+      },
+      "ML-KEM-768 ct bytes": 1088
+    }
+  ]
+}

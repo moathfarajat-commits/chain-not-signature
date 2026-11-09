@@ -1,0 +1,162 @@
+%% ---------------------------------------------------------------------------
+\section{Signing and verifying where resources are short}
+\label{sec:edge}
+
+A camera, a body-worn recorder or a field encoder signs on something closer to
+a Raspberry Pi~5 than to a laptop, and a doorbell or a sensor on something
+smaller still. This section measures both. The Pi is an application processor,
+not a secure element, and Section~\ref{sec:constrained} says what that leaves
+open.
+
+\subsection{Signing an encoded stream}
+\label{sec:edge-video}
+
+Cameras and encoders bind the encoded bitstream, not raw pixels, and C2PA
+binds video through hashes of ISO BMFF segments rather than per-frame
+signatures. C2PA~2.5 gives two methods for a live stream~\cite{c2pa25}. In the
+first, every segment carries a manifest of its own, with a BMFF hash of the
+segment, a live-video assertion carrying a sequence number and stream
+identifier, and a signature with the signer's chain. In the second, the
+stream's first manifest carries the chain and a session key bound to the
+signer, and each segment carries only a small Verifiable Segment Info map,
+its sequence number, hash and manifest identifier, signed by the session key.
+We signed real streams both ways on one core of the Pi~5: \NstreamSeconds{} seconds of 1080p30 H.264 at 12\,Mbit/s and of 4K30 HEVC at 40\,Mbit/s, in fragmented MP4 with one fragment per second, so that a segment of $k$ seconds is $k$ fragments and even six-second segments give \NstreamSixSegs{} per pass. As an upper bound we also signed every encoded frame with the
+chain attached, which C2PA does not define.
+
+\input{tables/stream}
+
+Table~\ref{tab:stream} gives the result. Time is not the constraint. From the moment a segment closes, hashing its last fragment and signing take at most \NstreamLatMax\,ms, and the 99th percentile of the whole per-segment work, every fragment's hash and the provenance built and signed, is at most \NstreamPnnMax\,ms, against segments of one to six seconds. Counting all of that work, either C2PA method uses at most \NstreamCpuMax\% of one core; signing every frame uses up to \NstreamFrameCpuMax\%. These are feasibility figures from \NstreamSamplesMin{} or more segments per configuration, not a characterisation of tail latency under load. What the method decides is bandwidth. Under
+ML-DSA-65 at 1080p, a manifest per one-second segment adds
+\NstreamManOneKbps\,kbit/s, \NstreamManOneShare\% of the video; the session-key
+method adds \NstreamVsiOneKbps\,kbit/s, \NstreamVsiOneShare\%, after a first
+manifest of \NstreamVsiInit{} bytes; and signing every frame adds
+\NstreamFrameOneKbps\,kbit/s, \NstreamFrameOneShare\% of the stream. Longer
+segments divide the per-segment cost but delay authentication: a player can
+check a segment only once it holds all of it, so verification lags capture by
+at least the segment length. The session key here uses the signer's
+algorithm, so the stream stays post-quantum end to end; a classical session
+key under a post-quantum signer would shrink each segment's signature and
+leave every segment forgeable by a quantum adversary.
+
+A verifier that knows which stream it is playing replayed each stream with ten manipulations (Table~\ref{tab:streamdetect} in the supplement). Under both C2PA methods it detected a dropped, reordered, replayed or substituted segment, bytes truncated within a segment, and a segment taken from another stream by the same signer: truncation and substitution by the hash, the cross-stream segment by its stream identifier, and the rest by the sequence number. Without the initial manifest a session-key stream cannot be verified at all, and segments signed under an expired session key are rejected. One manipulation is not detected: removing the last segments. A stream that stops early looks like one whose tail was cut, unless its length is announced in signed data or the player gives up after a timeout; with an announced length, the cut is caught. A per-segment signature without a sequence number would also have let the drop, reorder and replay through. The earlier raw-frame experiment,
+which hashed uncompressed YUV and signed every frame of 4K video for twenty minutes across ten configurations without a late frame or thermal throttling, remains in the supplement
+(Table~\ref{tab:video}) as the computational upper bound.
+
+\subsection{A verifier that reads its trust store from flash}
+\label{sec:edge-verify}
+
+A gateway or display device verifies against a local trust store. On the
+Pi~5 we verified manifests from 500 signers with leaf and intermediate
+embedded, and by thumbprint from a store held in memory and from the same
+store after the page cache was dropped, so that every certificate came off
+the SD card (Table~\ref{tab:edge} in the supplement). Once the certificates
+are in memory, embedded and referenced verification cost the same to within
+\NedgeWarmDiff\,ms, so carriage stays a question of bytes. A cold store is not
+free on flash: reading the signer's certificates from the card adds
+\NedgeColdEd\,ms to Ed25519 verification and \NedgeColdDSAsixtyfive\,ms to
+ML-DSA-65.
+
+\subsection{Credentials on a microcontroller}
+\label{sec:mcu}
+
+We signed and verified the same manifests on three microcontrollers and
+measured the energy, and the radio cost of each carriage form over Bluetooth
+LE. The Raspberry Pi Pico (RP2040, Cortex-M0+ at 125\,MHz, 264\,KiB of SRAM)
+runs PQClean's portable C; the NUCLEO-L4R5ZI (STM32L4R5, Cortex-M4F,
+640\,KiB) runs pqm4's assembly at 80\,MHz and at the 20\,MHz of pqm4's
+benchmarks; the nRF52840-DK (Cortex-M4F at 64\,MHz, 256\,KiB) runs the same
+objects and, for ES256 and SHA-256, its CryptoCell-310 through PSA Crypto.
+Ed25519 and ES256 use Monocypher and micro-ecc. Each board holds one
+manifest per algorithm in each carriage form; to verify, the firmware copies
+it into a receive buffer as if it had just arrived, decodes it, rebuilds the
+signed structure, checks the certificates up to the anchor in its trust store
+and checks the manifest signature. Energy comes from a Nordic PPK2 sampling at
+100\,kHz around marked batches of operations.
+
+\input{tables/mcu}
+
+\paragraph{Time fits the budget}
+On the slowest part, ML-DSA-44 and ML-DSA-65 verify faster than the classical schemes they replace, and ML-DSA-87 takes \NpicoChainDSAeightyseven\,ms (Table~\ref{tab:mcu}). The Pico checks an ML-DSA-44 manifest in
+\NpicoChainDSAfortyfour\,ms and an ML-DSA-65 manifest in
+\NpicoChainDSAsixtyfive, against \NpicoChainEd{} for Ed25519 and
+\NpicoChainES{} for ES256. That comparison is between implementations as much
+as algorithms, in the sense of Section~\ref{sec:backends}: Monocypher and
+micro-ecc are compact portable libraries, and assembly-optimised Ed25519 for
+the Cortex-M0 is faster than either~\cite{li2024m0}. At 20\,MHz the NUCLEO's
+ML-DSA-65 signs in a median of \NnucTwentySignMcycles{} million cycles, in
+line with pqm4's published counts~\cite{pqm4}. Signing takes
+\NnucSignDSAsixtyfive\,ms on the NUCLEO at 80\,MHz and \NnrfSignDSAsixtyfive\,ms
+on the nRF52840 for ML-DSA-65, a few frame periods at 30 frames per second,
+and \NnucSignStackDSAsixtyfive\,KiB of stack.
+
+Hardware support reverses the order. The CryptoCell-310 verifies an ES256
+manifest in \NnrfChainEShw\,ms against \NnrfChainES{} in software on the same
+chip, \NhwSpeedup{} times faster, which puts ES256 ahead of every ML-DSA
+level: ML-DSA-44 takes \NhwRatioDSAfortyfour{} times as long and ML-DSA-87
+\NhwRatioDSAeightyseven. The engine has no lattice support, so a product built
+on this part gives up its accelerator when it gives up ECDSA.
+
+\input{tables/mcucost}
+
+\paragraph{Memory and the radio}
+Memory is where post-quantum credentials press on these parts
+(Table~\ref{tab:mcucost} and Figure~\ref{fig:mcu}). On the NUCLEO, verifying
+an ML-DSA-87 manifest needs \NramRootDSAeightyseven\,KiB with the root
+carried, \NramChainDSAeightyseven\,KiB with leaf and intermediate,
+\NramLeafDSAeightyseven\,KiB with the leaf alone and
+\NramThumbDSAeightyseven\,KiB with a thumbprint; pqm4's verifier needs about
+12\,KiB of stack, so the received and rebuilt buffers are the largest item.
+The Pico's portable verifier needs \NramPicoDSAeightyseven\,KiB of its 264. On a
+Cortex-M4 the carriage form, not the parameter set, decides whether a
+verifier fits beside an application.
+
+\input{tables/radio}
+
+We measured the radio both ways between two nRF52840-DKs, each manifest form
+sent ten times per round in three rounds, with the measured board as sender
+and then as receiver (Table~\ref{tab:radio}). Energy grows in a straight line
+with the bytes: \NbleTxNj\,nJ a byte to send and \NbleRxNj\,nJ a byte to
+receive (95\% intervals \NbleTxNjLo--\NbleTxNjHi{} and
+\NbleRxNjLo--\NbleRxNjHi), fitted over \NbleTxN{} measured transfers from
+\NbleTxXmin{} to \NbleTxXmax{} bytes with $R^2$ of \NbleTxRsq; the largest residual is \NbleTxResUj\,$\mu$J sending and \NbleRxResUj\,$\mu$J receiving, large only relative to the smallest, thumbprint-sized transfers. The windows cover the connection events
+of a transfer, link-layer acknowledgements and any retransmissions, and the
+connected link's idle current between them, but not connection set-up or
+advertising. The radio pays for the carriage form directly. A receiver spends
+\NrecvMChainDSAeightyseven\,mJ on an ML-DSA-87 manifest with leaf and
+intermediate, \NrecvMLeafDSAeightyseven\,mJ on the leaf alone and
+\NrecvMThumbDSAeightyseven\,mJ on a thumbprint, and receiving the chained
+form costs \NrecvShareVerify\% of what verifying it costs on the same chip, so
+a battery-powered verifier pays for the chain twice, once to receive it and
+once to check it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/mcu}
+\Description{Two grouped bar charts by algorithm. Left: RAM needed to verify
+on the NUCLEO for four carriage forms; the ML-DSA bars fall from about 60 KiB
+with the root carried to under 20 KiB with a thumbprint. Right: measured energy for an nRF52840 to receive
+the manifest over Bluetooth LE in the same forms; ML-DSA-87 falls from about
+3 mJ to about half a millijoule.}
+\caption{Carriage form against verifier RAM on the NUCLEO-L4R5ZI
+(Table~\ref{tab:mcucost}) and against the measured energy an nRF52840 spends
+receiving the manifest (Table~\ref{tab:radio}).}
+\label{fig:mcu}
+\end{figure}
+
+\subsection{Secure elements}
+\label{sec:constrained}
+
+The devices signing the most photographs are phones, which sign inside secure
+elements, and no development board reproduces that. The measurements bound it
+from both sides: an application processor signs every frame with time to
+spare, and a Cortex-M4 needs a few frame periods and tens of kilobytes of
+stack per ML-DSA signature. ML-DSA offers a way to split the work. The
+external-$\mu$ variant lets the application processor hash the message
+together with the public key into the 64-byte $\mu$ that ML-DSA signs, so a
+secure element receives a fixed-size input whatever the message, and the
+certificate profile allows it~\cite{fips204,rfc9881}. In a C2PA manifest the
+signed message includes the protected header, and with it the embedded chain;
+external $\mu$ keeps the chain's bytes out of the secure element, which then
+does only the signing arithmetic instead of hashing tens of kilobytes streamed
+to it over a slow bus. Whether a secure element keeps
+up with burst capture remains to be measured.

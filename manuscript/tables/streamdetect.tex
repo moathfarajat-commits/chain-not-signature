@@ -1,0 +1,21 @@
+\begin{table}[ht]
+\caption{What a verifier detects when a signed stream is manipulated, for every algorithm, stream and segment length of Table~\ref{tab:stream}. The verifier checks each signature, the segment's hash, that sequence numbers advance by one, that each segment names the stream it is playing, and for VSI the session key's validity. \emph{gap} and \emph{order}: a sequence number skips or goes back; \emph{hash}: the segment's bytes do not match; \emph{foreign}: the segment names another stream; \emph{short}: fewer segments than announced. A stream that stops early is indistinguishable from one whose tail was removed unless its length is announced in signed data or the player times out.}
+\label{tab:streamdetect}
+\small
+\begin{tabular}{lll}
+\toprule
+Manipulation & Manifest per segment & VSI\\
+\midrule
+Segment dropped & gap & gap\\
+Segments reordered & gap, order & gap, order\\
+Bytes truncated within a segment & hash & hash\\
+Segment replayed in the same stream & order & order\\
+Segment content substituted & hash & hash\\
+Segment from another stream, same signer & foreign & foreign\\
+Last segments removed & undetected & undetected\\
+\quad with an announced length & short & short\\
+Initial manifest missing & n/a & no key, unverifiable\\
+Session key expired & n/a & rejected (expired)\\
+\bottomrule
+\end{tabular}
+\end{table}

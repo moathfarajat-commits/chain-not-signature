@@ -1,0 +1,10 @@
+  trust store: /tmp/trust-store-vig1biph
+liboqs-python faulthandler is disabled
+  liboqs backend: available
+  Ed25519 done (openssl)
+  PS256 done (openssl)
+  ML-DSA-65 done (liboqs)
+  ES256 done (openssl)
+  ML-DSA-44 done (liboqs)
+  ML-DSA-87 done (liboqs)
+  wrote out-x86-runs/run1/e1_verify.json  (6 rows)

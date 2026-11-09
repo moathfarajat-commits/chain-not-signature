@@ -1,0 +1,24 @@
+chain_fingerprint,alg,certificates_cn,certs_transmitted,root_transmitted,anchor_on_c2pa_list,anchor_is_leaf_issuer,groups,files,signatures
+eb4f07fbf0e72105,ES256,Truepic Lens CLI in DALL·E | WebClaimSigningCA,2,False,False,False,Microsoft; News publishers; OpenAI; Other,44,76
+059d714eea488027,ES256,Google Media Processing Services | Google C2PA Media Services 1P ICA G3,2,False,True,True,Google; Microsoft,21,63
+ad2e02cc81bcb0d6,PS256,Microsoft Corporation | Microsoft SCD Claimants RSA CA | Microsoft Supply Chain RSA Root CA 2022,3,True,False,False,Microsoft,61,62
+1ddad138a81fa08a,PS256,AGENCE FRANCE PRESSE,1,False,False,False,News publishers; Other,41,41
+b6a839803145b704,ES256,Pixel Camera | Google C2PA Mobile A 1P ICA G3 L3,2,False,True,False,Google,26,28
+ab2c59799757acd3,ES256,Pixel Camera | Google C2PA Mobile A 1P ICA G3 L4,2,False,True,False,Google; Microsoft,26,27
+1c5fcc3bc51f3092,ES256,Pixel Camera | Google C2PA Mobile A 1P ICA G3 L1,2,False,True,True,Google; Microsoft,24,25
+5fe1b974efe76da6,PS256,Adobe Firefly C2PA | Adobe Product Services G4,2,False,False,False,Adobe; News publishers,23,25
+e922dee41f67e089,ES256,Google Photos | Google C2PA Mobile A 1P ICA G3 L2,2,False,True,False,Google; Microsoft,21,21
+b2a7adf04c2f9f2a,PS256,OpenAI Media Service | SSL.com C2PA ICA R1 2025,2,False,True,False,OpenAI,13,13
+08a647bc2fb7134c,ES256,OpenAI Media Service | Trufo C2PA Claim Signing CA (2025),2,False,True,False,OpenAI,7,7
+4acf47494642c929,ES256,Microsoft Paint app User,1,False,False,False,Microsoft,5,7
+f03733b1c4875aa3,PS256,Comite International des Telecommunications de Presse | GlobalSign GCC R6 SMIME CA 2023,2,False,False,False,News publishers,7,7
+755a133dc7ae94cf,ES256,Sony Camera | Sony C2PA Intermediate CA G2,2,False,False,False,News publishers,1,6
+528189cafc11fa03,PS256,Adobe C2PA | Adobe Product Services G3,2,False,False,False,Adobe; News publishers,5,5
+fec7c0c8e04ae616,ES256,"OpenAI Media Service | Trufo C2PA Claim Signing CA (2025) | Trufo C2PA Root CA (2025, ECC P384)",3,True,True,False,OpenAI,3,3
+69bd84fb7a133599,ES256,vivo Camera | vivo C2PA Device CA1,2,False,True,False,Other,2,2
+9cea7f8da067c086,ES256,BBC | WebClaimSigningCA | RootCA,3,True,False,False,News publishers,2,2
+20b27601b5395ac6,ES256,LEICA M11-P | Leica C2PA M11-P CA,2,False,False,False,Other,1,1
+60064e71c0fb8908,ES256,[e-mail address],1,False,False,False,Other,1,1
+9e35df7169bc3f05,PS256,C2PA Signer | Intermediate CA | Root CA,3,True,False,False,News publishers,1,1
+a1d0be37c2988d7f,ES256,Truepic Lens SDK v1.5.0 in Vision Camera v3.8.2.543 | IOSClaimSigningCA,2,False,False,False,News publishers,1,1
+b288c76e51da3a3a,PS256,cbc.ca | cbc.ca,2,False,False,False,News publishers,1,1

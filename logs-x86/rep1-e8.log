@@ -1,0 +1,47 @@
+liboqs-python faulthandler is disabled
+  Ed25519: 500 publishers, 2000 manifests
+    uncached       workers=1         2370/s  x 1.00
+    uncached       workers=2         4601/s  x 1.94
+    cached         workers=1         7101/s  x 1.00
+    cached         workers=2        13812/s  x 1.95
+  PS256: 500 publishers, 2000 manifests
+    uncached       workers=1         6422/s  x 1.00
+    uncached       workers=2        12901/s  x 2.01
+    cached         workers=1        26566/s  x 1.00
+    cached         workers=2        47695/s  x 1.80
+  ML-DSA-65: 500 publishers, 2000 manifests
+    uncached       workers=1         1470/s  x 1.00
+    uncached       workers=2         2859/s  x 1.94
+    cached         workers=1         4327/s  x 1.00
+    cached         workers=2         8092/s  x 1.87
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1        13157/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2        24589/s  x 1.87
+  ES256: 500 publishers, 2000 manifests
+    uncached       workers=1         2713/s  x 1.00
+    uncached       workers=2         5338/s  x 1.97
+    cached         workers=1        10138/s  x 1.00
+    cached         workers=2        18501/s  x 1.82
+  ML-DSA-44: 500 publishers, 2000 manifests
+    uncached       workers=1         2144/s  x 1.00
+    uncached       workers=2         4159/s  x 1.94
+    cached         workers=1         6515/s  x 1.00
+    cached         workers=2        12400/s  x 1.90
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1        20006/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2        32616/s  x 1.63
+  ML-DSA-87: 500 publishers, 2000 manifests
+    uncached       workers=1         1000/s  x 1.00
+    uncached       workers=2         1940/s  x 1.94
+    cached         workers=1         2830/s  x 1.00
+    cached         workers=2         5322/s  x 1.88
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=1         9940/s  x 1.00
+liboqs-python faulthandler is disabled
+liboqs-python faulthandler is disabled
+    cached-liboqs  workers=2        17535/s  x 1.76
+  wrote out-x86-runs/run1/e8_scale.json  (30 rows)

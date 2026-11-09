@@ -1,0 +1,96 @@
+{
+  "active_manifest": "urn:c2pa:89f882f6-593a-4665-a476-371144d50e81",
+  "manifests": {
+    "urn:c2pa:89f882f6-593a-4665-a476-371144d50e81": {
+      "claim_generator_info": [
+        {
+          "name": "line-a-validation",
+          "version": "1",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        }
+      ],
+      "title": "line-a.jpg",
+      "instance_id": "xmp.iid:425cd446-367c-47f9-a1de-53fd9efa40f2",
+      "assertions": [
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+              }
+            ]
+          },
+          "created": true
+        }
+      ],
+      "signature_info": {
+        "alg": "Es256",
+        "issuer": "Line A test PKI",
+        "common_name": "es256 tseku signer",
+        "cert_serial_number": "185986432585865207987579987647422795706500107315",
+        "time": "2026-11-03T06:29:59+00:00"
+      },
+      "label": "urn:c2pa:89f882f6-593a-4665-a476-371144d50e81",
+      "claim_version": 2
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "timeStamp.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "timestamp message digest matched: es256 tsa signer"
+        },
+        {
+          "code": "timeStamp.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "timestamp cert trusted: es256 tsa signer, trust list: system_anchors"
+        },
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.assertions/c2pa.hash.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+        },
+        {
+          "code": "assertion.dataHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.assertions/c2pa.hash.data",
+          "explanation": "data hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:89f882f6-593a-4665-a476-371144d50e81/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        }
+      ],
+      "failure": []
+    },
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Trusted"
+}
