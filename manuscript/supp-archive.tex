@@ -1,39 +1,15 @@
-%% ---------------------------------------------------------------------------
-\section{Re-signing an archive}
-\label{sec:resign}
-
-Every measurement so far is of one object, and nobody migrates one object. A
-hospital's imaging store, a broadcaster's library or a newsroom's photo
-archive holds millions of assets signed under RSA or ECDSA, and NIST's draft
-transition timeline, which proposes deprecating quantum-vulnerable signatures
-after 2030 and disallowing them after 2035~\cite{nist_ir8547}, turns
-re-signing them into a scheduled job. The question asked in that room is how
-many machines, for how long.
-
-\subsection{What a renewal must preserve}
-\label{sec:renewal}
-
-A new signature over an old image does not carry the old signer's
-attestation forward by itself. The original manifest says that a particular
-camera or newsroom, holding a particular certificate, made a claim at a
-particular time; a post-quantum signature by the archive says only that the
-archive held these bytes. Renewal therefore has to sign over the evidence, not
-just the content: the asset's hash, the original manifest including its
-signature, the certificate path and the timestamp that dated it, and whatever
-revocation status was available, all bound under a new post-quantum timestamp.
-That is what Evidence Record Syntax does for archived data~\cite{rfc4998} and
-what ETSI's long-term signature formats do for signed
-documents~\cite{etsi319102}, and in C2PA terms it is a new manifest that takes
-the original as an ingredient. It has to happen while the original evidence
-can still be checked, before the classical algorithm is broken or its
-certificates expire unrenewed; a renewal made after a forger could have
-produced the original proves nothing about it. The model below covers only the computation common to both readings, a hash of the asset and a signature over a new claim. A complete renewal adds terms it leaves out: validating the original evidence (path, signature, timestamp and revocation status, Section~\ref{sec:verifytime}), serialising and hashing that evidence as an ingredient, obtaining and checking a new timestamp from a time-stamping authority, which is a network round trip per asset or per batch, and writing the renewed asset durably. Each is per asset and independent of the signature algorithm except the validation, whose post-quantum cost Section~\ref{sec:verifytime} gives, so the figures below are a lower bound on renewal and the full cost of the hash-and-sign step.
-
+%% Supplement S2: re-signing an archive (moved from the paper).
+Section~\ref{sec:renewal} of the paper sets out what a renewal must preserve.
+This section measures the computation it shares with every reading of that
+requirement, hashing the asset and signing a new claim, and leaves out
+validating the original evidence, serialising it as an ingredient, obtaining a
+new timestamp and writing the result.
 \subsection{A model with no fitted parameters}
 
 Per asset the work splits in two. Hashing the bytes for the hard binding
 scales with the file; building the claim, signing it and assembling the
 manifest does not. So
+\renewcommand{\theequation}{S\arabic{equation}}
 \begin{equation}
 t(s) = a + s/h
 \label{eq:resign}
@@ -52,13 +28,13 @@ crossover column is the operational result, the file size at which hashing
 costs as much as everything else. At ES256 it is \NarchCrossES\,KiB, so almost
 every stored photograph is hash-bound today; under ML-DSA it moves to between
 \NarchCrossLo{} and \NarchCrossHi\,MiB, past a web image and short of a camera
-JPEG. Through the unoptimised build of Section~\ref{sec:backends} it lands past every photographic profile and would tell an operator the opposite of the truth about a camera archive. The held-out error is largest for ML-DSA-44, \NarchHeldDSAfortyfour\% against \NarchHeldDSAsixtyfive{} and \NarchHeldDSAeightyseven\% for the larger sets, and it follows the spread of the fixed cost rather than the parameter set: in our runs ML-DSA-44's signing time had an interquartile range of \NarchIqrRelDSAfortyfour{} times its median and a mean \NarchTailOfDSAfortyfour{} times the median, the widest of the three, so the median timed for each held-out image, over its own set of signatures, lands further from the fixed-cost median the model uses. The next subsection shows the same tail at batch scale.
+JPEG. Through the unoptimised build of Section~\ref{sec:supp-impl} it lands past a camera JPEG and would tell an operator the opposite of the truth about a camera archive. The held-out error is largest for ML-DSA-44, \NarchHeldDSAfortyfour\% against \NarchHeldDSAsixtyfive{} and \NarchHeldDSAeightyseven\% for the larger sets, and it follows the spread of the fixed cost rather than the parameter set: in our runs ML-DSA-44's signing time had an interquartile range of \NarchIqrRelDSAfortyfour{} times its median and a mean \NarchTailOfDSAfortyfour{} times the median, the widest of the three, so the median timed for each held-out image, over its own set of signatures, lands further from the fixed-cost median the model uses. The next subsection shows the same tail at batch scale.
 
 \subsection{Where the model breaks, and why}
 
 
 
-Table~\ref{tab:archivebatch} in the supplement runs 4,800 assets across worker processes and
+Table~\ref{tab:archivebatch} runs 4,800 assets across worker processes and
 asks whether the per-asset model predicts the batch. For ES256 it does, to about \NarchErrOneES\% at one worker. For ML-DSA-65 it is wrong by
 \NarchErrOneDSAsixtyfive\% \emph{at one worker}, where there is no contention
 to blame. The cause is the statistic. ML-DSA signing uses rejection sampling,
@@ -77,8 +53,7 @@ Both models fail together at \NarchMaxWorkers{} workers on the M1 Pro, by \Narch
 are joined by two efficiency cores. The Pi~5's four cores are identical, so we repeated the batch there, \NarchPiRuns{} times. For ML-DSA-65 its median model errs by \NarchPiErrOneDSAsixtyfive\% at one worker (\NarchPiErrOneDSAsixtyfiveLo--\NarchPiErrOneDSAsixtyfiveHi\% across runs) and its mean model by \NarchPiErrMeanOneDSAsixtyfive\% (\NarchPiErrMeanOneDSAsixtyfiveLo--\NarchPiErrMeanOneDSAsixtyfiveHi\%), the same pattern, and at four workers the mean model errs by \NarchPiErrMeanMaxDSAsixtyfive\% (\NarchPiErrMeanMaxDSAsixtyfiveLo--\NarchPiErrMeanMaxDSAsixtyfiveHi\%) with a parallel efficiency of \NarchPiEffMaxDSAsixtyfive. On a machine without mixed cores the mean model holds for ML-DSA at every worker count, within \NarchPiErrMeanAllMaxDSAsixtyfive\% in every run. ES256 is less stable at four workers, \NarchPiErrMeanMaxESLo{} to \NarchPiErrMeanMaxESHi\% across runs, because its whole batch there takes a quarter of a second, so anything outside the per-asset model, such as starting the workers, weighs heavily.
 
 Carried past what was measured, at the parallel efficiency observed on small
-images, the model gives computation-only estimates (Table~\ref{tab:archiveproj}
-in the supplement). For a million camera photographs re-signing adds about two
+images, the model gives computation-only estimates (Table~\ref{tab:archiveproj}). For a million camera photographs re-signing adds about two
 minutes to five on one machine, and for radiology series it disappears into
 three hours of hashing. These leave out reading each asset from storage once,
 memory bandwidth and storage traffic, which will set the real schedule for

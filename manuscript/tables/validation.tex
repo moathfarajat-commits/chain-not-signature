@@ -1,38 +1,37 @@
 \begin{table*}[t]
-\caption{Validation through the reference implementation, \texttt{c2pa-rs} at commit \texttt{e2ad88e} with our RFC~9964 patch: a selection of the 40 cases; Table~\ref{tab:valfull} in the supplement lists every case for every algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a reader error; SR means the library refused to sign, and \emph{direct} gives the result for a COSE structure our harness built with the same certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA appears twice: with the signing patch alone (p1), path validation has no ML-DSA mapping and no chain becomes Trusted; p2 adds it. \emph{TST} is the timestamp's own status under p2: t trusted, m imprint mismatch, u untrusted; a mismatched or untrusted timestamp is ignored and the signer is judged at the current time. Unless the row says otherwise the time-stamping authority is ES256; the indented rows use an ML-DSA-65 authority and anchor. Bold marks a departure from the specification ($^\dagger$; both also occur in the unmodified library).}
+\caption{Validation through the reference implementation, \texttt{c2pa-rs} at commit \texttt{e2ad88e} with our RFC~9964 patch: a selection of the 40 cases; Table~\ref{tab:valfull} in the supplement lists every case for every algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a reader error; SR means the library refused to sign, and \emph{direct} gives the result for a COSE structure our harness built with the same certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA results are with both patches (p2); with the signing patch alone no ML-DSA chain becomes Trusted (Table~\ref{tab:valfull}). \emph{TST} is the timestamp's own status: t trusted, m imprint mismatch, u untrusted; a mismatched or untrusted timestamp is ignored and the signer is judged at the current time. Unless the row says otherwise the time-stamping authority is ES256; the indented rows use an ML-DSA-65 authority and anchor. Bold marks a departure from the specification ($^\dagger$); the \emph{revoked} OCSP row follows the specification (Section~\ref{sec:findings}). Both departures also occur in the unmodified library.}
 \label{tab:validation}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{llcccc}
+\begin{tabular}{llccc}
 \toprule
- & & ES256, & \multicolumn{2}{c}{ML-DSA-44/65/87} & \\
-\cmidrule(lr){4-5}
-Case & Expected & Ed25519 & p1 & p2 & TST\\
+ & & ES256, & ML-DSA & \\
+Case & Expected & Ed25519 & 44/65/87 & TST\\
 \midrule
-Leaf and intermediate & T & T & \textbf{V} & T & --\\
-\quad timestamped & T & T & \textbf{V} & T & t\\
-Leaf, intermediate, root & T & T & \textbf{V} & T & t\\
-Leaf only, issuer is anchor & T & T & \textbf{V} & T & t\\
-Leaf only, intermediate missing & not T & V & V & V & t\\
-Unknown anchor & not T & V & V & V & t\\
-Thumbprint (\texttt{x5t}) & not T & E & E & E & --\\
-Leaf EKU serverAuth & refused & SR (direct I) & SR (direct I) & SR (direct I) & -- (direct --)\\
-Leaf EKU timeStamping only$^\dagger$ & not T & \textbf{T} & V & \textbf{T} & t\\
-COSE algorithm $\neq$ key (ML-DSA-44 only) & I & I & I & I & --\\
-Image changed after signing & I & I & I & I & t\\
-Signature bit flipped & I & I & I & I & m\\
-Expired leaf, timestamp inside validity & T & T & \textbf{V} & T & t\\
-Expired leaf, no timestamp & not T & I & I & I & --\\
-Expired leaf, timestamp over other data & not T & I & I & I & m\\
-Expired leaf, TSA not trusted & not T & I & I & I & u\\
-Timestamp over other data & T & T & \textbf{V} & T & m\\
-TSA not trusted & T & T & \textbf{V} & T & u\\
-TSA certificate lacks timeStamping$^\dagger$ & T & \textbf{I} & \textbf{I} & \textbf{I} & u\\
-ML-DSA-65 TSA & T & T & \textbf{V} & T & t\\
-\quad timestamp over other data & T & T & \textbf{V} & T & m\\
-\quad expired leaf, timestamp inside validity & T & T & \textbf{I} & T & t\\
-OCSP, CA-signed, revoked & T & T & \textbf{V} & T & t\\
-OCSP, delegated responder, revoked & not T & I & V & I & t\\
+Leaf and intermediate & T & T & T & --\\
+\quad timestamped & T & T & T & t\\
+Leaf, intermediate, root & T & T & T & t\\
+Leaf only, issuer is anchor & T & T & T & t\\
+Leaf only, intermediate missing & not T & V & V & t\\
+Unknown anchor & not T & V & V & t\\
+Thumbprint (\texttt{x5t}) & not T & E & E & --\\
+Leaf EKU serverAuth & refused & SR (direct I) & SR (direct I) & -- (direct --)\\
+Leaf EKU timeStamping only$^\dagger$ & not T & \textbf{T} & \textbf{T} & t\\
+COSE algorithm $\neq$ key (ML-DSA-44 only) & I & I & I & --\\
+Image changed after signing & I & I & I & t\\
+Signature bit flipped & I & I & I & m\\
+Expired leaf, timestamp inside validity & T & T & T & t\\
+Expired leaf, no timestamp & not T & I & I & --\\
+Expired leaf, timestamp over other data & not T & I & I & m\\
+Expired leaf, TSA not trusted & not T & I & I & u\\
+Timestamp over other data & T & T & T & m\\
+TSA not trusted & T & T & T & u\\
+TSA certificate lacks timeStamping$^\dagger$ & T & \textbf{I} & \textbf{I} & u\\
+ML-DSA-65 TSA & T & T & T & t\\
+\quad timestamp over other data & T & T & T & m\\
+\quad expired leaf, timestamp inside validity & T & T & T & t\\
+OCSP, CA-signed, revoked & T & T & T & t\\
+OCSP, delegated responder, revoked & not T & I & I & t\\
 \bottomrule
 \end{tabular}
 \end{table*}

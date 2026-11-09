@@ -2,84 +2,104 @@
 \section{Introduction}
 \label{sec:intro}
 
-Content provenance has moved out of the proposal stage. Cameras ship with
-signing built in~\cite{cai2023leica,sony2024c2pa}, phones attach content
-credentials of their own~\cite{samsung2025s25,google2025pixel}, and editing
-tools record what they changed in a signed manifest that travels inside the
-file. The mechanism behind all of it is a digital signature over a claim about
-the content, and the signatures in use are RSA-PSS and ECDSA.
+Content provenance has left the proposal stage. Cameras sign at
+capture~\cite{cai2023leica,sony2024c2pa}, phones attach content credentials of
+their own~\cite{samsung2025s25,google2025pixel}, and editing tools record what
+they changed in a signed C2PA manifest that travels inside the file. Each
+credential rests on a COSE signature over a claim about the content and on an
+X.509 certificate path from the signer to an anchor on the C2PA trust list,
+and every signature in it, on the claim, on the certificates and on the
+timestamp, is RSA or ECDSA. A cryptographically relevant quantum computer
+breaks all of them~\cite{shor1997}, and the PKI being built for credentials
+today will still be in service when one arrives: the roots on the C2PA trust list are issued for
+a median of \NtlRootYearsMed{} years, most of them into the 2040s and 2050s.
 
-Shor's algorithm breaks both~\cite{shor1997}. A photograph signed today
-carries a proof of origin that a sufficiently capable quantum computer can
-forge, and a photograph is an object with a long life. The replacements exist.
-NIST standardised ML-DSA and SLH-DSA in 2024~\cite{fips204,fips205},
-RFC~9964 assigned the COSE identifiers that let an ML-DSA signature appear in
-a manifest~\cite{rfc9964}, RFC~9881 the identifiers for ML-DSA
-certificates~\cite{rfc9881}, and in October 2026 version 2.5 of the C2PA
-specification added ML-DSA-44, 65 and 87 to the signature algorithms a
-manifest may use~\cite{c2pa25}. The reference implementation had not followed
-by the time of writing~\cite{c2pars}.
+The replacements exist. NIST standardised ML-DSA and SLH-DSA in
+2024~\cite{fips204,fips205}; RFC~9964 assigned the COSE identifiers that let an
+ML-DSA signature appear in a manifest~\cite{rfc9964} and RFC~9881 those for
+ML-DSA certificates~\cite{rfc9881}; and in October 2026 version~2.5 of the
+C2PA specification admitted ML-DSA-44, 65 and 87~\cite{c2pa25}. The reference
+implementation had not followed by the time of writing~\cite{c2pars}. To our
+knowledge nobody has measured what the change does to a credential, and the published
+discussion of post-quantum image authenticity proposes new
+schemes~\cite{iavich2025pqveritas,alkhatib2025deepfake} rather than pricing the
+one that ships.
 
-What has not been published is the bill. Knowing that ML-DSA-65 produces a
-3,309-byte signature does not tell an operator what happens to a photograph,
-a camera roll, a video stream or an archive. Post-quantum signatures have been
-proposed for image authenticity outside the format cameras use~\cite{%
-iavich2025pqveritas,alkhatib2025deepfake}, and a commercial SDK now advertises ML-DSA signing of AI-generated content as
-quantum-resistant provenance~\cite{certivu2026}, but no measurement of the
-credential has been published, and the credential is where most of the bytes
-turn out to be.
+\paragraph{Research question}
+This paper asks what admitting ML-DSA costs a conformant C2PA content
+credential, where that cost sits, and which choices the specification already
+allows reduce it without weakening what a verifier can establish. We break the
+question into three parts.
+\begin{itemize}
+\item[\textbf{RQ1}] How large and how slow is a conformant post-quantum
+credential, timestamped and with revocation evidence, and what does it add to
+the files that signers actually publish?
+\item[\textbf{RQ2}] Which carriage, trust-list and verifier choices recover
+that cost, on servers and on constrained devices, and what does each give up?
+\item[\textbf{RQ3}] Is a migrated credential sound: which partial migrations
+leave it forgeable, and does the reference implementation enforce what a
+migration relies on, that time-stamping keys cannot attribute content, that
+timestamps are judged as the specification says, and that revoked signers stay
+revoked?
+\end{itemize}
 
-This paper measures it, for the configuration C2PA~2.5 now permits. We build
-manifests under ML-DSA, SLH-DSA, Falcon and composite signatures and under the
-classical algorithms deployed today, sign and validate them through a patched
-copy of the reference implementation, and measure size, signing and
-validation on a laptop and a small cloud server, a Raspberry Pi~5 signing encoded
-video, and three microcontrollers sending manifests over Bluetooth LE.
+Size is a security question here, not only a performance one. A credential
+that outgrows the space a generator reserves forces a second timestamp request
+on every capture; a verifier that cannot hold the chain is pushed towards
+thumbprints, which an offline verifier cannot resolve; and a migration that
+moves the leaf but not its issuer or its time-stamping authority produces
+credentials that look post-quantum and remain forgeable. Which of the cheaper
+options stay sound is what the three questions together decide. We measure
+application processors, a single-board computer and microcontrollers; the
+secure elements in which phones sign are outside what we could measure, and
+Section~\ref{sec:constrained} discusses them.
 
-\paragraph{What is new, and what is not}
-Certificate chains dominating a post-quantum handshake is not a discovery. The
-TLS community established it years ago~\cite{sikeridis2020ndss,%
-sikeridis2020conext,sosnowski2023} and has been working on remedies ever
-since, from cached information~\cite{rfc7924} and abridged
-compression~\cite{certabridge} to Merkle Tree
-Certificates~\cite{merkletreecerts}. Section~\ref{sec:related-tls} says what
-transfers to manifests. What this paper contributes is the measurement for
-manifests, where four things differ from TLS: the cost is paid per object
-rather than per connection, nothing is negotiated between signer and
-verifier, some verifiers are offline for good, and C2PA operates a trust list
-whose anchors include issuing CAs as well as roots, which is what makes the
-cheapest carriage form conformant.
+\paragraph{What is known, and what is new}
+That certificate chains, not handshake signatures, dominate post-quantum
+authentication is established for TLS~\cite{sikeridis2020ndss,paquin2020,%
+sosnowski2023,westerbaan2021}, and the TLS remedies avoid sending or
+signing what the verifier could already hold or
+check~\cite{kampanakis2022scas,certabridge,merkletreecerts,schwabe2020kemtls}.
+We confirm the structural result for manifests and do not claim it. What is
+new is what changes when the signed object is a file rather than a connection.
+A manifest pays for its chain once per object and keeps it for the life of the
+file. Nothing is negotiated, so the carriage form is a policy every verifier
+must accept. Some verifiers are offline for good. And C2PA runs its own trust
+lists, whose anchors include issuing CAs as well as roots, so a signer under a
+listed issuer can omit its intermediate with no new mechanism, under a reading
+of the specification that the reference implementation already accepts. These differences
+decide which remedies carry over. We measure them, and what the reference
+implementation accepts.
 
 \paragraph{Contributions}
 \begin{itemize}
-\item A measurement of post-quantum content credentials inside the C2PA
-stack, against the two classical algorithms deployed signers use, for the chain
-form the specification requires and for the complete timestamped manifest, in
-bytes, signing time and validation time. Certificates rather than signatures
-carry the cost across ML-DSA, SLH-DSA, Falcon and composite signatures
-(Sections~\ref{sec:cost} and~\ref{sec:verifytime}).
-
-\item Four ways to carry the signer, with the condition under which the
-cheapest conformant one applies, checked against the live C2PA trust list and
-against production-signed assets, and a validation matrix of
-\Nvalcases{} cases through the patched reference implementation that finds
-two departures from the specification (Sections~\ref{sec:patch},
-\ref{sec:prodchains} and~\ref{sec:carrying}).
-
-\item Signing and verifying where resources are short: encoded H.264 and HEVC
-streams signed on a Raspberry Pi~5 by the two live-video methods of C2PA~2.5,
-with a per-frame signature as an upper bound, and verification, memory,
-energy and radio cost on three microcontrollers
-(Section~\ref{sec:edge}).
-
-\item Evidence that implementation and build outweigh the choice of parameter
-set, including a widely installed OpenSSL build that ran every post-quantum
-primitive about ten times slow, an audit in which \NauditBoth{} of \NauditN{} applied post-quantum timing studies report both the compiler and an explicit optimisation level, and a
-capacity model for re-signing an archive whose error traces to reporting
-medians for a heavy-tailed operation (Sections~\ref{sec:backends}
-and~\ref{sec:resign}).
+\item \emph{The cost, on real files (RQ1).} A measurement of ML-DSA, SLH-DSA,
+Falcon and composite credentials against the ES256 and PS256 credentials
+signers ship, in bytes, signing and validation time, with and without a
+timestamp and stapled revocation evidence. A closed-form model reproduces the
+measured manifests of \NmodelN{} schemes to within \NmodelErrMax\%, so the
+sizes extend to other schemes by substitution, and substituting our measured
+ML-DSA-65 components into \NcpqFiles{} production-signed files from
+\NcorpProdGens{} signing applications estimates what the migration adds to
+real files (Section~\ref{sec:cost}).
+\item \emph{What recovers the cost (RQ2).} Leaf-only carriage for signers and,
+to our knowledge for the first time, for time-stamping authorities, checked
+against both live C2PA trust lists, the production chains and the reference
+implementation, with what it gives up; how a cache of validated signers must
+be keyed to stay sound; and what the carriage form costs constrained
+verifiers in memory and radio energy, and the live-video method a constrained
+signer (Sections~\ref{sec:carrying} and~\ref{sec:edge}).
+\item \emph{Whether a migrated credential is sound (RQ3).} A migration-order
+analysis showing which partial migrations leave credentials forgeable, and a
+conformance matrix of \Nvalcases{} cases through the reference implementation,
+patched to sign and validate ML-DSA, including a fully post-quantum credential
+with a post-quantum timestamp. The matrix finds that time-stamping and
+OCSP-signing certificates are accepted as claim signers, that a timestamp the
+specification says to ignore invalidates the whole manifest instead, and that
+revocation stapled in a CA-signed OCSP response, a form RFC~6960 allows and
+C2PA excludes, has no effect (Section~\ref{sec:findings}).
 \end{itemize}
-
-Every script, raw measurement, generated certificate and manifest, firmware
-image and patch is released, and every table and every number in the text is
-generated from the released measurements rather than transcribed.
+Section~\ref{sec:discussion} turns the results into recommendations for CAs,
+claim generators, validators and the specification. Every script, raw
+measurement, generated certificate, firmware image and patch is released, and
+every number in the text is generated from the released measurements.

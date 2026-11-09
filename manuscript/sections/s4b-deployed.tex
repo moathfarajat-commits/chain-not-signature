@@ -5,7 +5,7 @@ The configuration costed so far is ours, and a reader is entitled to ask what
 signers actually ship. We read the signatures out of \NcorpProdAssets{} files
 signed by production software, \NcorpProdGens{} signing applications from
 camera and phone makers, AI image services, editing tools and news
-publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples and public datasets, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once. \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
+publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples, public datasets and vendor posts, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once. \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
 
 \input{tables/corpus}
 
@@ -18,20 +18,27 @@ conformance test looks like, not what signers emit.
 \emph{ECDSA leads, and RSA is far from gone.} Of the
 \NcorpProdChains{} distinct production chains, \NcorpProdEs{} sign with ES256
 and \NcorpProdPs{} with PS256, and \NcorpProdSigEs{} of the
-\NcorpProdSigs{} signatures are ES256. Newer signers, among them Google's
-phones and media services and OpenAI's image service, use ES256; RSA persists
-in Adobe's tools, Microsoft's image service and most newsrooms. Both are
+\NcorpProdSigs{} signatures are ES256. Google's phones and media services use
+ES256 and OpenAI's image service uses both; RSA, mostly 2048-bit, persists in
+Adobe's tools, Microsoft's image service and most newsrooms. Both are
 therefore the baseline, and Table~\ref{tab:pq} reports growth against each.
 
 \emph{Depth is three, and the root mostly stays out.} Signers carry the leaf and one intermediate in \NcorpProdTwoCert{} of the \NcorpProdChains{} chains; \NcorpProdRoot{} of the
 \NcorpProdChains{} still carry the root, which the specification says to
-leave out. The median chain carried is \NcorpProdChainMed{} bytes.
+leave out, and \NcorpProdOneCert{} carry the leaf alone, none of them with an
+issuer on the trust list, so no validator using that list can take them to
+\emph{Trusted}. The median chain carried is \NcorpProdChainMed{}
+bytes.
 
 \emph{The leaf-only condition already holds for some signers.}
 \NcorpProdListed{} of the \NcorpProdChains{} chains end at an anchor on the
 C2PA trust list, which was established in 2025 and does not yet cover many
-earlier signers. For \NcorpProdIssuer{} of them, both Google's (they also appear in the Microsoft row, through Pixel images edited there), the CA that issued the leaf is itself the anchor, so carrying the leaf alone would already
-be conformant and would save one path signature at no cost in trust.
+earlier signers. Two of them, both Google's, are issued directly by a listed
+anchor, so the path a validator checks is already one signature; they also
+appear in the Microsoft row because Pixel images were edited there. Both still
+carry that anchor beside the leaf, which the specification says not to
+include, and dropping it would make them leaf-only and save about 730 bytes
+each.
 
 \emph{Timestamps and revocation are the ordinary case.} \NcorpProdTs{} of the
 \NcorpProdSigs{} production signatures carry an RFC~3161 token, of
@@ -50,3 +57,24 @@ integer label~33 in the protected bucket, as C2PA~2.5 says generators shall;
 the rest use the deprecated string label in the unprotected bucket, all but
 \NcorpProdVtwoString{} of them in version-1 claims, which validators must
 still accept.
+
+\emph{What ML-DSA-65 would add to these files.} Because size is additive in
+the components (Equation~\ref{eq:size}), the migration can be priced on the
+files themselves. For each of the \NcpqFiles{} production files we kept
+everything it carries, claims, assertions, ingredients, thumbnails and the
+number of certificates each signer and each time-stamping authority sends, and
+replaced every signature, carried certificate and timestamp token with our
+measured ML-DSA-65 counterpart of the same role, so production names and
+extensions give way to our profile. Stapled OCSP responses, whose size the
+files do not expose, were left classical, which understates the growth of the
+signatures that carry one. The median file is \NcpqFileMedMB\,MB; the median
+growth is \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and the median
+manifest store grows by a factor of \NcpqStoreGrowth. The median hides the
+tail: files with several signatures, such as edited images that keep their
+ingredients' credentials, grow by up to \NcpqAddMaxkB\,kB, and
+\NcpqOverTen{} of the \NcpqFiles{} files would grow by more than a tenth
+(90th percentile \NcpqPctPNinety\%). \NcpqOverTenTop{} of them are generated
+images of about 200\,kB from one AI image service; among the other
+\NcpqFilesOther{} files, \NcpqOverTenOther{} grow that much. For the services that sign small images
+at volume, the post-quantum credential is a double-digit share of every file
+they serve. The released data list every file.

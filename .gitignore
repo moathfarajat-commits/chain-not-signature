@@ -1,6 +1,6 @@
 .venv/
-/certs/
-/images/
+certs/
+images/
 out/signed/
 __pycache__/
 manuscript/*.aux
@@ -11,9 +11,3 @@ manuscript/*.fls
 manuscript/*.log
 manuscript/*.out
 manuscript/comment.cut
-.DS_Store
-._*
-out/*
-!out/README.md
-manuscript/*.pdf
-manuscript/*.synctex.gz

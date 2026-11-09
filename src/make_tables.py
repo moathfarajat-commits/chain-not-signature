@@ -519,7 +519,9 @@ def tab_platforms():
         if not f.endswith(".json") or f in ("e1_c2parust.json", "e1_prodchains.json",
                                              "e1_libsize.json", "e1_corpus.json",
                                              "e1_profile.json", "e1_validation.json",
-                                             "e1_cache_stale.json", "e1_composite_and.json"):
+                                             "e1_cache_stale.json", "e1_composite_and.json",
+                                             "e1_corpus_pq.json", "e1_trustlist.json",
+                                             "e1_validation_extra.json"):
             continue
         try:
             e = json.load(open(os.path.join(d, f)))["env"]
@@ -545,7 +547,7 @@ def tab_platforms():
         r"hardware instructions the CPU advertises. \emph{OpenSSL} is the "
         r"optimisation level recorded in the OpenSSL that \texttt{cryptography} "
         r"links, read from the compiler line OpenSSL embeds in itself; "
-        r"Section~\ref{sec:backends} explains why it is reported.}",
+        r"Section~\ref{sec:supp-impl} of the supplement explains why it is reported.}",
         r"\label{tab:platforms}",
         r"\small",
         r"\begin{tabular}{p{3.4cm}lp{2.6cm}p{3.2cm}l}",

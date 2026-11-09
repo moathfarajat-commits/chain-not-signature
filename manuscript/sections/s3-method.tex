@@ -2,152 +2,183 @@
 \section{Method}
 \label{sec:method}
 
-\subsection{Images, platforms and libraries}
+\subsection{Platforms, libraries and builds}
 
-The image corpus is the 24-image Kodak set~\cite{kodak} at JPEG quality 90,
-77 to 188\,kB. Kodak images are far smaller than a modern camera produces, and
-Section~\ref{sec:denominator} reports cost against file size rather than
-against them alone.
-
-The platforms in Table~\ref{tab:platforms} span where content credentials are
-signed and verified. A creator's own machine signs at capture or export
-(Apple M1 Pro). A cloud service signs and verifies on behalf of many users
-inside a virtual machine (a two-core Intel Xeon VM). A camera or edge encoder
-signs under a power budget, for which a Raspberry Pi~5 stands in: four
-Cortex-A76 cores at a fixed 2.4\,GHz under the performance governor, Raspberry
-Pi OS on Debian~13, Linux~6.18, with the work pinned to one core and the
-telemetry on the others. Its power-management IC reports voltage and current
-per supply rail, which we sum once a second, so its figures are rail power
-rather than wall power. Battery-powered verifiers run on microcontrollers; the
-three of Section~\ref{sec:mcu} are described there. A figure from one platform
-does not transfer to another.
+The platforms in Table~\ref{tab:platforms} span where credentials are signed
+and verified. A creator's machine signs at capture or export (Apple M1 Pro). A
+cloud service signs and verifies for many users inside a virtual machine (a
+small, two-vCPU Intel Xeon VM). A camera or edge encoder signs under a power
+budget, for which a Raspberry Pi~5 stands in: four Cortex-A76 cores at a fixed
+2.4\,GHz, the work pinned to one core and the telemetry on the others, with
+power read per supply rail from its power-management IC. Battery-powered
+verifiers run on the three microcontrollers of Section~\ref{sec:mcu}. A figure
+from one platform does not transfer to another. Images are the 24-image Kodak
+set~\cite{kodak} at JPEG quality~90, 77 to 188\,kB; because manifest size does
+not depend on the pixels, Section~\ref{sec:prodchains} prices the same
+manifests against production files of every size.
 
 \input{tables/platforms}
 
-Signatures run through two libraries: the Python \texttt{cryptography}
-package~50.0.1 over OpenSSL~4.0.2, and liboqs~0.16.0. On the M1 Pro the
-package is built from source against an OpenSSL compiled at \texttt{-O3},
-because the macOS wheel's OpenSSL was compiled without optimisation
-(Section~\ref{sec:backends}); on Linux the wheel's OpenSSL records
-\texttt{-O3}. Every result file records the compiler line of the OpenSSL it
-was measured through.
+Signatures run through the Python \texttt{cryptography} package~50.0.1 over
+OpenSSL~4.0.2 and through liboqs~0.16.0~\cite{stebila2016}, built as a CMake
+\texttt{Release} with \texttt{OQS\_OPT\_TARGET=auto}, which selects its NEON
+path on arm64 and AVX2 on x86-64. Every result file records the compiler line
+of the OpenSSL it ran on, and every one this paper reports reads \texttt{-O3}. That record is
+how we found that the macOS wheel of \texttt{cryptography} had shipped an
+OpenSSL compiled without optimisation since 2021, which made every
+post-quantum primitive about ten times slower while leaving SHA-2 and ECDSA,
+which use assembly, largely untouched; we reported it with a two-line fix that was
+merged the same day~\cite{pyca_issue15702,pyca_infra796}, and the M1 Pro
+figures use an OpenSSL built from source at \texttt{-O3}. Section~S1 of the
+supplement documents the defect and times ML-DSA-65 through every build we
+could obtain: across correctly built implementations on one machine the
+spread is larger than the spread across the three parameter sets. The
+reference implementation is built with Cargo's release profile under Rust
+1.98.1 and RustCrypto's \texttt{ml-dsa}~0.1.2. Firmware is built at
+\texttt{-O3} with \texttt{arm-none-eabi-gcc}~13.2, over pqm4~\cite{pqm4} at
+commit \texttt{5e5cc76} and PQClean~\cite{kannwischer2022pqclean}.
 
 \subsection{Decisions that shape every number}
 \label{sec:method-decisions}
 
-\emph{The chain omits the root.} Every manifest carries the signer's certificate and its intermediate in \texttt{x5chain}, which C2PA~2.5 requires, and leaves out the root, as it says generators should; the root is the validator's trust anchor. Hierarchies are three
-certificates deep, the depth deployed signers use
-(Section~\ref{sec:prodchains}). Where a table carries the root as well, it
-says so.
+\emph{The chain omits the root.} Every manifest carries the signer's
+certificate and its intermediate in \texttt{x5chain}, which C2PA~2.5
+requires, and leaves out the root, as it says generators should.
+Hierarchies are three certificates deep, the depth deployed signers use
+(Section~\ref{sec:prodchains}).
 
-\emph{The classical baseline is what deployments ship.} Production signers
-use ES256 about twice as often as RSA-2048 PS256
-(Section~\ref{sec:prodchains}), so both appear in every table beside Ed25519,
-and growth is reported against both.
+\emph{The baseline is what deployments ship.} Production signers use ES256
+about twice as often as PS256, mostly with RSA-2048 keys
+(Section~\ref{sec:prodchains}), so both appear beside Ed25519 in every size
+and timing table of Sections~\ref{sec:cost} and~\ref{sec:carrying}.
 
-\emph{Every certificate is real and follows a production profile.} Names
-carry organisation and country; the leaf carries the
-\texttt{c2pa-kp-claimSigning} extended key usage that C2PA~2.5 names; every
-certificate below the root carries authority information access, a CRL
-distribution point and a certificate policy, as the issuing CAs on the C2PA
-trust list do. Our issuing-CA certificate carries \Nprofileica{} bytes beyond
-its key and signature, against \Nprofilelistlo{} to \Nprofilelisthi{}
-(median \Nprofilelistmed{}) for the issuing CAs on the trust list. ML-DSA and
-classical certificates come from \texttt{cryptography}. No library we could
-use issues Falcon, SLH-DSA or composite certificates, so we encode the same
-profile and sign it with liboqs or with both component keys; the encoder
-reproduces \texttt{cryptography}'s ML-DSA certificates byte for byte, and
-every chain verifies. FN-DSA and the composites have no final object
-identifiers, so those certificates carry placeholders of the same length.
+\emph{Every certificate follows a production profile.} Names carry
+organisation and country; the leaf carries the \texttt{c2pa-kp-claimSigning}
+usage; every certificate below the root carries authority information access,
+a CRL distribution point and a certificate policy, as the issuing CAs on the
+C2PA trust list do. Our issuing CA carries \Nprofileica{} bytes beyond its key
+and signature, against \Nprofilelistlo{} to \Nprofilelisthi{} (median
+\Nprofilelistmed) for the issuing CAs on the list. No library we could use
+issues Falcon, SLH-DSA or composite certificates, so we encode the same
+profile and sign it with liboqs; the encoder reproduces \texttt{cryptography}'s
+ML-DSA certificates byte for byte. FN-DSA has no final object identifier, and
+our composite certificates predate those of RFC~10073, so both carry
+placeholders that may differ from the final ones by a few bytes, and Falcon's variable-length signatures are padded to 666 bytes (1,280
+for Falcon-1024).
 
-\emph{Timestamp tokens and OCSP responses are real.} No library available to
-us issues an RFC~3161 token under a post-quantum key, so we build each one: a
-CMS SignedData holding the TSTInfo and the signed attributes the standard
-requires, signed by a time-stamping authority whose certificate and
-intermediate travel in the token. OCSP responses are real BasicOCSPResponse
-objects in both forms RFC~6960 allows, signed by the issuing CA itself or by a
-delegated responder whose certificate travels in the response.
+\emph{Timestamps and OCSP responses are real.} No library available to us
+issues an RFC~3161 token under a post-quantum key, so we build each one: a CMS
+SignedData with the TSTInfo and the signed attributes the standard requires,
+signed by a time-stamping authority whose certificate and intermediate travel
+in the token. OCSP responses are BasicOCSPResponse objects in both forms
+RFC~6960 allows, signed by the issuing CA or by a delegated responder.
 
-\emph{Thumbnails are disabled and reservation is reported separately.} A C2PA
-manifest embeds a generated thumbnail by default; on the first Kodak image it
-ran to 173\,kB, larger than the photograph. The reference implementation also pads the signature to a reserved size, which its default classical signer set at about 12\,kB in the version we first measured (0.90.19, Table~\ref{tab:baseline} in the supplement). Both would swamp every signature effect,
-so sizes here are payload sizes. The reservation still matters: when it is too
-small, the specification has the signer start again with more padding and a
-fresh timestamp~\cite{c2pacc24}, so a signer that keeps a classical
-reservation and moves to ML-DSA-65, whose signed structure is
-\NtsSigDSAsixtyfive{} bytes, pays a second round trip to a time-stamping
+\emph{Thumbnails are disabled and reservation is reported separately.} A
+generated thumbnail ran to 173\,kB on the first Kodak image and would swamp
+every signature effect, so sizes here are payload sizes. Reservation still
+matters: a signer pads the signature to a size reserved before signing, and
+when that is too small the specification has it start again with a fresh
+timestamp~\cite{c2pacc24}. Version 0.90.19 of the reference implementation
+reserved about 12\,kB for its default classical signer; an ML-DSA-65 signature
+structure with its timestamp is about 30\,kB, so a signer with a fixed
+classical reservation would pay a second round trip to a time-stamping
 authority on every capture.
-
-\emph{Falcon signatures are padded.} Falcon-512 produced signatures between
-648 and 661 bytes over 200 trials; a reservation cannot be variable, so the
-tables use the padded 666 bytes (1,280 for Falcon-1024).
 
 \subsection{Timing and statistics}
 \label{sec:timing}
 
-The size and timing experiments ran ten times on the M1 Pro and the Xeon VM (nine for the Xeon's cache simulation), and verification, hashing and carriage five times on the Pi~5; the scaling experiment ran three times on each machine. Each run is a fresh set of processes with fresh keys, its own
-random order of experiments and, within each experiment, of algorithms and
-configurations. Within a run, a signature timing is taken over 1,000
-operations after 50 discarded, and path validation and hashing over 200. ML-DSA
-signing in both libraries is hedged, so repeating one message still draws a
-fresh rejection-sampling path each time. We report the median of the per-run
-medians with a 95\% bootstrap interval over runs; within-run percentiles are
-in the released data, and the 99th percentile is quoted where a real-time
-claim rests on it. The replication unit is therefore the run, not the repetition. The stream and edge experiments on the Pi ran once, with their repetitions inside the run, and the archive batch three times. The cache-staleness and composite-rejection tests count outcomes rather than time, and ran on the analysis host. ECDSA signatures inside certificates vary in DER length from key to key, so ES256 sizes differ by a byte or two between experiments that each generate their own keys. Signature timings are taken over the COSE \texttt{Sig\_structure}, the exact bytes a signature covers, so libraries are compared on identical input; the algorithm sweep alone signs the claim, which leaves out the certificates in the protected header and makes its ML-DSA times 16 to 18 per cent lower.
+Each run is a fresh set of processes with fresh keys and its own random order
+of experiments, and within each experiment of algorithms and configurations.
+Within a run a signature timing is taken over 1,000 operations after 50
+discarded, and path validation and hashing over 200. We report the median of
+the per-run medians with a 95\% bootstrap interval over runs, so the
+replication unit is the run. Signature timings are over the COSE
+\texttt{Sig\_structure}, the exact bytes a signature covers, except in the
+algorithm sweep of Section~\ref{sec:algsweep}, which signs the claim alone and
+so times ML-DSA 16 to 18 per cent lower. ECDSA signatures inside certificates
+vary in DER length from key to key, so ES256 sizes differ by a byte or two
+between experiments that generate their own keys. ML-DSA signing is
+hedged in both libraries, so repeating a message still draws a fresh
+rejection-sampling path. Table~\ref{tab:runs} gives the number of runs per
+experiment and platform; experiments that count outcomes rather than time ran
+once on the analysis host.
+
+\begin{table}[t]
+\caption{Independent runs per experiment and platform. Each run is a fresh
+process set with fresh keys and its own random order; the stream and edge
+experiments repeat their measurements within one run.}
+\label{tab:runs}
+\small
+\begin{tabular}{lccc}
+\toprule
+Experiment & M1 Pro & Xeon VM & Pi~5\\
+\midrule
+Signing, validation, hashing, carriage & 10 & 10 & 5\\
+Verifier cache & 10 & 9 & --\\
+Verification across cores & 3 & 3 & 3\\
+Archive batch (supplement) & 1 & -- & 3\\
+Live video, edge verifier & -- & -- & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A closed-form size}
+\label{sec:sizemodel}
+
+A manifest's size follows from its parts:
+\begin{equation}
+M = F + s_{\mathrm{cose}} + \sum_{c\,\in\,\text{carried}} \bigl(p_c + s_{\mathrm{issuer}(c)}\bigr) + O,
+\label{eq:size}
+\end{equation}
+with $F$ the claim, assertions and COSE and JUMBF framing, $s$ a signature,
+$p_c$ the public key held by certificate $c$, and $O$ the names, extensions
+and DER encoding of the carried certificates. Both constants come from one
+measured row, Ed25519, as $F=\NmodelF$ and $O=\NmodelO$ bytes for leaf and
+intermediate; with published key and signature sizes, the model reproduces the
+measured manifests of all \NmodelN{} single-algorithm schemes in
+Tables~\ref{tab:pq} and~\ref{tab:algsweep} to within \NmodelErrMax\%, the gap
+being DER length fields and, for ES256, DER-encoded certificate signatures. The sizes in this paper are therefore properties of the encoding, not
+of our harness: they carry over to any conforming implementation up to its own
+value of $F$, and to any future scheme by substituting its sizes. What the
+model cannot supply is what deployed signers carry, which
+Section~\ref{sec:prodchains} measures, or what validators accept, which needs
+the reference implementation.
 
 \subsection{Through the reference implementation}
 \label{sec:patch}
 
-Most structures in this paper are built directly to RFC~9964, which leaves a
-question: does a real claim generator, doing all the work a claim generator
-does, produce and accept what we say it does? Settling it meant patching the
-reference implementation, \texttt{c2pa-rs}, which signs only classical
-algorithms, and the patch is itself a finding about how ready the tooling
-is.
+Most structures here are built directly to RFC~9964, so we also signed and
+validated through the reference implementation, \texttt{c2pa-rs}, which signs
+only classical algorithms although its COSE library already carries the
+RFC~9964 identifiers. The missing pieces were all in \texttt{c2pa-rs} itself, in
+four places: the signing-algorithm enumeration, which needed three variants
+and an ML-DSA signer and validator of about 140 lines; the COSE header mapping
+in each direction; the verifier's check of the key's object identifier; and
+the certificate profile's allow-list of signature algorithms. Ported to
+\texttt{main} at commit \texttt{\NvalCommit}, with the registrations its newer
+crates need, that patch is not enough: path validation maps each certificate's algorithm to a
+validator of its own, with no entry for ML-DSA, so every ML-DSA chain
+validates as \emph{Valid} and never as \emph{Trusted}, and the OCSP check has
+the same gap. A second patch of 82 lines adds the mappings. We call the
+unmodified library p0, the signing patch alone p1 and both patches p2.
 
-\texttt{coset}, the COSE library underneath, already carries the RFC~9964
-identifiers. Everything missing sat in the layer above, behind four gates
-that each had to be opened: the signing-algorithm enumeration, which needed
-three variants and an ML-DSA signer and validator of about 140 lines against
-the RustCrypto \texttt{ml-dsa} crate; the COSE header mapping in each
-direction, whose catch-all arms reject without a compiler error; the
-verifier's check of the key's object identifier; and the certificate
-profile's own allow-list of certificate signature algorithms. That patch, made
-against the commit of 24~September, applies unchanged to the current
-\texttt{main} (commit \texttt{\NvalCommit}). On that commit it is no longer
-enough. Path validation now maps each certificate's algorithm to a validator
-of its own, with no entry for ML-DSA, so every ML-DSA chain validates as
-\emph{Valid} and never as \emph{Trusted}; the OCSP check has the same gap. A
-second patch of 82 lines adds the mappings.
+We then ran \Nvalcases{} cases, \NvalAllFive{} of them for each of ES256,
+Ed25519 and the three ML-DSA parameter sets and the rest for the algorithms
+they concern, \NvalRows{} validations in all: the four carriage forms;
+negative cases a validator must reject; timestamps from an ES256 and from an
+ML-DSA-65 time-stamping authority; both OCSP forms, good and revoked; expiry
+with good and with rejected timestamps; and malformed and oversized
+structures. Each case has an expected outcome taken from the specification
+clause it exercises, released with the harness. Section~\ref{sec:findings}
+reports the results.
 
-\input{tables/validation}
-
-We ran \Nvalcases{} cases through the patched library, \NvalAllFive{} of them for each of ES256, Ed25519 and the three ML-DSA parameter sets and the rest for the algorithms they concern, \NvalRows{} validations in all: the four carriage forms, the negative cases a validator must reject, timestamps from an ES256 and from an ML-DSA-65 time-stamping authority, both OCSP forms, expiry with good and with rejected timestamps, and malformed and oversized structures. Table~\ref{tab:validation} shows \NvalShown{} of them and the supplement lists every case (Table~\ref{tab:valfull}). With both patches, every ML-DSA case behaves as the classical ones do, and a manifest timestamped by an ES256 authority validates in \NvalVerifyLo{} to \NvalVerifyHi{}\,ms on the M1 Pro. The fully post-quantum credential, an ML-DSA-65 signer timestamped by an ML-DSA-65 authority under an ML-DSA-65 anchor, validates as \emph{Trusted} with a trusted timestamp, in \NvalPqTsaMs\,ms, and it still does after the signer's certificate has expired, which is the job a timestamp exists to do. Through the signing patch alone the same timestamp is reported untrusted, because its authority's path cannot be checked.
-The library rejects a modified image, a flipped signature bit, a mismatched algorithm and an expired leaf whose timestamp is missing, covers other data or comes from an untrusted authority, so a rejected timestamp never lends an expired signer historical validity; it stops short of \emph{Trusted} for a chain to an unknown anchor, and refuses to sign with a leaf that fails its own certificate profile. It
-accepts the leaf alone when the leaf's issuer is the anchor, the
-configuration Section~\ref{sec:carrying} recommends.
-
-Two results depart from C2PA~2.5, for every algorithm. A leaf whose only
-extended key usage is \texttt{id-kp-timeStamping} validates as a claim signer,
-even under a policy that lists only \texttt{c2pa-kp-claimSigning}: the
-library's key-usage check accepts e-mail protection, time-stamping and OCSP
-signing unconditionally, which lets a time-stamping authority's certificate
-sign manifests. In the other direction, a time-stamping authority whose
-certificate lacks the time-stamping usage makes the whole manifest
-\emph{Invalid}, where the specification says to report the timestamp as
-untrusted and ignore it. Neither is specific to post-quantum algorithms: both appear unchanged in the same commit built without any patch, in the latest tagged release, c2pa-v0.91.9, and in the command-line tool c2patool~0.28.4. We reported the second publicly~\cite{c2pars3005}. The first lets a time-stamping key sign manifests that validate as \emph{Trusted}, so the released data withhold its signed file and certificate until it is fixed; minimal vectors for the second and raw status codes for both are released. A
-manifest carrying a thumbprint, or no
-credential, fails with a reader error rather than a validation status, and a
-corrupt or truncated signature with an error about time-stamping; a
-50-certificate chain is reported as untrusted, and a 1\,MB certificate validates in
-\NvalBigCertMs\,ms using \NvalBigCertMB\,MB of memory.
-
-Manifests the library writes with leaf and intermediate are larger than our
-direct structures over the same image by \Nlibgap{} bytes at every ML-DSA
-parameter set, and by \NlibgapClassLo{} to \NlibgapClassHi{} under the
-classical algorithms (Table~\ref{tab:c2parust} in the supplement). Most of the difference is padding: c2pa-rs pads the signature, in its unprotected header, to the space the signer reserved before signing, and our harness reserves the signature and chain plus 2\,KiB, which leaves \NlibpadLo{} to \NlibpadHi{} bytes of padding;
-its claim, assertions and framing take \Nliboutside{} bytes against our
+Manifests the library writes are larger than our direct structures by
+\Nlibgap{} bytes at every ML-DSA parameter set and by \NlibgapClassLo{} to
+\NlibgapClassHi{} under the classical algorithms (Table~\ref{tab:c2parust} in
+the supplement). Most of the difference is padding of the signature to the
+space reserved before signing, \NlibpadLo{} to \NlibpadHi{} bytes; the
+library's claim and JUMBF framing take \Nliboutside{} bytes against our
 \Nouroutside, and its test certificates, which lack the production extensions,
-are slightly smaller than ours. The difference does not grow with the
-signature, so every conclusion about how cost scales with the algorithm holds
-for the library's output.
+are smaller than ours. None of these terms grows with the signature, so every
+conclusion about how cost scales with the algorithm holds for the library's
+output.

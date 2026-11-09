@@ -1,4 +1,4 @@
-{\footnotesize
+{\scriptsize\setlength{\tabcolsep}{3pt}
 \begin{longtable}{lllrrcccc}
 \caption{The 23 distinct certificate chains in the production corpus. \emph{Chain} is the first 16 hex digits of the identifier (SHA-256 over the leaf's issuer name and every certificate after the leaf). \emph{Groups} are the file groups whose files carry the chain, in the active manifest or an ingredient. \emph{Sent}: certificates in \texttt{x5chain}; \emph{Root}: a self-signed root is among them; \emph{Listed}: the path ends at a trust-list anchor; \emph{Issuer}: the leaf's issuer is that anchor. Certificate names and the per-signature inventory, with every file's source URL, licence and SHA-256, are in the released data (\texttt{data/corpus/}).}\label{tab:chains}\\
 \toprule

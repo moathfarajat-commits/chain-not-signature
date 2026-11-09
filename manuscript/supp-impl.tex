@@ -1,21 +1,11 @@
-%% ---------------------------------------------------------------------------
-\section{Implementation cost against algorithm cost}
-\label{sec:backends}
-
-This section exists because the measurements forced it, and it went wrong once
-before it went right.
-
-\subsection{How the question arose}
-
+%% Supplement S1: implementation and build effects (moved from the paper).
 An early comparison showed ML-DSA-65 signing on the M1 Pro about five times
 slower than on a modest x86 server, while SHA-256, SHA-3 and ECDSA ran faster
 on the M1 Pro, which ruled out throttling, the efficiency cores and Keccak.
 Through liboqs on both machines most of the gap closed, and through the
 Python package's OpenSSL the two libraries were 47 times apart on the M1 Pro.
-A study that stopped there would blame OpenSSL's arm64 code path. That
-attribution is wrong.
+The cause turned out to be the build, not the architecture.
 
-\subsection{Every build we could obtain}
 
 \input{tables/impls}
 
@@ -42,8 +32,7 @@ difference that looked like an architecture effect.
 The defect is easy to miss because it spares exactly the operations a sanity
 check would use: SHA-2, SHA-3 and elliptic-curve arithmetic go through
 hand-written assembly on arm64, which does not care about \texttt{-O}, and
-every post-quantum algorithm in OpenSSL is C (Table~\ref{tab:buildeffect} in
-the supplement). The same compiler line appears in every macOS wheel we
+every post-quantum algorithm in OpenSSL is C (Table~\ref{tab:buildeffect}). The same compiler line appears in every macOS wheel we
 examined, from 3.4 in 2021 to 50.0.1. Its cause is \texttt{CFLAGS} set in the
 build workflow's environment, which OpenSSL's \texttt{Configure} takes as a
 replacement for its defaults; we reported it with a two-line fix, merged the
@@ -63,10 +52,10 @@ library, about 2.2, so implementation matters more than parameter set once the
 build is sound. On the Pi~5's Cortex-A76, through a wheel built at
 \texttt{-O3}, OpenSSL signs 5.7 times slower than liboqs, inside the same
 range. Through the source-built OpenSSL with assembly, deterministic signing, which for a given key, message and context always takes the same rejection-sampling path, has a 95th percentile within six per cent of its median; randomised signing has one
-three times its median, and Section~\ref{sec:resign} shows what that tail
+three times its median, and Section~\ref{sec:supp-archive} shows what that tail
 does to a batch.
 
-\subsection{What this asks of the field}
+\subsection{How applied studies report builds}
 \label{sec:audit}
 
 Both builds in the last two M1 rows report themselves as
@@ -77,7 +66,7 @@ was compiled with. To see how often applied work reports them, we coded \NauditN
 signatures or key encapsulation in an applied setting (TLS and QUIC, IoT and
 embedded, VPN, DNSSEC, blockchain, vehicles, PKI), excluding papers whose
 contribution is an optimised implementation, which always report their build
-(Table~\ref{tab:audit}; the protocol is in Section~\ref{sec:auditprotocol} of the supplement). Of the \NauditN, \NauditLib{} name their library and \NauditVer{} its version; \NauditCc{} name a compiler and \NauditFlags{} say something about the build, but only \NauditOlevel{} state an explicit optimisation level such as \texttt{-O3}, and those same \NauditBoth{} are the only ones to give both compiler and optimisation level. Of the \NauditOqs{} that use liboqs, \NauditOqsBuild{} give the optimisation level they built it with and \NauditOqsAny{} say anything about the build, although its optimised and portable paths differ by a factor of two or three (Table~\ref{tab:impls}). \NauditNoSpread{} report no measure of spread, \NauditMeanNoSpread{} of them a mean alone and \NauditNoStat{} no statistic at all, so a reader cannot tell whether a difference exceeds the run-to-run spread. One author coded every study, without a second rater, and the sample leans to open-access and preprint work; the counts describe this sample, not the field.
+(Table~\ref{tab:audit}; the protocol is in Section~\ref{sec:auditprotocol}). Of the \NauditN, \NauditLib{} name their library and \NauditVer{} its version; \NauditCc{} name a compiler and \NauditFlags{} say something about the build, but only \NauditOlevel{} state an explicit optimisation level such as \texttt{-O3}, and those same \NauditBoth{} are the only ones to give both compiler and optimisation level. Of the \NauditOqs{} that use liboqs, \NauditOqsBuild{} give the optimisation level they built it with and \NauditOqsAny{} say anything about the build, although its optimised and portable paths differ by a factor of two or three (Table~\ref{tab:impls}). \NauditNoSpread{} report no measure of spread, among them \NauditMeanNoSpread{} that give a mean alone and \NauditNoStat{} that give no statistic at all, so a reader cannot tell whether a difference exceeds the run-to-run spread. One author coded every study, without a second rater, and the sample leans to open-access and preprint work; the counts describe this sample, not the field.
 
 The effect is not confined to signatures. Our matched-implementation control
 on key encapsulation attributes a factor of 4.2 to 4.7 of the gap between HQC

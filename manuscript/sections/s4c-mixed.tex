@@ -1,4 +1,4 @@
-\subsection{When the chain does not share one algorithm}
+\subsection{Which partial migrations stay forgeable}
 \label{sec:mixedchain}
 
 Every chain so far uses one algorithm from leaf to root, and no migration
@@ -10,14 +10,14 @@ last.
 
 \input{tables/mixedchain}
 
-Table~\ref{tab:mixedchain} separates two things usually spoken of as one.
-Bytes are set by which levels have migrated. Quantum resistance is set by the
-weakest load-bearing signature: the manifest signature, the signature on the
-leaf certificate and the signature on the intermediate. The root's
-self-signature is not load-bearing, and the root is not carried, but its
-algorithm still matters because it signs the intermediate. A post-quantum
+Table~\ref{tab:mixedchain} separates bytes from protection. Bytes are set by
+which levels have migrated; quantum resistance is set by the weakest
+load-bearing signature of Section~\ref{sec:threat}, which on the signer's side
+are the manifest signature and the signatures on the leaf and the
+intermediate. The root is not carried, but its algorithm still matters because
+it signs the intermediate. A post-quantum
 leaf under the existing classical PKI costs \NmixLeafMig{} times the
-classical structure, \NmixPctFullLeafMig\% of what full migration costs;
+classical structure, \NmixPctFullLeafMig\% of the bytes full migration carries;
 migrating the intermediate too brings it to \NmixLeafInt{} times. Neither
 makes the signer's path quantum resistant, because an adversary who can forge
 the issuer's ECDSA signature mints a leaf certificate and signs whatever it
@@ -26,7 +26,7 @@ likes.
 Migrating the PKI first while issuing classical leaves for compatibility is
 the order an operator reaches by reasoning about disruption rather than about
 adversaries. It costs \NmixPkiFirst{} times the classical structure,
-\NmixPctFullPkiFirst\% of the full price, and leaves the manifest itself
+\NmixPctFullPkiFirst\% of the fully migrated bytes, and leaves the manifest itself
 forgeable, since its signature is still ECDSA. What it does buy is a
 post-quantum trust infrastructure ready to issue post-quantum leaves without a
 second change at the anchor, so its value lies in what follows it, not in any
@@ -40,10 +40,18 @@ revoked. A post-quantum timestamp costs \NmixWholeFullPq{} bytes of manifest
 cryptography against \NmixWholeFullEs{} with an ES256 authority, and the
 provenance is quantum resistant only when both are post-quantum.
 
-An assurance ladder, a category-2 leaf under a category-3 intermediate under a
-category-5 root, puts the higher margin on the longer-lived key and costs
-\NmixLadder{} times the classical structure, against \NmixFull{} for a uniform
-category-3 chain: the strongest key sits in the root, which is not carried.
-Inverting the ladder costs \NmixInverted{} times and is the configuration to
-check for in review, since it puts the weakest parameter set on the key that
-lives longest and is hardest to replace.
+An assurance ladder, ML-DSA-44 under ML-DSA-65 under ML-DSA-87, costs
+\NmixLadder{} times the classical structure against \NmixFull{} for uniform
+ML-DSA-65, because the strongest key sits in the root, which is not carried;
+the inverted ladder (\NmixInverted{} times) puts the weakest key where it lives
+longest.
+
+Migrating every certificate a signer uses still protects its credentials only
+if verifiers stop accepting classical ones in its name. While a classical
+anchor stays trusted, the adversary of Section~\ref{sec:threat} can mint a
+classical certificate for the same subject under it and sign anything that
+validates as \emph{Trusted}; the post-quantum chain is never consulted. The
+migration completes for the ecosystem only when classical anchors are
+withdrawn from the trust list at a set date, or when validators pin a signer
+to the algorithms it has migrated to, and the trust list itself must then be
+distributed under a post-quantum signature or over a channel that is.

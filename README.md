@@ -2,8 +2,8 @@
 
 Measurement code, firmware, raw results and table generators for
 
-> Mua'ad Alfarajat. *The Chain, Not the Signature: What Post-Quantum Content
-> Credentials Cost.* Manuscript, 2026.
+> Mua'ad Alfarajat. *The Chain, Not the Signature: Cost and Soundness of
+> Post-Quantum Content Credentials.* Manuscript, 2026.
 
 The paper measures what C2PA content credentials cost when they move to
 post-quantum signatures (ML-DSA, SLH-DSA, Falcon and composites), and finds that

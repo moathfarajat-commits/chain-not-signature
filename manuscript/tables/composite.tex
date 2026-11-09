@@ -1,5 +1,5 @@
 \begin{table}[ht]
-\caption{Composite signatures (draft-ietf-lamps-pq-composite-sigs): real certificates signed by both component keys, leaf and intermediate carried. Object identifiers are placeholders of the draft's length and no COSE identifier is assigned. This is a component-cost construction, not an implementation of the draft's combiner (domain separator, prehash and context), which changes what is signed but not the length of any key or signature. Times are the two component operations in sequence. Verification is AND: with either component corrupted or the classical half removed, every composite was rejected.}
+\caption{Composite signatures (RFC~10073): real certificates signed by both component keys, leaf and intermediate carried. Object identifiers are placeholders that predate the RFC, of the draft's length, and no COSE identifier is assigned. This is a component-cost construction, not an implementation of the RFC's combiner (domain separator, prehash and context), which changes what is signed but not the length of any key or signature. Times are the two component operations in sequence on Apple M1 Pro. Verification is AND: with either component corrupted or the classical half removed, every composite was rejected.}
 \label{tab:composite}
 \small
 \begin{tabular}{lrrrrrr}

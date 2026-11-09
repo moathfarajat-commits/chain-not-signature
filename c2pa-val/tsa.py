@@ -147,7 +147,9 @@ def main():
         sig_alg,
         tlv(0x04, sig),
     )
-    certs = leaf_der + ic.public_bytes(ser.Encoding.DER)
+    # "leafonly": the token carries the authority's own certificate alone, as
+    # it may when its issuer is an anchor on the time-stamping trust list.
+    certs = leaf_der if variant == "leafonly" else leaf_der + ic.public_bytes(ser.Encoding.DER)
     signed_data = seq(
         integer(3),
         tlv(0x31, seq(oid(dig_oid))),

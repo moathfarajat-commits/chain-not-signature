@@ -1,5 +1,5 @@
 \begin{table}[t]
-\caption{The model against a real batch: 4,800 assets, 554~MB, signed across worker processes, predicted from the median fixed cost and from the mean. Only an index crosses the process boundary; each worker holds the corpus and its credential, so the timed region is hash and signature alone. The two error columns are the whole point: ECDSA barely distinguishes the statistics and ML-DSA does, at one worker, where no contention can explain it.}
+\caption{The model against a real batch: 4,800 assets, 554~MB, signed across worker processes, predicted from the median fixed cost and from the mean. Only an index crosses the process boundary; each worker holds the corpus and its credential, so the timed region is hash and signature alone. The error columns show the effect: ECDSA barely distinguishes the statistics and ML-DSA does, at one worker, where no contention can explain it.}
 \label{tab:archivebatch}
 \begin{tabular}{lrrrrr}
 \toprule

@@ -1,0 +1,987 @@
+{
+  "experiment": "e1_validation_extra",
+  "env": {
+    "timestamp_utc": "2026-11-09T17:42:30+00:00",
+    "hostname": "vm",
+    "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+    "cpu_count": 2,
+    "crypto_features": [
+      "aes"
+    ],
+    "python": "3.13.17",
+    "cryptography": "50.0.1",
+    "cbor2": "6.1.4",
+    "openssl": "OpenSSL 4.0.2 25 Aug 2026",
+    "openssl_compiler": "compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -Wall -O3 -DL_ENDIAN -DOPENSSL_PIC -DNDEBUG",
+    "c2pa_rs": null
+  },
+  "notes": [
+    "added cases: time-stamping token carrying only the authority's certificate, with the TSA's issuing CA (or, as a control, its root) as the time-stamping anchor; signer leaves whose only EKU is emailProtection or OCSPSigning",
+    "each validated under c2pa-rs's default EKU list and under a claimSigning-only policy",
+    "classical algorithms through the unmodified tagged release c2pa-v0.91.9 (ES256 TSA); ML-DSA through p2 on the M1 Pro (ML-DSA-65 TSA)"
+  ],
+  "results": [
+    {
+      "alg": "es256",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "default",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "default",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "chain_noroot_tsa",
+      "policy": "default",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "chain_noroot_tsa",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14305,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "eku_email",
+      "policy": "default",
+      "manifest_bytes": 4307,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "eku_email",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 4307,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "eku_ocspsigning",
+      "policy": "default",
+      "manifest_bytes": 4307,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "eku_ocspsigning",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 4307,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "default",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "default",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "chain_noroot_tsa",
+      "policy": "default",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "chain_noroot_tsa",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 14117,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "eku_email",
+      "policy": "default",
+      "manifest_bytes": 4119,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "eku_email",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 4119,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "eku_ocspsigning",
+      "policy": "default",
+      "manifest_bytes": 4119,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "eku_ocspsigning",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 4119,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "es256",
+      "build": "c2pa-v0.91.9 (unmodified)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "default",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "default",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "chain_noroot_tsa",
+      "policy": "default",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "chain_noroot_tsa",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 41723,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "eku_email",
+      "policy": "default",
+      "manifest_bytes": 17725,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "eku_email",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 17725,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "eku_ocspsigning",
+      "policy": "default",
+      "manifest_bytes": 17725,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa65",
+      "case": "eku_ocspsigning",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 17725,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "default",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "default",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "chain_noroot_tsa",
+      "policy": "default",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "chain_noroot_tsa",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 37776,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "eku_email",
+      "policy": "default",
+      "manifest_bytes": 13778,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "eku_email",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 13778,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "eku_ocspsigning",
+      "policy": "default",
+      "manifest_bytes": 13778,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa44",
+      "case": "eku_ocspsigning",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 13778,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "default",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "tsa_leafonly_anchor_int",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "default",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "tsa_leafonly_anchor_root",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.untrusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "chain_noroot_tsa",
+      "policy": "default",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "chain_noroot_tsa",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 46957,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted",
+        "timeStamp.trusted",
+        "timeStamp.validated"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "eku_email",
+      "policy": "default",
+      "manifest_bytes": 22959,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "eku_email",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 22959,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "eku_ocspsigning",
+      "policy": "default",
+      "manifest_bytes": 22959,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    },
+    {
+      "alg": "mldsa87",
+      "case": "eku_ocspsigning",
+      "policy": "claimsigning_only",
+      "manifest_bytes": 22959,
+      "validation_state": "Trusted",
+      "reader_error": null,
+      "tsa": "mldsa65",
+      "build": "p2 (e2ad88e with both patches)",
+      "codes": [
+        "assertion.dataHash.match",
+        "assertion.hashedURI.match",
+        "claimSignature.insideValidity",
+        "claimSignature.validated",
+        "signingCredential.ocsp.skipped",
+        "signingCredential.trusted"
+      ]
+    }
+  ]
+}

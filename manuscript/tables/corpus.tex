@@ -1,7 +1,7 @@
 \begin{table*}[t]
 \caption{Certificate chains in 317 production-signed files from 28 signing applications, and in the C2PA public test files, read against the C2PA trust list of 29~October 2026, a convenience sample of public files (Section~\ref{sec:supp-corpus} of the supplement lists the chains and sources, and the released inventory every file with its URL, licence and SHA-256). A chain is identified by its issuer: the leaf's issuer name and every certificate after the leaf, so leaves issued per image under one CA count once. Every signature in a file counts, the active manifest's and its ingredients', under the group of the application that wrote the file; a chain carried by files of several groups (Google's camera chains in files that Microsoft's tools wrote, for example) is counted in each, so the rows do not add up, and the \emph{Distinct} row counts each chain once. \emph{Sent}: certificates in \texttt{x5chain}. \emph{Root}: chains that carry a self-signed root. \emph{Listed}: chains whose path ends at a trust-list anchor. \emph{Issuer}: chains whose leaf was issued directly by an anchor, the condition for conformant leaf-only carriage. \emph{2.x}: files with a version-2 claim. \emph{33p}: signatures carrying \texttt{x5chain} under label~33 in the protected bucket. \emph{TST}: signatures with an RFC~3161 token, and its median size. \emph{OCSP}: signatures carrying revocation evidence.}
 \label{tab:corpus}
-\small
+\footnotesize
 \setlength{\tabcolsep}{3.3pt}
 \begin{tabular}{lrrrrlrrrrrrrr}
 \toprule

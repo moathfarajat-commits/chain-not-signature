@@ -80,7 +80,8 @@
   title        = {c2pa-rs: Rust {SDK} for {C2PA}},
   author       = {{Content Authenticity Initiative}},
   year         = {2026},
-  note         = {Version 0.90.19},
+  note         = {Release c2pa-v0.91.9 and commit e2ad88e; version 0.90.19 for
+                  the reservation default},
   howpublished = {\url{https://github.com/contentauth/c2pa-rs}}
 }
 
@@ -164,7 +165,7 @@
   number      = {draft-ietf-tls-cert-abridge-02},
   year        = {2024},
   month       = sep,
-  note        = {Work in Progress},
+  note        = {Expired Internet-Draft},
   url         = {https://datatracker.ietf.org/doc/draft-ietf-tls-cert-abridge/}
 }
 
@@ -174,9 +175,9 @@
                  and Valenta, Luke and Valsorda, Filippo},
   institution = {Internet Engineering Task Force},
   type        = {Internet-Draft},
-  number      = {draft-ietf-plants-merkle-tree-certs-06},
+  number      = {draft-ietf-plants-merkle-tree-certs-07},
   year        = {2026},
-  month       = sep,
+  month       = oct,
   note        = {Work in Progress},
   url         = {https://datatracker.ietf.org/doc/draft-ietf-plants-merkle-tree-certs/}
 }
@@ -207,8 +208,8 @@
                   Schwabe, Peter and Stoffelen, Ko},
   year         = {2019},
   howpublished = {\url{https://github.com/mupq/pqm4}},
-  note         = {Benchmark results in \texttt{benchmarks.md}, measured at
-                  24\,MHz; accessed 23 October 2026}
+  note         = {Benchmark results in \texttt{benchmarks.md}, measured on the
+                  NUCLEO-L4R5ZI at 20\,MHz; accessed 23 October 2026}
 }
 
 @misc{golaszewski2026,
@@ -688,14 +689,13 @@
   author       = {Ounsworth, Mike and Gray, John and Pala, Massimiliano and
                   Klau{\ss}ner, Jan and Fluhrer, Scott},
   title        = {Composite Module-Lattice-Based Digital Signature Algorithm
-                  ({ML-DSA}) for use in {X.509} Public Key Infrastructure},
-  type         = {Internet-Draft},
-  number       = {draft-ietf-lamps-pq-composite-sigs-19},
-  institution  = {IETF},
-  month        = apr,
+                  ({ML-DSA}) for Use in {X.509} Public Key Infrastructure},
+  type         = {RFC},
+  number       = {10073},
+  institution  = {RFC Editor},
+  month        = nov,
   year         = {2026},
-  note         = {Work in Progress},
-  url          = {https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-sigs/}
+  doi          = {10.17487/RFC10073}
 }
 @techreport{ott2019,
   author       = {Ott, David and Peikert, Christopher and {other workshop
@@ -727,10 +727,10 @@
   title        = {Transition to Post-Quantum Cryptography Standards},
   institution  = {National Institute of Standards and Technology},
   type         = {Interagency Report},
-  number       = {NIST IR 8547 (Initial Public Draft)},
-  month        = nov,
-  year         = {2024},
-  url          = {https://csrc.nist.gov/pubs/ir/8547/ipd}
+  number       = {NIST IR 8547},
+  month        = oct,
+  year         = {2026},
+  url          = {https://csrc.nist.gov/pubs/ir/8547/final}
 }
 @techreport{nist_sp1800_38,
   author       = {Newhouse, William and Souppaya, Murugiah and Barker, William and
@@ -1025,4 +1025,426 @@
   year         = {2026},
   note         = {c2pa-rs issue~\#3005, filed 3 November 2026},
   howpublished = {\url{https://github.com/contentauth/c2pa-rs/issues/3005}}
+}
+
+
+@inproceedings{schwabe2020kemtls,
+  author    = {Schwabe, Peter and Stebila, Douglas and Wiggers, Thom},
+  title     = {Post-Quantum {TLS} Without Handshake Signatures},
+  booktitle = {Proceedings of the 2020 ACM SIGSAC Conference on Computer and Communications Security (CCS '20)},
+  publisher = {ACM},
+  year      = {2020},
+  pages     = {1461--1480},
+  doi       = {10.1145/3372297.3423350}
+}
+
+@inproceedings{schwabe2021kemtlspdk,
+  author    = {Schwabe, Peter and Stebila, Douglas and Wiggers, Thom},
+  title     = {More Efficient Post-Quantum {KEMTLS} with Pre-Distributed Public Keys},
+  booktitle = {Computer Security -- ESORICS 2021},
+  series    = {LNCS},
+  volume    = {12972},
+  publisher = {Springer},
+  year      = {2021},
+  pages     = {3--22},
+  doi       = {10.1007/978-3-030-88418-5_1}
+}
+
+@inproceedings{sikeridis2022suppression,
+  author    = {Sikeridis, Dimitrios and Huntley, Sean and Ott, David and Devetsikiotis, Michael},
+  title     = {Intermediate Certificate Suppression in Post-Quantum {TLS}: An Approximate Membership Querying Approach},
+  booktitle = {Proceedings of the 18th International Conference on emerging Networking EXperiments and Technologies (CoNEXT '22)},
+  publisher = {ACM},
+  year      = {2022},
+  doi       = {10.1145/3555050.3569127}
+}
+
+@techreport{kampanakis2022scas,
+  author      = {Kampanakis, Panos and Bytheway, Cameron and Westerbaan, Bas and Thomson, Martin},
+  title       = {Suppressing {CA} Certificates in {TLS} 1.3},
+  institution = {Internet Engineering Task Force},
+  type        = {Internet-Draft},
+  number      = {draft-kampanakis-tls-scas-latest-03},
+  year        = {2023},
+  month       = jan,
+  note        = {Expired Internet-Draft}
+}
+
+@techreport{rfc8879,
+  author      = {Ghedini, Alessandro and Vasiliev, Victor},
+  title       = {{TLS} Certificate Compression},
+  type        = {RFC},
+  number      = {8879},
+  institution = {RFC Editor},
+  year        = {2020},
+  month       = dec,
+  doi         = {10.17487/RFC8879}
+}
+
+@techreport{trustanchorids,
+  author      = {Beck, Bob and Benjamin, David and O'Brien, Devon and Nekritz, Kyle},
+  title       = {{TLS} Trust Anchor Identifiers},
+  institution = {Internet Engineering Task Force},
+  type        = {Internet-Draft},
+  number      = {draft-ietf-tls-trust-anchor-ids-06},
+  year        = {2026},
+  month       = sep,
+  note        = {Work in Progress}
+}
+
+@misc{kampanakis2018viability,
+  author       = {Kampanakis, Panos and Panburana, Peter and Daw, Ellie and Van Geest, Daniel},
+  title        = {The Viability of Post-Quantum {X.509} Certificates},
+  howpublished = {Cryptology ePrint Archive, Paper 2018/063},
+  year         = {2018},
+  url          = {https://eprint.iacr.org/2018/063}
+}
+
+@misc{westerbaan2024look,
+  author       = {Westerbaan, Bas and Valenta, Luke},
+  title        = {A Look at the Latest Post-Quantum Signature Standardization Candidates},
+  howpublished = {Cloudflare blog, 7 November 2024},
+  year         = {2024},
+  url          = {https://blog.cloudflare.com/another-look-at-pq-signatures/}
+}
+
+@article{muller2020dnssec,
+  author  = {M{\"u}ller, Moritz and de Jong, Jins and van Heesch, Maran and Overeinder, Benno and van Rijswijk-Deij, Roland},
+  title   = {Retrofitting Post-Quantum Cryptography in Internet Protocols: A Case Study of {DNSSEC}},
+  journal = {ACM SIGCOMM Computer Communication Review},
+  volume  = {50},
+  number  = {4},
+  pages   = {49--57},
+  year    = {2020},
+  doi     = {10.1145/3431832.3431838}
+}
+
+@inproceedings{goertzen2023post,
+  author    = {Goertzen, Jason and Stebila, Douglas},
+  title     = {Post-Quantum Signatures in {DNSSEC} via Request-Based Fragmentation},
+  booktitle = {Post-Quantum Cryptography (PQCrypto 2023)},
+  series    = {LNCS},
+  volume    = {14154},
+  publisher = {Springer},
+  year      = {2023},
+  pages     = {535--564},
+  doi       = {10.1007/978-3-031-40003-2_20}
+}
+
+@techreport{rfc9955,
+  author      = {Bindel, Nina and Hale, Britta and Connolly, Deirdre and Driscoll, Florence},
+  title       = {Hybrid Signature Spectrums},
+  type        = {RFC},
+  number      = {9955},
+  institution = {RFC Editor},
+  year        = {2026},
+  month       = jul,
+  doi         = {10.17487/RFC9955}
+}
+
+@article{vigil2015survey,
+  author  = {Vigil, Mart{\'\i}n and Buchmann, Johannes and Cabarcas, Daniel and Weinert, Christian and Wiesmaier, Alexander},
+  title   = {Integrity, Authenticity, Non-Repudiation, and Proof of Existence for Long-Term Archiving: A Survey},
+  journal = {Computers \& Security},
+  volume  = {50},
+  pages   = {16--32},
+  year    = {2015},
+  doi     = {10.1016/j.cose.2014.12.004}
+}
+
+@article{haber1991,
+  author  = {Haber, Stuart and Stornetta, W. Scott},
+  title   = {How to Time-Stamp a Digital Document},
+  journal = {Journal of Cryptology},
+  volume  = {3},
+  number  = {2},
+  pages   = {99--111},
+  year    = {1991},
+  doi     = {10.1007/BF00196791}
+}
+
+@inproceedings{brubaker2014frankencerts,
+  author    = {Brubaker, Chad and Jana, Suman and Ray, Baishakhi and Khurshid, Sarfraz and Shmatikov, Vitaly},
+  title     = {Using Frankencerts for Automated Adversarial Testing of Certificate Validation in {SSL/TLS} Implementations},
+  booktitle = {2014 IEEE Symposium on Security and Privacy},
+  publisher = {IEEE},
+  year      = {2014},
+  pages     = {114--129},
+  doi       = {10.1109/SP.2014.15}
+}
+
+@inproceedings{debnath2021ceres,
+  author    = {Debnath, Joyanta and Chau, Sze Yiu and Chowdhury, Omar},
+  title     = {On Re-engineering the {X.509} {PKI} with Executable Specification for Better Implementation Guarantees},
+  booktitle = {Proceedings of the 2021 ACM SIGSAC Conference on Computer and Communications Security (CCS '21)},
+  publisher = {ACM},
+  year      = {2021},
+  pages     = {1388--1404},
+  doi       = {10.1145/3460120.3484793}
+}
+
+@inproceedings{liu2015revocation,
+  author    = {Liu, Yabing and Tome, Will and Zhang, Liang and Choffnes, David and Levin, Dave and Maggs, Bruce and Mislove, Alan and Schulman, Aaron and Wilson, Christo},
+  title     = {An End-to-End Measurement of Certificate Revocation in the Web's {PKI}},
+  booktitle = {Proceedings of the 2015 Internet Measurement Conference (IMC '15)},
+  publisher = {ACM},
+  year      = {2015},
+  pages     = {183--196},
+  doi       = {10.1145/2815675.2815685}
+}
+
+@inproceedings{chung2018muststaple,
+  author    = {Chung, Taejoong and Lok, Jay and Chandrasekaran, Balakrishnan and Choffnes, David and Levin, Dave and Maggs, Bruce M. and Mislove, Alan and Rula, John and Sullivan, Nick and Wilson, Christo},
+  title     = {Is the Web Ready for {OCSP} Must-Staple?},
+  booktitle = {Proceedings of the Internet Measurement Conference 2018 (IMC '18)},
+  publisher = {ACM},
+  year      = {2018},
+  pages     = {105--118},
+  doi       = {10.1145/3278532.3278543}
+}
+
+@inproceedings{larisch2017crlite,
+  author    = {Larisch, James and Choffnes, David and Levin, Dave and Maggs, Bruce M. and Mislove, Alan and Wilson, Christo},
+  title     = {{CRLite}: A Scalable System for Pushing All {TLS} Revocations to All Browsers},
+  booktitle = {2017 IEEE Symposium on Security and Privacy},
+  publisher = {IEEE},
+  year      = {2017},
+  pages     = {539--556},
+  doi       = {10.1109/SP.2017.17}
+}
+
+@misc{aas2025ocsp,
+  author       = {Aas, Josh},
+  title        = {{OCSP} Service Has Reached End of Life},
+  howpublished = {Let's Encrypt, 6 August 2025},
+  year         = {2025},
+  url          = {https://letsencrypt.org/2025/08/06/ocsp-service-has-reached-end-of-life}
+}
+
+@inproceedings{abdulrahman2022faster,
+  author    = {Abdulrahman, Amin and Hwang, Vincent and Kannwischer, Matthias J. and Sprenkels, Amber},
+  title     = {Faster {Kyber} and {Dilithium} on the {Cortex-M4}},
+  booktitle = {Applied Cryptography and Network Security (ACNS 2022)},
+  series    = {LNCS},
+  volume    = {13269},
+  publisher = {Springer},
+  year      = {2022},
+  doi       = {10.1007/978-3-031-09234-3_42}
+}
+
+@inproceedings{gonzalez2021verifying,
+  author    = {Gonzalez, Ruben and H{\"u}lsing, Andreas and Kannwischer, Matthias J. and Kr{\"a}mer, Juliane and Lange, Tanja and St{\"o}ttinger, Marc and Waitz, Elisabeth and Wiggers, Thom and Yang, Bo-Yin},
+  title     = {Verifying Post-Quantum Signatures in 8\,{kB} of {RAM}},
+  booktitle = {Post-Quantum Cryptography (PQCrypto 2021)},
+  series    = {LNCS},
+  volume    = {12841},
+  publisher = {Springer},
+  year      = {2021},
+  note      = {Cryptology ePrint Archive, Paper 2021/662}
+}
+
+@inproceedings{bos2022dilithium,
+  author    = {Bos, Joppe W. and Renes, Joost and Sprenkels, Amber},
+  title     = {{Dilithium} for Memory Constrained Devices},
+  booktitle = {Progress in Cryptology -- AFRICACRYPT 2022},
+  series    = {LNCS},
+  volume    = {13503},
+  publisher = {Springer},
+  year      = {2022},
+  pages     = {217--235},
+  doi       = {10.1007/978-3-031-17433-9_10}
+}
+
+@article{dull2015highspeed,
+  author  = {D{\"u}ll, Michael and Haase, Bj{\"o}rn and Hinterw{\"a}lder, Gesine and Hutter, Michael and Paar, Christof and S{\'a}nchez, Ana Helena and Schwabe, Peter},
+  title   = {High-Speed {Curve25519} on 8-bit, 16-bit, and 32-bit Microcontrollers},
+  journal = {Designs, Codes and Cryptography},
+  volume  = {77},
+  number  = {2},
+  pages   = {493--514},
+  year    = {2015},
+  doi     = {10.1007/s10623-015-0087-1}
+}
+
+@inproceedings{burstinghaus2020embedded,
+  author    = {B{\"u}rstinghaus-Steinbach, Kevin and Krau{\ss}, Christoph and Niederhagen, Ruben and Schneider, Michael},
+  title     = {Post-Quantum {TLS} on Embedded Systems: Integrating and Evaluating {Kyber} and {SPHINCS+} with {mbed TLS}},
+  booktitle = {Proceedings of the 15th ACM Asia Conference on Computer and Communications Security (ASIA CCS '20)},
+  publisher = {ACM},
+  year      = {2020},
+  doi       = {10.1145/3320269.3384725}
+}
+
+@inproceedings{gonzalez2022kemtls,
+  author    = {Gonzalez, Ruben and Wiggers, Thom},
+  title     = {{KEMTLS} vs. Post-Quantum {TLS}: Performance on Embedded Systems},
+  booktitle = {Security, Privacy, and Applied Cryptography Engineering (SPACE 2022)},
+  series    = {LNCS},
+  publisher = {Springer},
+  year      = {2022},
+  doi       = {10.1007/978-3-031-22829-2_6}
+}
+
+@inproceedings{tasopoulos2023energy,
+  author    = {Tasopoulos, George and Dimopoulos, Charis and Fournaris, Apostolos P. and Zhao, Raymond K. and Sakzad, Amin and Steinfeld, Ron},
+  title     = {Energy Consumption Evaluation of Post-Quantum {TLS} 1.3 for Resource-Constrained Embedded Devices},
+  booktitle = {Proceedings of the 20th ACM International Conference on Computing Frontiers (CF '23)},
+  publisher = {ACM},
+  year      = {2023},
+  doi       = {10.1145/3587135.3592821}
+}
+
+@inproceedings{ghinea2023hybrid,
+  author    = {Ghinea, Diana and Kaczmarczyck, Fabian and Pullman, Jennifer and Cretin, Julien and K{\"o}lbl, Stefan and Misoczki, Rafael and Picod, Jean-Michel and Invernizzi, Luca and Bursztein, Elie},
+  title     = {Hybrid Post-Quantum Signatures in Hardware Security Keys},
+  booktitle = {Applied Cryptography and Network Security Workshops (ACNS 2023)},
+  series    = {LNCS},
+  volume    = {13907},
+  publisher = {Springer},
+  year      = {2023},
+  pages     = {480--499},
+  doi       = {10.1007/978-3-031-41181-6_26}
+}
+
+@misc{liu2026energy,
+  author       = {Liu, T. and Ramachandran, Gowri and Jurdak, Raja},
+  title        = {On the Energy Cost of Post-Quantum Key Establishment in Wireless Low-Power Personal Area Networks},
+  howpublished = {arXiv:2602.18708},
+  year         = {2026},
+  url          = {https://arxiv.org/abs/2602.18708}
+}
+
+@inproceedings{vanderkouwe2019sok,
+  author    = {van der Kouwe, Erik and Heiser, Gernot and Andriesse, Dennis and Bos, Herbert and Giuffrida, Cristiano},
+  title     = {{SoK}: Benchmarking Flaws in Systems Security},
+  booktitle = {2019 IEEE European Symposium on Security and Privacy (EuroS\&P)},
+  publisher = {IEEE},
+  year      = {2019}
+}
+
+@inproceedings{england2021amp,
+  author    = {England, Paul and Malvar, Henrique S. and Horvitz, Eric and others},
+  title     = {{AMP}: Authentication of Media via Provenance},
+  booktitle = {Proceedings of the 12th ACM Multimedia Systems Conference (MMSys '21)},
+  publisher = {ACM},
+  year      = {2021},
+  pages     = {108--121},
+  doi       = {10.1145/3458305.3459599}
+}
+
+@techreport{kaye2025privacy,
+  author      = {Kaye, Kate and Dixon, Pam},
+  title       = {Privacy, Identity and Trust in {C2PA}},
+  institution = {World Privacy Forum},
+  year        = {2025},
+  month       = sep,
+  url         = {https://worldprivacyforum.org/media/documents/c2pa_report.pdf}
+}
+
+@inproceedings{naveh2016photoproof,
+  author    = {Naveh, Assa and Tromer, Eran},
+  title     = {{PhotoProof}: Cryptographic Image Authentication for Any Set of Permissible Transformations},
+  booktitle = {2016 IEEE Symposium on Security and Privacy},
+  publisher = {IEEE},
+  year      = {2016},
+  pages     = {255--271},
+  doi       = {10.1109/SP.2016.23}
+}
+
+@techreport{chandra2024nist,
+  author      = {{National Institute of Standards and Technology}},
+  title       = {Reducing Risks Posed by Synthetic Content: An Overview of Technical Approaches to Digital Content Transparency},
+  institution = {National Institute of Standards and Technology},
+  number      = {NIST AI 100-4},
+  year        = {2024},
+  month       = nov,
+  doi         = {10.6028/NIST.AI.100-4}
+}
+
+@inproceedings{gennaro1997streams,
+  author    = {Gennaro, Rosario and Rohatgi, Pankaj},
+  title     = {How to Sign Digital Streams},
+  booktitle = {Advances in Cryptology -- CRYPTO '97},
+  series    = {LNCS},
+  volume    = {1294},
+  publisher = {Springer},
+  year      = {1997},
+  pages     = {180--197},
+  doi       = {10.1007/BFb0052235}
+}
+
+@inproceedings{perrig2000tesla,
+  author    = {Perrig, Adrian and Canetti, Ran and Tygar, J. D. and Song, Dawn},
+  title     = {Efficient Authentication and Signing of Multicast Streams over Lossy Channels},
+  booktitle = {2000 IEEE Symposium on Security and Privacy},
+  publisher = {IEEE},
+  year      = {2000},
+  pages     = {56--73},
+  doi       = {10.1109/SECPRI.2000.848446}
+}
+
+@techreport{onvif2026mediasigning,
+  author      = {{ONVIF}},
+  title       = {Media Signing Specification},
+  institution = {ONVIF},
+  number      = {Version 26.06},
+  year        = {2026},
+  month       = jun,
+  url         = {https://www.onvif.org/specs/stream/ONVIF-MediaSigning-Spec.pdf}
+}
+
+
+@techreport{rfc9019,
+  author      = {Moran, Brendan and Tschofenig, Hannes and Brown, David and Meriac, Milosch},
+  title       = {A Firmware Update Architecture for {Internet of Things}},
+  type        = {RFC},
+  number      = {9019},
+  institution = {RFC Editor},
+  year        = {2021},
+  month       = apr,
+  doi         = {10.17487/RFC9019}
+}
+
+@techreport{rfc9124,
+  author      = {Moran, Brendan and Tschofenig, Hannes and Birkholz, Henk},
+  title       = {A Manifest Information Model for Firmware Updates in {Internet of Things (IoT)} Devices},
+  type        = {RFC},
+  number      = {9124},
+  institution = {RFC Editor},
+  year        = {2022},
+  month       = jan,
+  doi         = {10.17487/RFC9124}
+}
+
+@techreport{etsi319122,
+  author      = {{ETSI}},
+  title       = {Electronic Signatures and Infrastructures ({ESI}); {CAdES} digital signatures; Part 1: Building blocks and {CAdES} baseline signatures},
+  institution = {European Telecommunications Standards Institute},
+  number      = {EN 319 122-1},
+  year        = {2021}
+}
+
+@inproceedings{newman2022sigstore,
+  author    = {Newman, Zachary and Meyers, John Speed and Torres-Arias, Santiago},
+  title     = {Sigstore: Software Signing for Everybody},
+  booktitle = {Proceedings of the 2022 ACM SIGSAC Conference on Computer and Communications Security (CCS '22)},
+  publisher = {ACM},
+  year      = {2022},
+  doi       = {10.1145/3548606.3560596}
+}
+
+@misc{c2paspec142,
+  author       = {Alfarajat, Mua'ad},
+  title        = {Does a leaf issued directly by a trust-list anchor satisfy the x5chain requirement to include ``all intermediate {CAs}''?},
+  howpublished = {C2PA specifications issue~\#142, filed 9 November 2026},
+  year         = {2026},
+  url          = {https://github.com/c2pa-org/specifications/issues/142}
+}
+
+@misc{c2paspec143,
+  author       = {Alfarajat, Mua'ad},
+  title        = {{CA}-signed {OCSP} responses: the {OCSPSigning}/end-entity rule conflicts with validating staples per {RFC} 6960 Section 3.2},
+  howpublished = {C2PA specifications issue~\#143, filed 9 November 2026},
+  year         = {2026},
+  url          = {https://github.com/c2pa-org/specifications/issues/143}
 }

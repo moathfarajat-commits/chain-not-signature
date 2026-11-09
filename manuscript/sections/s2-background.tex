@@ -30,28 +30,25 @@ $-50$~\cite{c2pa25}. It adds nothing for SLH-DSA or Falcon.
 \subsection{Post-quantum signatures}
 
 ML-DSA~\cite{fips204} is the module-lattice signature scheme NIST
-standardised in 2024, at three parameter sets. ML-DSA-44 targets NIST security
-category~2 rather than category~1, so it is not the drop-in counterpart of a
-128-bit classical parameter set that its name suggests. SLH-DSA~\cite{fips205}
-is a hash-based alternative with conservative assumptions and much larger
-signatures. FN-DSA, the standard NIST plans for Falcon as FIPS~206, had not
-appeared even in draft by 23~October 2026; in September 2026 NIST asked for
-comment on a revised plan that specifies fixed-point arithmetic for key
-generation and signing~\cite{nist_fips206_status,nist_fips206_forum,%
-nist_fips206_plan}. Composite signatures pair ML-DSA with a classical scheme: a verifier accepts only if both component signatures verify, so a forger must break both, and the signature stays secure as long as either algorithm does; the IETF specification is close to
-publication~\cite{ounsworth2026composite}, and no COSE identifiers have been
-assigned for them.
+standardised in 2024 at three parameter sets, for NIST security categories 2,
+3 and~5. SLH-DSA~\cite{fips205} is a hash-based alternative
+with conservative assumptions and much larger signatures. FN-DSA, the
+standard planned for Falcon as FIPS~206, had not appeared in draft by
+October 2026, and NIST has proposed changing its signing arithmetic from
+floating to fixed point~\cite{nist_fips206_status,nist_fips206_plan}.
+Composite signatures pair ML-DSA with a classical scheme and verify only if
+both components do; their X.509 identifiers are fixed by RFC~10073 of November
+2026~\cite{ounsworth2026composite}, but no COSE identifiers exist for them, or
+for FN-DSA or SLH-DSA~\cite{iana_cose,coseFalcon}.
 
-Signature and public-key sizes are what matter here, because both enter a
+Sizes are what matter here, because both a signature and a public key enter a
 manifest: the signature once, and the public key and the issuer's signature
 once per certificate. ML-DSA-44, 65 and 87 produce signatures of 2,420, 3,309
 and 4,627 bytes and public keys of 1,312, 1,952 and 2,592, against 64 and 32
 for Ed25519 and 256 and about 270 for RSA-2048. Certificates for ML-DSA and
 SLH-DSA are specified by RFCs~9881 and~9909~\cite{rfc9881,rfc9909}, and CMS
 signatures, which a timestamp token is, by RFCs~9882 and~9814~\cite{rfc9882,%
-rfc9814}. The IANA COSE registry has no entry for FN-DSA or SLH-DSA; the
-working-group draft for FN-DSA requested $-54$ and $-55$, but it expired on
-16~September 2026 with both values unassigned~\cite{iana_cose,coseFalcon}.
+rfc9814}.
 
 \subsection{Carrying certificates, or not}
 
@@ -60,5 +57,54 @@ signer~\cite{rfc9360}: \texttt{x5chain} carries certificates and \texttt{x5t}
 carries a thumbprint, leaving the verifier to find the certificate elsewhere.
 Within \texttt{x5chain} there is a further choice of how many certificates to
 carry. Section~\ref{sec:carrying} measures four forms: leaf, intermediate and
-root; leaf and intermediate, the form C2PA prescribes; the leaf alone; and the
-thumbprint.
+root; leaf and intermediate, the form C2PA prescribes; the leaf alone, which
+we call leaf-only carriage; and the thumbprint. We call the signer's issuing
+CA its intermediate when it is carried and an anchor when it is listed.
+
+Three sizes recur. The \emph{manifest} is everything the signer adds to the
+file: claim, assertions, COSE structure and JUMBF framing. The \emph{COSE
+structure} is the signature with its headers, which hold the certificates, any
+timestamp token and any OCSP response. The \emph{chain share} is the
+certificates' share of the manifest unless a table says otherwise.
+
+\subsection{Threat model}
+\label{sec:threat}
+
+A verifier that accepts a credential as \emph{Trusted} has established that
+the content's hash was signed by the holder of a key certified, through the
+carried path, by an anchor on the C2PA trust list, and, when a trusted
+timestamp is present, that this happened before a stated time at which the
+certificate was valid and, if revocation evidence is stapled, unrevoked. Five
+kinds of signature support that statement: the manifest signature, the
+issuer's signature on each carried certificate, the time-stamping authority's
+signature on the token and on its own certificates, the signature on the OCSP
+response, and, for live video, the signature of the session key on each
+segment. The root's self-signature supports nothing, since the verifier holds
+the root.
+
+We consider an adversary who can forge any classical signature whose public key
+it sees, as a quantum adversary running Shor's algorithm could, but cannot
+forge ML-DSA, SLH-DSA or a hash. Such an adversary does not need to steal a
+key. Forging a manifest signature attributes new content to a real signer;
+forging an issuer's signature mints a certificate under a listed anchor and
+then signs anything; forging a timestamp backdates a credential to before its
+signer was revoked; forging an OCSP response makes a revoked signer look
+current; and forging a session key's signature substitutes segments in a live
+stream. A credential is quantum-resistant only when every load-bearing
+signature is, and even then only while validators refuse classical
+credentials in its signer's name, since the adversary can otherwise mint a
+classical certificate under a classical anchor that is still listed; the trust
+list itself must reach validators under a signature the adversary cannot
+forge. Section~\ref{sec:mixedchain} asks which partial migrations leave a
+credential forgeable. Signatures have no analogue of harvesting
+ciphertext now to decrypt later, but once the adversary exists every
+classically signed credential becomes indistinguishable from a forgery, so
+archives need renewal before then (Section~\ref{sec:renewal}), and the PKI
+deployed today will still be issuing certificates when that adversary
+appears.
+
+For the validation findings of Section~\ref{sec:findings} the adversary is
+classical: an operator or thief of a time-stamping key, or anyone able to make
+a validator see a malformed timestamp. Removing a credential, watermarks,
+extracting keys from devices, and when a quantum computer arrives are outside
+the paper.

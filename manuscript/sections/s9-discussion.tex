@@ -1,35 +1,96 @@
 %% ---------------------------------------------------------------------------
-\section{Discussion and limitations}
+\section{Discussion}
 \label{sec:discussion}
 
-\paragraph{Where the standards stand}
-The measurements were planned against C2PA~2.4, which permitted only
-classical algorithms, and C2PA~2.5 added ML-DSA while they were under way.
-The specification has therefore caught up with RFC~9964 and the reference
-implementation has not: at commit \texttt{\NvalCommit} of 2~November 2026,
-\texttt{c2pa-rs} signs only classical algorithms, and making it validate an
-ML-DSA chain as trusted took the four-gate patch of Section~\ref{sec:patch}
-and a second one for path validation. Every size in this paper is a property of the encoding and carries over to any conforming implementation up to a constant of its own, which for \texttt{c2pa-rs} is about \Nlibgap{} bytes, mostly padding (Section~\ref{sec:patch}); every
-timing is a property of the libraries named beside it. Nothing in C2PA~2.5
-changes the carriage rules this paper relies on, and its trust-list snapshot
-identifiers are what a cache needs to invalidate correctly
-(Section~\ref{sec:cache}).
+\subsection{Recommendations}
+\label{sec:recommendations}
 
-\paragraph{What the recommendation asks of whom} Generators can stop carrying the root today. Leaf-only carriage needs the signer's issuing CA on the trust list, which is a decision for CAs and for the trust-list operator, and it shortens the path a validator checks as well as the manifest. It needs no change to the specification, but it is a change of trust policy, and the operator takes on four things in exchange for the saving. An anchor is trusted because it is listed: a validator that treats an issuing CA as an anchor no longer checks it against its root's revocation status, so withdrawing that CA means republishing the list, and every verifier must pick the change up. Issuing CAs rotate far more often than roots, so the list changes more often, and offline verifiers, which hold a copy, see each change later. Constraints that a root imposes on the CAs below it, on names, policies or path length, stop applying unless the anchor entry carries them. And an issuing CA retired from the list leaves its older manifests verifiable only by a validator that kept it, or that falls back to the full chain, which a generator should therefore still be able to emit. The trust-list snapshot identifiers of C2PA~2.5 make each change addressable, and Section~\ref{sec:cache} shows why a validator must honour them. Validators should tie cached trust decisions to the trust list, policy and validation time they were made under, and bound them by certificate validity and the currency of revocation status. The specification could say both outright.
+The measurements point to changes that need no new mechanism, and to whom
+each falls.
 
-\paragraph{Limitations}
-Remote trust-list resolution is not measured; it is a network round trip
-whose cost belongs to the deployment. The post-quantum certificates are ours,
-issued under a production-like profile, since no deployed signer issues them
-yet; production profiles vary by a few hundred bytes per certificate
-(Section~\ref{sec:method-decisions}), which moves the ratios we report by up to about ten per cent. Falcon and the composites carry placeholder object
-identifiers, and Falcon is measured as submitted rather than as FN-DSA will
-be standardised. HQC is not measured, and neither is any key establishment;
-encrypted archives, whose data keys would have to be re-wrapped under ML-KEM,
-lie outside the paper's question, and Section~S1 of the supplement measures
-that re-wrap separately. The validation matrix covers an ML-DSA-65 time-stamping authority only at that one parameter set, and every timestamp in it comes from our own authority, not a deployed one. The microcontroller energy figures are taken at three
-different points and compare algorithms on one board rather than boards with
-one another, and the radio figures are for one Bluetooth LE configuration, two boards about a metre apart in an office, with whatever interference that brought. No secure element and no accelerator beyond the CryptoCell was
-measured, and batched GPU verification of lattice
-signatures~\cite{shen2024gpu,lee2024falcon} is a question we leave open.
-Timings on the Xeon come from a small, two-core cloud virtual machine whose host load we do not control; the across-run intervals record what that cost, and its scaling curve stops at two workers.
+\emph{Certificate authorities and the trust-list operator.} List the issuing
+CAs that sign post-quantum claim-signing and time-stamping certificates as
+anchors, so that signers and time-stamping authorities can carry their leaf
+alone; that recovers \NtsBothLeafPct\% of a timestamped ML-DSA-65 manifest and
+half of each path. The operator takes on four things in exchange. An anchor is
+trusted because it is listed, so withdrawing an issuing CA means republishing
+the list, and offline verifiers see the change late. Claim-signing issuing CAs
+on the list live \NtlIcaYearsHi{} years against \NtlRootYearsMed{} for the
+median root, so the list changes more often. Constraints a root imposes on the CAs below it stop
+applying unless the anchor entry carries them. And a retired issuing CA leaves
+its older manifests verifiable only by a validator that kept it, so generators
+should still be able to emit the full chain. Migrate the time-stamping
+authority with the signer, issue post-quantum intermediates under a
+post-quantum root before relying on them, announce a date after which
+classical anchors leave the list, and sign the list itself with a
+post-quantum key (Section~\ref{sec:mixedchain}).
+
+\emph{Claim generators.} Stop carrying the root, as \NcorpProdRoot{} of the
+\NcorpProdChains{} production chains still do. Carry the leaf alone only when
+its issuer is a listed anchor. The \NcorpProdOneCert{} production chains that
+send only the leaf have no listed issuer and cannot reach \emph{Trusted}.
+Size the signature reservation for the post-quantum structure, or every
+capture pays a second round trip to the time-stamping authority. Keep the live
+stream's session key at the signer's algorithm.
+
+\emph{Validators.} Key cached trust decisions on the certificate, the
+trust-list snapshot, the policy and, for historical validation, the validation
+time, and bound them by path validity and the currency of revocation status
+(Section~\ref{sec:cache}). Test key-usage handling against certificates the
+validator should refuse, including time-stamping and OCSP-signing leaves
+(Section~\ref{sec:findings}), and do not treat an ignored stapled response as
+revocation checked.
+
+\emph{The specification.} Make omitting the root a requirement rather than a
+recommendation. Say explicitly that a leaf whose issuer is an anchor satisfies
+the requirement to carry all intermediates, for claim signers and for
+time-stamping authorities, as we have asked~\cite{c2paspec142}. Resolve the conflict between the OCSP-signing rule
+and RFC~6960~\cite{c2paspec143}: either accept responses signed by the issuing CA, or state that
+generators must staple delegated responses and that validators must report a
+CA-signed one rather than skip it in silence. And say how a cache must be
+keyed.
+
+\subsection{Renewing what is already signed}
+\label{sec:renewal}
+
+NIST's transition plan deprecates quantum-vulnerable signatures at the
+112-bit level after 2030 and disallows all of them after
+2035~\cite{nist_ir8547}, which turns re-signing archives into a scheduled
+job. A new signature over an old image does not carry the old
+attestation forward: renewal has to sign over the evidence, the asset's hash,
+the original manifest with its signature, path, timestamp and revocation
+status, all bound under a post-quantum timestamp, as Evidence Record Syntax
+and ETSI's long-term formats do~\cite{rfc4998,etsi319102,vigil2015survey}, and
+in C2PA terms as a new manifest that takes the original as an ingredient. It
+must happen while the original evidence can still be checked; a renewal made
+after a forger could have produced the original proves nothing about it. The
+signing itself is cheap: a model of hashing plus signing, tested against held
+out images and against batches of 4,800 assets in Section~S2 of the
+supplement, gives minutes of computation per million photographs. For
+capacity planning the lesson is about which statistic to use. Rejection
+sampling gives ML-DSA signing time a long right tail~\cite{riou2026}, so a
+batch costs the mean signing time, not the median, and an estimate built on
+medians is optimistic by 17 to 18 per cent.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+The post-quantum certificates are ours, issued under a production-like
+profile, since no deployed signer issues them yet; production profiles vary by
+a few hundred bytes per certificate, which moves the ratios by up to about ten
+per cent and the absolute growth not at all. The production files were priced
+by substitution rather than re-signed, and stapled OCSP responses were left
+classical. Falcon and the composites carry placeholder object identifiers, and
+Falcon is measured as submitted rather than as FN-DSA will be standardised.
+Every timestamp in the validation matrix comes from our own authority, and the
+post-quantum authority only at ML-DSA-65; the saving from a time-stamping
+authority's leaf-only token is computed from measured component sizes,
+because the library pads every signature to its reservation. The microcontroller energy figures
+compare algorithms on one board rather than boards with one another, and the
+radio figures are for one Bluetooth LE configuration, two boards about a metre
+apart in an office. No secure element, hardware security module or cloud key
+service was measured, and these are where phones and cloud signers keep their
+keys; the Cortex-M4 figures indicate what an element with a comparable core
+would take. The Xeon is a small two-vCPU virtual machine whose host
+load we do not control. Remote manifests, fetched by reference rather than
+embedded, move the bytes from the file to the network and were not measured.

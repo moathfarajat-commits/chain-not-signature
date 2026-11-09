@@ -123,6 +123,7 @@ def main():
         leaf(alg, d, "tseku", ic, ik, eku=ExtendedKeyUsageOID.TIME_STAMPING)
         # delegated OCSP responder issued by the signer's CA (RFC 6960 4.2.2.2)
         leaf(alg, d, "ocspresp", ic, ik, eku=ExtendedKeyUsageOID.OCSP_SIGNING)
+        leaf(alg, d, "emaileku", ic, ik, eku=ExtendedKeyUsageOID.EMAIL_PROTECTION)
         if alg in ("es256", "mldsa65"):
             leaf(alg, d, "bigcert", ic, ik, big=1_000_000)
         orc, ork, oic, oik = hierarchy(alg, f"{d}/other", "Unrelated")

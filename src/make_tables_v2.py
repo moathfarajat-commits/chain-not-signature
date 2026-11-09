@@ -13,6 +13,7 @@ number in the text is read from the same JSON as the tables.
     python3 src/make_tables_v2.py         # reads $LINEA_TABLE_IN or out/
 """
 
+import collections
 import json
 import os
 import statistics
@@ -83,6 +84,47 @@ def runs_note(d):
 
 # --- Table: post-quantum manifest cost -------------------------------------------
 
+# Published key and signature sizes (bytes) for the closed-form size model.
+# pk: the public key a certificate carries; sig_cose: the manifest signature;
+# sig_x509: the issuer's signature on a certificate (ECDSA is DER there).
+PK = {"Ed25519": 32, "ES256": 65, "PS256": 270, "ML-DSA-44": 1312,
+      "ML-DSA-65": 1952, "ML-DSA-87": 2592}
+SIG_COSE = {"Ed25519": 64, "ES256": 64, "PS256": 256, "ML-DSA-44": 2420,
+            "ML-DSA-65": 3309, "ML-DSA-87": 4627}
+SIG_X509 = dict(SIG_COSE, ES256=71)
+
+
+def size_model(by):
+    """M = F + s + sum over carried certificates of (pk + s_issuer) + O.
+
+    F (claim, assertions, COSE and JUMBF framing) and O (names, extensions and
+    DER of the two certificates) are fixed by the Ed25519 row and nothing else
+    is fitted."""
+    e = by["Ed25519"][0]
+    o = e["chain_der_bytes"] - 2 * (PK["Ed25519"] + SIG_X509["Ed25519"])
+    f = e["manifest_bytes"] - e["sig_bytes"] - e["chain_der_bytes"]
+    pred = {a: f + SIG_COSE[a] + 2 * (PK[a] + SIG_X509[a]) + o for a in by if a in PK}
+    errs = {a: 100 * (pred[a] - by[a][0]["manifest_bytes"]) / by[a][0]["manifest_bytes"]
+            for a in pred}
+    num("modelF", f"{f:,}")
+    num("modelO", f"{o:,}")
+    sw = load("e1_algsweep.json")
+    if sw:
+        for x in sw["results"]:
+            if x["chain_depth"] != 3 or x["family"] == "composite" or x["alg"] in errs:
+                continue
+            pk = x["public_key_bytes"]
+            if pk is None:
+                continue
+            sx = x["sig_bytes"]
+            m = f + x["sig_bytes"] + 2 * (pk + sx) + o
+            errs[x["alg"]] = 100 * (m - x["manifest_embedded_bytes"]) / x["manifest_embedded_bytes"]
+    num("modelN", f"{len(errs)}")
+    num("modelErrMax", f"{max(abs(v) for v in errs.values()):.1f}")
+    num("modelErrPQ", f"{max(abs(v) for a, v in errs.items() if a not in ('Ed25519', 'ES256', 'PS256')):.1f}")
+    return pred
+
+
 def tab_pq():
     d = load("e1_postquantum.json")
     if not d:
@@ -93,22 +135,24 @@ def tab_pq():
         by.setdefault(x["alg"], []).append(x)
     ps = by["PS256"][0]["manifest_bytes"]
     es = by["ES256"][0]["manifest_bytes"]
+    pred = size_model(by)
     lines = [
         r"\begin{table}[t]",
         r"\caption{Manifest cost by signature algorithm with the signer's "
         r"certificate and its intermediate in \texttt{x5chain}, the root "
-        r"omitted as C2PA~2.5 says it should be. Sizes are exact; the percentage is the "
-        r"median over the Kodak set with its range. \emph{vs ES256} and "
-        r"\emph{vs PS256} compare with the two algorithms deployed signers use "
-        r"(Section~\ref{sec:prodchains}). Signing time is the signature "
-        r"over the COSE \texttt{Sig\_structure} on " + machine(d) + ", through "
-        r"liboqs for ML-DSA and OpenSSL for the classical rows."
-        + runs_note(d) + "}",
+        r"omitted as C2PA~2.5 says it should be. \emph{Model} is the closed-form "
+        r"size of Section~\ref{sec:sizemodel}, from published key and signature "
+        r"sizes and two constants fixed by the Ed25519 row. \emph{+kB} is the "
+        r"growth over ES256; \emph{vs ES256} and \emph{vs PS256} compare with the "
+        r"two algorithms deployed signers use (Section~\ref{sec:prodchains}). "
+        r"Signing time is the signature over the COSE \texttt{Sig\_structure} on "
+        + machine(d) + ", through liboqs for ML-DSA and OpenSSL for the "
+        r"classical rows." + runs_note(d) + "}",
         r"\label{tab:pq}",
         r"\small", r"\setlength{\tabcolsep}{4pt}",
         r"\begin{tabular}{lrrrrrrrr}", r"\toprule",
-        r" & COSE & Sig. & Chain & Manifest & \% of image & vs & vs & Sign\\",
-        r"Algorithm & id & (B) & (B) & (B) & median (range) & ES256 & PS256 & (ms)\\",
+        r" & Sig. & Chain & Manifest & Model & +kB vs & vs & vs & Sign\\",
+        r"Algorithm & (B) & (B) & (B) & (B) & ES256 & ES256 & PS256 & (ms)\\",
         r"\midrule",
     ]
     for alg in ALG_ORDER:
@@ -120,14 +164,15 @@ def tab_pq():
         best = t.get("liboqs") or t.get("openssl")
         m = s[0]["manifest_bytes"]
         lines.append(
-            f"{alg} & {s[0]['cose_alg_id']} & {s[0]['sig_bytes']:,} & "
-            f"{s[0]['chain_der_bytes']:,} & {m:,} & "
-            f"{statistics.median(p):.2f} ({p[0]:.2f}--{p[-1]:.2f}) & "
+            f"{alg} & {s[0]['sig_bytes']:,} & "
+            f"{s[0]['chain_der_bytes']:,} & {m:,} & {pred[alg]:,} & "
+            + ("-- & " if alg == "ES256" else f"{(m - es) / 1000:+.1f} & ".replace("-", "$-$")) +
             f"{m / es:.1f}$\\times$ & {m / ps:.1f}$\\times$ & "
             f"{ms(best)}" + r"\\")
         key = tok(alg)
         num(f"manifest{key}", f"{m:,}")
         num(f"manifestkB{key}", kb(m))
+        num(f"deltaES{key}", f"{(m - es) / 1000:.1f}")
         num(f"cose{key}", f"{s[0]['cose_bytes']:,}")
         num(f"chainShareMan{key}", f"{100 * s[0]['chain_der_bytes'] / m:.0f}")
         num(f"vsPS{key}", f"{m / ps:.1f}")
@@ -135,6 +180,77 @@ def tab_pq():
         num(f"pctimg{key}", f"{statistics.median(p):.1f}")
     lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     emit("postquantum.tex", lines)
+
+
+def corpus_pq_numbers():
+    d = load("e1_corpus_pq.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
+    if not d:
+        return
+    s = d["results"]["summary"]
+    num("cpqFiles", f"{s['files']}")
+    num("cpqFileMedMB", f"{s['file_bytes_median'] / 1e6:.1f}")
+    num("cpqAddMedkB", f"{s['added_bytes_median'] / 1000:.0f}")
+    num("cpqAddPNinetykB", f"{s['added_bytes_p90'] / 1000:.0f}")
+    num("cpqAddMaxkB", f"{s['added_bytes_max'] / 1000:.0f}")
+    num("cpqPctMed", f"{s['added_pct_median']:.1f}")
+    num("cpqPctPNinety", f"{s['added_pct_p90']:.0f}")
+    num("cpqPctMax", f"{s['added_pct_max']:.0f}")
+    num("cpqOverOne", f"{s['files_over_1pct']}")
+    num("cpqOverTen", f"{s['files_over_10pct']}")
+    num("cpqStoreGrowth", f"{s['store_growth_median']:.1f}")
+    files = d["results"]["files"]
+    big = collections.Counter(x["generator"] for x in files if x["added_pct_of_file"] > 10)
+    top, ntop = big.most_common(1)[0]
+    other = [x for x in files if x["generator"] != top]
+    num("cpqOverTenTop", f"{ntop}")
+    num("cpqFilesOther", f"{len(other)}")
+    num("cpqOverTenOther", f"{sum(1 for x in other if x['added_pct_of_file'] > 10)}")
+
+
+def trustlist_numbers():
+    d = load("e1_trustlist.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
+    if not d:
+        return
+    r = d["results"]
+
+    def years(lst, role):
+        return sorted(x["validity_years"] for x in r if x["list"] == lst and x["role"] == role)
+    ci, cr = years("claim", "issuing CA"), years("claim", "root")
+    ti, tr = years("tsa", "issuing CA"), years("tsa", "root")
+    num("tlIcaYearsLo", f"{ci[0]:.0f}")
+    num("tlIcaYearsHi", f"{ci[-1]:.0f}")
+    num("tlRootYearsLo", f"{cr[0]:.0f}")
+    num("tlRootYearsHi", f"{cr[-1]:.0f}")
+    num("tlRootYearsMed", f"{statistics.median(cr):.0f}")
+    num("tsaIssuing", f"{len(ti)}")
+    num("tsaAnchors", f"{len(ti) + len(tr)}")
+    num("tsaIcaYearsLo", f"{ti[0]:.0f}")
+    num("tsaIcaYearsHi", f"{ti[-1]:.0f}")
+    num("tlClaimRoots", f"{len(cr)}")
+    num("tlBothLists", f"{sum(1 for x in r if x['list'] == 'claim' and x.get('also_on_other_list'))}")
+    num("tsaIcaUnderClaim", f"{sum(1 for x in r if x['list'] == 'tsa' and x['role'] == 'issuing CA' and x.get('issuer_on_other_list'))}")
+
+
+def tsa_carriage_numbers():
+    """Bytes a timestamped ML-DSA-65 manifest saves when the TSA's token carries
+    its signer certificate alone (its issuer on the TSA list), and when the
+    signer also carries its leaf alone. Derived from measured components."""
+    d = load("e1_timestamp.json")
+    if not d:
+        return
+    for x in d["results"]:
+        num(f"leafBytes{tok(x['alg'])}", f"{x['breakdown_signature']['leaf']:,}")
+        if x["alg"] != "ML-DSA-65":
+            continue
+        full = x["manifest_signed_and_timestamped_bytes"]
+        tsa_int = x["timestamp_details"]["tsa_cert_bytes"][1]
+        sig_int = x["breakdown_signature"]["intermediate"]
+        num("tsaLeafSaveB", f"{tsa_int:,}")
+        num("tsaLeafSavePct", f"{100 * tsa_int / full:.0f}")
+        both = full - tsa_int - sig_int
+        num("tsBothLeafB", f"{both:,}")
+        num("tsBothLeafkB", f"{both / 1000:.1f}")
+        num("tsBothLeafPct", f"{100 * (tsa_int + sig_int) / full:.0f}")
 
 
 # --- Table: carriage --------------------------------------------------------------
@@ -165,7 +281,7 @@ def tab_carriage():
         r"form conforms only when the leaf's issuer is itself on the trust "
         r"list.}",
         r"\label{tab:carriage}",
-        r"\small", r"\setlength{\tabcolsep}{3.5pt}",
+        r"\footnotesize", r"\setlength{\tabcolsep}{3.5pt}",
         r"\begin{tabular}{llcl" + "r" * len(algs) + "}", r"\toprule",
         (r" & & & & " + " & " * (len(algs) - 3) + r"\multicolumn{3}{c}{ML-DSA}\\"
          + r"\cmidrule(l){%d-%d}" % (len(algs) + 2, len(algs) + 4)
@@ -292,7 +408,7 @@ def tab_verify():
         r" & Decode & Path & Manifest & TST & TSA & \multicolumn{2}{c}{Hash} & "
         r"\multicolumn{2}{c}{Total}\\",
         r"\cmidrule(lr){7-8}\cmidrule(lr){9-10}",
-        r"Algorithm & & & signature & & path & median & 4\,MiB & median & 4\,MiB\\",
+        r"Algorithm & & & signature & & path & Kodak & 4\,MiB & Kodak & 4\,MiB\\",
         r"\midrule",
     ]
     for a in ALG_ORDER:
@@ -452,14 +568,14 @@ def tab_extras():
                    key=lambda x: x["alg"])
     lines = [
         r"\begin{table}[ht]",
-        r"\caption{Composite signatures (draft-ietf-lamps-pq-composite-sigs): "
+        r"\caption{Composite signatures (RFC~10073): "
         r"real certificates signed by both component keys, leaf and "
-        r"intermediate carried. Object identifiers are placeholders of the "
-        r"draft's length and no COSE identifier is assigned. This is a "
-        r"component-cost construction, not an implementation of the draft's "
+        r"intermediate carried. Object identifiers are placeholders that predate "
+        r"the RFC, of the draft's length, and no COSE identifier is assigned. This is a "
+        r"component-cost construction, not an implementation of the RFC's "
         r"combiner (domain separator, prehash and context), which changes what "
         r"is signed but not the length of any key or signature. Times are the "
-        r"two component operations in sequence. Verification is AND: with "
+        r"two component operations in sequence on " + machine(d) + ". Verification is AND: with "
         r"either component corrupted or the classical half removed, every "
         r"composite was rejected.}",
         r"\label{tab:composite}",
@@ -672,20 +788,23 @@ def tab_validation():
         r"algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a "
         r"reader error; SR means the library refused to sign, and \emph{direct} gives "
         r"the result for a COSE structure our harness built with the same "
-        r"certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA appears "
-        r"twice: with the signing patch alone (p1), path validation has no ML-DSA "
-        r"mapping and no chain becomes Trusted; p2 adds it. \emph{TST} is the "
-        r"timestamp's own status under p2: t trusted, m imprint mismatch, u "
+        r"certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA results "
+        r"are with both patches (p2); with the signing patch alone no ML-DSA chain "
+        r"becomes Trusted (Table~\ref{tab:valfull}). \emph{TST} is the "
+        r"timestamp's own status: t trusted, m imprint mismatch, u "
         r"untrusted; a mismatched or untrusted timestamp is ignored and the signer is "
         r"judged at the current time. Unless the row says otherwise the time-stamping "
         r"authority is ES256; the indented rows use an ML-DSA-65 authority and anchor. "
-        r"Bold marks a departure from the specification ($^\dagger$; both also occur "
-        r"in the unmodified library).}",
+        r"Bold marks a departure from the specification ($^\dagger$); the "
+        r"\emph{revoked} CA-signed OCSP row is where C2PA~2.5 and RFC~6960 disagree: "
+        r"its expected T is what the C2PA rule implies, not an endorsement "
+        r"(Section~\ref{sec:validation}). Both departures also occur in the unmodified "
+        r"library.}",
         r"\label{tab:validation}",
         r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
-        r"\begin{tabular}{llcccc}", r"\toprule",
-        r" & & ES256, & \multicolumn{2}{c}{ML-DSA-44/65/87} & \\", r"\cmidrule(lr){4-5}",
-        r"Case & Expected & Ed25519 & p1 & p2 & TST\\", r"\midrule",
+        r"\begin{tabular}{llccc}", r"\toprule",
+        r" & & ES256, & ML-DSA & \\",
+        r"Case & Expected & Ed25519 & 44/65/87 & TST\\", r"\midrule",
     ]
     for label, cases in VAL_ROWS:
         xs = [x for x in r if x["case"] in cases]
@@ -693,10 +812,9 @@ def tab_validation():
             continue
         exp = expect_map.get(xs[0]["expected"], xs[0]["expected"])
         c_cl, _ = cell(cases, ("es256", "ed25519"), "p2")
-        c_p1, _ = cell(cases, PQ, "p1")
         c_p2, _ = cell(cases, PQ, "p2")
         c_ts, _ = cell(cases, PQ + ("es256", "ed25519"), "p2", _tst)
-        lines.append(f"{label} & {exp} & {c_cl} & {c_p1} & {c_p2} & {c_ts}" + r"\\")
+        lines.append(f"{label} & {exp} & {c_cl} & {c_p2} & {c_ts}" + r"\\")
     lines += [r"\bottomrule", r"\end{tabular}", r"\end{table*}"]
     emit("validation.tex", lines)
 
@@ -1443,6 +1561,8 @@ def _summ(assets):
         "sent": sorted({x["certs_transmitted"] for x in u}),
         "root": sum(x["root_transmitted"] for x in u),
         "twocert": sum(1 for x in u if x["certs_transmitted"] == 2 and not x["root_transmitted"]),
+        "onecert": sum(1 for x in u if x["certs_transmitted"] == 1),
+        "onecert_listed": sum(1 for x in u if x["certs_transmitted"] == 1 and x["anchor_on_c2pa_list"]),
         "listed": sum(x["anchor_on_c2pa_list"] for x in u),
         "issuer": sum(bool(x["anchor_is_leaf_issuer"]) for x in u),
         "v2": sum(a["claim_version"] == "2.x" for a in assets),
@@ -1488,7 +1608,7 @@ def tab_corpus():
         r"and its median size. \emph{OCSP}: signatures carrying revocation "
         r"evidence.}",
         r"\label{tab:corpus}",
-        r"\small", r"\setlength{\tabcolsep}{3.3pt}",
+        r"\footnotesize", r"\setlength{\tabcolsep}{3.3pt}",
         r"\begin{tabular}{lrrrrlrrrrrrrr}", r"\toprule",
         r" & & & \multicolumn{2}{c}{Chains} & & & & & & & \multicolumn{2}{c}{TST} & \\",
         r"\cmidrule(lr){4-5}\cmidrule(lr){12-13}",
@@ -1525,6 +1645,8 @@ def tab_corpus():
         num(f"corp{t}Ps", f"{v['ps']}")
         num(f"corp{t}Root", f"{v['root']}")
         num(f"corp{t}TwoCert", f"{v['twocert']}")
+        num(f"corp{t}OneCert", f"{v['onecert']}")
+        num(f"corp{t}OneCertListed", f"{v['onecert_listed']}")
         num(f"corp{t}Listed", f"{v['listed']}")
         num(f"corp{t}Issuer", f"{v['issuer']}")
         num(f"corp{t}Ts", f"{v['ts']}")
@@ -1789,7 +1911,7 @@ def tab_corpus_supp():
     ch = list(csv.DictReader(open(os.path.join(base, "chains.csv"))))
     yn = lambda v: r"\checkmark" if v == "True" else ""
     lines = [
-        r"{\footnotesize",
+        r"{\scriptsize\setlength{\tabcolsep}{3pt}",
         r"\begin{longtable}{lllrrcccc}",
         r"\caption{The " + str(len(ch)) + r" distinct certificate chains in the "
         r"production corpus. \emph{Chain} is the first 16 hex digits of the "
@@ -1832,11 +1954,11 @@ def tab_corpus_supp():
         r"\begin{table}[ht]",
         r"\caption{Where the " + str(len(src)) + r" production files came from, "
         r"with the licence or terms each source states. All were downloaded on "
-        + ", ".join(sorted({r['download_date'] for r in src})) + r".}",
+        + " and ".join(sorted({__import__("datetime").date.fromisoformat(r['download_date']).strftime("%-d %B %Y") for r in src})) + r".}",
         r"\label{tab:corpussrc}",
         r"\small",
         r"\begin{tabular}{llr}", r"\toprule",
-        r"Source & Licence or terms & Files\\", r"\midrule",
+        r"\footnotesize",
     ]
     for (si, lic), n in sorted(cnt.items(), key=lambda kv: -kv[1]):
         lic = lic.replace("&", r"\&").replace("_", r"\_")
@@ -1911,6 +2033,9 @@ def write_numbers():
 def main():
     print(f"  reading {OUT}")
     tab_pq()
+    corpus_pq_numbers()
+    trustlist_numbers()
+    tsa_carriage_numbers()
     tab_carriage()
     tab_timestamp()
     tab_verify()

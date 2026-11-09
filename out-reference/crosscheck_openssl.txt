@@ -1,0 +1,16 @@
+Independent cross-check of the hand-built post-quantum structures with OpenSSL 4.1.0
+(23 Oct 2026, Homebrew openssl@4) on the M1 Pro, 9 November 2026.
+Certificates and tokens from c2pa-val/gen_certs.py and c2pa-val/tsa.py (work-extra run).
+
+openssl verify -CAfile root -untrusted int leaf:
+  mldsa44/leaf.pem OK, mldsa65/leaf.pem OK, mldsa87/leaf.pem OK, tsa_mldsa65/tsa.pem OK
+
+ML-DSA-65 RFC 3161 tokens (SHA-512 imprint), extracted with `openssl ts -reply -token_out`:
+  openssl cms -verify -binary -purpose timestampsign
+    token with TSA leaf + intermediate, CAfile = TSA root:                    Verification successful
+    token with TSA leaf only, intermediate supplied with -certfile:          Verification successful
+    token with TSA leaf only, CAfile = TSA intermediate, -partial_chain:    Verification successful
+  openssl ts -verify fails for every ML-DSA token with
+    "evp_pkey_signature_init: provider signature not supported ... ML-DSA-65 verify_init"
+    raised in PKCS7_signatureVerify: the ts command verifies through OpenSSL's PKCS#7 code,
+    which has no ML-DSA path; the CMS code it does not use verifies the same tokens.

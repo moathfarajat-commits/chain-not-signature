@@ -157,7 +157,7 @@ def tab_archive_batch():
         r"from the median fixed cost and from the mean. Only an index crosses "
         r"the process boundary; each worker holds the corpus and its "
         r"credential, so the timed region is hash and signature alone. The "
-        r"two error columns are the whole point: ECDSA barely distinguishes "
+        r"error columns show the effect: ECDSA barely distinguishes "
         r"the statistics and ML-DSA does, at one worker, where no contention "
         r"can explain it.}",
         r"\label{tab:archivebatch}",
@@ -196,7 +196,7 @@ def tab_archive_projection():
         rf"measured range, not measurements: the efficiency was measured on "
         rf"small images and is not established for large objects, and reading "
         rf"from storage and memory bandwidth are not modelled. The column "
-        rf"spread is the argument: at "
+        rf"spread shows it: at "
         rf"photographic sizes the algorithm barely moves the schedule, and "
         rf"below the crossover it decides it.}}",
         r"\label{tab:archiveproj}",

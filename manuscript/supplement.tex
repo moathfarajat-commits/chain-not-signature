@@ -19,24 +19,37 @@
 
 \begin{document}
 
-\title{Supplementary Material for ``The Chain, Not the Signature: What Post-Quantum Content Credentials Cost''}
+\title{Supplementary Material for ``The Chain, Not the Signature: Cost and Soundness of Post-Quantum Content Credentials''}
 \author{Mua'ad Alfarajat}
+\orcid{0000-0003-2489-4857}
 \affiliation{%
+  \department{Department of Computer Information Systems}
   \institution{The University of Jordan}
   \city{Aqaba}
   \country{Jordan}}
+\email{m.abufaraj@ju.edu.jo}
 \maketitle
 
-Section~S1 measures the re-wrapping of an encrypted archive under ML-KEM, which
-the paper leaves aside. Section~S2 collects the tables the paper summarises in
-its text. Section~S3 lists every case of the validation matrix, Section~S4 the
-production corpus, and Section~S5 gives the protocol and the studies of the
-reporting audit. Every value is generated from the same result files as the
-paper's own tables.
+Section~S1 documents the build defect the paper mentions in
+Section~\ref{sec:method}, times ML-DSA-65 through every build we could obtain,
+and reports how applied post-quantum studies describe their builds.
+Section~S2 measures the computation of re-signing an archive. Section~S3
+collects the tables the paper summarises in its text, Section~S4 lists every
+case of the validation matrix, Section~S5 the production corpus, and
+Section~S6 the protocol and the studies of the reporting audit. Every value is
+generated from the same result files as the paper's own tables.
 
-\section{Re-wrapping an encrypted archive}
-\label{sec:archive}
-\input{archive-rewrap}
+\section{Implementation and build}
+\label{sec:supp-impl}
+\input{tables/buildeffect}
+\input{supp-impl}
+
+\clearpage
+\section{Re-signing an archive}
+\label{sec:supp-archive}
+\input{supp-archive}
+\input{tables/archivebatch}
+\input{tables/archiveproj}
 
 \clearpage
 \section{Tables}
@@ -48,22 +61,13 @@ paper's own tables.
 \input{tables/hash}
 \input{tables/compress}
 \input{tables/composite}
-\FloatBarrier
 \input{tables/cache}
 \input{tables/cachestale}
 \input{tables/edge}
+\input{tables/radio}
 \input{tables/video}
 \input{tables/streamdetect}
-\FloatBarrier
 \input{tables/c2parust}
-\input{tables/buildeffect}
-\input{tables/archivebatch}
-\input{tables/archiveproj}
-\FloatBarrier
-\input{tables/keywrap}
-\input{tables/rewrap}
-\input{tables/rewrapcold}
-\FloatBarrier
 
 \clearpage
 \section{The validation matrix}

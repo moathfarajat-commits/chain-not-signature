@@ -1,0 +1,130 @@
+%% ---------------------------------------------------------------------------
+\section{Migration order and validation}
+\label{sec:findings}
+
+Cost is one half of a migration plan; the other is whether the migrated
+credential is sound. This section asks which partial migrations leave a
+credential forgeable, and whether the reference implementation enforces the
+rules a migration relies on.
+
+\input{sections/s4c-mixed}
+
+\subsection{What the reference implementation accepts}
+\label{sec:validation}
+
+\input{tables/validation}
+
+Table~\ref{tab:validation} gives a selection of the \Nvalcases{} cases of
+Section~\ref{sec:patch}; Table~\ref{tab:valfull} in the supplement lists every
+case for every algorithm. With both patches every ML-DSA case behaves as the
+classical ones do, and with the signing patch alone none reaches
+\emph{Trusted}, because path validation cannot check an ML-DSA certificate.
+
+\paragraph{A fully post-quantum credential works}
+A credential with an ES256 time-stamping authority validates in
+\NvalVerifyLo{} to \NvalVerifyHi\,ms on the M1 Pro. An ML-DSA-65 signer,
+timestamped by an ML-DSA-65 time-stamping authority under an ML-DSA-65 anchor,
+validates as \emph{Trusted} with a trusted timestamp in \NvalPqTsaMs\,ms, and still does after the signer's certificate
+has expired, which is the job a timestamp exists to do. A timestamp over other
+data, or from an untrusted authority, is ignored as the specification
+says~\cite{c2pa25}, and an expired signer with such a timestamp is rejected, so
+a rejected timestamp never lends a signer historical validity. The library
+rejects a modified image, a flipped signature bit and a COSE algorithm that
+does not match the key, stops short of \emph{Trusted} for a chain to an unknown
+anchor or a leaf whose intermediate is missing, refuses to sign with a leaf
+that fails its own certificate profile, and accepts the leaf alone when the
+leaf's issuer is an anchor, the configuration Section~\ref{sec:carrying}
+recommends. It does the same for the time-stamping authority: a token that
+carries only the authority's certificate yields a trusted timestamp when the
+authority's issuing CA is a time-stamping anchor, for every algorithm, and an
+untrusted one when only the root is. A manifest carrying a thumbprint fails with a reader error rather
+than a validation status, a 50-certificate chain is reported \emph{Valid} but not \emph{Trusted}, and a
+1\,MB certificate validates in \NvalBigCertMs\,ms using \NvalBigCertMB\,MB of
+memory.
+
+\paragraph{A time-stamping certificate is accepted as a claim signer}
+A leaf whose only extended key usage is \texttt{id-kp-timeStamping} validates
+as a \emph{Trusted} claim signer, for every algorithm, and still does under a
+policy whose usage list names only \texttt{c2pa-kp-claimSigning}. C2PA~2.5
+says that a certificate valid for time-stamping shall be valid for that purpose
+alone~\cite{c2pa25}. The library's key-usage check accepts e-mail protection,
+time-stamping and OCSP signing unconditionally, whatever the configured list
+says. Two added cases confirm it for every algorithm, through the tagged
+release for ES256 and Ed25519 and through the patched library for ML-DSA: a
+leaf valid only for e-mail protection, or only for OCSP signing, also
+validates as a \emph{Trusted} claim signer under the claim-signing-only
+policy, and the OCSP-signing leaf does so even though C2PA~2.5 confines such a
+certificate to that one purpose. In the terms of Section~\ref{sec:threat},
+whoever holds the key of a
+time-stamping authority whose certificate chains to a claim-signing anchor can
+sign manifests that every validator built on the library reports as
+\emph{Trusted}. Time-stamping keys are operated for another purpose, often by
+another party, and the separation the specification draws is meant to keep
+them out of attribution. On the live lists the condition is not hypothetical.
+\NtlBothLists{} of the \NtlClaimRoots{} roots on the claim-signing list are the
+same certificates as roots on the time-stamping list, and all
+\NtsaIcaUnderClaim{} time-stamping issuing CAs on the time-stamping list are
+issued by roots on the claim-signing list, among them Google's and DigiCert's.
+Every certificate those authorities use to sign timestamps therefore chains to
+a claim-signing anchor, and with this behaviour the key behind any of them can
+sign manifests that validate as \emph{Trusted}. The behaviour reproduces in the
+unmodified library at commit \texttt{\NvalCommit}, in the latest tagged
+release, c2pa-v0.91.9, and in the command-line tool c2patool~0.28.4, so it is
+not an artefact of our patch.
+
+\paragraph{A timestamp the validator should ignore invalidates the manifest}
+In the other direction, a time-stamping authority whose certificate lacks the
+time-stamping usage makes the whole manifest \emph{Invalid}, with status
+\texttt{signingCredential.invalid}, where the specification says to report the
+timestamp as untrusted and judge the signer at the current time. The token
+travels in the COSE unprotected header, so anyone who can rewrite a file can
+swap in such a token, and a misconfigured authority produces one by accident.
+Either way a credential that should verify is reported as \emph{Invalid}, the
+status of tampered content, which harms its signer more than removing the
+credential would. We reported this one publicly, with minimal
+vectors~\cite{c2pars3005}.
+
+\paragraph{Revocation stapled in a CA-signed response has no effect}
+RFC~6960 lets the issuing CA sign an OCSP response itself, with no special key
+usage~\cite{rfc6960}. C2PA~2.5 instead requires a response to be signed by an
+end-entity certificate valid for \texttt{id-kp-OCSPSigning}, while also asking
+validators to check stapled responses as RFC~6960 does, which accepts the
+CA-signed form~\cite{c2pa25}. The reference implementation resolves the
+tension by ignoring the response: it looks for the responder's certificate in
+the response, finds none, and treats the status as unknown, the same outcome as
+when nothing is stapled. A signer whose stapled, CA-signed response says
+\emph{revoked} therefore validates as \emph{Trusted}
+(Table~\ref{tab:validation}); we ran the matrix with online OCSP fetching off,
+so a validator that also fetches status could still catch it. The risk is to
+deployments that believe their stapled evidence protects them. A generator that
+staples revocation status, as \NcorpProdOcsp{} production signatures do, must
+use a delegated responder for it to count; under ML-DSA-65 a delegated
+response costs \NocspDelDSAsixtyfive{} bytes per manifest, because it carries
+the responder's certificate, against \NocspCADSAsixtyfive{} for a CA-signed
+one. Golaszewski et al.\ found that
+revocation checking is optional in C2PA~\cite{golaszewski2026}; here evidence
+is present and ignored.
+
+\paragraph{Disclosure}
+We reported the invalidating-timestamp behaviour publicly, with minimal
+vectors, as c2pa-rs issue \#3005 on 3 November 2026~\cite{c2pars3005}. The
+key-usage behaviour lets a time-stamping key sign trusted manifests, so we
+describe its cause and its reach here but withhold its signed vectors from
+the released data until it is fixed; its status codes are released. The OCSP
+behaviour follows the specification, so we raised it with the specification's
+editors~\cite{c2paspec143}, as we did the reading behind leaf-only
+carriage~\cite{c2paspec142}.
+
+\paragraph{Reading the findings}
+None of the three is specific to post-quantum algorithms; each appears with
+ES256 and Ed25519. Each, however, breaks a property a migration relies on:
+that a time-stamping key cannot attribute content, that a timestamp is judged
+as the specification says, and that a revoked signer stays revoked. As far as
+we can tell, the Content Authenticity Initiative's SDKs for other languages and
+its public verification site are built on the same library, so its behaviour
+is, in practice, the validator most credentials meet~\cite{c2pars}. They belong to the class of certificate-validation defects
+that adversarial testing of TLS libraries exposed a decade
+ago~\cite{brubaker2014frankencerts,debnath2021ceres}. They surfaced because
+adding an algorithm called for a conformance matrix with negative cases, and a
+migration that adds the algorithm without one carries such defects over
+unnoticed.
