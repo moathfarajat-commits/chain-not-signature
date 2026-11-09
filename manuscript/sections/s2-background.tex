@@ -58,7 +58,7 @@ carries a thumbprint, leaving the verifier to find the certificate elsewhere.
 Within \texttt{x5chain} there is a further choice of how many certificates to
 carry. Section~\ref{sec:carrying} measures four forms: leaf, intermediate and
 root; leaf and intermediate, the form C2PA prescribes; the leaf alone, which
-we call leaf-only carriage; and the thumbprint. We call the signer's issuing
+I call leaf-only carriage; and the thumbprint. I call the signer's issuing
 CA its intermediate when it is carried and an anchor when it is listed.
 
 Three sizes recur. The \emph{manifest} is everything the signer adds to the
@@ -82,7 +82,7 @@ response, and, for live video, the signature of the session key on each
 segment. The root's self-signature supports nothing, since the verifier holds
 the root.
 
-We consider an adversary who can forge any classical signature whose public key
+I consider an adversary who can forge any classical signature whose public key
 it sees, as a quantum adversary running Shor's algorithm could, but cannot
 forge ML-DSA, SLH-DSA or a hash. Such an adversary does not need to steal a
 key. Forging a manifest signature attributes new content to a real signer;

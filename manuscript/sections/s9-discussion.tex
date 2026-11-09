@@ -44,7 +44,7 @@ revocation checked.
 \emph{The specification.} Make omitting the root a requirement rather than a
 recommendation. Say explicitly that a leaf whose issuer is an anchor satisfies
 the requirement to carry all intermediates, for claim signers and for
-time-stamping authorities, as we have asked~\cite{c2paspec142}. Resolve the conflict between the OCSP-signing rule
+time-stamping authorities, as I have asked~\cite{c2paspec142}. Resolve the conflict between the OCSP-signing rule
 and RFC~6960~\cite{c2paspec143}: either accept responses signed by the issuing CA, or state that
 generators must staple delegated responses and that validators must report a
 CA-signed one rather than skip it in silence. And say how a cache must be
@@ -75,14 +75,14 @@ medians is optimistic by 17--18\%.
 \subsection{Limitations}
 \label{sec:limitations}
 
-The post-quantum certificates are ours, issued under a production-like
+The post-quantum certificates are mine, issued under a production-like
 profile, since no deployed signer issues them yet; production profiles vary by
 a few hundred bytes per certificate, which moves the ratios by up to about 10\%
 and the absolute growth not at all. The production files were priced
 by substitution rather than re-signed, and stapled OCSP responses were left
 classical. Falcon and the composites carry placeholder object identifiers, and
 Falcon is measured as submitted rather than as FN-DSA will be standardised.
-Every timestamp in the validation matrix comes from our own authority, and the
+Every timestamp in the validation matrix comes from my own authority, and the
 post-quantum authority only at ML-DSA-65; the saving from a time-stamping
 authority's leaf-only token is computed from measured component sizes,
 because the library pads every signature to its reservation. The microcontroller energy figures
@@ -92,5 +92,5 @@ apart in an office. No secure element, hardware security module or cloud key
 service was measured, and these are where phones and cloud signers keep their
 keys; the Cortex-M4 figures indicate what an element with a comparable core
 would take. The Xeon is a small two-vCPU virtual machine whose host
-load we do not control. Remote manifests, fetched by reference rather than
+load I do not control. Remote manifests, fetched by reference rather than
 embedded, move the bytes from the file to the network and were not measured.

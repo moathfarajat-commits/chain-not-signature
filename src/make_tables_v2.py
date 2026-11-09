@@ -783,12 +783,12 @@ def tab_validation():
     lines = [
         r"\begin{table*}[t]",
         r"\caption{Validation through the reference implementation, \texttt{c2pa-rs} "
-        r"at commit \texttt{" + d["env"]["c2pa_rs"][:7] + r"} with our RFC~9964 "
+        r"at commit \texttt{" + d["env"]["c2pa_rs"][:7] + r"} with my RFC~9964 "
         r"patch: a selection of the " + str(len({x['case'] for x in r})) + r" cases; "
         r"Table~\ref{tab:valfull} in the supplement lists every case for every "
         r"algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a "
         r"reader error; SR means the library refused to sign, and \emph{direct} gives "
-        r"the result for a COSE structure our harness built with the same "
+        r"the result for a COSE structure my harness built with the same "
         r"certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA results "
         r"are with both patches (p2); with the signing patch alone no ML-DSA chain "
         r"becomes Trusted (Table~\ref{tab:valfull}). \emph{TST} is the "
@@ -823,7 +823,7 @@ def tab_validation():
     algs = ["es256", "ed25519", "mldsa44", "mldsa65", "mldsa87"]
     full = [
         r"{\footnotesize",
-        r"\begin{longtable}{p{4.6cm}p{1.2cm}ccccccc}",
+        r"\begin{longtable}{>{\raggedright\arraybackslash}p{4.2cm}p{1.2cm}ccccccc}",
         r"\caption{Every case of the validation matrix: the library's outcome "
         r"under the extended patch (p2) for each algorithm, with the timestamp's own "
         r"status after a slash (t trusted, m mismatch, u untrusted). \emph{p1}: the "
@@ -848,7 +848,7 @@ def tab_validation():
             cells.append(f"{_outcome(y[0])}/{_tst(y[0])}".replace("/--", "") if y else "")
         p1 = sorted({_outcome(x) for x in xs if x["patch"] == "p1" and x["alg"] in PQ})
         p0 = sorted({_outcome(x) for x in xs if x["patch"] == "p0"})
-        name = c.replace("_", r"\_")
+        name = c.replace("_", r"\_\allowbreak{}")
         full.append(f"\\texttt{{{name}}} & {exp} & " + " & ".join(cells)
                     + f" & {'/'.join(p1)} & {'/'.join(p0)}" + r"\\")
     full += [r"\end{longtable}", "}"]
@@ -1431,8 +1431,8 @@ def tab_impls_x86():
     t = t.replace(r"\midrule", r"\midrule" + "\n" + r"\multicolumn{6}{l}{\emph{Apple M1 Pro, arm64}}\\", 1)
     t = t.replace(r"\bottomrule", "\n".join(block) + "\n" + r"\bottomrule", 1)
     t = t.replace("ML-DSA-65 on one Apple M1 Pro through every implementation "
-                  "and build we could obtain,",
-                  "ML-DSA-65 through every implementation and build we could "
+                  "and build I could obtain,",
+                  "ML-DSA-65 through every implementation and build I could "
                   "obtain on the M1 Pro, and the corresponding builds on the "
                   "Xeon VM,")
     open(path, "w").write(t)
@@ -1489,7 +1489,8 @@ def tab_audit():
         r"\bottomrule", r"\endfoot",
     ]
     for r in sorted(rows, key=lambda r: (r["year"], r["key"])):
-        area = r["application_area"].replace("&", r"\&").replace("_", r"\_")
+        area = (r["application_area"].replace("&", r"\&").replace("_", r"\_")
+                .replace("/", r"/\allowbreak{}"))
         lines.append(
             f"\\citet{{{r['key']}}} & {area} & {mark(yes(r, 'implementation_named'))} & "
             f"{mark(yes(r, 'version_reported'))} & {mark(yes(r, 'compiler_named'))} & "
@@ -1851,7 +1852,7 @@ def tab_libsize():
         r"\begin{table}[t]",
         r"\caption{Manifests written by the C2PA reference implementation "
         r"(c2pa-rs \texttt{e2ad88e} with the RFC~9964 patch), carrying leaf and "
-        r"intermediate, without a timestamp, over \texttt{kodim01}, against our "
+        r"intermediate, without a timestamp, over \texttt{kodim01}, against my "
         r"direct structure over the same image. \emph{Padding} is the space "
         r"c2pa-rs reserves in the unprotected header; \emph{outside} is the "
         r"claim, assertions and JUMBF framing around the signature. Validation "

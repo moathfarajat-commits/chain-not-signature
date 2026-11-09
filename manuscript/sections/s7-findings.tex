@@ -70,7 +70,7 @@ a claim-signing anchor, and with this behaviour the key behind any of them can
 sign manifests that validate as \emph{Trusted}. The behaviour reproduces in the
 unmodified library at commit \texttt{\NvalCommit}, in the latest tagged
 release, c2pa-v0.91.9, and in the command-line tool c2patool~0.28.4, so it is
-not an artefact of our patch.
+not an artefact of my patch.
 
 \paragraph{A timestamp the validator should ignore invalidates the manifest}
 In the other direction, a time-stamping authority whose certificate lacks the
@@ -93,7 +93,7 @@ tension by ignoring the response: it looks for the responder's certificate in
 the response, finds none, and treats the status as unknown, the same outcome as
 when nothing is stapled. A signer whose stapled, CA-signed response says
 \emph{revoked} therefore validates as \emph{Trusted}
-(Table~\ref{tab:validation}); we ran the matrix with online OCSP fetching off,
+(Table~\ref{tab:validation}); I ran the matrix with online OCSP fetching off,
 so a validator that also fetches status could still catch it. The risk is to
 deployments that believe their stapled evidence protects them. A generator that
 staples revocation status, as \NcorpProdOcsp{} production signatures do, must
@@ -105,15 +105,15 @@ revocation checking is optional in C2PA~\cite{golaszewski2026}; here evidence
 is present and ignored.
 
 \paragraph{Disclosure}
-We reported the invalidating-timestamp behaviour publicly, with minimal
+I reported the invalidating-timestamp behaviour publicly, with minimal
 vectors, as c2pa-rs issue \#3005 on 3 November 2026~\cite{c2pars3005}. The
-key-usage behaviour lets a time-stamping key sign trusted manifests, so we
+key-usage behaviour lets a time-stamping key sign trusted manifests, so I
 reported it privately, with its vectors, to Adobe's product security team,
-which handles security reports for the library, on 9 November 2026. We
+which handles security reports for the library, on 9 November 2026. I
 describe its cause and its reach here but withhold its signed vectors from
 the released data until it is fixed; its status codes are released. The OCSP
-behaviour follows the specification, so we raised it with the specification's
-editors~\cite{c2paspec143}, as we did the reading behind leaf-only
+behaviour follows the specification, so I raised it with the specification's
+editors~\cite{c2paspec143}, as I did the reading behind leaf-only
 carriage~\cite{c2paspec142}.
 
 \paragraph{Reading the findings}
@@ -121,7 +121,7 @@ None of the three is specific to post-quantum algorithms; each appears with
 ES256 and Ed25519. Each, however, breaks a property a migration relies on:
 that a time-stamping key cannot attribute content, that a timestamp is judged
 as the specification says, and that a revoked signer stays revoked. As far as
-we can tell, the Content Authenticity Initiative's SDKs for other languages and
+I can tell, the Content Authenticity Initiative's SDKs for other languages and
 its public verification site are built on the same library, so its behaviour
 is, in practice, the validator most credentials meet~\cite{c2pars}. The three belong to the class of certificate-validation defects
 that adversarial testing of TLS libraries exposed a decade

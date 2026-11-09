@@ -1,8 +1,8 @@
 \subsection{The chains deployments actually ship}
 \label{sec:prodchains}
 
-The configuration costed so far is ours, and a reader is entitled to ask what
-signers actually ship. We read the signatures out of \NcorpProdAssets{} files
+The configuration costed so far is mine, and a reader is entitled to ask what
+signers actually ship. I read the signatures out of \NcorpProdAssets{} files
 signed by production software, \NcorpProdGens{} signing applications from
 camera and phone makers, AI image services, editing tools and news
 publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples, public datasets and vendor posts, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once; \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
@@ -45,7 +45,7 @@ each.
 \NcorpProdTstLo{} to \NcorpProdTstHi{} bytes with a median of
 \NcorpProdTstMed{}: about 2\,kB for an ECDSA time-stamping authority with two
 certificates, as on Google's devices, and about 6\,kB for an RSA-4096 one with
-three. Our ES256 and PS256 tokens, \NtokenBytesES{} and \NtokenBytesPS{}
+three. The ES256 and PS256 tokens built here, \NtokenBytesES{} and \NtokenBytesPS{}
 bytes, sit at the small end of that range. Stapled revocation evidence travels
 with \NcorpProdOcsp{} production signatures, so the OCSP column of
 Table~\ref{tab:timestamp} describes what a quarter of today's signatures
@@ -60,12 +60,12 @@ still accept.
 
 \emph{What ML-DSA-65 would add to these files.} Because size is additive in
 the components (Equation~\ref{eq:size}), the migration can be priced on the
-files themselves. For each of the \NcpqFiles{} production files we kept
+files themselves. For each of the \NcpqFiles{} production files I kept
 everything it carries, claims, assertions, ingredients, thumbnails and the
 number of certificates each signer and each time-stamping authority sends, and
-replaced every signature, carried certificate and timestamp token with our
+replaced every signature, carried certificate and timestamp token with my
 measured ML-DSA-65 counterpart of the same role, so production names and
-extensions give way to our profile. Stapled OCSP responses, whose size the
+extensions give way to my profile. Stapled OCSP responses, whose size the
 files do not expose, were left classical, which understates the growth of the
 signatures that carry one. The median file is \NcpqFileMedMB\,MB; the median
 growth is \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and the median

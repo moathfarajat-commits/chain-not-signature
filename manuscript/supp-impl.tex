@@ -9,7 +9,7 @@ The cause turned out to be the build, not the architecture.
 
 \input{tables/impls}
 
-Table~\ref{tab:impls} times ML-DSA-65 through every build we could obtain on
+Table~\ref{tab:impls} times ML-DSA-65 through every build I could obtain on
 each machine, with one C harness driving every OpenSSL build through the call
 sequence the Python package uses, so that between rows only the build
 changes. Read the last two M1 rows first. They are the same
@@ -32,10 +32,10 @@ difference that looked like an architecture effect.
 The defect is easy to miss because it spares exactly the operations a sanity
 check would use: SHA-2, SHA-3 and elliptic-curve arithmetic go through
 hand-written assembly on arm64, which does not care about \texttt{-O}, and
-every post-quantum algorithm in OpenSSL is C (Table~\ref{tab:buildeffect}). The same compiler line appears in every macOS wheel we
+every post-quantum algorithm in OpenSSL is C (Table~\ref{tab:buildeffect}). The same compiler line appears in every macOS wheel I
 examined, from 3.4 in 2021 to 50.0.1. Its cause is \texttt{CFLAGS} set in the
 build workflow's environment, which OpenSSL's \texttt{Configure} takes as a
-replacement for its defaults; we reported it with a two-line fix, merged the
+replacement for its defaults; I reported it with a two-line fix, merged the
 same day~\cite{pyca_issue15702,pyca_infra796}, and the macOS wheel of 50.0.2
 records \texttt{-O3 -Wall}.
 
@@ -62,13 +62,13 @@ Both builds in the last two M1 rows report themselves as
 \texttt{cryptography} 50.0.1 over OpenSSL 4.0.2, so a paper that named both
 would still have published a figure ten times too slow and had no way to know.
 A post-quantum timing needs the implementation, its version and the flags it
-was compiled with. To see how often applied work reports them, we coded \NauditN{} studies published from 2022 to 2026 that time their own post-quantum
+was compiled with. To see how often applied work reports them, I coded \NauditN{} studies published from 2022 to 2026 that time their own post-quantum
 signatures or key encapsulation in an applied setting (TLS and QUIC, IoT and
 embedded, VPN, DNSSEC, blockchain, vehicles, PKI), excluding papers whose
 contribution is an optimised implementation, which always report their build
 (Table~\ref{tab:audit}; the protocol is in Section~\ref{sec:auditprotocol}). Of the \NauditN, \NauditLib{} name their library and \NauditVer{} its version; \NauditCc{} name a compiler and \NauditFlags{} say something about the build, but only \NauditOlevel{} state an explicit optimisation level such as \texttt{-O3}, and those same \NauditBoth{} are the only ones to give both compiler and optimisation level. Of the \NauditOqs{} that use liboqs, \NauditOqsBuild{} give the optimisation level they built it with and \NauditOqsAny{} say anything about the build, although its optimised and portable paths differ by a factor of two or three (Table~\ref{tab:impls}). \NauditNoSpread{} report no measure of spread, among them \NauditMeanNoSpread{} that give a mean alone and \NauditNoStat{} that give no statistic at all, so a reader cannot tell whether a difference exceeds the run-to-run spread. One author coded every study, without a second rater, and the sample leans to open-access and preprint work; the counts describe this sample, not the field.
 
-The effect is not confined to signatures. Our matched-implementation control
+The effect is not confined to signatures. My matched-implementation control
 on key encapsulation attributes a factor of 4.2 to 4.7 of the gap between HQC
 and ML-KEM to implementation maturity~\cite{alfarajat2026hqc}. The control
 costs little: run the candidate algorithms through one further

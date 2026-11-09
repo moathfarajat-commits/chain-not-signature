@@ -469,7 +469,7 @@ def tab_impls():
     body = [
         r"\begin{table}[t]",
         r"\caption{ML-DSA-65 on one Apple M1 Pro through every implementation "
-        r"and build we could obtain, 1,000 timed calls each after 50 discarded. "
+        r"and build I could obtain, 1,000 timed calls each after 50 discarded. "
         r"The C harness uses one call sequence for every OpenSSL build, the same "
         r"one the Python \texttt{cryptography} package uses. The last two rows "
         r"are the same package version over the same OpenSSL version and differ "
