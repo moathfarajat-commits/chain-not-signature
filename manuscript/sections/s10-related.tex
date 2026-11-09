@@ -27,13 +27,13 @@ the server picks a chain~\cite{trustanchorids}; and Merkle Tree Certificates
 replace the per-certificate signature with an inclusion
 proof~\cite{merkletreecerts}.
 
-I confirm the structural result for manifests, with ML-DSA, SLH-DSA, Falcon
+We confirm the structural result for manifests, with ML-DSA, SLH-DSA, Falcon
 and composites, and generic compression fails as it does in TLS. What does
 not transfer is the setting in which the remedies work. Every one of them is
 negotiated or assumes an online peer, and a manifest is neither: its chain is
 paid once per object and kept for the life of the file, the carriage form is
 fixed when the file is signed, and the verifier may be offline for good. That
-is why I recommend the leaf over the thumbprint where the TLS analogy would
+is why we recommend the leaf over the thumbprint where the TLS analogy would
 favour the smaller option, and why leaf-only carriage matters: it is the
 manifest counterpart of suppression, with the C2PA trust list as the set every
 verifier is known to hold, available today because that list anchors issuing
@@ -89,11 +89,11 @@ memory-constrained verifiers that stream ML-DSA in a few
 kilobytes~\cite{gonzalez2021verifying,bos2022dilithium}. Post-quantum TLS
 has been run on Cortex-M parts, where transferring the chain dominates on slow
 links~\cite{burstinghaus2020embedded,gonzalez2022kemtls}, and its energy has
-been measured on an STM32~\cite{tasopoulos2023energy}. On the nRF52840 I use,
+been measured on an STM32~\cite{tasopoulos2023energy}. On the nRF52840 we use,
 Ghinea et al.\ ran hybrid ECDSA and Dilithium signing in a hardware security
 key~\cite{ghinea2023hybrid}, and Liu et al.\ separated the compute energy of
 post-quantum key establishment from its Bluetooth LE radio
-energy~\cite{liu2026energy}. I measure the other half of that problem:
+energy~\cite{liu2026energy}. We measure the other half of that problem:
 receiving and verifying a signed credential, where the carriage form sets both
 the bytes on air and the memory the verifier needs. Methodology has become a
 subject of its own, from benchmarking flaws in systems
@@ -110,7 +110,7 @@ google2025pixel}. Golaszewski et al.\ give the first independent security
 analysis and find that the specification does not meet its stated goals,
 among other things because revocation checking is optional and generators and
 validators disagree about which timestamp is trusted~\cite{%
-golaszewski2026eprint,golaszewski2026}; my findings in
+golaszewski2026eprint,golaszewski2026}; our findings in
 Section~\ref{sec:findings} are of the same kind and concern the key-usage
 rules for signers, time-stamping authorities and OCSP responders. The privacy
 of credentials, which certificates reveal and how trust lists link signers, is
@@ -120,7 +120,7 @@ PhotoProof~\cite{naveh2016photoproof} and VerITAS~\cite{datta2025veritas}
 prove in zero knowledge that a published image differs from a signed original
 only by permitted edits, and post-quantum signatures have been proposed for
 image authenticity outside C2PA~\cite{iavich2025pqveritas,%
-alkhatib2025deepfake}; none measures the credential that ships, and to my
+alkhatib2025deepfake}; none measures the credential that ships, and to our
 knowledge this paper is the first measurement of post-quantum signatures
 inside it. Watermarks are the alternative to a signature and rest on no
 assumption Shor's algorithm breaks, but they fail by removal or

@@ -20,7 +20,7 @@ identifier, and a signature with the signer's chain. In the second, the
 stream's first manifest carries the chain and a session key bound to the
 signer, and each segment carries only a small Verifiable Segment Info map,
 its sequence number, hash and manifest identifier, signed by the session key.
-I signed real streams both ways on one core of the Pi~5: \NstreamSeconds{} seconds of 1080p30 H.264 at 12\,Mbit/s and of 4K30 HEVC at 40\,Mbit/s, in fragmented MP4 with one-second fragments. As an upper bound I also signed every encoded frame with the
+We signed real streams both ways on one core of the Pi~5: \NstreamSeconds{} seconds of 1080p30 H.264 at 12\,Mbit/s and of 4K30 HEVC at 40\,Mbit/s, in fragmented MP4 with one-second fragments. As an upper bound we also signed every encoded frame with the
 chain attached, which C2PA does not define.
 
 \input{tables/stream}
@@ -43,7 +43,7 @@ Replaying each stream with ten manipulations (Table~\ref{tab:streamdetect} in th
 \subsection{Credentials on a microcontroller}
 \label{sec:mcu}
 
-I signed and verified the same manifests on three microcontrollers and
+We signed and verified the same manifests on three microcontrollers and
 measured the energy, and the radio cost of each carriage form over Bluetooth
 LE. The Raspberry Pi Pico (RP2040, Cortex-M0+ at 125\,MHz, 264\,KiB of SRAM)
 runs PQClean's portable C; the NUCLEO-L4R5ZI (STM32L4R5, Cortex-M4F,
@@ -92,7 +92,7 @@ kilobytes~\cite{gonzalez2021verifying,bos2022dilithium}, which leaves the
 received credential, and so the carriage form, as the irreducible part.
 
 
-I measured the radio both ways between two nRF52840-DKs, each manifest form
+We measured the radio both ways between two nRF52840-DKs, each manifest form
 sent ten times per round in three rounds, with the measured board as sender
 and then as receiver (Table~\ref{tab:radio} in the supplement). Energy grows in a straight line
 with the bytes: \NbleTxNj\,nJ a byte to send and \NbleRxNj\,nJ a byte to
@@ -111,7 +111,7 @@ once to check it.
 \label{sec:constrained}
 
 The devices signing the most photographs are phones, which sign inside secure
-elements, and no development board reproduces that. The boards measured here indicate the range without measuring it: an application processor signs every frame with time to
+elements, and no development board reproduces that. Our boards indicate the range without measuring it: an application processor signs every frame with time to
 spare, and a Cortex-M4 needs a few frame periods and tens of kilobytes of
 stack per ML-DSA signature. ML-DSA offers a way to split the work. The
 external-$\mu$ variant lets the application processor hash the message

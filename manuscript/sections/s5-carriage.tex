@@ -21,7 +21,7 @@ of every comparison in this paper.
 leaf is itself on the trust list, it is the anchor, and on the reading that
 an anchor is not an intermediate to be carried, the leaf alone is
 conformant; the specification does not exclude that reading, the reference
-implementation accepts the form (Section~\ref{sec:validation}), and I have
+implementation accepts the form (Section~\ref{sec:validation}), and we have
 asked the specification's editors to confirm it~\cite{c2paspec142}. The C2PA trust list is
 built to allow this: \NtlIssuing{} of its \NtlAnchors{} anchors are issuing
 CAs rather than roots, among them Google's capture and media CAs, DigiCert's
@@ -45,9 +45,9 @@ credential.
 
 Section~\ref{sec:prodchains} measures how often the conformant leaf-only
 condition holds for production signers today: \NcorpProdListed{} of the
-\NcorpProdChains{} distinct production chains I found end at a trust-list
+\NcorpProdChains{} distinct production chains we found end at a trust-list
 anchor, and for \NcorpProdIssuer{} of them the leaf's issuer is the anchor;
-the other listed chains would qualify if their issuing CAs were listed too. My recommendation follows from both
+the other listed chains would qualify if their issuing CAs were listed too. Our recommendation follows from both
 measurements. Generators should never carry the root. A CA that issues
 post-quantum signing certificates should have its issuing CA listed as a
 trust anchor, as several already do for classical ones, and generators under
@@ -55,11 +55,11 @@ such a CA should carry the leaf alone; the saving is a third of the manifest
 and one of two path signatures, and it needs no change to any specification.
 
 \paragraph{The time-stamping authority's chain} Everything above applies to
-the second chain in a timestamped manifest, where to my knowledge it has not
+the second chain in a timestamped manifest, where to our knowledge it has not
 been applied.
 The C2PA time-stamping list anchors issuing CAs as well: \NtsaIssuing{} of its
 \NtsaAnchors{} entries are time-stamping issuing CAs, among them those of
-Google's devices and media services, whose tokens in my corpus carry that
+Google's devices and media services, whose tokens in our corpus carry that
 listed CA beside the authority's own certificate. A token whose signer is
 issued by a listed CA needs to carry only the signer's certificate, and the
 reference implementation accepts such a token as trusted
@@ -165,7 +165,7 @@ window any verifier has if it trusts a response until its
 \label{sec:scale}
 
 A platform checking credentials on upload sees manifests from many publishers
-and asks how many cores that takes. I verify a stream from 500 publishers,
+and asks how many cores that takes. We verify a stream from 500 publishers,
 drawn from a Zipf distribution, so that a handful of busy publishers send a large share and most send a few each, on every core of the M1 Pro,
 the Xeon VM and the Pi~5, with and without a cached signer
 (Table~\ref{tab:scale}).
