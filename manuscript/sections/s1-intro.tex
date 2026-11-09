@@ -19,7 +19,7 @@ The replacements exist. NIST standardised ML-DSA and SLH-DSA in
 ML-DSA signature appear in a manifest~\cite{rfc9964} and RFC~9881 those for
 ML-DSA certificates~\cite{rfc9881}; and in October 2026 version~2.5 of the
 C2PA specification admitted ML-DSA-44, 65 and 87~\cite{c2pa25}. The reference
-implementation had not followed by the time of writing~\cite{c2pars}. To my
+implementation had not followed by the time of writing~\cite{c2pars}. To our
 knowledge nobody has measured what the change does to a credential, and the published
 discussion of post-quantum image authenticity proposes new
 schemes~\cite{iavich2025pqveritas,alkhatib2025deepfake} rather than pricing the
@@ -29,7 +29,7 @@ one that ships.
 This paper asks what admitting ML-DSA costs a conformant C2PA content
 credential, where that cost sits, which choices the specification already
 allows reduce it without weakening what a verifier can establish, and whether
-the migrated credential is sound. I break the question into three parts.
+the migrated credential is sound. We break the question into three parts.
 \begin{itemize}
 \item[\textbf{RQ1}] How large and how slow is a conformant post-quantum
 credential, timestamped and with revocation evidence, and what does it add to
@@ -49,9 +49,9 @@ on every capture; a verifier that cannot hold the chain is pushed towards
 thumbprints, which an offline verifier cannot resolve; and a migration that
 moves the leaf but not its issuer or its time-stamping authority produces
 credentials that look post-quantum and remain forgeable. Which of the cheaper
-options stay sound is what the three questions together decide. I measure
+options stay sound is what the three questions together decide. We measure
 application processors, a single-board computer and microcontrollers; the
-secure elements in which phones sign are outside what I could measure, and
+secure elements in which phones sign are outside what we could measure, and
 Section~\ref{sec:constrained} discusses them.
 
 \paragraph{What is known, and what is new}
@@ -60,7 +60,7 @@ authentication is established for TLS~\cite{sikeridis2020ndss,paquin2020,%
 sosnowski2023,westerbaan2021}, and the TLS remedies avoid sending or
 signing what the verifier could already hold or
 check~\cite{kampanakis2022scas,certabridge,merkletreecerts,schwabe2020kemtls}.
-I confirm the structural result for manifests and do not claim it. What is
+We confirm the structural result for manifests and do not claim it. What is
 new is what changes when the signed object is a file rather than a connection.
 A manifest pays for its chain once per object and keeps it for the life of the
 file. Nothing is negotiated, so the carriage form is a policy every verifier
@@ -68,7 +68,7 @@ must accept. Some verifiers are offline for good. And C2PA runs its own trust
 lists, whose anchors include issuing CAs as well as roots, so a signer under a
 listed issuer can omit its intermediate with no new mechanism, under a reading
 of the specification that the reference implementation already accepts. These differences
-decide which remedies carry over. I measure them, and what the reference
+decide which remedies carry over. We measure them, and what the reference
 implementation accepts.
 
 \paragraph{Contributions}
@@ -78,12 +78,12 @@ Falcon and composite credentials against the ES256 and PS256 credentials
 signers ship, in bytes, signing and validation time, with and without a
 timestamp and stapled revocation evidence. A closed-form model reproduces the
 measured manifests of \NmodelN{} schemes to within \NmodelErrMax\%, so the
-sizes extend to other schemes by substitution, and substituting my measured
+sizes extend to other schemes by substitution, and substituting our measured
 ML-DSA-65 components into \NcpqFiles{} production-signed files from
 \NcorpProdGens{} signing applications estimates what the migration adds to
 real files (Section~\ref{sec:cost}).
 \item \emph{What recovers the cost (RQ2).} Leaf-only carriage for signers and,
-to my knowledge for the first time, for time-stamping authorities, checked
+to our knowledge for the first time, for time-stamping authorities, checked
 against both live C2PA trust lists, the production chains and the reference
 implementation, with what it gives up; how a cache of validated signers must
 be keyed to stay sound; and what the carriage form costs constrained
@@ -101,6 +101,6 @@ C2PA excludes, has no effect (Section~\ref{sec:findings}).
 \end{itemize}
 Section~\ref{sec:discussion} turns the results into recommendations for CAs,
 claim generators, validators and the specification. Every script, raw
-measurement, firmware image and patch is released, and every generated
-certificate except the withheld vectors of Section~\ref{sec:validation}; every
-number in the text is generated from the released measurements.
+measurement, firmware image and patch is released, as is every generated
+certificate except the withheld vectors of Section~\ref{sec:validation}, and
+every number in the text is generated from the released measurements.

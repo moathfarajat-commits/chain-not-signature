@@ -783,12 +783,12 @@ def tab_validation():
     lines = [
         r"\begin{table*}[t]",
         r"\caption{Validation through the reference implementation, \texttt{c2pa-rs} "
-        r"at commit \texttt{" + d["env"]["c2pa_rs"][:7] + r"} with my RFC~9964 "
+        r"at commit \texttt{" + d["env"]["c2pa_rs"][:7] + r"} with our RFC~9964 "
         r"patch: a selection of the " + str(len({x['case'] for x in r})) + r" cases; "
         r"Table~\ref{tab:valfull} in the supplement lists every case for every "
         r"algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a "
         r"reader error; SR means the library refused to sign, and \emph{direct} gives "
-        r"the result for a COSE structure my harness built with the same "
+        r"the result for a COSE structure our harness built with the same "
         r"certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA results "
         r"are with both patches (p2); with the signing patch alone no ML-DSA chain "
         r"becomes Trusted (Table~\ref{tab:valfull}). \emph{TST} is the "
@@ -1431,8 +1431,8 @@ def tab_impls_x86():
     t = t.replace(r"\midrule", r"\midrule" + "\n" + r"\multicolumn{6}{l}{\emph{Apple M1 Pro, arm64}}\\", 1)
     t = t.replace(r"\bottomrule", "\n".join(block) + "\n" + r"\bottomrule", 1)
     t = t.replace("ML-DSA-65 on one Apple M1 Pro through every implementation "
-                  "and build I could obtain,",
-                  "ML-DSA-65 through every implementation and build I could "
+                  "and build we could obtain,",
+                  "ML-DSA-65 through every implementation and build we could "
                   "obtain on the M1 Pro, and the corresponding builds on the "
                   "Xeon VM,")
     open(path, "w").write(t)
@@ -1852,7 +1852,7 @@ def tab_libsize():
         r"\begin{table}[t]",
         r"\caption{Manifests written by the C2PA reference implementation "
         r"(c2pa-rs \texttt{e2ad88e} with the RFC~9964 patch), carrying leaf and "
-        r"intermediate, without a timestamp, over \texttt{kodim01}, against my "
+        r"intermediate, without a timestamp, over \texttt{kodim01}, against our "
         r"direct structure over the same image. \emph{Padding} is the space "
         r"c2pa-rs reserves in the unprotected header; \emph{outside} is the "
         r"claim, assertions and JUMBF framing around the signature. Validation "
