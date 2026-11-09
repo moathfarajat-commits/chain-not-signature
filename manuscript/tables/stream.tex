@@ -2,7 +2,7 @@
 \caption{Signing an encoded stream on the Raspberry Pi 5, one core. \emph{Frame} signs every encoded access unit with the chain attached (an upper bound, not a C2PA method); \emph{manifest} is C2PA~2.5 Section~15.4, a manifest per segment; \emph{VSI} is Section~15.5, the chain once and a session-key signature per segment. Provenance rate is the bitrate the signatures add; \emph{latency} is from segment close to signature (last fragment's hash plus signing). A player can authenticate a segment only once it holds all of it, so verification lags by at least the segment length. The provenance rate depends on the size of each signature and on how often one is sent, not on the video, so it is the same for both streams; the latency is not. Streams of 288\,s; medians over every segment of three passes.}
 \label{tab:stream}
 \small
-\setlength{\tabcolsep}{3.2pt}
+\setlength{\tabcolsep}{2.9pt}
 \begin{tabular}{llrrrrrrrrrrr}
 \toprule
  & & Seg. & \multicolumn{2}{c}{Ed25519} & \multicolumn{2}{c}{PS256} & \multicolumn{2}{c}{ML-DSA-44} & \multicolumn{2}{c}{ML-DSA-65} & \multicolumn{2}{c}{ML-DSA-87}\\

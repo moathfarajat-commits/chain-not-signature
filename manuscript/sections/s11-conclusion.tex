@@ -7,7 +7,7 @@ its signature. An ML-DSA-65 manifest is \NvsESDSAsixtyfive{} times a
 matched ES256 manifest, \NdeltaESDSAsixtyfive\,kB more per signer, and
 certificates are \NchainShareManDSAsixtyfive\% of it; a timestamp brings a
 second chain of the same size. On the production files we collected that is a
-median \NcpqAddMedkB\,kB, about one per cent of the median file, and more
+median \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and more
 than a tenth for the small images that services sign at volume, which make up
 most of the quarter of our sample that grows that much. Time is not the obstacle on application processors, and on
 microcontrollers the carriage form sets the memory a verifier needs and the
@@ -30,5 +30,6 @@ credential over a timestamp it should ignore, and showed revocation stapled in
 a CA-signed OCSP response, which RFC~6960 allows and C2PA excludes, going
 unheeded. A credential is
 quantum-resistant only when its signer, its issuers, its time-stamping
-authority and its revocation evidence all are, so the order of migration
-matters as much as its cost, and both are now measurable.
+authority and its revocation evidence all are, and only once validators stop
+accepting classical credentials in its signer's name, so the order of
+migration matters as much as its cost.

@@ -61,7 +61,7 @@ sign manifests that every validator built on the library reports as
 \emph{Trusted}. Time-stamping keys are operated for another purpose, often by
 another party, and the separation the specification draws is meant to keep
 them out of attribution. On the live lists the condition is not hypothetical.
-\NtlBothLists{} of the \NtlClaimRoots{} roots on the claim-signing list are the
+Of the \NtlClaimRoots{} roots on the claim-signing list, \NtlBothLists{} are the
 same certificates as roots on the time-stamping list, and all
 \NtsaIcaUnderClaim{} time-stamping issuing CAs on the time-stamping list are
 issued by roots on the claim-signing list, among them Google's and DigiCert's.
@@ -81,8 +81,7 @@ travels in the COSE unprotected header, so anyone who can rewrite a file can
 swap in such a token, and a misconfigured authority produces one by accident.
 Either way a credential that should verify is reported as \emph{Invalid}, the
 status of tampered content, which harms its signer more than removing the
-credential would. We reported this one publicly, with minimal
-vectors~\cite{c2pars3005}.
+credential would.
 
 \paragraph{Revocation stapled in a CA-signed response has no effect}
 RFC~6960 lets the issuing CA sign an OCSP response itself, with no special key
@@ -124,7 +123,7 @@ that a time-stamping key cannot attribute content, that a timestamp is judged
 as the specification says, and that a revoked signer stays revoked. As far as
 we can tell, the Content Authenticity Initiative's SDKs for other languages and
 its public verification site are built on the same library, so its behaviour
-is, in practice, the validator most credentials meet~\cite{c2pars}. They belong to the class of certificate-validation defects
+is, in practice, the validator most credentials meet~\cite{c2pars}. The three belong to the class of certificate-validation defects
 that adversarial testing of TLS libraries exposed a decade
 ago~\cite{brubaker2014frankencerts,debnath2021ceres}. They surfaced because
 adding an algorithm called for a conformance matrix with negative cases, and a

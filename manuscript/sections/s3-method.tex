@@ -95,7 +95,7 @@ the per-run medians with a 95\% bootstrap interval over runs, so the
 replication unit is the run. Signature timings are over the COSE
 \texttt{Sig\_structure}, the exact bytes a signature covers, except in the
 algorithm sweep of Section~\ref{sec:algsweep}, which signs the claim alone and
-so times ML-DSA 16 to 18 per cent lower. ECDSA signatures inside certificates
+so times ML-DSA 16--18\% lower. ECDSA signatures inside certificates
 vary in DER length from key to key, so ES256 sizes differ by a byte or two
 between experiments that generate their own keys. ML-DSA signing is
 hedged in both libraries, so repeating a message still draws a fresh
@@ -133,7 +133,7 @@ M = F + s_{\mathrm{cose}} + \sum_{c\,\in\,\text{carried}} \bigl(p_c + s_{\mathrm
 with $F$ the claim, assertions and COSE and JUMBF framing, $s$ a signature,
 $p_c$ the public key held by certificate $c$, and $O$ the names, extensions
 and DER encoding of the carried certificates. Both constants come from one
-measured row, Ed25519, as $F=\NmodelF$ and $O=\NmodelO$ bytes for leaf and
+measured row, Ed25519, as $F$\,=\,\NmodelF{} and $O$\,=\,\NmodelO{} bytes for leaf and
 intermediate; with published key and signature sizes, the model reproduces the
 measured manifests of all \NmodelN{} single-algorithm schemes in
 Tables~\ref{tab:pq} and~\ref{tab:algsweep} to within \NmodelErrMax\%, the gap

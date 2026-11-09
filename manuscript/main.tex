@@ -38,11 +38,10 @@ Content Credentials}
 
 \begin{abstract}
 Cameras, phones and editing tools now sign media with C2PA content
-credentials, and every signature a credential rests on, over the claim, its
-certificates and its timestamp, becomes forgeable once a cryptographically
-relevant quantum computer exists. C2PA admitted ML-DSA in October 2026. We ask
+credentials, and every signature a credential rests on becomes forgeable once
+a cryptographically relevant quantum computer exists. C2PA admitted ML-DSA in October 2026. We ask
 what a conformant post-quantum credential costs, where the cost sits, which
-choices the specification already permits recover it without weakening what a
+choices the specification permits recover it without weakening what a
 verifier establishes, and whether a migrated credential is sound: which
 partial migrations leave it forgeable, and whether the reference validator
 enforces the rules the migration relies on. Certificates, not signatures,
@@ -51,16 +50,16 @@ carry the cost. Before timestamping, an ML-DSA-65 manifest is
 per signer, and certificates are \NchainShareManDSAsixtyfive\% of it;
 substituted into \NcpqFiles{} production-signed files, the migration adds a
 median \NcpqAddMedkB\,kB. Because both C2PA trust lists anchor issuing CAs, a
-signer or time-stamping authority under a listed issuer can carry its own
+signer or time-stamping authority under a listed issuer can carry its
 certificate alone, a form the reference implementation accepts, which takes
 \NtsBothLeafPct\% off a timestamped manifest. A credential stays forgeable
 while any issuer, its time-stamping authority, or a classical anchor for the
 same signer remains classical. A conformance matrix through the reference
 implementation, patched for ML-DSA, finds that it accepts time-stamping and
 OCSP-signing certificates as claim signers under a claim-signing-only policy,
-which on the live lists puts every time-stamping key in reach of attribution,
-invalidates a credential over a timestamp it should ignore, and disregards
-revocation stapled in a CA-signed OCSP response. We give guidance for CAs,
+which on the live lists puts every time-stamping key in reach of attribution;
+that it invalidates a credential over a timestamp it should ignore; and that it
+disregards revocation stapled in a CA-signed OCSP response. We give guidance for CAs,
 generators, validators and the specification.
 \end{abstract}
 

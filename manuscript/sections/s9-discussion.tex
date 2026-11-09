@@ -64,21 +64,21 @@ and ETSI's long-term formats do~\cite{rfc4998,etsi319102,vigil2015survey}, and
 in C2PA terms as a new manifest that takes the original as an ingredient. It
 must happen while the original evidence can still be checked; a renewal made
 after a forger could have produced the original proves nothing about it. The
-signing itself is cheap: a model of hashing plus signing, tested against held
-out images and against batches of 4,800 assets in Section~S2 of the
+signing itself is cheap: a model of hashing plus signing, tested against held-out
+images and against batches of 4,800 assets in Section~S2 of the
 supplement, gives minutes of computation per million photographs. For
 capacity planning the lesson is about which statistic to use. Rejection
 sampling gives ML-DSA signing time a long right tail~\cite{riou2026}, so a
 batch costs the mean signing time, not the median, and an estimate built on
-medians is optimistic by 17 to 18 per cent.
+medians is optimistic by 17--18\%.
 
 \subsection{Limitations}
 \label{sec:limitations}
 
 The post-quantum certificates are ours, issued under a production-like
 profile, since no deployed signer issues them yet; production profiles vary by
-a few hundred bytes per certificate, which moves the ratios by up to about ten
-per cent and the absolute growth not at all. The production files were priced
+a few hundred bytes per certificate, which moves the ratios by up to about 10\%
+and the absolute growth not at all. The production files were priced
 by substitution rather than re-signed, and stapled OCSP responses were left
 classical. Falcon and the composites carry placeholder object identifiers, and
 Falcon is measured as submitted rather than as FN-DSA will be standardised.

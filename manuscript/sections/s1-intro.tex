@@ -27,9 +27,9 @@ one that ships.
 
 \paragraph{Research question}
 This paper asks what admitting ML-DSA costs a conformant C2PA content
-credential, where that cost sits, and which choices the specification already
-allows reduce it without weakening what a verifier can establish. We break the
-question into three parts.
+credential, where that cost sits, which choices the specification already
+allows reduce it without weakening what a verifier can establish, and whether
+the migrated credential is sound. We break the question into three parts.
 \begin{itemize}
 \item[\textbf{RQ1}] How large and how slow is a conformant post-quantum
 credential, timestamped and with revocation evidence, and what does it add to
@@ -87,8 +87,8 @@ to our knowledge for the first time, for time-stamping authorities, checked
 against both live C2PA trust lists, the production chains and the reference
 implementation, with what it gives up; how a cache of validated signers must
 be keyed to stay sound; and what the carriage form costs constrained
-verifiers in memory and radio energy, and the live-video method a constrained
-signer (Sections~\ref{sec:carrying} and~\ref{sec:edge}).
+verifiers in memory and radio energy, and what each live-video method costs a
+constrained signer (Sections~\ref{sec:carrying} and~\ref{sec:edge}).
 \item \emph{Whether a migrated credential is sound (RQ3).} A migration-order
 analysis showing which partial migrations leave credentials forgeable, and a
 conformance matrix of \Nvalcases{} cases through the reference implementation,
@@ -101,5 +101,6 @@ C2PA excludes, has no effect (Section~\ref{sec:findings}).
 \end{itemize}
 Section~\ref{sec:discussion} turns the results into recommendations for CAs,
 claim generators, validators and the specification. Every script, raw
-measurement, generated certificate, firmware image and patch is released, and
-every number in the text is generated from the released measurements.
+measurement, firmware image and patch is released, and every generated
+certificate except the withheld vectors of Section~\ref{sec:validation}; every
+number in the text is generated from the released measurements.

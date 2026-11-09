@@ -5,12 +5,12 @@ The configuration costed so far is ours, and a reader is entitled to ask what
 signers actually ship. We read the signatures out of \NcorpProdAssets{} files
 signed by production software, \NcorpProdGens{} signing applications from
 camera and phone makers, AI image services, editing tools and news
-publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples, public datasets and vendor posts, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once. \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
+publishers, collected from Wikimedia Commons, the IPTC's media-provenance samples, public datasets and vendor posts, and out of the C2PA public test files. This is a convenience sample of what is publicly posted, not a census of signers. Every signature in a file is counted, including those of ingredients, because the file carries them. A chain is identified by its issuer, the leaf's issuer name and every certificate above the leaf, so a signer that issues a leaf per image counts once. Table~\ref{tab:corpus} gives the result by the application that wrote the file; a chain that reaches files of several groups, such as a Pixel camera chain in an image later edited with Microsoft's tools, appears in each row, and the \emph{Distinct} row counts every chain once; \NcorpMultiGroup{} of the \NcorpProdChains{} chains appear in more than one group. The supplement lists every chain and where the files came from (Section~\ref{sec:supp-corpus}); the released inventory gives every file's source URL, licence and SHA-256.
 
 \input{tables/corpus}
 
-\emph{The test files are not production output.} The C2PA public test files,
-on which an earlier version of this analysis relied, hold \NcorpTestChains{}
+\emph{The test files are not production output.} The C2PA public test files
+hold \NcorpTestChains{}
 distinct chains, almost all Adobe test certificates, every file has a
 version-1 claim, and none reaches the current trust list. They show what a
 conformance test looks like, not what signers emit.
@@ -31,7 +31,7 @@ issuer on the trust list, so no validator using that list can take them to
 bytes.
 
 \emph{The leaf-only condition already holds for some signers.}
-\NcorpProdListed{} of the \NcorpProdChains{} chains end at an anchor on the
+Of the \NcorpProdChains{} chains, \NcorpProdListed{} end at an anchor on the
 C2PA trust list, which was established in 2025 and does not yet cover many
 earlier signers. Two of them, both Google's, are issued directly by a listed
 anchor, so the path a validator checks is already one signature; they also
@@ -40,19 +40,19 @@ carry that anchor beside the leaf, which the specification says not to
 include, and dropping it would make them leaf-only and save about 730 bytes
 each.
 
-\emph{Timestamps and revocation are the ordinary case.} \NcorpProdTs{} of the
-\NcorpProdSigs{} production signatures carry an RFC~3161 token, of
+\emph{Timestamps and revocation are the ordinary case.} Of the
+\NcorpProdSigs{} production signatures, \NcorpProdTs{} carry an RFC~3161 token, of
 \NcorpProdTstLo{} to \NcorpProdTstHi{} bytes with a median of
 \NcorpProdTstMed{}: about 2\,kB for an ECDSA time-stamping authority with two
 certificates, as on Google's devices, and about 6\,kB for an RSA-4096 one with
 three. Our ES256 and PS256 tokens, \NtokenBytesES{} and \NtokenBytesPS{}
-bytes, sit at the small end of that range. \NcorpProdOcsp{} production
-signatures carry stapled revocation evidence, so the OCSP column of
+bytes, sit at the small end of that range. Stapled revocation evidence travels
+with \NcorpProdOcsp{} production signatures, so the OCSP column of
 Table~\ref{tab:timestamp} describes what a quarter of today's signatures
 already carry, not a hardened variant.
 
-\emph{The header has moved to the RFC~9360 form.} \NcorpProdPthree{} of the
-\NcorpProdNxfive{} production signatures carry \texttt{x5chain} under the
+\emph{The header has moved to the RFC~9360 form.} Of the
+\NcorpProdNxfive{} production signatures, \NcorpProdPthree{} carry \texttt{x5chain} under the
 integer label~33 in the protected bucket, as C2PA~2.5 says generators shall;
 the rest use the deprecated string label in the unprotected bucket, all but
 \NcorpProdVtwoString{} of them in version-1 claims, which validators must
@@ -73,7 +73,7 @@ manifest store grows by a factor of \NcpqStoreGrowth. The median hides the
 tail: files with several signatures, such as edited images that keep their
 ingredients' credentials, grow by up to \NcpqAddMaxkB\,kB, and
 \NcpqOverTen{} of the \NcpqFiles{} files would grow by more than a tenth
-(90th percentile \NcpqPctPNinety\%). \NcpqOverTenTop{} of them are generated
+(90th percentile \NcpqPctPNinety\%). Of those, \NcpqOverTenTop{} are generated
 images of about 200\,kB from one AI image service; among the other
 \NcpqFilesOther{} files, \NcpqOverTenOther{} grow that much. For the services that sign small images
 at volume, the post-quantum credential is a double-digit share of every file

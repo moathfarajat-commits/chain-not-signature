@@ -345,7 +345,8 @@ def tab_timestamp():
         r"omitted; the \emph{+ OCSP} column adds a response from a delegated "
         r"responder, with the responder's certificate inside it, the form the "
         r"reference implementation honours. Every object "
-        r"is real and signed under the named algorithm. "
+        r"is real and signed under the named algorithm. \emph{\% of image} is the "
+        r"timestamped manifest as a share of the median Kodak image. "
         r"Figure~\ref{fig:compose} breaks the bytes down by role.}",
         r"\label{tab:timestamp}",
         r"\small", r"\setlength{\tabcolsep}{4pt}",
@@ -503,7 +504,7 @@ def tab_mixedchain():
         r"so a quantum adversary can backdate the manifest even when the "
         r"signer's path is post-quantum.}",
         r"\label{tab:mixedchain}",
-        r"\small", r"\setlength{\tabcolsep}{3.5pt}",
+        r"\small", r"\setlength{\tabcolsep}{3.3pt}",
         r"\begin{tabular}{llrcrr}", r"\toprule",
         r" & Chain & COSE & Signer & \multicolumn{2}{c}{+ timestamp (B)}\\",
         r"\cmidrule(lr){5-6}",
@@ -618,7 +619,7 @@ def tab_stream():
         r"latency is not. Streams of " + str(min(d["env"].get("streams_seconds", {"": 48}).values()))
         + r"\,s; medians over every segment of three passes.}",
         r"\label{tab:stream}",
-        r"\small", r"\setlength{\tabcolsep}{3.2pt}",
+        r"\small", r"\setlength{\tabcolsep}{2.9pt}",
         r"\begin{tabular}{llr" + "rr" * len(pick) + "}", r"\toprule",
         r" & & Seg. & " + " & ".join(
             f"\\multicolumn{{2}}{{c}}{{{a}}}" for a in pick) + r"\\",
@@ -1608,7 +1609,7 @@ def tab_corpus():
         r"and its median size. \emph{OCSP}: signatures carrying revocation "
         r"evidence.}",
         r"\label{tab:corpus}",
-        r"\footnotesize", r"\setlength{\tabcolsep}{3.3pt}",
+        r"\footnotesize", r"\setlength{\tabcolsep}{3.1pt}",
         r"\begin{tabular}{lrrrrlrrrrrrrr}", r"\toprule",
         r" & & & \multicolumn{2}{c}{Chains} & & & & & & & \multicolumn{2}{c}{TST} & \\",
         r"\cmidrule(lr){4-5}\cmidrule(lr){12-13}",

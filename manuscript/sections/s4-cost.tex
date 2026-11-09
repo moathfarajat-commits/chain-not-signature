@@ -35,8 +35,8 @@ Once thumbnails are disabled, manifest size does not depend on the pixels: it
 is fixed by the algorithm, by how much of the chain travels and by the
 assertions the generator writes. Its share of a file is therefore an exact
 curve in file size, and Figure~\ref{fig:sizeladder} plots it. A phone original
-of a few megabytes carries an ML-DSA-65 manifest at under half a per cent, and
-under one per cent with a timestamp; a
+of 4\,MB or more carries an ML-DSA-65 manifest at under 0.5\% of the file, and
+under 1\% with a timestamp; a
 derivative served to the web, a burst frame or a video segment sits at the
 left of the figure, where the manifest is a double-digit percentage of the
 payload. Section~\ref{sec:prodchains} prices the production files, whose
@@ -65,8 +65,8 @@ lines is the ratio of their manifest sizes at every file size.}
 
 \input{tables/timestamp}
 
-Deployed manifests carry more than one signature. \NcorpProdTs{} of the
-\NcorpProdSigs{} production signatures we read carry an RFC~3161
+Deployed manifests carry more than one signature. Of the
+\NcorpProdSigs{} production signatures we read, \NcorpProdTs{} carry an RFC~3161
 timestamp~\cite{rfc3161}, which is a second signature with certificates of
 its own, and the specification asks for one whenever revocation status is
 attached~\cite{c2pacc24}. Revocation evidence is a third signature, a stapled
