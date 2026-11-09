@@ -12,6 +12,6 @@
   "license": "MIT",
   "access_right": "open",
   "keywords": ["post-quantum cryptography", "C2PA", "content credentials", "ML-DSA", "measurement"],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "language": "eng"
 }
