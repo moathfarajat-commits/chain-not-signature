@@ -1,5 +1,5 @@
 #!/bin/zsh
-# 35n energy runs on the Pico (source mode) and the NUCLEO (ampere mode).
+# v3 energy runs on the Pico (source mode) and the NUCLEO (ampere mode).
 #   hw_v3_mcu.sh pico_flash   Pico on USB: reboot to BOOTSEL, copy the energy image
 #   hw_v3_mcu.sh pico_run     Pico USB unplugged, powered by the PPK2
 #   hw_v3_mcu.sh nucleo_run   NUCLEO on USB, JP5 off, PPK2 across JP5; flashed in-session

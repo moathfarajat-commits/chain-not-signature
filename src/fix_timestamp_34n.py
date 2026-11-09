@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-off correction of e1_timestamp.json files measured before 34n.
+"""One-off correction of e1_timestamp.json files whose COSE wrapping was a fixed allowance.
 
 Two changes, both made in src/e1_timestamp.py for future runs:
   1. The signature-only manifest used a fixed 120 B for COSE wrapping; the

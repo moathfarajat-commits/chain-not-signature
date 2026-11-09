@@ -99,10 +99,7 @@ the response, finds none, and treats the status as unknown, the same outcome as
 when nothing is stapled. A signer whose stapled, CA-signed response says
 \emph{revoked} therefore validates as \emph{Trusted}
 (Table~\ref{tab:validation}), with online OCSP fetching off as it was for the
-whole matrix; a validator that also fetches status could still catch it. We
-did not run a CA-signed response that also embeds the CA's certificate, which
-would separate the missing certificate from the responder's authorisation as
-the cause. The risk is to
+whole matrix; a validator that also fetches status could still catch it. The risk is to
 deployments that believe their stapled evidence protects them. A generator that
 staples revocation status, as \NcorpProdOcsp{} production signatures do, must
 use a delegated responder for it to count; under ML-DSA-65 a delegated

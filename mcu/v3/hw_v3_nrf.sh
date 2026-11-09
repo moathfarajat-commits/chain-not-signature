@@ -1,5 +1,5 @@
 #!/bin/bash
-# 35n energy runs on the nRF52840-DK pair, PPK2 in source mode powering DK1.
+# v3 energy runs on the nRF52840-DK pair, PPK2 in source mode powering DK1.
 #   A  DK1 verifies (nrf_cred_energy_v3, schedule_nrf_v3)
 #   B  DK1 sends to DK2 (DK1 ble_tx, DK2 ble_rx; schedule_ble_v3)
 #   C  DK1 receives from DK2 (DK1 ble_rx, DK2 ble_tx; schedule_ble_rx_v3)

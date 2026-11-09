@@ -163,7 +163,7 @@ def main():
         # Signature plus its chain plus the COSE and JUMBF wrapping, taken
         # from the carriage measurement's full-chain figure.
         # COSE wrapping (headers, CBOR framing) measured on a real
-        # COSE_Sign1 over the same chain; 33n and earlier used a fixed 120 B.
+        # COSE_Sign1 over the same chain, not a fixed allowance.
         from pq_cose import sign_cose
         cose_wrap = len(sign_cose(alg, keys[0], chain, CLAIM)[0]) - sig_len - chain_bytes
         manifest_sig_only = sig_len + chain_bytes + cose_wrap + overhead

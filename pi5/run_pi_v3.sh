@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pi 5, 35n: the longer stream experiment with the extended manipulation set
+# Pi 5, v3: the longer stream experiment with the extended manipulation set
 # (streams looped on the Mac by loop_streams.sh), and two more archive-batch
 # runs so the batch result has three.
 set -uo pipefail

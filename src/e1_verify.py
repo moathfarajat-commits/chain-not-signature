@@ -3,8 +3,8 @@
 
 The mitigation measured in e1_certref.py removes the certificate chain from the
 manifest and leaves a thumbprint. That saves 83% of the COSE structure. This
-script measures the other side of the trade, which is what a reviewer will ask
-for first.
+script measures the other side of the trade: what verification costs when the
+chain must come from elsewhere.
 
 A verifier holding an embedded chain does everything locally:
 

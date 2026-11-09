@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figures for the revision, drawn from the same JSON as the tables.
+"""Figures for the paper, drawn from the same JSON as the tables.
 
   compose.pdf   what a timestamped manifest is made of, by role, per algorithm
   latency.pdf   where the cryptographic work of validating one image goes

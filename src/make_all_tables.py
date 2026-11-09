@@ -5,11 +5,11 @@
     LINEA_PI_IN=out-pi-v2 python3 src/make_all_tables.py
 
 Three generators write manuscript/tables/, in this order: make_tables.py (the
-original tables), make_tables_new.py (tables added in 14n-33n) and
-make_tables_v2.py (34n: the four carriage forms, PS256, the corpus, the
+base tables), make_tables_new.py (the algorithm, composite and mixed-chain
+tables) and make_tables_v2.py (the four carriage forms, PS256, the corpus, the
 stream, the validation matrix, the supplement intervals and numbers.tex).
 Where two write the same file, the later one wins. Two functions of
-make_tables.py read the 33n output layout and are skipped; make_tables_v2.py
+make_tables.py read an older output layout and are skipped; make_tables_v2.py
 writes their tables.
 """
 import os

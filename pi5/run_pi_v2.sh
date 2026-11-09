@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Line A revision runs on the Raspberry Pi 5 (about 90 minutes):
+# Raspberry Pi 5 runs (about 90 minutes):
 #   e6_stream   encoded H.264/HEVC streams, three signing methods (new)
 #   e7_edge     edge verifier, root as an in-memory anchor
 #   e1_verify, e1_hash, e1_carriage   five independent runs each

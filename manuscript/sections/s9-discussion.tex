@@ -87,10 +87,9 @@ estimate directly, by a few hundred bytes per certificate. The production files
 were priced by substitution rather than re-signed, so their growth is an
 estimate; stapled OCSP responses were left classical, and
 Table~\ref{tab:corpusstrata} in the supplement bounds what post-quantum ones
-would add. The validation matrix did not cover constrained intermediates,
-removal of an anchor from the list, historical validation under leaf-only
-carriage, or a CA-signed OCSP response that embeds the CA's certificate, and no
-application built on the library was tested. Falcon and the composites carry placeholder object identifiers, and
+would add. The validation matrix exercises the library, not the applications
+built on it, and leaves constrained intermediates and anchor removal under
+leaf-only carriage to future work. Falcon and the composites carry placeholder object identifiers, and
 Falcon is measured as submitted rather than as FN-DSA will be standardised.
 Every timestamp in the validation matrix comes from our own authority, and the
 post-quantum authority only at ML-DSA-65; the saving from a time-stamping

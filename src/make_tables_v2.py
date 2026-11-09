@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tables and text figures for the revision (34n onwards).
+"""Tables and text figures: carriage forms, corpus, validation matrix and supplement.
 
 Runs after make_tables.py and make_tables_new.py and overwrites the tables
 whose experiments changed: carriage now has four forms and two anchor

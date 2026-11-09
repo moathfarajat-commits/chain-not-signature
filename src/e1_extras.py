@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""E1 extras: two questions a reviewer asks first.
+"""E1 extras: two checks on the size results.
 
 1. Compression. Would a general-purpose compressor remove the post-quantum
    overhead? ML-DSA keys and signatures are close to uniformly random, so the
