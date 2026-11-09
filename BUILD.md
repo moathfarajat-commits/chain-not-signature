@@ -16,7 +16,8 @@ The main text and the supplement refer to each other through `xr`, so each is
 built twice; `latexmk -g` forces the second pass.
 
 Requires a TeX distribution. On macOS, MacTeX or the smaller BasicTeX plus
-`booktabs`, `libertine`, `newtxmath`, `totpages`, `xr` and `placeins`.
+`booktabs`, `array`, `libertine`, `inconsolata`, `newtxmath`, `totpages`, `xr`
+and `placeins`. The ACM class, `acmart` v2.21, is included in `manuscript/`.
 
 Never edit anything under `manuscript/tables/`. Those files are generated, and
 every number in the prose that comes from a measurement is a macro from
