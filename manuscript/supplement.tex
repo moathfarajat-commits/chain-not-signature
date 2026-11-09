@@ -16,11 +16,13 @@
 \input{tables/numbers}
 
 \renewcommand{\thetable}{S\arabic{table}}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thesection}{S\arabic{section}}
 
 \begin{document}
 
-\title{Supplementary Material for ``The Chain, Not the Signature: Cost and Soundness of Post-Quantum Content Credentials''}
+\title{Supplementary Material for ``The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials''}
 \author{Mua'ad Alfarajat}
 \orcid{0000-0003-2489-4857}
 \affiliation{%
@@ -56,6 +58,25 @@ generated from the same result files as the paper's own tables.
 \section{Tables}
 \label{sec:supp-tables}
 
+\begin{table}[h]
+\caption{Independent runs per experiment and platform. Each run is a fresh
+process set with fresh keys and its own random order; the stream and edge
+experiments repeat their measurements within one run.}
+\label{tab:runs}
+\small
+\begin{tabular}{lccc}
+\toprule
+Experiment & M1 Pro & Xeon VM & Pi~5\\
+\midrule
+Signing, validation, hashing, carriage & 10 & 10 & 5\\
+Verifier cache & 10 & 9 & --\\
+Verification across cores & 3 & 3 & 3\\
+Archive batch (supplement) & 1 & -- & 3\\
+Live video, edge verifier & -- & -- & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+\input{tables/scale}
 \input{tables/baseline}
 \input{tables/ci}
 \input{tables/chaindepth}
@@ -83,7 +104,30 @@ tagged release c2pa-v0.91.9 and in c2patool~0.28.4. Minimal vectors for the
 two departures, the signed files, the certificates, the trust configuration
 and the raw status codes are released with the data
 (\texttt{data/c2pa-departures/}), except the signed file and leaf
-certificate of the first departure, which are withheld until it is fixed.
+certificate of the first departure, which are withheld until a fix ships or
+90 days after the report, whichever comes first. Table~\ref{tab:evidence}
+states, for each finding, where it was reproduced and what is inferred.
+
+\begin{table}[h]
+\caption{Evidence behind each validation finding of Section~\ref{sec:validation}.
+\emph{p0}: \texttt{c2pa-rs} at \texttt{\NvalCommit} with no patch; \emph{p2}:
+the same with both ML-DSA patches; \emph{v0.91.9}: the latest tagged release;
+c2patool~0.28.4 is the command-line tool. Online OCSP fetching was off
+throughout. No application or user interface built on the library was tested.}
+\label{tab:evidence}
+\footnotesize
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{3.4cm}}
+\toprule
+Finding & Reproduced in & Policy & Status of the claim\\
+\midrule
+Time-stamping leaf trusted as claim signer & p0, v0.91.9, c2patool~0.28.4 (ES256, Ed25519); p2 (all five algorithms) & default and claim-signing-only usage lists & reproduced; vectors withheld, status codes released\\
+OCSP-signing or e-mail leaf trusted as claim signer & v0.91.9 (ES256, Ed25519); p2 (ML-DSA) & claim-signing-only usage list & reproduced\\
+Reach on the live lists & trust-list snapshot of 29 October 2026 & -- & inferred from CA paths; the authorities' own certificates not tested\\
+TSA certificate without the time-stamping usage invalidates the manifest & p0, v0.91.9, c2patool~0.28.4 (ES256, Ed25519); p2 (all five) & default & reproduced; public as c2pa-rs issue \#3005\\
+CA-signed stapled OCSP response saying \emph{revoked} ignored & p2 (all five algorithms) & default; fetching off & reproduced; cause read from the library's source, not isolated by a control\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \input{tables/valfull}
 
@@ -93,6 +137,25 @@ certificate of the first departure, which are withheld until it is fixed.
 
 \input{tables/corpussrc}
 \input{tables/chains}
+
+Table~\ref{tab:corpusstrata} and Figure~\ref{fig:corpusgrowth} break down the
+ML-DSA-65 substitution of Section~\ref{sec:prodchains}. Absolute growth is
+narrow, with most files gaining one signer's and one time-stamping authority's
+certificates; relative growth is set almost entirely by file size, and files
+that keep several signatures grow by a multiple of the median.
+
+\input{tables/corpusstrata}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/corpusgrowth}
+\caption{Distribution of what ML-DSA-65 would add to the \NcpqFiles{} production
+files. Left: bytes added per file, as substituted and with the upper bound for
+post-quantum OCSP of Table~\ref{tab:corpusstrata}. Right: bytes added as a
+percentage of the original file size, by file-size band (number of files in
+brackets). Both axes of growth are logarithmic.}
+\label{fig:corpusgrowth}
+\end{figure}
 
 \clearpage
 \section{The reporting audit}

@@ -6,30 +6,34 @@ Most of what ML-DSA adds to a C2PA credential sits in its certificates, not
 its signature. An ML-DSA-65 manifest is \NvsESDSAsixtyfive{} times a
 matched ES256 manifest, \NdeltaESDSAsixtyfive\,kB more per signer, and
 certificates are \NchainShareManDSAsixtyfive\% of it; a timestamp brings a
-second chain of the same size. On the production files we collected that is a
-median \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and more
-than a tenth for the small images that services sign at volume, which make up
-most of the quarter of our sample that grows that much. Time is not the obstacle on application processors, and on
+second chain of the same size. Substituted into the production files we
+collected, that is an estimated median \NcpqAddMedkB\,kB, or \NcpqPctMed\% of
+the original file, and more than a tenth for the small images that services
+sign at volume, which make up most of the quarter of our sample that grows
+that much. Time is not the obstacle on application processors, and on
 microcontrollers the carriage form sets the memory a verifier needs and the
 energy its radio spends.
 
-Most of that cost can be recovered inside the specification as it stands.
+A substantial part of that cost can be recovered with no new mechanism.
 Because the C2PA trust lists anchor issuing CAs, a signer and a time-stamping
 authority whose issuers are listed can each carry their leaf alone, which the
 reference implementation accepts and which takes \NtsBothLeafPct\% off a
-timestamped manifest and halves each path a
-validator checks, at the price of a trust list that changes more often. A
-verifier that caches validated signers must key the cache on the trust list,
-the policy and the revocation status it relied on, or it keeps accepting what
-it should reject.
+timestamped manifest and halves each path a validator checks. It rests on a
+reading of the specification we have asked its editors to confirm, and where it
+requires listing an intermediate it changes the trust policy as well as the
+bytes. A verifier that caches validated signers must key the cache on the
+trust list, the policy, the validation time and the revocation status it
+relied on, or it keeps accepting what it should reject.
 
 The migration also tests the validators. Exercising the reference
-implementation against post-quantum and classical credentials showed it
-accepting time-stamping and OCSP-signing certificates as claim signers and invalidating a
-credential over a timestamp it should ignore, and showed revocation stapled in
-a CA-signed OCSP response, which RFC~6960 allows and C2PA excludes, going
-unheeded. A credential is
-quantum-resistant only when its signer, its issuers, its time-stamping
-authority and its revocation evidence all are, and only once validators stop
-accepting classical credentials in its signer's name, so the order of
-migration matters as much as its cost.
+implementation against post-quantum and classical credentials showed two
+defects, time-stamping and OCSP-signing certificates accepted as claim
+signers and a credential invalidated over a timestamp it should ignore, and
+one gap between the C2PA profile and RFC~6960, revocation stapled in a
+CA-signed OCSP response going unheeded. Each property a credential rests on
+fails with a different classical signature: its signature and issuers protect
+who signed,
+its time-stamping authority when, and its revocation evidence whether the
+signer was still trusted, and none of it holds while validators accept
+classical credentials in the signer's name. The order of migration therefore
+matters as much as its cost.

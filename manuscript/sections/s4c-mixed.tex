@@ -33,10 +33,12 @@ second change at the anchor, so its value lies in what follows it, not in any
 protection it gives the manifests signed meanwhile.
 
 The timestamp needs its own migration. With a classical time-stamping
-authority, a fully migrated signer's manifest can still be backdated by an
-adversary who forges the timestamp, which undoes the argument a timestamp
-exists to make, that the manifest was signed before its certificate was
-revoked. A post-quantum timestamp costs \NmixWholeFullPq{} bytes of manifest
+authority, a forged timestamp cannot by itself create content under a
+post-quantum signer, but it undoes the argument a timestamp exists to make,
+that a manifest was signed while its certificate was valid: an adversary
+holding a signer key since revoked or expired can sign new content and date it
+to before the revocation, and the verifier accepts it as historically valid
+(Table~\ref{tab:properties}). A post-quantum timestamp costs \NmixWholeFullPq{} bytes of manifest
 cryptography against \NmixWholeFullEs{} with an ES256 authority, and the
 provenance is quantum resistant only when both are post-quantum.
 

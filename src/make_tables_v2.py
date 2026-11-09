@@ -207,6 +207,71 @@ def corpus_pq_numbers():
     num("cpqOverTenOther", f"{sum(1 for x in other if x['added_pct_of_file'] > 10)}")
 
 
+
+def corpus_strata():
+    """Growth of the production files by group, size and signature count, and
+    the upper bound with post-quantum OCSP (e1_corpus_pq_strata.py)."""
+    d = load("e1_corpus_pq_strata.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
+    if not d:
+        return
+    r = d["results"]
+    b = r["all"]["ocsp_bound"]
+    of = r["ocsp_files"]
+    num("cpqOcspResp", f"{r['ocsp_delegated_bytes']:,}")
+    num("cpqOcspFiles", f"{r['files_with_ocsp']}")
+    num("cpqOcspSigs", f"{r['signatures_with_ocsp']}")
+    num("cpqBoundMedkB", f"{b['added_bytes_median'] / 1000:.1f}")
+    num("cpqBoundMedPct", f"{b['added_pct_median']:.1f}")
+    num("cpqOcspFilesMedkB", f"{of['substituted']['added_bytes_median'] / 1000:.1f}")
+    num("cpqOcspFilesBoundMedkB", f"{of['ocsp_bound']['added_bytes_median'] / 1000:.1f}")
+    small = r["by_size"]["under 500 kB"]
+    num("cpqSmallFiles", f"{small['files']}")
+    num("cpqSmallMedPct", f"{small['added_pct_median']:.0f}")
+    num("cpqSmallOverTen", f"{small['files_over_10pct']}")
+    big = r["by_size"]["over 5 MB"]
+    num("cpqBigMedPct", f"{big['added_pct_median']:.1f}")
+    three = r["by_signatures"]["3 or more"]
+    num("cpqThreeSigFiles", f"{three['files']}")
+    num("cpqThreeSigMedkB", f"{three['added_bytes_median'] / 1000:.0f}")
+    lines = [
+        r"\begin{table}[t]",
+        r"\caption{What ML-DSA-65 would add to the " + str(r["all"]["substituted"]["files"]) +
+        r" production files of Section~\ref{sec:prodchains}, by signer group, file size and "
+        r"number of signatures in the file. Every signature, carried certificate and "
+        r"timestamp token is replaced by its measured ML-DSA-65 counterpart; the "
+        r"percentages are bytes added over the original file size. The last row adds a "
+        r"full ML-DSA-65 delegated OCSP response (" + f"{r['ocsp_delegated_bytes']:,}" +
+        r"~B) for every stapled response and subtracts nothing for the classical one it "
+        r"replaces, an upper bound. Figure~\ref{fig:corpusgrowth} shows the distributions.}",
+        r"\label{tab:corpusstrata}",
+        r"\small", r"\setlength{\tabcolsep}{4pt}",
+        r"\begin{tabular}{lrrrrrr}", r"\toprule",
+        r" & & File & Added & \multicolumn{2}{c}{\% of file} & Files\\",
+        r"\cmidrule(lr){5-6}",
+        r"Stratum & Files & median (MB) & median (kB) & median & p90 & $>$10\%\\",
+        r"\midrule",
+    ]
+
+    def row(label, x):
+        lines.append(f"{label} & {x['files']} & {x['file_bytes_median'] / 1e6:.2f} & "
+                     f"{x['added_bytes_median'] / 1000:.1f} & {x['added_pct_median']:.2f} & "
+                     f"{x['added_pct_p90']:.1f} & {x['files_over_10pct']}" + r"\\")
+    row("All files", r["all"]["substituted"])
+    lines.append(r"\addlinespace")
+    for k, v in r["by_group"].items():
+        row(k, v)
+    lines.append(r"\addlinespace")
+    for k, v in r["by_size"].items():
+        row("File " + k.replace(" kB", "\\,kB").replace(" MB", "\\,MB"), v)
+    lines.append(r"\addlinespace")
+    for k, v in r["by_signatures"].items():
+        row(f"{k} signature" + ("" if k == "1" else "s"), v)
+    lines.append(r"\addlinespace")
+    row("All files, PQ OCSP bound", b)
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    emit("corpusstrata.tex", lines)
+
+
 def trustlist_numbers():
     d = load("e1_trustlist.json", os.environ.get("LINEA_REF_IN", os.path.join(ROOT, "out-reference")))
     if not d:
@@ -269,7 +334,7 @@ def tab_carriage():
              ("leaf", "root"): "Leaf (int.\\ provisioned)",
              ("thumb", "root"): "Thumbprint"}
     conf = {("root", "root"): "yes$^a$", ("chain", "root"): "yes",
-            ("leaf", "issuing CA"): "yes", ("leaf", "root"): "no",
+            ("leaf", "issuing CA"): "yes$^b$", ("leaf", "root"): "no",
             ("thumb", "root"): "no"}
     lines = [
         r"\begin{table*}[t]",
@@ -277,9 +342,11 @@ def tab_carriage():
         r"algorithm, three-certificate hierarchy. \emph{Path} is the number "
         r"of signatures path validation checks, set by where the trust anchor "
         r"sits; \emph{Holds} is what the verifier must already have; \emph{int.} is the intermediate. "
-        r"$^a$C2PA~2.5 says the root should not be included. The leaf-only "
-        r"form conforms only when the leaf's issuer is itself on the trust "
-        r"list.}",
+        r"$^a$C2PA~2.5 says the root should not be included. "
+        r"$^b$A reading the specification does not exclude, accepted by the "
+        r"reference implementation when the leaf's issuer is a configured "
+        r"anchor; clarification requested~\cite{c2paspec142}. Otherwise "
+        r"the leaf-only form does not conform.}",
         r"\label{tab:carriage}",
         r"\footnotesize", r"\setlength{\tabcolsep}{3.5pt}",
         r"\begin{tabular}{llcl" + "r" * len(algs) + "}", r"\toprule",
@@ -500,9 +567,9 @@ def tab_mixedchain():
         r"and root last; the root signs the intermediate but is not carried. "
         r"\emph{Signer PQ} is whether every load-bearing signature in the "
         r"signer's path is post-quantum. The last two columns add an RFC~3161 "
-        r"timestamp: with a classical TSA the time evidence stays forgeable, "
-        r"so a quantum adversary can backdate the manifest even when the "
-        r"signer's path is post-quantum.}",
+        r"timestamp: with a classical TSA the signing time stays forgeable, "
+        r"so a quantum adversary holding a revoked or expired signer key can "
+        r"backdate new manifests even when the signer's path is post-quantum.}",
         r"\label{tab:mixedchain}",
         r"\small", r"\setlength{\tabcolsep}{3.3pt}",
         r"\begin{tabular}{llrcrr}", r"\toprule",
@@ -782,25 +849,17 @@ def tab_validation():
     PQ = ("mldsa44", "mldsa65", "mldsa87")
     lines = [
         r"\begin{table*}[t]",
-        r"\caption{Validation through the reference implementation, \texttt{c2pa-rs} "
-        r"at commit \texttt{" + d["env"]["c2pa_rs"][:7] + r"} with our RFC~9964 "
-        r"patch: a selection of the " + str(len({x['case'] for x in r})) + r" cases; "
-        r"Table~\ref{tab:valfull} in the supplement lists every case for every "
-        r"algorithm. T, V and I are the library's Trusted, Valid and Invalid; E is a "
-        r"reader error; SR means the library refused to sign, and \emph{direct} gives "
-        r"the result for a COSE structure our harness built with the same "
-        r"certificate. \emph{Expected} is what C2PA~2.5 prescribes. ML-DSA results "
-        r"are with both patches (p2); with the signing patch alone no ML-DSA chain "
-        r"becomes Trusted (Table~\ref{tab:valfull}). \emph{TST} is the "
-        r"timestamp's own status: t trusted, m imprint mismatch, u "
-        r"untrusted; a mismatched or untrusted timestamp is ignored and the signer is "
-        r"judged at the current time. Unless the row says otherwise the time-stamping "
-        r"authority is ES256; the indented rows use an ML-DSA-65 authority and anchor. "
-        r"Bold marks a departure from the specification ($^\dagger$); the "
-        r"\emph{revoked} CA-signed OCSP row is where C2PA~2.5 and RFC~6960 disagree: "
-        r"its expected T is what the C2PA rule implies, not an endorsement "
-        r"(Section~\ref{sec:validation}). Both departures also occur in the unmodified "
-        r"library.}",
+        r"\caption{Validation through the reference implementation (\texttt{c2pa-rs} "
+        r"\texttt{" + d["env"]["c2pa_rs"][:7] + r"} with our ML-DSA patches, p2): a "
+        r"selection of the " + str(len({x['case'] for x in r})) + r" cases; "
+        r"Table~\ref{tab:valfull} in the supplement lists all. T, V, I: Trusted, Valid, "
+        r"Invalid; E: reader error; SR: signing refused (\emph{direct}: our harness's "
+        r"own structure with that certificate). \emph{Expected} follows C2PA~2.5. "
+        r"\emph{TST}: the timestamp's status (t trusted, m mismatch, u untrusted); an "
+        r"ignored timestamp leaves the signer judged now. The TSA is ES256 except in the "
+        r"indented rows. $^\dagger$Bold: a defect, also present unpatched. The "
+        r"CA-signed \emph{revoked} OCSP row is where C2PA~2.5 and RFC~6960 disagree "
+        r"(Section~\ref{sec:validation}).}",
         r"\label{tab:validation}",
         r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
         r"\begin{tabular}{llccc}", r"\toprule",
@@ -2036,6 +2095,7 @@ def main():
     print(f"  reading {OUT}")
     tab_pq()
     corpus_pq_numbers()
+    corpus_strata()
     trustlist_numbers()
     tsa_carriage_numbers()
     tab_carriage()

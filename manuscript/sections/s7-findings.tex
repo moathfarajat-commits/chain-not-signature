@@ -2,9 +2,9 @@
 \section{Migration order and validation}
 \label{sec:findings}
 
-Cost is one half of a migration plan; the other is whether the migrated
-credential is sound. This section asks which partial migrations leave a
-credential forgeable, and whether the reference implementation enforces the
+Cost is one half of a migration plan; the other is what the migrated credential
+protects. This section asks which partial migrations leave which property of
+Table~\ref{tab:properties} forgeable, and whether the reference implementation enforces the
 rules a migration relies on.
 
 \input{sections/s4c-mixed}
@@ -54,23 +54,27 @@ release for ES256 and Ed25519 and through the patched library for ML-DSA: a
 leaf valid only for e-mail protection, or only for OCSP signing, also
 validates as a \emph{Trusted} claim signer under the claim-signing-only
 policy, and the OCSP-signing leaf does so even though C2PA~2.5 confines such a
-certificate to that one purpose. In the terms of Section~\ref{sec:threat},
-whoever holds the key of a
-time-stamping authority whose certificate chains to a claim-signing anchor can
-sign manifests that every validator built on the library reports as
-\emph{Trusted}. Time-stamping keys are operated for another purpose, often by
-another party, and the separation the specification draws is meant to keep
-them out of attribution. On the live lists the condition is not hypothetical.
-Of the \NtlClaimRoots{} roots on the claim-signing list, \NtlBothLists{} are the
-same certificates as roots on the time-stamping list, and all
-\NtsaIcaUnderClaim{} time-stamping issuing CAs on the time-stamping list are
-issued by roots on the claim-signing list, among them Google's and DigiCert's.
-Every certificate those authorities use to sign timestamps therefore chains to
-a claim-signing anchor, and with this behaviour the key behind any of them can
-sign manifests that validate as \emph{Trusted}. The behaviour reproduces in the
-unmodified library at commit \texttt{\NvalCommit}, in the latest tagged
-release, c2pa-v0.91.9, and in the command-line tool c2patool~0.28.4, so it is
-not an artefact of our patch.
+certificate to that one purpose. Whoever holds the key of a time-stamping
+authority whose certificate chains to a claim-signing anchor can therefore
+sign manifests that a validator using the library's key-usage check reports as
+\emph{Trusted}. Such a manifest is attributed to the authority's own subject
+name, not to an arbitrary publisher: the defect lets a key operated for
+another purpose, often by another party, produce trusted provenance, which
+the separation the specification draws is meant to prevent, but it does not by
+itself let that key impersonate another signer. On the live lists the
+condition holds at the CA level. Of the \NtlClaimRoots{} roots on the
+claim-signing list, \NtlBothLists{} are the same certificates as roots on the
+time-stamping list, and all \NtsaIcaUnderClaim{} time-stamping issuing CAs on
+the time-stamping list are issued by roots on the claim-signing list, among
+them Google's and DigiCert's, so the authorities' certificates chain to a
+claim-signing anchor. We did not test those authorities' own certificates
+against the library's other checks, such as validity periods and any name or
+policy constraints, so these are configurations potentially affected rather
+than shown to be exploitable. The behaviour reproduces in the unmodified
+library at commit \texttt{\NvalCommit}, in the latest tagged release,
+c2pa-v0.91.9, and in the command-line tool c2patool~0.28.4, so it is not an
+artefact of our patch; Table~\ref{tab:evidence} in the supplement lists what
+was reproduced where and what is inferred.
 
 \paragraph{A timestamp the validator should ignore invalidates the manifest}
 In the other direction, a time-stamping authority whose certificate lacks the
@@ -79,11 +83,12 @@ time-stamping usage makes the whole manifest \emph{Invalid}, with status
 timestamp as untrusted and judge the signer at the current time. The token
 travels in the COSE unprotected header, so anyone who can rewrite a file can
 swap in such a token, and a misconfigured authority produces one by accident.
-Either way a credential that should verify is reported as \emph{Invalid}, the
-status of tampered content, which harms its signer more than removing the
-credential would.
+Either way valid content is reported as \emph{Invalid}, the status of
+tampered content, instead of falling back to validation at the current time.
 
 \paragraph{Revocation stapled in a CA-signed response has no effect}
+Unlike the two defects above, this behaviour arises where the C2PA profile and
+RFC~6960 disagree and the implementation follows the profile.
 RFC~6960 lets the issuing CA sign an OCSP response itself, with no special key
 usage~\cite{rfc6960}. C2PA~2.5 instead requires a response to be signed by an
 end-entity certificate valid for \texttt{id-kp-OCSPSigning}, while also asking
@@ -93,8 +98,11 @@ tension by ignoring the response: it looks for the responder's certificate in
 the response, finds none, and treats the status as unknown, the same outcome as
 when nothing is stapled. A signer whose stapled, CA-signed response says
 \emph{revoked} therefore validates as \emph{Trusted}
-(Table~\ref{tab:validation}); we ran the matrix with online OCSP fetching off,
-so a validator that also fetches status could still catch it. The risk is to
+(Table~\ref{tab:validation}), with online OCSP fetching off as it was for the
+whole matrix; a validator that also fetches status could still catch it. We
+did not run a CA-signed response that also embeds the CA's certificate, which
+would separate the missing certificate from the responder's authorisation as
+the cause. The risk is to
 deployments that believe their stapled evidence protects them. A generator that
 staples revocation status, as \NcorpProdOcsp{} production signatures do, must
 use a delegated responder for it to count; under ML-DSA-65 a delegated

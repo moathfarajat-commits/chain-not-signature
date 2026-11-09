@@ -85,17 +85,43 @@ the root.
 We consider an adversary who can forge any classical signature whose public key
 it sees, as a quantum adversary running Shor's algorithm could, but cannot
 forge ML-DSA, SLH-DSA or a hash. Such an adversary does not need to steal a
-key. Forging a manifest signature attributes new content to a real signer;
-forging an issuer's signature mints a certificate under a listed anchor and
-then signs anything; forging a timestamp backdates a credential to before its
-signer was revoked; forging an OCSP response makes a revoked signer look
-current; and forging a session key's signature substitutes segments in a live
-stream. A credential is quantum-resistant only when every load-bearing
-signature is, and even then only while validators refuse classical
-credentials in its signer's name, since the adversary can otherwise mint a
-classical certificate under a classical anchor that is still listed; the trust
-list itself must reach validators under a signature the adversary cannot
-forge. Section~\ref{sec:mixedchain} asks which partial migrations leave a
+key, and which signature it forges decides which property fails
+(Table~\ref{tab:properties}). Forging the manifest signature, or an issuer's
+signature to mint a certificate under a listed anchor, attributes new content
+to a signer. Forging a timestamp misstates when a manifest was signed. On its
+own that creates no new content, but an adversary that also holds a signer key
+since revoked or expired, say one extracted from a retired device, can sign
+new content and date it to when the key was good, and the verifier accepts it
+as historically valid. Forging an OCSP response makes a revoked signer look
+current, and forging a session key's signature substitutes segments in a live
+stream. Finally, while a classical anchor stays listed, the adversary can mint
+a classical certificate with the same subject name as a migrated signer.
+Validators report a signer's identity as the subject of its certificate, so
+such a credential is attributed to the same name; an application that binds
+identity to something else, such as a pinned key, would tell the two apart. A
+credential is quantum-resistant only when every load-bearing signature is,
+when validators refuse classical credentials in its signer's name, and when
+the trust list reaches them under a signature the adversary cannot forge.
+
+\begin{table}[t]
+\caption{What a quantum adversary breaks by forging each classical signature
+in a credential, and where the paper examines it.}
+\label{tab:properties}
+\footnotesize
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{6.6cm}l}
+\toprule
+Property & Fails if the adversary forges & Section\\
+\midrule
+Authenticity of new content & the manifest signature, or an issuer's signature on a carried certificate & \ref{sec:mixedchain}\\
+Signing time & the timestamp token or its authority's path; with a revoked or expired signer key, this backdates new content & \ref{sec:mixedchain}\\
+Revocation status & a stapled OCSP response or its responder's path & \ref{sec:timestamp}, \ref{sec:validation}\\
+Attribution to a migrated name & a classical certificate for the same subject under a classical anchor still listed & \ref{sec:mixedchain}\\
+Integrity of a live stream & the session key's signature on a segment & \ref{sec:edge-video}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Section~\ref{sec:mixedchain} asks which partial migrations leave a
 credential forgeable. Signatures have no analogue of harvesting
 ciphertext now to decrypt later, but once the adversary exists every
 classically signed credential becomes indistinguishable from a forgery, so

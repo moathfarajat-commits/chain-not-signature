@@ -1,0 +1,32 @@
+\begin{table}[t]
+\caption{What ML-DSA-65 would add to the 317 production files of Section~\ref{sec:prodchains}, by signer group, file size and number of signatures in the file. Every signature, carried certificate and timestamp token is replaced by its measured ML-DSA-65 counterpart; the percentages are bytes added over the original file size. The last row adds a full ML-DSA-65 delegated OCSP response (9,480~B) for every stapled response and subtracts nothing for the classical one it replaces, an upper bound. Figure~\ref{fig:corpusgrowth} shows the distributions.}
+\label{tab:corpusstrata}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & & File & Added & \multicolumn{2}{c}{\% of file} & Files\\
+\cmidrule(lr){5-6}
+Stratum & Files & median (MB) & median (kB) & median & p90 & $>$10\%\\
+\midrule
+All files & 317 & 2.24 & 27.1 & 1.24 & 16.2 & 80\\
+\addlinespace
+Google & 105 & 3.16 & 27.1 & 0.88 & 5.9 & 4\\
+OpenAI & 53 & 2.60 & 27.8 & 1.07 & 5.0 & 3\\
+Microsoft & 66 & 0.21 & 30.9 & 14.56 & 22.9 & 62\\
+Adobe & 26 & 7.51 & 23.5 & 0.31 & 2.7 & 0\\
+News publishers & 24 & 3.33 & 28.7 & 0.92 & 4.3 & 2\\
+Other & 43 & 0.67 & 22.7 & 3.37 & 34.0 & 9\\
+\addlinespace
+File under 500\,kB & 87 & 0.21 & 30.9 & 14.73 & 29.2 & 77\\
+File 500\,kB to 5\,MB & 154 & 2.43 & 27.1 & 1.16 & 4.7 & 3\\
+File over 5\,MB & 76 & 7.51 & 27.1 & 0.31 & 0.5 & 0\\
+\addlinespace
+1 signature & 250 & 2.59 & 27.1 & 1.05 & 15.7 & 69\\
+2 signatures & 55 & 1.86 & 36.0 & 1.50 & 9.5 & 6\\
+3 or more signatures & 12 & 1.60 & 81.2 & 6.53 & 24.7 & 5\\
+\addlinespace
+All files, PQ OCSP bound & 317 & 2.24 & 28.7 & 1.31 & 16.2 & 80\\
+\bottomrule
+\end{tabular}
+\end{table}

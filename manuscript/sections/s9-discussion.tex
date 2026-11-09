@@ -8,11 +8,13 @@
 The measurements point to changes that need no new mechanism, and to whom
 each falls.
 
-\emph{Certificate authorities and the trust-list operator.} List the issuing
-CAs that sign post-quantum claim-signing and time-stamping certificates as
-anchors, so that signers and time-stamping authorities can carry their leaf
-alone; that recovers \NtsBothLeafPct\% of a timestamped ML-DSA-65 manifest and
-half of each path. The operator takes on four things in exchange. An anchor is
+\emph{Certificate authorities and the trust-list operator.} Consider listing
+the issuing CAs that sign post-quantum claim-signing and time-stamping
+certificates as anchors, so that signers and time-stamping authorities can
+carry their leaf alone; that recovers \NtsBothLeafPct\% of a timestamped
+ML-DSA-65 manifest and half of each path, once the specification confirms the
+reading. Listing an intermediate changes the trust policy, and the operator
+takes on four things in exchange. An anchor is
 trusted because it is listed, so withdrawing an issuing CA means republishing
 the list, and offline verifiers see the change late. Claim-signing issuing CAs
 on the list live \NtlIcaYearsHi{} years against \NtlRootYearsMed{} for the
@@ -77,10 +79,18 @@ medians is optimistic by 17--18\%.
 
 The post-quantum certificates are ours, issued under a production-like
 profile, since no deployed signer issues them yet; production profiles vary by
-a few hundred bytes per certificate, which moves the ratios by up to about 10\%
-and the absolute growth not at all. The production files were priced
-by substitution rather than re-signed, and stapled OCSP responses were left
-classical. Falcon and the composites carry placeholder object identifiers, and
+a few hundred bytes per certificate, which moves the ratios by up to about
+10\%. Between our own configurations the absolute growth is unaffected, since
+the profile is the same on both sides, but in Section~\ref{sec:prodchains},
+where production certificates are replaced by ours, the difference enters the
+estimate directly, by a few hundred bytes per certificate. The production files
+were priced by substitution rather than re-signed, so their growth is an
+estimate; stapled OCSP responses were left classical, and
+Table~\ref{tab:corpusstrata} in the supplement bounds what post-quantum ones
+would add. The validation matrix did not cover constrained intermediates,
+removal of an anchor from the list, historical validation under leaf-only
+carriage, or a CA-signed OCSP response that embeds the CA's certificate, and no
+application built on the library was tested. Falcon and the composites carry placeholder object identifiers, and
 Falcon is measured as submitted rather than as FN-DSA will be standardised.
 Every timestamp in the validation matrix comes from our own authority, and the
 post-quantum authority only at ML-DSA-65; the saving from a time-stamping

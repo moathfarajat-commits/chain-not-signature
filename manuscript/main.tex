@@ -1,4 +1,4 @@
-%% The Chain, Not the Signature: Cost and Soundness of Post-Quantum Content Credentials.
+%% The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials.
 %% Tables and tables/numbers.tex are generated from the released results.
 
 \documentclass[acmsmall,screen,review]{acmart}
@@ -12,6 +12,7 @@
 \renewcommand\footnotetextcopyrightpermission[1]{}
 
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{xr}
@@ -20,7 +21,7 @@
 
 \begin{document}
 
-\title{The Chain, Not the Signature: Cost and Soundness of Post-Quantum
+\title{The Chain, Not the Signature: Cost and Validation of Post-Quantum
 Content Credentials}
 
 \author{Mua'ad Alfarajat}
@@ -39,28 +40,29 @@ Content Credentials}
 \begin{abstract}
 Cameras, phones and editing tools now sign media with C2PA content
 credentials, and every signature a credential rests on becomes forgeable once
-a cryptographically relevant quantum computer exists. C2PA admitted ML-DSA in October 2026. We ask
-what a conformant post-quantum credential costs, where the cost sits, which
-choices the specification permits recover it without weakening what a
-verifier establishes, and whether a migrated credential is sound: which
-partial migrations leave it forgeable, and whether the reference validator
-enforces the rules the migration relies on. Certificates, not signatures,
-carry the cost. Before timestamping, an ML-DSA-65 manifest is
-\NvsESDSAsixtyfive{} times a matched ES256 one, \NdeltaESDSAsixtyfive\,kB more
-per signer, and certificates are \NchainShareManDSAsixtyfive\% of it;
-substituted into \NcpqFiles{} production-signed files, the migration adds a
-median \NcpqAddMedkB\,kB. Because both C2PA trust lists anchor issuing CAs, a
-signer or time-stamping authority under a listed issuer can carry its
-certificate alone, a form the reference implementation accepts, which takes
-\NtsBothLeafPct\% off a timestamped manifest. A credential stays forgeable
-while any issuer, its time-stamping authority, or a classical anchor for the
-same signer remains classical. A conformance matrix through the reference
-implementation, patched for ML-DSA, finds that it accepts time-stamping and
-OCSP-signing certificates as claim signers under a claim-signing-only policy,
-which on the live lists puts every time-stamping key in reach of attribution;
-that it invalidates a credential over a timestamp it should ignore; and that it
-disregards revocation stapled in a CA-signed OCSP response. We give guidance for CAs,
-generators, validators and the specification.
+a cryptographically relevant quantum computer exists. C2PA admitted ML-DSA in
+October 2026. We ask what a conformant post-quantum credential costs, which
+choices the specification permits recover it without
+weakening what a verifier establishes, and what a migrated credential still
+exposes. Certificates, not signatures, carry the cost: before timestamping, an
+ML-DSA-65 manifest is \NvsESDSAsixtyfive{} times a matched ES256 one, and
+certificates are \NchainShareManDSAsixtyfive\% of it. Substituting measured
+ML-DSA-65 components into \NcpqFiles{} production-signed files gives an
+estimated median growth of \NcpqAddMedkB\,kB. Because both C2PA trust lists
+anchor issuing CAs, a signer or time-stamping authority under a listed issuer
+can carry its certificate alone, which takes \NtsBothLeafPct\% off a
+timestamped manifest; the reference implementation accepts this form, pending
+confirmation by the specification's editors. Partial migration exposes
+distinct properties: a classical issuer, or a classical anchor still listed for
+the same subject, permits signer impersonation, while a classical
+time-stamping authority leaves the signing time forgeable. A conformance
+matrix through the reference implementation, patched for ML-DSA, finds two
+implementation defects, present with classical algorithms too: it accepts
+time-stamping and OCSP-signing certificates as trusted claim signers under a
+claim-signing-only policy, and it invalidates a credential over a timestamp it
+should ignore. It also ignores revocation stapled in a CA-signed OCSP response,
+a gap between the C2PA profile and RFC~6960. We give guidance for CAs,
+generators, validators and the specification editors.
 \end{abstract}
 
 \begin{CCSXML}

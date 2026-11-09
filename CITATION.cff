@@ -18,7 +18,7 @@ keywords:
   - measurement
 preferred-citation:
   type: article
-  title: "The Chain, Not the Signature: Cost and Soundness of Post-Quantum Content Credentials"
+  title: "The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials"
   authors:
     - family-names: Alfarajat
       given-names: "Mua'ad"

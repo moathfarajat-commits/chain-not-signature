@@ -99,28 +99,10 @@ so times ML-DSA 16--18\% lower. ECDSA signatures inside certificates
 vary in DER length from key to key, so ES256 sizes differ by a byte or two
 between experiments that generate their own keys. ML-DSA signing is
 hedged in both libraries, so repeating a message still draws a fresh
-rejection-sampling path. Table~\ref{tab:runs} gives the number of runs per
-experiment and platform; experiments that count outcomes rather than time ran
+rejection-sampling path. Table~\ref{tab:runs} in the supplement gives the number
+of runs per experiment and platform; experiments that count outcomes rather than time ran
 once on the analysis host.
 
-\begin{table}[t]
-\caption{Independent runs per experiment and platform. Each run is a fresh
-process set with fresh keys and its own random order; the stream and edge
-experiments repeat their measurements within one run.}
-\label{tab:runs}
-\small
-\begin{tabular}{lccc}
-\toprule
-Experiment & M1 Pro & Xeon VM & Pi~5\\
-\midrule
-Signing, validation, hashing, carriage & 10 & 10 & 5\\
-Verifier cache & 10 & 9 & --\\
-Verification across cores & 3 & 3 & 3\\
-Archive batch (supplement) & 1 & -- & 3\\
-Live video, edge verifier & -- & -- & 1\\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \subsection{A closed-form size}
 \label{sec:sizemodel}

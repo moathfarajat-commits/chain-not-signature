@@ -88,8 +88,9 @@ needs \NramChainDSAeightyseven\,KiB with leaf and intermediate and
 \NramLeafDSAeightyseven\,KiB with the leaf alone, most of it the received and
 rebuilt buffers rather than pqm4's verifier. Streaming verifiers can bring
 ML-DSA itself down to a few
-kilobytes~\cite{gonzalez2021verifying,bos2022dilithium}, which leaves the
-received credential, and so the carriage form, as the irreducible part.
+kilobytes~\cite{gonzalez2021verifying,bos2022dilithium}, which leaves buffering the
+received credential, and so the carriage form, as the larger cost in our
+implementation.
 
 
 We measured the radio both ways between two nRF52840-DKs, each manifest form

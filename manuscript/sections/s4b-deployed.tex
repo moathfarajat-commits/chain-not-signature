@@ -66,15 +66,24 @@ number of certificates each signer and each time-stamping authority sends, and
 replaced every signature, carried certificate and timestamp token with our
 measured ML-DSA-65 counterpart of the same role, so production names and
 extensions give way to our profile. Stapled OCSP responses, whose size the
-files do not expose, were left classical, which understates the growth of the
-signatures that carry one. The median file is \NcpqFileMedMB\,MB; the median
-growth is \NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and the median
+files do not expose, were left classical. The result is an estimate, not a
+measurement of re-signed files, and percentages here are of the original file.
+The median file is \NcpqFileMedMB\,MB; the median growth is
+\NcpqAddMedkB\,kB, or \NcpqPctMed\% of a file, and the median
 manifest store grows by a factor of \NcpqStoreGrowth. The median hides the
 tail: files with several signatures, such as edited images that keep their
 ingredients' credentials, grow by up to \NcpqAddMaxkB\,kB, and
 \NcpqOverTen{} of the \NcpqFiles{} files would grow by more than a tenth
 (90th percentile \NcpqPctPNinety\%). Of those, \NcpqOverTenTop{} are generated
 images of about 200\,kB from one AI image service; among the other
-\NcpqFilesOther{} files, \NcpqOverTenOther{} grow that much. For the services that sign small images
-at volume, the post-quantum credential is a double-digit share of every file
-they serve. The released data list every file.
+\NcpqFilesOther{} files, \NcpqOverTenOther{} grow that much. Size decides the share: files under
+500\,kB grow by a median \NcpqSmallMedPct\%, files over 5\,MB by
+\NcpqBigMedPct\%, and the \NcpqThreeSigFiles{} files that keep three or more
+signatures gain a median \NcpqThreeSigMedkB\,kB (Table~\ref{tab:corpusstrata}
+and Figure~\ref{fig:corpusgrowth} in the supplement). Giving the
+\NcpqOcspSigs{} stapled responses a full post-quantum delegated response
+each, with nothing subtracted for the classical one, raises the median growth
+of the \NcpqOcspFiles{} files that carry one from \NcpqOcspFilesMedkB{} to
+\NcpqOcspFilesBoundMedkB\,kB, an upper bound. For the services that sign small
+images at volume, the post-quantum credential is a double-digit share of every
+file they serve. The released data list every file.

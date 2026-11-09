@@ -1,7 +1,7 @@
 {
   "title": "The Chain, Not the Signature: code and data",
   "upload_type": "software",
-  "description": "<p>Measurement code, firmware, raw results and table generators for the paper <em>The Chain, Not the Signature: Cost and Soundness of Post-Quantum Content Credentials</em>. It covers the size and timing of C2PA manifests under ML-DSA, SLH-DSA, Falcon and composite signatures on an Apple M1 Pro, a Xeon VM, a Raspberry Pi 5 and three microcontrollers; the validation matrix through a patched c2pa-rs; and the scripts that regenerate every table and number in the paper.</p>",
+  "description": "<p>Measurement code, firmware, raw results and table generators for the paper <em>The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials</em>. It covers the size and timing of C2PA manifests under ML-DSA, SLH-DSA, Falcon and composite signatures on an Apple M1 Pro, a Xeon VM, a Raspberry Pi 5 and three microcontrollers; the validation matrix through a patched c2pa-rs; and the scripts that regenerate every table and number in the paper.</p>",
   "creators": [
     {
       "name": "Alfarajat, Mua'ad",

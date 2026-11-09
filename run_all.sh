@@ -66,3 +66,4 @@ python3 src/make_tables.py
 echo
 echo "== manuscript figures =="
 python3 src/fig_sizeladder.py
+python3 src/fig_corpus_growth.py

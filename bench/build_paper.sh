@@ -12,6 +12,7 @@ cp out-o3new/*.json out/
 LINEA_PI_IN="$PWD/out-pi-v2" python3 src/make_all_tables.py
 python3 src/make_figures.py
 python3 src/fig_sizeladder.py
+python3 src/fig_corpus_growth.py
 find out -mindepth 1 ! -name README.md -exec rm -rf {} +
 cd manuscript
 latexmk -pdf -interaction=nonstopmode main.tex

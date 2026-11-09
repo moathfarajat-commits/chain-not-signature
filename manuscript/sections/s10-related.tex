@@ -29,10 +29,16 @@ proof~\cite{merkletreecerts}.
 
 We confirm the structural result for manifests, with ML-DSA, SLH-DSA, Falcon
 and composites, and generic compression fails as it does in TLS. What does
-not transfer is the setting in which the remedies work. Every one of them is
-negotiated or assumes an online peer, and a manifest is neither: its chain is
-paid once per object and kept for the life of the file, the carriage form is
-fixed when the file is signed, and the verifier may be offline for good. That
+not transfer is the setting in which most remedies work. Suppression and
+trust-anchor identifiers are negotiated between two live ends, and a manifest
+has no second end: its chain is paid once per object and kept for the life of
+the file, the carriage form is fixed when the file is signed, and the verifier
+may be offline for good. Dictionary compression and Merkle Tree Certificates
+are closer, since they need only state the verifier holds in advance, but a
+dictionary must be as current as the certificates it compresses and an
+inclusion proof needs the tree heads it refers to, so for a verifier that
+opens a file years later both reduce to provisioning, which leaf-only
+carriage already does through the trust list. That
 is why we recommend the leaf over the thumbprint where the TLS analogy would
 favour the smaller option, and why leaf-only carriage matters: it is the
 manifest counterpart of suppression, with the C2PA trust list as the set every
@@ -110,9 +116,17 @@ google2025pixel}. Golaszewski et al.\ give the first independent security
 analysis and find that the specification does not meet its stated goals,
 among other things because revocation checking is optional and generators and
 validators disagree about which timestamp is trusted~\cite{%
-golaszewski2026eprint,golaszewski2026}; our findings in
-Section~\ref{sec:findings} are of the same kind and concern the key-usage
-rules for signers, time-stamping authorities and OCSP responders. The privacy
+golaszewski2026eprint,golaszewski2026}. The two studies overlap little.
+Theirs covers version~2.2 and the conformance programme, analyses the core
+protocols formally, and finds timestamp disagreement, weak revocation policy,
+inconsistent validators and alterations hidden in exclusion ranges; it
+considers neither post-quantum signatures nor what a credential costs. Ours
+covers version~2.5 with ML-DSA, prices the credential on production files,
+asks which migration order protects which property, and reports three
+specific behaviours of the reference implementation, two of them defects in
+key-usage enforcement and timestamp handling and the third a gap between the
+C2PA profile and RFC~6960. Their revocation finding is that checking is
+optional; ours is that stapled evidence, when present, can be ignored. The privacy
 of credentials, which certificates reveal and how trust lists link signers, is
 analysed by Kaye and Dixon~\cite{kaye2025privacy}; the thumbprint's leak of
 every verification to a resolver (Section~\ref{sec:tradeoffs}) adds to it.

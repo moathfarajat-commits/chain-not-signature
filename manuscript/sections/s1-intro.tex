@@ -28,17 +28,17 @@ one that ships.
 \paragraph{Research question}
 This paper asks what admitting ML-DSA costs a conformant C2PA content
 credential, where that cost sits, which choices the specification already
-allows reduce it without weakening what a verifier can establish, and whether
-the migrated credential is sound. We break the question into three parts.
+allows reduce it without weakening what a verifier can establish, and what a
+migrated credential still exposes. We break the question into three parts.
 \begin{itemize}
 \item[\textbf{RQ1}] How large and how slow is a conformant post-quantum
 credential, timestamped and with revocation evidence, and what does it add to
 the files that signers actually publish?
 \item[\textbf{RQ2}] Which carriage, trust-list and verifier choices recover
 that cost, on servers and on constrained devices, and what does each give up?
-\item[\textbf{RQ3}] Is a migrated credential sound: which partial migrations
-leave it forgeable, and does the reference implementation enforce what a
-migration relies on, that time-stamping keys cannot attribute content, that
+\item[\textbf{RQ3}] What does a partly or fully migrated credential still
+expose: which partial migrations leave which properties forgeable, and does the
+reference implementation enforce what a migration relies on, that time-stamping keys cannot attribute content, that
 timestamps are judged as the specification says, and that revoked signers stay
 revoked?
 \end{itemize}
@@ -67,9 +67,14 @@ file. Nothing is negotiated, so the carriage form is a policy every verifier
 must accept. Some verifiers are offline for good. And C2PA runs its own trust
 lists, whose anchors include issuing CAs as well as roots, so a signer under a
 listed issuer can omit its intermediate with no new mechanism, under a reading
-of the specification that the reference implementation already accepts. These differences
-decide which remedies carry over. We measure them, and what the reference
-implementation accepts.
+of the specification that the reference implementation already accepts and
+whose confirmation we have requested. These differences decide which remedies
+carry over. We measure them, and what the reference implementation accepts.
+The closest analysis of C2PA itself, Golaszewski et al.'s study of
+version~2.2~\cite{golaszewski2026eprint}, finds timestamp disagreement, weak
+revocation policy and inconsistent validators, but considers neither
+post-quantum signatures nor what a credential costs;
+Section~\ref{sec:related} sets out what each covers.
 
 \paragraph{Contributions}
 \begin{itemize}
@@ -89,15 +94,16 @@ implementation, with what it gives up; how a cache of validated signers must
 be keyed to stay sound; and what the carriage form costs constrained
 verifiers in memory and radio energy, and what each live-video method costs a
 constrained signer (Sections~\ref{sec:carrying} and~\ref{sec:edge}).
-\item \emph{Whether a migrated credential is sound (RQ3).} A migration-order
-analysis showing which partial migrations leave credentials forgeable, and a
+\item \emph{What a migrated credential exposes, and what the validator
+enforces (RQ3).} A migration-order analysis showing which property each
+partial migration leaves forgeable (Table~\ref{tab:properties}), and a
 conformance matrix of \Nvalcases{} cases through the reference implementation,
 patched to sign and validate ML-DSA, including a fully post-quantum credential
-with a post-quantum timestamp. The matrix finds that time-stamping and
-OCSP-signing certificates are accepted as claim signers, that a timestamp the
-specification says to ignore invalidates the whole manifest instead, and that
-revocation stapled in a CA-signed OCSP response, a form RFC~6960 allows and
-C2PA excludes, has no effect (Section~\ref{sec:findings}).
+with a post-quantum timestamp. The matrix finds two implementation defects,
+time-stamping and OCSP-signing certificates accepted as claim signers and a
+timestamp the specification says to ignore invalidating the whole manifest,
+and one gap between the C2PA profile and RFC~6960: revocation stapled in a
+CA-signed OCSP response has no effect (Section~\ref{sec:findings}).
 \end{itemize}
 Section~\ref{sec:discussion} turns the results into recommendations for CAs,
 claim generators, validators and the specification. Every script, raw

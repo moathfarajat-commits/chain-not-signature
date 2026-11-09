@@ -2,7 +2,7 @@
 
 Measurement code, firmware, raw results and table generators for
 
-> Mua'ad Alfarajat. *The Chain, Not the Signature: Cost and Soundness of
+> Mua'ad Alfarajat. *The Chain, Not the Signature: Cost and Validation of
 > Post-Quantum Content Credentials.* Manuscript, 2026.
 
 The paper measures what C2PA content credentials cost when they move to
