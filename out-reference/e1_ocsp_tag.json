@@ -1,0 +1,86 @@
+{
+  "experiment": "e1_ocsp_tag",
+  "notes": [
+    "Stapled OCSP cases of the validation matrix verified with the unmodified tagged release c2pa-v0.91.9 (harness-tag), online fetching off.",
+    "Signed files and verify specs are those of the matrix (c2pa-val/work)."
+  ],
+  "library": "c2pa-v0.91.9",
+  "results": [
+    {
+      "alg": "es256",
+      "case": "ocsp_good",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.skipped"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "ocsp_revoked",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.skipped"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "ocsp_deleg_good",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.notRevoked"
+      ]
+    },
+    {
+      "alg": "es256",
+      "case": "ocsp_deleg_revoked",
+      "validation_state": "Invalid",
+      "failure": [
+        "signingCredential.ocsp.revoked"
+      ],
+      "ocsp_codes": [
+        "signingCredential.ocsp.revoked"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "ocsp_good",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.skipped"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "ocsp_revoked",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.skipped"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "ocsp_deleg_good",
+      "validation_state": "Trusted",
+      "failure": [],
+      "ocsp_codes": [
+        "signingCredential.ocsp.notRevoked"
+      ]
+    },
+    {
+      "alg": "ed25519",
+      "case": "ocsp_deleg_revoked",
+      "validation_state": "Invalid",
+      "failure": [
+        "signingCredential.ocsp.revoked"
+      ],
+      "ocsp_codes": [
+        "signingCredential.ocsp.revoked"
+      ]
+    }
+  ]
+}

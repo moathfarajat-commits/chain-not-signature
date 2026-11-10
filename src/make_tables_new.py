@@ -185,6 +185,7 @@ def tab_archive_projection():
     profiles = list(dict.fromkeys(p["profile"] for p in proj))
     algs = list(dict.fromkeys(p["alg"] for p in proj))
     eff = proj[0]["assumed_efficiency"]
+    hmean = d["results"].get("hash_MB_s_mean")
 
     body = [
         r"\begin{table}[t]",
@@ -192,7 +193,10 @@ def tab_archive_projection():
         rf"cores, at a parallel efficiency of {eff:.2f}, the mean of the two "
         rf"eight-worker values in Table~\ref{{tab:archivebatch}}, rather than "
         rf"assuming perfect "
-        rf"scaling. These are computation-only model results outside the "
+        rf"scaling. Each asset costs the mean fixed cost plus its size over the "
+        rf"mean hash throughput, {hmean:,.0f}~MB/s, rather than the medians of "
+        rf"Table~\ref{{tab:archivemodel}}, because a batch costs the mean. "
+        rf"These are computation-only model results outside the "
         rf"measured range, not measurements: the efficiency was measured on "
         rf"small images and is not established for large objects, and reading "
         rf"from storage and memory bandwidth are not modelled. The column "

@@ -26,11 +26,11 @@ trust list, the policy, the validation time and the revocation status it
 relied on, or it keeps accepting what it should reject.
 
 The migration also tests the validators. Exercising the reference
-implementation against post-quantum and classical credentials showed two
-defects, time-stamping and OCSP-signing certificates accepted as claim
-signers and a credential invalidated over a timestamp it should ignore, and
-one gap between the C2PA profile and RFC~6960, revocation stapled in a
-CA-signed OCSP response going unheeded. Each property a credential rests on
+implementation against post-quantum and classical credentials showed three
+defects: time-stamping and OCSP-signing certificates accepted as claim
+signers, a credential invalidated over a timestamp it should ignore, and
+revocation stapled in a CA-signed OCSP response going unheeded. The last two
+are fixed in the 0.92.0 release candidate; the first persists there. Each property a credential rests on
 fails with a different classical signature: its signature and issuers protect
 who signed,
 its time-stamping authority when, and its revocation evidence whether the

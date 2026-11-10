@@ -22,7 +22,7 @@
 
 \begin{document}
 
-\title{Supplementary Material for ``The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials''}
+\title[Supplement: The Chain, Not the Signature]{Supplementary Material for ``The Chain, Not the Signature: Cost and Validation of Post-Quantum Content Credentials''}
 \author{Mua'ad Alfarajat}
 \orcid{0000-0003-2489-4857}
 \affiliation{%
@@ -97,22 +97,25 @@ Live video, edge verifier & -- & -- & 1\\
 
 Table~\ref{tab:valfull} lists every case of Section~\ref{sec:patch}. Each case
 is signed once through the patched library and validated by both patched
-builds; the classical cases that bear on the two departures from C2PA~2.5 are
-also validated by \texttt{c2pa-rs} at the same commit with no patch at all
-(\emph{p0}), and both departures appear there unchanged, as they do in the
-tagged release c2pa-v0.91.9 and in c2patool~0.28.4. Minimal vectors for the
-two departures, the signed files, the certificates, the trust configuration
-and the raw status codes are released with the data
-(\texttt{data/c2pa-departures/}), except the signed file and leaf
-certificate of the first departure, which are withheld until a fix ships or
-90 days after the report, whichever comes first. Table~\ref{tab:evidence}
-states, for each finding, where it was reproduced and what is inferred.
+builds; the classical cases that bear on the findings are also validated by
+\texttt{c2pa-rs} at the same commit with no patch at all (\emph{p0}), by the
+tagged release c2pa-v0.91.9 and by c2patool~0.28.4, and the key-usage, timestamp
+and OCSP cases by the 0.92.0 release candidate. Minimal vectors, the signed
+files, the certificates, the trust configuration and the raw status codes are
+released with the data (\texttt{data/c2pa-departures/}), except the signed file
+and leaf certificate of the key-usage case, which are withheld until a fix
+ships or 90 days after the report, whichever comes first.
+Table~\ref{tab:evidence} states, for each finding, where it was reproduced and
+what is inferred.
 
 \begin{table}[h]
 \caption{Evidence behind each validation finding of Section~\ref{sec:validation}.
 \emph{p0}: \texttt{c2pa-rs} at \texttt{\NvalCommit} with no patch; \emph{p2}:
-the same with both ML-DSA patches; \emph{v0.91.9}: the latest tagged release;
-c2patool~0.28.4 is the command-line tool. Online OCSP fetching was off
+the same with both ML-DSA patches; \emph{v0.91.9}: the tagged release
+c2pa-v0.91.9; \emph{rc}: the release candidate c2pa-rc-v0.92.0-rc.1 of
+9 November 2026, unpatched, with a claim-signing-only policy expressed by
+switching off its built-in usage list; c2patool~0.28.4 is the command-line
+tool. Online OCSP fetching was off
 throughout. No application or user interface built on the library was tested.}
 \label{tab:evidence}
 \footnotesize
@@ -120,11 +123,11 @@ throughout. No application or user interface built on the library was tested.}
 \toprule
 Finding & Reproduced in & Policy & Status of the claim\\
 \midrule
-Time-stamping leaf trusted as claim signer & p0, v0.91.9, c2patool~0.28.4 (ES256, Ed25519); p2 (all five algorithms) & default and claim-signing-only usage lists & reproduced; vectors withheld, status codes released\\
-OCSP-signing or e-mail leaf trusted as claim signer & v0.91.9 (ES256, Ed25519); p2 (ML-DSA) & claim-signing-only usage list & reproduced\\
-Production TSA certificates as claim signers & \NtpcChains{} distinct chains from the corpus tokens, claim-signing list of 29 October 2026 & default and claim-signing-only & \NtpcStrong{} pass the profile and trust checks (no signature): Google's \NtpcGoogle{} and vivo's; the rest fail trust or, for \NtpcCaRej{}, the CA-certificate check\\
-TSA certificate without the time-stamping usage invalidates the manifest & p0, v0.91.9, c2patool~0.28.4 (ES256, Ed25519); p2 (all five) & default & reproduced; public as c2pa-rs issue \#3005\\
-CA-signed stapled OCSP response saying \emph{revoked} ignored & p2 (all five algorithms) & default; fetching off & reproduced; cause read from the library's source, not isolated by a control\\
+Time-stamping leaf trusted as claim signer & p0, v0.91.9, c2patool~0.28.4, rc (ES256, Ed25519); p2 (all five algorithms) & default and claim-signing-only usage lists & reproduced, not fixed in rc; vectors withheld, status codes released\\
+OCSP-signing or e-mail leaf trusted as claim signer & v0.91.9 (ES256, Ed25519); p2 (ML-DSA) & claim-signing-only usage list & reproduced; not tested in rc\\
+Production TSA certificates as claim signers & \NtpcChains{} distinct chains from the corpus tokens, claim-signing list of 29 October 2026; v0.91.9 and rc & default and claim-signing-only & \NtpcStrong{} pass the profile and trust checks (no signature) in both: Google's \NtpcGoogle{} and vivo's; the rest fail trust or, for \NtpcCaRej{}, the CA-certificate check\\
+TSA certificate without the time-stamping usage invalidates the manifest & p0, v0.91.9, c2patool~0.28.4 (ES256, Ed25519); p2 (all five) & default & reproduced; c2pa-rs issue \#3005; fixed in rc (\emph{Trusted})\\
+CA-signed stapled OCSP response saying \emph{revoked} ignored & v0.91.9 (ES256, Ed25519); p2 (all five algorithms) & default; fetching off & reproduced; delegated responses as control; reported earlier as c2pa-rs issue \#2722; fixed in rc (\emph{Invalid})\\
 \bottomrule
 \end{tabular}
 \end{table}

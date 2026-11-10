@@ -29,10 +29,13 @@ OpenSSL compiled without optimisation since 2021, which made every
 post-quantum primitive about ten times slower while leaving SHA-2 and ECDSA,
 which use assembly, largely untouched; we reported it with a two-line fix that was
 merged the same day~\cite{pyca_issue15702,pyca_infra796}, and the M1 Pro
-figures use an OpenSSL built from source at \texttt{-O3}. Section~S1 of the
+figures use an OpenSSL built from source at \texttt{-O3}. Section~\ref{sec:supp-impl} of the
 supplement documents the defect and times ML-DSA-65 through every build we
 could obtain: across correctly built implementations on one machine the
-spread is larger than the spread across the three parameter sets. The
+spread is larger than the spread across the three parameter sets.
+Section~\ref{sec:audit} of the supplement asks how often applied studies
+report their build, and Section~\ref{sec:supp-audit} gives the coding
+protocol and the \NauditN{} studies (Table~\ref{tab:audit}). The
 reference implementation is built with Cargo's release profile under Rust
 1.98.1 and RustCrypto's \texttt{ml-dsa}~0.1.2. Firmware is built at
 \texttt{-O3} with \texttt{arm-none-eabi-gcc}~13.2, over pqm4~\cite{pqm4} at

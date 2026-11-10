@@ -2,16 +2,17 @@
 
 Minimal vectors for the two departures of Section 7.2 of the paper. Both occur in c2pa-rs at
 commit e2ad88e with no patch (`p0` in `status_codes.json`), with ES256 and
-Ed25519, as well as in the two ML-DSA-patched builds, and on the latest tagged
-release, c2pa-v0.91.9 (e62b5c8; `status_codes_c2pa-v0.91.9.json`).
+Ed25519, as well as in the two ML-DSA-patched builds, and in the tagged
+release c2pa-v0.91.9 (e62b5c8; `status_codes_c2pa-v0.91.9.json`).
 
 Reported: finding 2 as https://github.com/contentauth/c2pa-rs/issues/3005
-(3 November 2026); finding 1 was reported privately, with its vectors, to
+(3 November 2026), fixed on 5 November 2026 (pull request #3031); finding 1 was reported privately, with its vectors, to
 Adobe's product security team on 9 November 2026. The signed file and leaf
 certificate for finding 1 are withheld from this repository until a fix ships
 or until 7 February 2027 (90 days after the report), whichever comes first;
 its status codes are included. Both also reproduce with c2patool 0.28.4;
-see `c2patool-0.28.4/`.
+see `c2patool-0.28.4/`. In the release candidate c2pa-rc-v0.92.0-rc.1, finding 1
+persists and finding 2 is fixed (`c2pa-val/rc/`, `out-reference/e1_findings_rc.json`).
 
 All certificates are throwaway test certificates generated for the run
 (`c2pa-val/gen_certs.py`); no private keys are included.

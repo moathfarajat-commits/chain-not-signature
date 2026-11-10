@@ -70,13 +70,17 @@ microcontroller boards.
   running each through the library's certificate-profile and trust checks
   (`lineaval checkcert`), with no signature.
 * The Kodak images, which `fetch_images.sh` downloads.
-* For the first specification departure (a time-stamping certificate accepted
-  as a claim signer), the signed file and its leaf certificate. The issue was
-  reported privately to Adobe's product security team on 9 November 2026, and
-  these files will be added when a fix ships or on 7 February 2027 (90 days
-  after the report), whichever comes first. Its status codes are included. See
-  `data/c2pa-departures/README.md`. The second departure is
-  [c2pa-rs issue #3005](https://github.com/contentauth/c2pa-rs/issues/3005).
+* For the key-usage finding (a time-stamping certificate accepted as a claim
+  signer), the signed file and its leaf certificate. The issue was reported
+  privately to Adobe's product security team on 9 November 2026 and persists in
+  the 0.92.0 release candidate (`c2pa-val/rc/`); these files will be added when
+  a fix ships or on 7 February 2027 (90 days after the report), whichever comes
+  first. Its status codes are included. See `data/c2pa-departures/README.md`.
+  The timestamp finding is
+  [c2pa-rs issue #3005](https://github.com/contentauth/c2pa-rs/issues/3005),
+  fixed on 5 November 2026; the OCSP finding had been reported independently as
+  [c2pa-rs issue #2722](https://github.com/contentauth/c2pa-rs/issues/2722) and is
+  fixed too. Both fixes first appear in c2pa-rc-v0.92.0-rc.1.
 * Private keys. Every certificate in the repository is a throwaway test
   certificate.
 

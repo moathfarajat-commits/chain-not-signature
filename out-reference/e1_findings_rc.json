@@ -1,0 +1,1106 @@
+{
+ "experiment": "e1_findings_rc",
+ "library": "c2pa-rc-v0.92.0-rc.1 (fb05f75)",
+ "notes": [
+  "Cases bearing on the three findings verified with the unmodified library, online OCSP fetching off; vectors and verify specs are those of the matrix (c2pa-val/work).",
+  "policy claimsigning: LINEA_EKUS = c2pa-kp-claimSigning, added to the built-in EKU list (0.92 default trust.use_default_ekus = true); claimsigning_nodefault: the same list with trust.use_default_ekus = false, the only way 0.92 expresses a claim-signing-only policy. Control: with use_default_ekus = false and an emailProtection-only list, the ordinary claimSigning leaf is rejected (Invalid, signingCredential.untrusted), so the setting is honoured.",
+  "The harness differs from the v0.91.9 one only in the Signer::send_timestamp_request signature (0.92 adds a context parameter) and the use_default_ekus opt-out."
+ ],
+ "results": [
+  {
+   "alg": "es256",
+   "case": "chain_noroot_tsa",
+   "policy": "default",
+   "spec": "v-es256-chain_noroot_tsa.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 7.662834
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "eku_timestamping",
+   "policy": "default",
+   "spec": "v-es256-eku_timestamping.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 4.11525
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "eku_timestamping",
+   "policy": "claimsigning",
+   "spec": "v-es256-eku_timestamping.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 3.78075
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "tsa_no_timestamping_eku",
+   "policy": "default",
+   "spec": "v-es256-tsa_no_timestamping_eku.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa_noeku signer"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      },
+      {
+       "code": "timeStamp.untrusted",
+       "explanation": "certificate missing required EKU"
+      },
+      {
+       "code": "timeStamp.untrusted",
+       "explanation": "timestamp cert untrusted: es256 tsa_noeku signer"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 2.335959
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "ocsp_good",
+   "policy": "default",
+   "spec": "v-es256-ocsp_good.jpg-p2.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "signingCredential.ocsp.notRevoked",
+       "explanation": "signing cert not revoked: 632583962433911802512625359218553526710267569743"
+      },
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    },
+    "verify_ms": 5.472459
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "ocsp_revoked",
+   "policy": "default",
+   "spec": "v-es256-ocsp_revoked.jpg-p2.json",
+   "validation_state": "Invalid",
+   "result": {
+    "validation_state": "Invalid",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.revoked",
+       "explanation": "signing cert revoked: 632583962433911802512625359218553526710267569743"
+      }
+     ]
+    },
+    "verify_ms": 4.777042
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "ocsp_deleg_good",
+   "policy": "default",
+   "spec": "v-es256-ocsp_deleg_good.jpg-p2.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "signingCredential.ocsp.notRevoked",
+       "explanation": "signing cert not revoked: 632583962433911802512625359218553526710267569743"
+      },
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    },
+    "verify_ms": 4.50025
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "ocsp_deleg_revoked",
+   "policy": "default",
+   "spec": "v-es256-ocsp_deleg_revoked.jpg-p2.json",
+   "validation_state": "Invalid",
+   "result": {
+    "validation_state": "Invalid",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.revoked",
+       "explanation": "signing cert revoked: 632583962433911802512625359218553526710267569743"
+      }
+     ]
+    },
+    "verify_ms": 4.264292
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "chain_noroot_tsa",
+   "policy": "default",
+   "spec": "v-ed25519-chain_noroot_tsa.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 1.989375
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "eku_timestamping",
+   "policy": "default",
+   "spec": "v-ed25519-eku_timestamping.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 1.8705
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "eku_timestamping",
+   "policy": "claimsigning",
+   "spec": "v-ed25519-eku_timestamping.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 1.847625
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "tsa_no_timestamping_eku",
+   "policy": "default",
+   "spec": "v-ed25519-tsa_no_timestamping_eku.jpg-p0.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa_noeku signer"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      },
+      {
+       "code": "timeStamp.untrusted",
+       "explanation": "certificate missing required EKU"
+      },
+      {
+       "code": "timeStamp.untrusted",
+       "explanation": "timestamp cert untrusted: es256 tsa_noeku signer"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 1.439125
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "ocsp_good",
+   "policy": "default",
+   "spec": "v-ed25519-ocsp_good.jpg-p2.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "signingCredential.ocsp.notRevoked",
+       "explanation": "signing cert not revoked: 370971921064476999302848523073294290209488400866"
+      },
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    },
+    "verify_ms": 2.954
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "ocsp_revoked",
+   "policy": "default",
+   "spec": "v-ed25519-ocsp_revoked.jpg-p2.json",
+   "validation_state": "Invalid",
+   "result": {
+    "validation_state": "Invalid",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.revoked",
+       "explanation": "signing cert revoked: 370971921064476999302848523073294290209488400866"
+      }
+     ]
+    },
+    "verify_ms": 2.837917
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "ocsp_deleg_good",
+   "policy": "default",
+   "spec": "v-ed25519-ocsp_deleg_good.jpg-p2.json",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "signingCredential.ocsp.notRevoked",
+       "explanation": "signing cert not revoked: 370971921064476999302848523073294290209488400866"
+      },
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    },
+    "verify_ms": 2.8344590000000003
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "ocsp_deleg_revoked",
+   "policy": "default",
+   "spec": "v-ed25519-ocsp_deleg_revoked.jpg-p2.json",
+   "validation_state": "Invalid",
+   "result": {
+    "validation_state": "Invalid",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.revoked",
+       "explanation": "signing cert revoked: 370971921064476999302848523073294290209488400866"
+      }
+     ]
+    },
+    "verify_ms": 2.867375
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "eku_timestamping",
+   "policy": "claimsigning_nodefault",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 7.630416
+   }
+  },
+  {
+   "alg": "es256",
+   "case": "chain_noroot_tsa",
+   "policy": "claimsigning_nodefault",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 2.749375
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "eku_timestamping",
+   "policy": "claimsigning_nodefault",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 2.072417
+   }
+  },
+  {
+   "alg": "ed25519",
+   "case": "chain_noroot_tsa",
+   "policy": "claimsigning_nodefault",
+   "validation_state": "Trusted",
+   "result": {
+    "validation_state": "Trusted",
+    "codes": {
+     "success": [
+      {
+       "code": "timeStamp.validated",
+       "explanation": "timestamp message digest matched: es256 tsa signer"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "explanation": "timestamp cert trusted: es256 tsa signer, trust list: urn:line-a:tsa"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "explanation": "signing certificate trusted, found in [urn:line-a:manifest] trust anchors"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "claimSignature.validated",
+       "explanation": "claim signature valid"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "explanation": "data hash valid"
+      }
+     ],
+     "informational": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "explanation": "OCSP fetching skipped"
+      }
+     ],
+     "failure": []
+    },
+    "verify_ms": 2.020041
+   }
+  }
+ ],
+ "tsa_prodcheck": {
+  "chains": 21,
+  "accepted_claimsigning_only": 8,
+  "accepted": [
+   {
+    "fp": "04d6d0509e52f407",
+    "operator": "Google",
+    "files": 86
+   },
+   {
+    "fp": "82a5ab44008dd56d",
+    "operator": "Google",
+    "files": 19
+   },
+   {
+    "fp": "84f59f0e952e939d",
+    "operator": "Google",
+    "files": 16
+   },
+   {
+    "fp": "b473fb1647802e82",
+    "operator": "Google",
+    "files": 15
+   },
+   {
+    "fp": "6ca09dc53c2aa51b",
+    "operator": "Google",
+    "files": 11
+   },
+   {
+    "fp": "790881dc3d3398f1",
+    "operator": "Google",
+    "files": 9
+   },
+   {
+    "fp": "ef79271a4fbb713f",
+    "operator": "Google",
+    "files": 8
+   },
+   {
+    "fp": "3ae4bdcf2caeede4",
+    "operator": "vivo C2PA Time Stamping Authority",
+    "files": 2
+   }
+  ],
+  "files_behind_accepted": 166
+ }
+}

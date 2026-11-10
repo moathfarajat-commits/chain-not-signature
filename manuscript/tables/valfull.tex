@@ -1,6 +1,6 @@
 {\footnotesize
 \begin{longtable}{>{\raggedright\arraybackslash}p{4.2cm}p{1.2cm}ccccccc}
-\caption{Every case of the validation matrix: the library's outcome under the extended patch (p2) for each algorithm, with the timestamp's own status after a slash (t trusted, m mismatch, u untrusted). \emph{p1}: the three ML-DSA sets with the signing patch alone. \emph{p0}: \texttt{c2pa-rs} \texttt{e2ad88e} unmodified, for the classical cases that bear on the two departures. Codes as in Table~\ref{tab:validation}; every status code the library reported is in the released data.}\label{tab:valfull}\\
+\caption{Every case of the validation matrix: the library's outcome under the extended patch (p2) for each algorithm, with the timestamp's own status after a slash (t trusted, m mismatch, u untrusted). \emph{p1}: the three ML-DSA sets with the signing patch alone. \emph{p0}: \texttt{c2pa-rs} \texttt{e2ad88e} unmodified, for the classical cases that bear on the departures. Codes as in Table~\ref{tab:validation}; every status code the library reported is in the released data.}\label{tab:valfull}\\
 \toprule
 Case & Expected & ES256 & Ed25519 & ML-44 & ML-65 & ML-87 & p1 & p0\\
 \midrule
@@ -32,7 +32,7 @@ Case & Expected & ES256 & Ed25519 & ML-44 & ML-65 & ML-87 & p1 & p0\\
 \texttt{tsa\_\allowbreak{}no\_\allowbreak{}timestamping\_\allowbreak{}eku} & T & I/u & I/u & I/u & I/u & I/u & I & I\\
 \texttt{tsa\_\allowbreak{}anchor\_\allowbreak{}absent} & T & T/u & T/u & T/u & T/u & T/u & V & \\
 \texttt{ocsp\_\allowbreak{}good} & T & T/t & T/t & T/t & T/t & T/t & V & \\
-\texttt{ocsp\_\allowbreak{}revoked} & T & T/t & T/t & T/t & T/t & T/t & V & \\
+\texttt{ocsp\_\allowbreak{}revoked} & not T & T/t & T/t & T/t & T/t & T/t & V & \\
 \texttt{ocsp\_\allowbreak{}deleg\_\allowbreak{}good} & T & T/t & T/t & T/t & T/t & T/t & V & \\
 \texttt{ocsp\_\allowbreak{}deleg\_\allowbreak{}revoked} & not T & I/t & I/t & I/t & I/t & I/t & V & \\
 \texttt{pqtsa\_\allowbreak{}good} & T & T/t & T/t & T/t & T/t & T/t & V & \\

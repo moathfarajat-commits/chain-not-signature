@@ -1,5 +1,5 @@
 \begin{table*}[t]
-\caption{Validation through the reference implementation (\texttt{c2pa-rs} \texttt{e2ad88e} with our ML-DSA patches, p2): a selection of the 40 cases; Table~\ref{tab:valfull} in the supplement lists all. T, V, I: Trusted, Valid, Invalid; E: reader error; SR: signing refused (\emph{direct}: our harness's own structure with that certificate). \emph{Expected} follows C2PA~2.5. \emph{TST}: the timestamp's status (t trusted, m mismatch, u untrusted); an ignored timestamp leaves the signer judged now. The TSA is ES256 except in the indented rows. Bold with $^\dagger$: a departure from the specification, reproduced in the unpatched library. $^\ddagger$The expected result for the CA-signed \emph{revoked} OCSP row is interpretation-dependent: C2PA~2.5's OCSP-signing rule implies \emph{not Trusted}, but its instruction to check stapled responses as RFC~6960 does would accept the CA-signed form (Section~\ref{sec:validation}).}
+\caption{Validation through the reference implementation (\texttt{c2pa-rs} \texttt{e2ad88e} with our ML-DSA patches, p2): a selection of the 40 cases; Table~\ref{tab:valfull} in the supplement lists all. T, V, I: Trusted, Valid, Invalid; E: reader error; SR: signing refused (\emph{direct}: our harness's own structure with that certificate). \emph{Expected} follows C2PA~2.5. \emph{TST}: the timestamp's status (t trusted, m mismatch, u untrusted); an ignored timestamp leaves the signer judged now. The TSA is ES256 except in the indented rows. Bold with $^\dagger$: a departure from the specification, reproduced in the tagged release c2pa-v0.91.9; Section~\ref{sec:validation} gives which the 0.92.0 release candidate fixes.}
 \label{tab:validation}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -17,7 +17,7 @@ Unknown anchor & not T & V & V & t\\
 Thumbprint (\texttt{x5t}) & not T & E & E & --\\
 Leaf EKU serverAuth & refused & SR (direct I) & SR (direct I) & -- (direct --)\\
 Leaf EKU timeStamping only$^\dagger$ & not T & \textbf{T} & \textbf{T} & t\\
-COSE algorithm $\neq$ key (ML-DSA-44 only) & I & I & I & --\\
+COSE algorithm $\neq$ key & I & I & I & --\\
 Image changed after signing & I & I & I & t\\
 Signature bit flipped & I & I & I & m\\
 Expired leaf, timestamp inside validity & T & T & T & t\\
@@ -30,7 +30,7 @@ TSA certificate lacks timeStamping$^\dagger$ & T & \textbf{I} & \textbf{I} & u\\
 ML-DSA-65 TSA & T & T & T & t\\
 \quad timestamp over other data & T & T & T & m\\
 \quad expired leaf, timestamp inside validity & T & T & T & t\\
-OCSP, CA-signed, revoked$^\ddagger$ & T & T & T & t\\
+OCSP, CA-signed, revoked$^\dagger$ & not T & \textbf{T} & \textbf{T} & t\\
 OCSP, delegated responder, revoked & not T & I & I & t\\
 \bottomrule
 \end{tabular}

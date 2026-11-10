@@ -44,17 +44,16 @@ trust-list snapshot, the policy and, for historical validation, the validation
 time, and bound them by path validity and the currency of revocation status
 (Section~\ref{sec:cache}). Test key-usage handling against certificates the
 validator should refuse, including time-stamping and OCSP-signing leaves
-(Section~\ref{sec:findings}), and do not treat an ignored stapled response as
-revocation checked.
+(Section~\ref{sec:findings}), accept a stapled response from the issuing CA
+as RFC~6960 does, and do not treat an ignored stapled response as revocation
+checked.
 
 \emph{The specification.} Make omitting the root a requirement rather than a
 recommendation. Say explicitly that a leaf whose issuer is an anchor satisfies
 the requirement to carry all intermediates, for claim signers and for
-time-stamping authorities, as we have asked~\cite{c2paspec142}. Resolve the conflict between the OCSP-signing rule
-and RFC~6960~\cite{c2paspec143}: either accept responses signed by the issuing CA, or state that
-generators must staple delegated responses and that validators must report a
-CA-signed one rather than skip it in silence. And say how a cache must be
-keyed.
+time-stamping authorities, as we have asked~\cite{c2paspec142}. State next to the OCSP-signing rule that a response
+signed by the issuing CA is acceptable, as Section~14.9.1 already implies
+through RFC~6960~\cite{c2paspec143}. And say how a cache must be keyed.
 
 \subsection{Renewing what is already signed}
 \label{sec:renewal}

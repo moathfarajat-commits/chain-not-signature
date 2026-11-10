@@ -20,7 +20,7 @@ identifier, and a signature with the signer's chain. In the second, the
 stream's first manifest carries the chain and a session key bound to the
 signer, and each segment carries only a small Verifiable Segment Info map,
 its sequence number, hash and manifest identifier, signed by the session key.
-We signed real streams both ways on one core of the Pi~5: \NstreamSeconds{} seconds of 1080p30 H.264 at 12\,Mbit/s and of 4K30 HEVC at 40\,Mbit/s, in fragmented MP4 with one-second fragments. As an upper bound we also signed every encoded frame with the
+We signed real streams both ways on one core of the Pi~5: \NstreamSeconds{} seconds of 1080p30 H.264 at 12\,Mbit/s and of 4K30 HEVC at 40\,Mbit/s (measured \NstreamMeasOneMbps{} and \NstreamMeasFourkMbps\,Mbit/s, the rates every share below is taken of), in fragmented MP4 with one-second fragments. As an upper bound we also signed every encoded frame with the
 chain attached, which C2PA does not define.
 
 \input{tables/stream}
@@ -38,7 +38,7 @@ algorithm, so the stream stays post-quantum end to end; a classical session
 key under a post-quantum signer would shrink each segment's signature and
 leave every segment forgeable by a quantum adversary (Section~\ref{sec:threat}).
 
-Replaying each stream with ten manipulations (Table~\ref{tab:streamdetect} in the supplement), a verifier that knows which stream it is playing detected, under both methods, every dropped, reordered, replayed, substituted, truncated or cross-stream segment, an expired session key and a missing initial manifest. It cannot detect removal of the last segments unless the stream's length is announced in signed data or the player times out. The supplement also bounds the computation by signing every raw 4K frame (Table~\ref{tab:video}) and gives the cost of reading a trust store from an SD card (Table~\ref{tab:edge}).
+Replaying each stream with ten manipulations (Table~\ref{tab:streamdetect} in the supplement), a verifier that knows which stream it is playing detected, under both methods, every dropped, reordered, replayed, substituted, truncated or cross-stream segment; under VSI, which alone has a session key and an initial manifest, it also detected an expired key and a missing initial manifest. It cannot detect removal of the last segments unless the stream's length is announced in signed data or the player times out. The supplement also bounds the computation by signing every raw 4K frame (Table~\ref{tab:video}) and gives the cost of reading a trust store from an SD card (Table~\ref{tab:edge}).
 
 \subsection{Credentials on a microcontroller}
 \label{sec:mcu}

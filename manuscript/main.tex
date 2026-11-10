@@ -21,7 +21,7 @@
 
 \begin{document}
 
-\title{The Chain, Not the Signature: Cost and Validation of Post-Quantum
+\title[The Chain, Not the Signature]{The Chain, Not the Signature: Cost and Validation of Post-Quantum
 Content Credentials}
 
 \author{Mua'ad Alfarajat}
@@ -54,16 +54,16 @@ timestamped manifest, a form the reference implementation accepts. Partial
 migration leaves different properties exposed: a classical issuer, or a classical anchor still listed for
 the same subject, permits signer impersonation, while a classical
 time-stamping authority leaves the signing time forgeable. A conformance
-matrix through the reference implementation, patched for ML-DSA, finds two
+matrix through the reference implementation, patched for ML-DSA, finds three
 implementation defects, present under classical algorithms as well as ML-DSA:
-it accepts
-time-stamping and OCSP-signing certificates as trusted claim signers under a
-claim-signing-only policy, and it invalidates a credential over a timestamp it
-should ignore. The production time-stamping certificates of
-Google's and vivo's C2PA-listed authorities pass its checks as claim signers,
-only the private key absent. It also ignores revocation stapled in
-a CA-signed OCSP response, a gap between the C2PA profile and RFC~6960. We give guidance for CAs,
-generators, validators and the specification editors.
+it accepts time-stamping and OCSP-signing certificates as trusted claim signers under a
+claim-signing-only policy, invalidates a credential over a timestamp it
+should ignore, and ignores revocation stapled in a CA-signed OCSP response. The production time-stamping certificates of
+Google's and vivo's C2PA-listed authorities pass its certificate checks as
+claim signers, so their time-stamping keys could sign manifests it trusts;
+the check used the certificates alone, with no signature. A release
+candidate for version 0.92.0 fixes the timestamp and OCSP defects but not the
+key-usage one. We give guidance for CAs, generators, validators and the specification editors.
 \end{abstract}
 
 \begin{CCSXML}
@@ -106,7 +106,7 @@ The measurement code, the firmware, every result file, the scripts that turn
 them into this paper's tables and numbers, the validation harness with its
 patches and test vectors, and the corpus inventory are released at
 \url{https://github.com/moathfarajat-commits/chain-not-signature} and archived as
-\url{https://doi.org/10.5281/zenodo.24091528} (release 1.1.1; the DOI resolves to the latest release). The production-signed files
+\url{https://doi.org/10.5281/zenodo.24091528} (the DOI resolves to the latest release). The production-signed files
 themselves are not redistributed, since several of their sources do not
 allow it; the inventory gives each file's source URL, licence and SHA-256.
 The signed vectors for the key-usage behaviour are withheld for the period

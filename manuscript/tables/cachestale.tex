@@ -1,5 +1,5 @@
 \begin{table}[ht]
-\caption{Stale trust with the trust list unchanged: 2,000 manifests over 30 simulated days from the stream of Table~\ref{tab:cache}, with the most frequent publisher's signing certificate expiring, or being revoked, on day 15. \emph{Key and validity} is what a cache entry is keyed on and what bounds its life; \emph{OCSP} is how long a status response is valid. \emph{Accepted} counts that publisher's manifests accepted after the event (of all it sent after the event), and \emph{Last} how long after the event the last was accepted. ML-DSA-65; ES256 behaves the same.}
+\caption{Stale trust with the trust list unchanged: 2,000 manifests over 30 simulated days, drawn as in Table~\ref{tab:cache}, with the most frequent publisher's signing certificate expiring, or being revoked, on day 15. Each event has its own draw of the stream from the same publisher weights, so that publisher sends a different number of manifests after the event in each. \emph{Key and validity} is what a cache entry is keyed on and what bounds its life; \emph{OCSP} is how long a status response is valid. \emph{Accepted} counts that publisher's manifests accepted after the event (of all it sent after the event), and \emph{Last} how long after the event the last was accepted. ML-DSA-65; ES256 behaves the same.}
 \label{tab:cachestale}
 \small
 \setlength{\tabcolsep}{4pt}

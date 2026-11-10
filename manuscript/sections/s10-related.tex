@@ -123,9 +123,8 @@ inconsistent validators and alterations hidden in exclusion ranges; it
 considers neither post-quantum signatures nor what a credential costs. Ours
 covers version~2.5 with ML-DSA, prices the credential on production files,
 asks which migration order protects which property, and reports three
-specific behaviours of the reference implementation, two of them defects in
-key-usage enforcement and timestamp handling and the third a gap between the
-C2PA profile and RFC~6960. Their revocation finding is that checking is
+defects of the reference implementation, in key-usage enforcement, timestamp
+handling and stapled revocation. Their revocation finding is that checking is
 optional; ours is that stapled evidence, when present, can be ignored. The privacy
 of credentials, which certificates reveal and how trust lists link signers, is
 analysed by Kaye and Dixon~\cite{kaye2025privacy}; the thumbprint's leak of

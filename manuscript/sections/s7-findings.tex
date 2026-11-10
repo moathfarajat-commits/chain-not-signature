@@ -84,10 +84,16 @@ list are also roots on the time-stamping list, and all \NtsaIcaUnderClaim{}
 time-stamping issuing CAs on the time-stamping list are issued by claim-signing
 roots, so any time-stamping authority listed under one of them is in the same
 position as Google's. The behaviour reproduces in the unmodified library at commit
-\texttt{\NvalCommit}, in the latest tagged release, c2pa-v0.91.9, and in the
-command-line tool c2patool~0.28.4, so it is not an artefact of our patch;
-Table~\ref{tab:evidence} in the supplement records the production-certificate
-check and what else was reproduced where.
+\texttt{\NvalCommit}, in the tagged release c2pa-v0.91.9 and in the
+command-line tool c2patool~0.28.4, so it is not an artefact of our patch. It
+also persists in the release candidate for version 0.92.0
+(c2pa-rc-v0.92.0-rc.1, 9 November 2026), whose revised usage configuration
+expresses a claim-signing-only policy by switching off the built-in usage
+list: with that list off, the time-stamping leaf is still a \emph{Trusted}
+claim signer, while an ordinary claim-signing leaf is rejected under an
+e-mail-only list, so the setting takes effect, and the same \NtpcStrong{}
+production chains pass both checks. Table~\ref{tab:evidence} in the
+supplement records what was reproduced where.
 
 \paragraph{A timestamp the validator should ignore invalidates the manifest}
 In the other direction, a time-stamping authority whose certificate lacks the
@@ -98,54 +104,60 @@ travels in the COSE unprotected header, so anyone who can rewrite a file can
 swap in such a token, and a misconfigured authority produces one by accident.
 Either way valid content is reported as \emph{Invalid}, the status of
 tampered content, instead of falling back to validation at the current time.
+The maintainers fixed this two days after our report~\cite{c2pars3005}, and
+in the 0.92.0 release candidate the same manifest is \emph{Trusted}.
 
 \paragraph{Revocation stapled in a CA-signed response has no effect}
-Unlike the two defects above, this behaviour arises where the C2PA profile and
-RFC~6960 disagree and the implementation follows the profile.
 RFC~6960 lets the issuing CA sign an OCSP response itself, with no special key
-usage~\cite{rfc6960}. C2PA~2.5 instead requires a response to be signed by an
-end-entity certificate valid for \texttt{id-kp-OCSPSigning}, while also asking
-validators to check stapled responses as RFC~6960 does, which accepts the
-CA-signed form~\cite{c2pa25}. The reference implementation resolves the
-tension by ignoring the response: it looks for the responder's certificate in
-the response, finds none, and treats the status as unknown, the same outcome as
-when nothing is stapled. A signer whose stapled, CA-signed response says
-\emph{revoked} therefore validates as \emph{Trusted}
+usage~\cite{rfc6960}, and C2PA~2.5 accepts any responder that RFC~6960
+authorises~\cite{c2pa25}. The library instead looks for the responder's
+certificate in the response, finds none, and treats the status as unknown, the
+same outcome as when nothing is stapled. A signer whose stapled, CA-signed
+response says \emph{revoked} therefore validates as \emph{Trusted}
 (Table~\ref{tab:validation}), with online OCSP fetching off as it was for the
-whole matrix; a validator that also fetches status could still catch it. The risk is to
-deployments that believe their stapled evidence protects them. A generator that
-staples revocation status, as \NcorpProdOcsp{} production signatures do, must
-use a delegated responder for it to count; under ML-DSA-65 a delegated
+whole matrix; a validator that also fetches status could still catch it. The
+tagged release c2pa-v0.91.9 behaves the same with ES256 and Ed25519, and
+delegated responses serve as the control: it reports every CA-signed response,
+\emph{good} or \emph{revoked}, as skipped, while a delegated responder's
+\emph{revoked} makes the manifest Invalid and its \emph{good} is recorded as
+not revoked. This behaviour had already been reported, independently, as
+c2pa-rs issue \#2722~\cite{c2pars2722}; the fix reached the main branch on
+5 November 2026, and in the 0.92.0 release candidate the CA-signed
+\emph{revoked} response makes the manifest Invalid. Until deployments run a
+fixed release, the risk is to those that believe their stapled evidence
+protects them. A generator that staples revocation status, as
+\NcorpProdOcsp{} production signatures do, keeps it effective for older
+validators only through a delegated responder; under ML-DSA-65 a delegated
 response costs \NocspDelDSAsixtyfive{} bytes per manifest, because it carries
 the responder's certificate, against \NocspCADSAsixtyfive{} for a CA-signed
-one. Golaszewski et al.\ found that
-revocation checking is optional in C2PA~\cite{golaszewski2026}; here evidence
-is present and ignored.
+one. Golaszewski et al.\ found that revocation checking is optional in
+C2PA~\cite{golaszewski2026}; here evidence was present and ignored.
 
 \paragraph{Disclosure}
-I reported the invalidating-timestamp behaviour publicly, with minimal
-vectors, as c2pa-rs issue \#3005 on 3 November 2026~\cite{c2pars3005}. The
-key-usage behaviour lets a time-stamping key sign trusted manifests, so I
-reported it privately, with its vectors, to Adobe's product security team,
-which handles security reports for the library, on 9 November 2026. Its cause
-and its reach are described here, but its signed vectors are withheld from the
-released data until a fix ships or 90 days after the report, whichever comes
-first; its status codes are released. The OCSP behaviour follows the
-specification, so I raised it with the specification's
-editors~\cite{c2paspec143}, as I did the reading behind leaf-only
-carriage~\cite{c2paspec142}.
+The invalidating-timestamp behaviour was reported publicly, with minimal
+vectors, as c2pa-rs issue \#3005 on 3 November 2026~\cite{c2pars3005}, and is
+fixed as described above. The key-usage behaviour lets a time-stamping key sign
+trusted manifests, so it was reported privately, with its vectors, to Adobe's
+product security team, which handles security reports for the library, on
+9 November 2026. Its cause and its reach are described here, but its signed
+vectors are withheld from the released data until a fix ships or 90 days after
+the report, whichever comes first; its status codes are released. Google's and
+vivo's authorities are named because their certificates show the defect's
+reach, not because they are at fault: the fix belongs in the validator. The
+specification questions behind leaf-only carriage and the OCSP responder were
+raised with the specification's editors~\cite{c2paspec142,c2paspec143}.
 
 \paragraph{Reading the findings}
-The findings are two implementation defects, the key-usage and
-invalidating-timestamp behaviours, and one interoperability and
-revocation-policy issue, the CA-signed OCSP response that the C2PA profile and
-RFC~6960 treat differently. None is specific to post-quantum algorithms; each
+The findings are three implementation defects in the tagged release: the
+key-usage, invalidating-timestamp and CA-signed OCSP behaviours. The second
+and third are fixed in the 0.92.0 release candidate; the first is not. None is
+specific to post-quantum algorithms; each
 appears with ES256 and Ed25519. Each, however, breaks a property a migration
 relies on: that a time-stamping key cannot attribute content, that a timestamp
 is judged as the specification says, and that a revoked signer stays revoked.
 Several of the Content Authenticity Initiative's SDKs for other languages reuse
 this library, so the findings may affect those integrations too, though we did
-not evaluate any application built on it or measure deployment share. The two
+not evaluate any application built on it or measure deployment share. The
 defects are of the kind that adversarial testing of TLS libraries exposed a
 decade ago~\cite{brubaker2014frankencerts,debnath2021ceres}. They surfaced
 because adding an algorithm called for a conformance matrix with negative

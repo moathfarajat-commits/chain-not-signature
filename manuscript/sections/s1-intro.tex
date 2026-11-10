@@ -100,11 +100,12 @@ enforces (RQ3).} A migration-order analysis showing which property each
 partial migration leaves forgeable (Table~\ref{tab:properties}), and a
 conformance matrix of \Nvalcases{} cases through the reference implementation,
 patched to sign and validate ML-DSA, including a fully post-quantum credential
-with a post-quantum timestamp. The matrix finds two implementation defects,
-time-stamping and OCSP-signing certificates accepted as claim signers and a
+with a post-quantum timestamp. The matrix finds three implementation defects in the tagged release:
+time-stamping and OCSP-signing certificates accepted as claim signers, a
 timestamp the specification says to ignore invalidating the whole manifest,
-and one gap between the C2PA profile and RFC~6960: revocation stapled in a
-CA-signed OCSP response has no effect (Section~\ref{sec:findings}).
+and revocation stapled in a CA-signed OCSP response having no effect. The
+0.92.0 release candidate fixes the second and third but not the first
+(Section~\ref{sec:findings}).
 \end{itemize}
 Section~\ref{sec:discussion} turns the results into recommendations for CAs,
 claim generators, validators and the specification. Every script, raw

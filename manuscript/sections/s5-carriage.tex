@@ -133,15 +133,15 @@ The cryptographic work of validating a timestamped image adds the timestamp's
 signature and path and the content hash; assertion, policy and revocation
 checks stay outside this boundary. For a mid-sized Kodak image, the 13th of 24 by
 size, the signer's path falls to \NvPathShareDSAsixtyfive\% of the
-cryptographic work under ML-DSA-65; for a 4\,MiB phone JPEG, hashing the
-content dominates, and ML-DSA-65 takes \NvCompletePhoneDSAsixtyfive\,ms against
-\NvCompletePhonePS\,ms under PS256, on the Kodak image whose cryptographic
-total these figures cover. End-to-end, the reference implementation validates a
-timestamped Kodak image, parsing JUMBF and checking every assertion as well as
-the signatures, in \NvalVerifyLo{} to \NvalVerifyHi\,ms
-(Section~\ref{sec:findings}); the cryptographic part of that is a fraction of
-the ML-DSA-65 cost, so the added signatures are not where a server spends its
-validation time.
+cryptographic work under ML-DSA-65, which totals \NvCompleteDSAsixtyfive\,ms.
+For a 4\,MiB phone JPEG, hashing the content dominates: the total is
+\NvCompletePhoneDSAsixtyfive\,ms under ML-DSA-65 against
+\NvCompletePhonePS\,ms under PS256. End-to-end, the reference implementation
+validates a timestamped Kodak image, parsing JUMBF and checking every assertion
+as well as the signatures, in \NvalVerifyLo{} to \NvalVerifyHi\,ms
+(Section~\ref{sec:findings}). The \NvCompleteDSAsixtyfive\,ms of
+cryptographic work is a fraction of that, so the added signatures are not where
+a server spends its validation time.
 
 \subsection{Caching a validated signer}
 \label{sec:cache}
@@ -191,8 +191,9 @@ Without a cache, one core verifies \NscMUncDSAsixtyfive{} ML-DSA-65
 manifests a second on the M1 Pro, \NscXUncDSAsixtyfive{} on the Xeon VM and
 \NscPUncDSAsixtyfive{} on the Pi~5, \NscMVsES\% of the ES256 rate on the M1
 Pro, and the work parallelises: \NscPMax{} workers on the Pi give
-\NscPSpeedUncDSAsixtyfive{} times one worker's rate. Ten thousand ML-DSA-65
-manifests a second need \NscMCoresUncDSAsixtyfive{} M1 Pro cores,
+\NscPSpeedUncDSAsixtyfive{} times one worker's rate. Dividing by one core's
+rate, which extrapolates past the two-vCPU VM and the Pi's four cores, ten
+thousand ML-DSA-65 manifests a second need \NscMCoresUncDSAsixtyfive{} M1 Pro cores,
 \NscXCoresUncDSAsixtyfive{} Xeon vCPUs or \NscPCoresUncDSAsixtyfive{} Pi cores,
 against \NscMCoresUncES{}, \NscXCoresUncES{} and \NscPCoresUncES{} for ES256;
 a cached signer leaves only the manifest signature and, through liboqs, cuts
